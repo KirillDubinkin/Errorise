@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     changeDir(pref->music_library_path);
 
     rx_var = QRegExp("%[a-z]*.[a-z]*%");
+    /*
     rx_codec = QRegExp("codec");
     rx_bitrate = QRegExp("bitrate");
     rx_samplerate = QRegExp("samplerate");
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     rx_channels = QRegExp("channels");
     rx_playback_time = QRegExp("playback_time");
     rx_length = QRegExp("length");
+    */
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
     connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
@@ -48,13 +50,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if (!pref->status_bar){
         ui->status->hide();
-  /*  } else {
-        makeStatusBar();
-*/    }
+    }
 
-   /* ui->AlbumPL->setColumnWidth(1, 200);
-    ui->AlbumPL->setColumnWidth(2, 60);
-*/
 }
 
 MainWindow::~MainWindow()
@@ -83,10 +80,15 @@ QString MainWindow::parseLine(const int &idx, QString pattern)
             // вот тут надо будет сделать _то_что_надо_.
         }
     }
-    qDebug() << pattern;
+    //qDebug() << pattern;
     return pattern;
 }
 
+
+void MainWindow::updateStatusBar(const QModelIndex &idx)
+{
+    ui->status->showMessage(parseLine(idx.row(), pref->status_bar_format));
+}
 
 
 // File/ChoooseDirectory -> TreeView/Update
@@ -271,11 +273,11 @@ void MainWindow::createColumns(const QString &pattern)
 void MainWindow::playFromPL(QModelIndex idx)
 {
     if (pref->play_only_this) {
-        qDebug("Playing one track, and stop.");
+      //  qDebug("Playing one track, and stop.");
         core->openFile(ui->AlbumPL->item(idx.row(), 0)->text());
     }
     else {
-        qDebug("Playing many files:");
+      //  qDebug("Playing many files:");
         QString files = ui->AlbumPL->item(idx.row(),0)->text();
         for (int row=idx.row()+1; row<ui->AlbumPL->rowCount(); row++){
             files += ";" + ui->AlbumPL->item(row,0)->text();
@@ -289,14 +291,5 @@ void MainWindow::play(QString filename)
     qDebug() << "Play: " << filename;
 
     core->openFile(filename);
-
-    /*
-    QString fileName = FSmodel->filePath(ui->tableView->currentIndex());
-    QStringList arrgs;
-    arrgs << fileName;
-
-    mplayer.close();
-    mplayer.start("mplayer", arrgs);
-    */
 }
 
