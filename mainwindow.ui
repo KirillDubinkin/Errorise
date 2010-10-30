@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>984</width>
+    <height>522</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTableWidget" name="AlbumPL">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>10</y>
+      <width>631</width>
+      <height>441</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTreeView" name="treeView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>321</width>
+      <height>441</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>984</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionChoose_Directory"/>
+   </widget>
+   <widget class="QMenu" name="menuPlaying">
+    <property name="title">
+     <string>Playing</string>
+    </property>
+    <addaction name="actionPlay"/>
+    <addaction name="actionPause"/>
+    <addaction name="actionStop"/>
+    <addaction name="separator"/>
+    <addaction name="actionPrevios"/>
+    <addaction name="actionNext"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuPlaying"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionChoose_Directory">
+   <property name="text">
+    <string>Choose Directory</string>
+   </property>
+  </action>
+  <action name="actionPlay">
+   <property name="text">
+    <string>Play</string>
+   </property>
+  </action>
+  <action name="actionPause">
+   <property name="text">
+    <string>Play / Pause</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="text">
+    <string>Stop</string>
+   </property>
+  </action>
+  <action name="actionPrevios">
+   <property name="text">
+    <string>Previos</string>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="text">
+    <string>Next</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
