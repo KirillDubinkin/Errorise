@@ -18,6 +18,7 @@ Core::Core(QObject *parent) :
 {
     proc = new MplayerProcess(this);
     mset.reset();
+    playing = false;
 
 }
 
@@ -351,16 +352,20 @@ void Core::startMplayer(QString file, double seek ) {
         QString line_for_log = commandline + "\n";
 //        emit logLineAvailable(line_for_log);
 
+        playing = true;
+
         if ( !proc->start() ) {
             // error handling
-                qWarning("Core::startMplayer: mplayer process didn't start");
+            playing = false;
+            qWarning("Core::startMplayer: mplayer process didn't start");
         }
-
 }
 
 
 void Core::stopMplayer() {
         qDebug("Core::stopMplayer");
+
+        playing = false;
 
         if (!proc->isRunning()) {
                 qWarning("Core::stopMplayer: mplayer in not running!");

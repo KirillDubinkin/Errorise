@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>984</width>
-    <height>522</height>
+    <height>531</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,7 +72,11 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="status">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+  </widget>
   <action name="actionChoose_Directory">
    <property name="text">
     <string>Choose Directory</string>

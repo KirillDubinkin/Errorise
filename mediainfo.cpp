@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QRegExp>
 #include <QTime>
+#include <QFileInfo>
 
 using namespace Global;
 
@@ -45,6 +46,8 @@ static QRegExp rx_format("^Format  .*: (.*)");
 static QRegExp rx_duration("^Duration  .*: (.*)");
 static QRegExp rx_bit_rate("^Overall bit rate  .*: (.*)");
 static QRegExp rx_track_name("^Track name  .*: (.*)");
+static QRegExp rx_sample_rate("^Sampling rate .*: (.*)");
+static QRegExp rx_channels("^Channel.*: (.*) channels");
 
 
 
@@ -95,7 +98,8 @@ void MediaInfo::parseDir(const QString &dir, const QStringList &files)
 {
     minfo->setWorkingDirectory(dir);
     minfo->start(pref->mediainfo_cli, files);
-    minfo->waitForReadyRead();
+    //minfo->waitForReadyRead();
+    minfo->waitForFinished();
 
     out = QString(minfo->readAllStandardOutput()).split("\n");
 
@@ -116,6 +120,7 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
         if (rx_general.indexIn(line) > -1){
             id++;
             track[id].filename = minfo->workingDirectory() + "/" + files.at(id);
+            track[id].audio_codec = QFileInfo(track[id].filename).suffix().toUpper();
            // qDebug() << "filename" << track[id].filename;
         }
 
@@ -146,6 +151,46 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
         if (rx_track_name.indexIn(line) > -1){
             track[id].clip_name = rx_track_name.cap(1);
         }
+
+        else
+        if (rx_sample_rate.indexIn(line) > -1){
+            track[id].samplerate = rx_sample_rate.cap(1);
+        }
+
+        else
+        if (rx_channels.indexIn(line) > -1){
+            track[id].audio_nch = rx_channels.cap(1).toInt();
+            switch (track[id].audio_nch){
+            case 1:
+                track[id].channels = "Mono";
+                break;
+            case 2:
+                track[id].channels = "Stereo";
+                break;
+            case 3:
+                track[id].channels = "2.1";
+                break;
+            case 4:
+                track[id].channels = "Quadro";
+                break;
+            case 5:
+                track[id].channels = "5.0";
+                break;
+            case 6:
+                track[id].channels = "5.1";
+                break;
+            case 7:
+                track[id].channels = "6.1";
+                break;
+            case 8:
+                track[id].channels = "8.1";
+                break;
+            default:
+                qWarning() << "MediaInfo::parse: Unknown channels number \"" << track[id].audio_nch << "\"";
+            }
+        }
+
+
 
 
     }

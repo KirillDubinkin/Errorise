@@ -3,8 +3,8 @@
 #include "global.h"
 #include "core.h"
 
-#include <Qt>
 #include <QtDebug>
+#include <QLabel>
 
 using namespace Global;
 
@@ -23,6 +23,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     changeDir(pref->music_library_path);
 
+    rx_var = QRegExp("%[a-z]*.[a-z]*%");
+    rx_codec = QRegExp("codec");
+    rx_bitrate = QRegExp("bitrate");
+    rx_samplerate = QRegExp("samplerate");
+    rx_bits = QRegExp("bits");
+    rx_channels = QRegExp("channels");
+    rx_playback_time = QRegExp("playback_time");
+    rx_length = QRegExp("length");
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
     connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
@@ -33,8 +41,16 @@ MainWindow::MainWindow(QWidget *parent) :
                     SLOT(directoryChanged(const QModelIndex &, const QModelIndex &)));
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(plFilter()));
 
+    connect(ui->AlbumPL, SIGNAL(clicked(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
+
 
     createColumns();
+
+    if (!pref->status_bar){
+        ui->status->hide();
+  /*  } else {
+        makeStatusBar();
+*/    }
 
    /* ui->AlbumPL->setColumnWidth(1, 200);
     ui->AlbumPL->setColumnWidth(2, 60);
@@ -48,6 +64,30 @@ MainWindow::~MainWindow()
     delete core;
     delete ui;
 }
+
+
+QString MainWindow::parseLine(const int &idx, QString pattern)
+{
+    if (rx_var.indexIn(pattern) < 0){
+        return pattern;
+    } else {
+        pattern.replace("%codec%", mediaInfo->track[idx].audio_codec);
+        pattern.replace("%bitrate%", mediaInfo->track[idx].bitrate);
+        pattern.replace("%samplerate%", mediaInfo->track[idx].samplerate);
+        pattern.replace("%channels%", mediaInfo->track[idx].channels);
+        pattern.replace("%length%", mediaInfo->track[idx].length);
+
+        if (!core->playing){
+            pattern.replace("%playback_time%", mediaInfo->track[idx].length);
+        } else {
+            // вот тут надо будет сделать _то_что_надо_.
+        }
+    }
+    qDebug() << pattern;
+    return pattern;
+}
+
+
 
 // File/ChoooseDirectory -> TreeView/Update
 void MainWindow::choseAlbumDir()

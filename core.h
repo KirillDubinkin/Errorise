@@ -22,6 +22,8 @@ public:
     MediaData mdat;
     MediaSettings mset;
 
+    bool playing;
+
 
 protected:
     void playNewFile(QString file, int seek=-1);

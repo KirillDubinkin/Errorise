@@ -278,6 +278,8 @@ public:
 	bool add_to_playlist_consecutive_files;
 
         QString pl_columns;
+        bool status_bar;
+        QString status_bar_format;
 
 
     /* ********

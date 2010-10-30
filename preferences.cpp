@@ -266,6 +266,8 @@ void Preferences::reset() {
         add_to_playlist_consecutive_files = false;
 
         pl_columns = "NTL";
+        status_bar = true;
+        status_bar_format = "%codec% | %bitrate% | %samplerate% | %bits% | %channels% | %playback_time% / %length%";
 
 
     /* ********
@@ -559,6 +561,8 @@ void Preferences::save() {
 
 
         set->setValue("pl_columns", pl_columns);
+        set->setValue("status_bar", status_bar);
+        set->setValue("status_bar_format", status_bar_format);
 
 	set->endGroup(); // gui
 
@@ -862,6 +866,8 @@ void Preferences::load() {
 	add_to_playlist_consecutive_files = set->value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
 
         pl_columns = set->value("pl_columns", pl_columns).toString();
+        status_bar = set->value("status_bar", status_bar).toBool();
+        status_bar_format = set->value("status_bar_format", status_bar_format).toString();
 
 	set->endGroup(); // gui
 

@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     amplayer.cpp \
     version.cpp \
     core.cpp \
-    mediainfo.cpp
+    mediainfo.cpp \
+    parser.cpp
 
 HEADERS  += mainwindow.h \
     myprocess.h \
@@ -51,6 +52,7 @@ HEADERS  += mainwindow.h \
     amplayer.h \
     version.h \
     core.h \
-    mediainfo.h
+    mediainfo.h \
+    parser.h
 
 FORMS    += mainwindow.ui

@@ -78,12 +78,14 @@ public:
 	// Other data not really useful for us,
 	// just to show info to the user.
         QString bitrate;
+        QString samplerate;
+        QString channels;
         QString demuxer;
-        QString audio_format;
+        QString audio_format;  // like a "Digital Theater System"
 	int audio_bitrate;
 	int audio_rate;
 	int audio_nch; // channels?
-	QString audio_codec;
+        QString audio_codec;   // like a "DTS"
 
 	/*QString info();*/
 	QString displayName();
