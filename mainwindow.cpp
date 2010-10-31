@@ -76,6 +76,11 @@ QString MainWindow::parseLine(const int &idx, QString pattern)
     if (rx_var.indexIn(pattern) < 0){
         return pattern;
     } else {
+        pattern.replace("%artist%", mediaInfo->track[idx].clip_artist);
+        pattern.replace("%album%", mediaInfo->track[idx].clip_album);
+        pattern.replace("%date%", mediaInfo->track[idx].clip_date);
+        pattern.replace("%genre%", mediaInfo->track[idx].clip_genre);
+        pattern.replace("%tracknumber%", mediaInfo->track[idx].clip_track);
         pattern.replace("%codec%", mediaInfo->track[idx].audio_codec);
         pattern.replace("%format%", mediaInfo->track[idx].audio_format);
         pattern.replace("%bitrate%", mediaInfo->track[idx].bitrate);

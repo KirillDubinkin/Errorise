@@ -31,6 +31,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->statusFormat->setText(pref->status_bar_format);
     ui->statusFormat->setEnabled(ui->ShowStatusBar->isChecked());
 
+    ui->windowFormat->setText(pref->window_title_format);
+
 }
 
 PreferencesWindow::~PreferencesWindow()
@@ -79,8 +81,12 @@ void PreferencesWindow::on_ShowStatusBar_toggled(bool checked)
     emit hide_status_bar(!checked);
 }
 
-
-void PreferencesWindow::on_statusFormat_editingFinished()
+void PreferencesWindow::on_statusFormat_textChanged(QString tex)
 {
-    pref->status_bar_format = ui->statusFormat->text();
+    pref->status_bar_format = tex;
+}
+
+void PreferencesWindow::on_windowFormat_textChanged(QString tex)
+{
+    pref->window_title_format = tex;
 }

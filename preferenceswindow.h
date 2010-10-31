@@ -23,7 +23,8 @@ private:
     Ui::PreferencesWindow *ui;
 
 private slots:
-    void on_statusFormat_editingFinished();
+    void on_windowFormat_textChanged(QString );
+    void on_statusFormat_textChanged(QString );
     void on_ShowStatusBar_toggled(bool checked);
     void on_fileFilter_editingFinished();
     void on_musFolderChange_clicked();

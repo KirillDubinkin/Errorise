@@ -280,6 +280,7 @@ public:
         QString pl_columns;
         bool status_bar;
         QString status_bar_format;
+        QString window_title_format;
 
 
     /* ********

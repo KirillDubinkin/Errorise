@@ -48,6 +48,11 @@ static QRegExp rx_bit_rate("^Overall bit rate  .*: (.*)");
 static QRegExp rx_track_name("^Track name  .*: (.*)");
 static QRegExp rx_sample_rate("^Sampling rate .*: (.*)");
 static QRegExp rx_channels("^Channel.*: (.*) channels");
+static QRegExp rx_artist("^Performer .*: (.*)");
+static QRegExp rx_album("^Album .*: (.*)");
+static QRegExp rx_date("^Recorded date .*: (.*)");
+static QRegExp rx_genre("^Genre .*: (.*)");
+static QRegExp rx_tracknumber("^Track name/Position .*: (.*)");
 
 
 
@@ -188,10 +193,33 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
             default:
                 qWarning() << "MediaInfo::parse: Unknown channels number \"" << track[id].audio_nch << "\"";
             }
+
+
         }
 
+        else
+        if (rx_artist.indexIn(line) > -1){
+            track[id].clip_artist = rx_artist.cap(1);
+        }
 
+        else
+        if (rx_album.indexIn(line) > -1){
+            track[id].clip_album = rx_album.cap(1);
+        }
 
+        else
+        if (rx_date.indexIn(line) > -1){
+            track[id].clip_date = rx_date.cap(1);
+        }
 
+        else
+        if (rx_genre.indexIn(line) > -1){
+            track[id].clip_genre = rx_genre.cap(1);
+        }
+
+        else
+        if (rx_tracknumber.indexIn(line) > -1){
+            track[id].clip_track = rx_tracknumber.cap(1);
+        }
     }
 }

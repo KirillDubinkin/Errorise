@@ -268,7 +268,7 @@ void Preferences::reset() {
         pl_columns = "NTL";
         status_bar = true;
         status_bar_format = "%codec% | %bitrate% | %samplerate% | %bits% | %channels% | %playback_time% / %length%";
-
+        window_title_format = "%artist% - %title% [%playback_time% / %length%]";
 
     /* ********
        TV (dvb)
@@ -563,6 +563,7 @@ void Preferences::save() {
         set->setValue("pl_columns", pl_columns);
         set->setValue("status_bar", status_bar);
         set->setValue("status_bar_format", status_bar_format);
+        set->setValue("window_title_format", window_title_format);
 
 	set->endGroup(); // gui
 
@@ -868,6 +869,7 @@ void Preferences::load() {
         pl_columns = set->value("pl_columns", pl_columns).toString();
         status_bar = set->value("status_bar", status_bar).toBool();
         status_bar_format = set->value("status_bar_format", status_bar_format).toString();
+        window_title_format = set->value("window_title_format", window_title_format).toString();
 
 	set->endGroup(); // gui
 

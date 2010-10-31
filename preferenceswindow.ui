@@ -173,7 +173,7 @@
                        </layout>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="lineEdit_3"/>
+                       <widget class="QLineEdit" name="windowFormat"/>
                       </item>
                      </layout>
                     </item>
