@@ -14,6 +14,7 @@
 #include "global.h"
 #include "core.h"
 #include "mediainfo.h"
+#include "preferenceswindow.h"
 
 using namespace Global;
 
@@ -42,6 +43,7 @@ public:
 
     QString parseLine(const int &idx, QString pattern);
 
+
 public slots:
     void choseAlbumDir();
     void playFromPL(QModelIndex idx);
@@ -49,13 +51,11 @@ public slots:
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
     void updateStatusBar(const QModelIndex &idx);
+    void showPreferences();
 
 private:
     Ui::MainWindow *ui;
     void createColumns(const QString &pattern = pref->pl_columns);
-
-    QLabel lbl_codec, lbl_bitrate, lbl_samplerate, lbl_bits;
-    QLabel lbl_channels, lbl_playback_time, lbl_length;
 
     QFileSystemModel *FSmodel;
     QSortFilterProxyModel *sortProxy;
@@ -73,6 +73,7 @@ private:
 protected:
     Core * core;
     MediaInfo * mediaInfo;
+    PreferencesWindow * preferences;
 };
 
 #endif // MAINWINDOW_H

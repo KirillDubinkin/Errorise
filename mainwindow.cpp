@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     core = new Core(this);
     mediaInfo = new MediaInfo(this);
+    preferences = new PreferencesWindow;
 
     FSmodel = new QFileSystemModel;
 
@@ -33,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     rx_playback_time = QRegExp("playback_time");
     rx_length = QRegExp("length");
     */
+
+    connect(ui->actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferences()));
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
     connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
@@ -90,6 +93,10 @@ void MainWindow::updateStatusBar(const QModelIndex &idx)
     ui->status->showMessage(parseLine(idx.row(), pref->status_bar_format));
 }
 
+void MainWindow::showPreferences()
+{
+    preferences->show();
+}
 
 // File/ChoooseDirectory -> TreeView/Update
 void MainWindow::choseAlbumDir()
