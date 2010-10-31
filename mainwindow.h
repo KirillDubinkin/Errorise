@@ -51,6 +51,7 @@ public slots:
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
     void updateStatusBar(const QModelIndex &idx);
+    void setPlColumns();
 
 
 private:
@@ -62,7 +63,7 @@ private:
     QLabel *status;
 
     QString currentPath;
-    void setPlColumns(const QString pattern = pref->pl_columns);
+ //   void setPlColumns(const QString pattern = pref->pl_columns);
 
     QStringList filterFiles(const QDir &directory, const QStringList &files,
                                   const QString &text);

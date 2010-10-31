@@ -29,15 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     changeAlbumDir();
 
     rx_var = QRegExp("%[a-z]*.[a-z]*%");
-    /*
-    rx_codec = QRegExp("codec");
-    rx_bitrate = QRegExp("bitrate");
-    rx_samplerate = QRegExp("samplerate");
-    rx_bits = QRegExp("bits");
-    rx_channels = QRegExp("channels");
-    rx_playback_time = QRegExp("playback_time");
-    rx_length = QRegExp("length");
-    */
 
     connect(ui->actionPreferences, SIGNAL(triggered()), this->preferences, SLOT(show()));
     connect(this->preferences, SIGNAL(music_folder_changed()), this, SLOT(changeAlbumDir()));
@@ -59,8 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-
-    createColumns();
+    setPlColumns();
+    ui->AlbumPL->hideColumn(0);
+    //createColumns();
 
     ui->statusBar->setHidden(!pref->status_bar);
 }
@@ -73,6 +65,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setPlColumns()
+{
+    // first - absolete file path - hidden
+    ui->AlbumPL->setColumnCount(1);
+    int col=1;
+    QStringList name = pref->pl_columns_names.split("[;]");
+
+    for (int i = 0; i < name.size(); i++)
+    {
+        ui->AlbumPL->insertColumn(col);
+        QTableWidgetItem *item = new QTableWidgetItem(name.at(i));
+
+        ui->AlbumPL->setHorizontalHeaderItem(col, item);
+
+        col++;
+    }
+}
 
 QString MainWindow::parseLine(const int &idx, QString pattern)
 {
@@ -196,13 +205,11 @@ void MainWindow::showFiles(const QDir &directory, const QStringList &files, cons
 }
 
 
+/*
 void MainWindow::setPlColumns(const QString pattern)
 {
     for (int i=0; i < pattern.length(); i++)
     {
-/*        int col = ui->AlbumPL->columnCount();
-        ui->AlbumPL->insertColumn(col);
-*/
         switch (pattern[i].toAscii())
         {
         case 'N':
@@ -223,6 +230,7 @@ void MainWindow::setPlColumns(const QString pattern)
         }
     }
 }
+*/
 
 void MainWindow::createColumns(const QString &pattern)
 {

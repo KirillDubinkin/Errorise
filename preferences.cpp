@@ -29,6 +29,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QLocale>
+#include <QTextCodec>
 
 using namespace Global;
 
@@ -270,6 +271,9 @@ void Preferences::reset() {
         status_bar_format = "%codec% | %bitrate% | %samplerate% | %bits% | %channels% | %playback_time% / %length%";
         window_title_format = "%artist% - %title% [%playback_time% / %length%]";
 
+        pl_columns_names = "№[;]Title[;]Bitrate[;]Format[;]Length";
+        pl_columns_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
+
     /* ********
        TV (dvb)
        ******** */
@@ -363,6 +367,7 @@ void Preferences::save() {
 	qDebug("Preferences::save");
 
 	QSettings * set = settings;
+        set->setIniCodec(QTextCodec::codecForLocale());
 
 
     /* *******
@@ -564,6 +569,8 @@ void Preferences::save() {
         set->setValue("status_bar", status_bar);
         set->setValue("status_bar_format", status_bar_format);
         set->setValue("window_title_format", window_title_format);
+        set->setValue("pl_columns_names", pl_columns_names);
+        set->setValue("pl_columns_format", pl_columns_format);
 
 	set->endGroup(); // gui
 
@@ -672,6 +679,7 @@ void Preferences::load() {
         qDebug("Preferences::load");
 
         QSettings * set = settings;
+        set->setIniCodec(QTextCodec::codecForLocale());
 
 
     /* *******
@@ -870,6 +878,8 @@ void Preferences::load() {
         status_bar = set->value("status_bar", status_bar).toBool();
         status_bar_format = set->value("status_bar_format", status_bar_format).toString();
         window_title_format = set->value("window_title_format", window_title_format).toString();
+        pl_columns_names = set->value("pl_columns_names", pl_columns_names).toString();
+        pl_columns_format = set->value("pl_columns_format", pl_columns_format).toString();
 
 	set->endGroup(); // gui
 

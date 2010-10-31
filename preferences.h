@@ -278,9 +278,15 @@ public:
 	bool add_to_playlist_consecutive_files;
 
         QString pl_columns;
+
+        // Formating displayed information
         bool status_bar;
         QString status_bar_format;
         QString window_title_format;
+
+        QString pl_columns_names;
+        QString pl_columns_format;
+
 
 
     /* ********
