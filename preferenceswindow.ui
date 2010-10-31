@@ -217,7 +217,11 @@
                        </layout>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="statusFormat"/>
+                       <widget class="QLineEdit" name="statusFormat">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>

@@ -25,7 +25,11 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->musFolder->setText(pref->music_library_path);
     ui->fileFilter->setText((pref->files_filter));
     ui->ShowStatusBar->setChecked(pref->status_bar);
+
     ui->showVolume->setEnabled(ui->ShowStatusBar->isChecked());
+
+    ui->statusFormat->setText(pref->status_bar_format);
+    ui->statusFormat->setEnabled(ui->ShowStatusBar->isChecked());
 
 }
 
@@ -71,5 +75,12 @@ void PreferencesWindow::on_ShowStatusBar_toggled(bool checked)
 {
     pref->status_bar = checked;
     ui->showVolume->setEnabled(checked);
+    ui->statusFormat->setEnabled(checked);
     emit hide_status_bar(!checked);
+}
+
+
+void PreferencesWindow::on_statusFormat_editingFinished()
+{
+    pref->status_bar_format = ui->statusFormat->text();
 }

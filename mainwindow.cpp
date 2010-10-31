@@ -77,6 +77,7 @@ QString MainWindow::parseLine(const int &idx, QString pattern)
         return pattern;
     } else {
         pattern.replace("%codec%", mediaInfo->track[idx].audio_codec);
+        pattern.replace("%format%", mediaInfo->track[idx].audio_format);
         pattern.replace("%bitrate%", mediaInfo->track[idx].bitrate);
         pattern.replace("%samplerate%", mediaInfo->track[idx].samplerate);
         pattern.replace("%channels%", mediaInfo->track[idx].channels);
