@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
     FSmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     ui->treeView->setModel(FSmodel);
 
+    status = new QLabel;
+    ui->statusBar->addWidget(status);
+
     changeAlbumDir();
 
     rx_var = QRegExp("%[a-z]*.[a-z]*%");
@@ -40,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->preferences, SIGNAL(music_folder_changed()), this, SLOT(changeAlbumDir()));
     connect(this->preferences, SIGNAL(file_filter_changed()), this, SLOT(plFilter()));
 //    connect(this->preferences, SIGNAL(status_bar(bool)), this, SLOT(showStatusBar(bool)));
-    connect(this->preferences, SIGNAL(hide_status_bar(bool)), ui->status, SLOT(setHidden(bool)));
+    connect(this->preferences, SIGNAL(hide_status_bar(bool)), ui->statusBar, SLOT(setHidden(bool)));
 
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
@@ -59,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createColumns();
 
-    ui->status->setHidden(!pref->status_bar);
+    ui->statusBar->setHidden(!pref->status_bar);
 }
 
 MainWindow::~MainWindow()
@@ -101,8 +104,9 @@ QString MainWindow::parseLine(const int &idx, QString pattern)
 
 void MainWindow::updateStatusBar(const QModelIndex &idx)
 {
-    if (pref->status_bar){
-        ui->status->showMessage(parseLine(idx.row(), pref->status_bar_format));
+    if (!ui->statusBar->isHidden()){
+        status->setText(parseLine(idx.row(), pref->status_bar_format));
+//        ui->statusBar->showMessage(parseLine(idx.row(), pref->status_bar_format));
     }
 }
 

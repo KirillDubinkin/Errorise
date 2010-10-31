@@ -59,6 +59,7 @@ private:
 
     QFileSystemModel *FSmodel;
     QSortFilterProxyModel *sortProxy;
+    QLabel *status;
 
     QString currentPath;
     void setPlColumns(const QString pattern = pref->pl_columns);
