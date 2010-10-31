@@ -36,6 +36,9 @@
     <property name="styleSheet">
      <string notr="true"/>
     </property>
+    <attribute name="headerVisible">
+     <bool>false</bool>
+    </attribute>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

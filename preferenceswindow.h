@@ -2,6 +2,7 @@
 #define PREFERENCESWINDOW_H
 
 #include <QDialog>
+#include <QModelIndex>
 
 namespace Ui {
     class PreferencesWindow;
@@ -15,8 +16,22 @@ public:
     explicit PreferencesWindow(QWidget *parent = 0);
     ~PreferencesWindow();
 
+public slots:
+    void changeWindow(QModelIndex idx);
+
 private:
     Ui::PreferencesWindow *ui;
+
+private slots:
+    void on_fileFilter_editingFinished();
+    void on_musFolderChange_clicked();
+    void on_musFolder_textEdited(QString );
+
+
+signals:
+    void music_folder_changed();
+    void file_filter_changed();
+
 };
 
 #endif // PREFERENCESWINDOW_H

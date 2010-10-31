@@ -45,13 +45,13 @@ public:
 
 
 public slots:
-    void choseAlbumDir();
+    void changeAlbumDir();
     void playFromPL(QModelIndex idx);
     void play(QString filename);
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
     void updateStatusBar(const QModelIndex &idx);
-    void showPreferences();
+
 
 private:
     Ui::MainWindow *ui;
@@ -61,10 +61,7 @@ private:
     QSortFilterProxyModel *sortProxy;
 
     QString currentPath;
-    void changeDir(const QString fileName);
     void setPlColumns(const QString pattern = pref->pl_columns);
-
-
 
     QStringList filterFiles(const QDir &directory, const QStringList &files,
                                   const QString &text);

@@ -20,9 +20,10 @@ MainWindow::MainWindow(QWidget *parent) :
     FSmodel = new QFileSystemModel;
 
     FSmodel->setRootPath("");
+    FSmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     ui->treeView->setModel(FSmodel);
 
-    changeDir(pref->music_library_path);
+    changeAlbumDir();
 
     rx_var = QRegExp("%[a-z]*.[a-z]*%");
     /*
@@ -35,7 +36,9 @@ MainWindow::MainWindow(QWidget *parent) :
     rx_length = QRegExp("length");
     */
 
-    connect(ui->actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferences()));
+    connect(ui->actionPreferences, SIGNAL(triggered()), this->preferences, SLOT(show()));
+    connect(this->preferences, SIGNAL(music_folder_changed()), this, SLOT(changeAlbumDir()));
+    connect(this->preferences, SIGNAL(file_filter_changed()), this, SLOT(plFilter()));
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
     connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
@@ -49,11 +52,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->AlbumPL, SIGNAL(clicked(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
 
+
+
     createColumns();
 
     if (!pref->status_bar){
         ui->status->hide();
     }
+
 
 }
 
@@ -93,31 +99,16 @@ void MainWindow::updateStatusBar(const QModelIndex &idx)
     ui->status->showMessage(parseLine(idx.row(), pref->status_bar_format));
 }
 
-void MainWindow::showPreferences()
+
+
+void MainWindow::changeAlbumDir()
 {
-    preferences->show();
-}
+    if (!pref->music_library_path.isEmpty()){
 
-// File/ChoooseDirectory -> TreeView/Update
-void MainWindow::choseAlbumDir()
-{
-    QString fileName = QFileDialog::getExistingDirectory(this,
-                              tr("Choose Your Destiny"), pref->latest_dir);
-    pref->latest_dir = fileName;
-
-    changeDir(fileName);
-}
-
-void MainWindow::changeDir(const QString fileName)
-{
-    if (!fileName.isEmpty()){
-
-        ui->treeView->setRootIndex(FSmodel->index(fileName));
+        ui->treeView->setRootIndex(FSmodel->index(pref->music_library_path));
         ui->treeView->hideColumn(1);
         ui->treeView->hideColumn(2);
         ui->treeView->hideColumn(3);
-
-        pref->music_library_path = fileName;
     }
 }
 
