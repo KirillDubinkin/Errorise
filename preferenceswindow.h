@@ -23,6 +23,7 @@ private:
     Ui::PreferencesWindow *ui;
 
 private slots:
+    void on_ShowStatusBar_toggled(bool checked);
     void on_fileFilter_editingFinished();
     void on_musFolderChange_clicked();
     void on_musFolder_textEdited(QString );
@@ -31,6 +32,7 @@ private slots:
 signals:
     void music_folder_changed();
     void file_filter_changed();
+    void hide_status_bar(bool checked);
 
 };
 

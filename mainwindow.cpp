@@ -39,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPreferences, SIGNAL(triggered()), this->preferences, SLOT(show()));
     connect(this->preferences, SIGNAL(music_folder_changed()), this, SLOT(changeAlbumDir()));
     connect(this->preferences, SIGNAL(file_filter_changed()), this, SLOT(plFilter()));
+//    connect(this->preferences, SIGNAL(status_bar(bool)), this, SLOT(showStatusBar(bool)));
+    connect(this->preferences, SIGNAL(hide_status_bar(bool)), ui->status, SLOT(setHidden(bool)));
+
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
     connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
@@ -56,11 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createColumns();
 
-    if (!pref->status_bar){
-        ui->status->hide();
-    }
-
-
+    ui->status->setHidden(!pref->status_bar);
 }
 
 MainWindow::~MainWindow()
@@ -96,9 +95,10 @@ QString MainWindow::parseLine(const int &idx, QString pattern)
 
 void MainWindow::updateStatusBar(const QModelIndex &idx)
 {
-    ui->status->showMessage(parseLine(idx.row(), pref->status_bar_format));
+    if (pref->status_bar){
+        ui->status->showMessage(parseLine(idx.row(), pref->status_bar_format));
+    }
 }
-
 
 
 void MainWindow::changeAlbumDir()

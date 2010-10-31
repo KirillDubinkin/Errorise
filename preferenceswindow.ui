@@ -57,7 +57,7 @@
             <enum>QFrame::StyledPanel</enum>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QGridLayout" name="gridLayout_10">
@@ -72,7 +72,7 @@
                   <item row="0" column="0">
                    <layout class="QHBoxLayout" name="horizontalLayout_6">
                     <item>
-                     <widget class="QCheckBox" name="displayStatus">
+                     <widget class="QCheckBox" name="ShowStatusBar">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -98,7 +98,10 @@
                      </spacer>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="displayVolume">
+                     <widget class="QCheckBox" name="showVolume">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
                       <property name="text">
                        <string>Show Volume</string>
                       </property>
@@ -214,7 +217,7 @@
                        </layout>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="lineEdit_4"/>
+                       <widget class="QLineEdit" name="statusFormat"/>
                       </item>
                      </layout>
                     </item>

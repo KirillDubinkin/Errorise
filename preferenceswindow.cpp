@@ -24,6 +24,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
 
     ui->musFolder->setText(pref->music_library_path);
     ui->fileFilter->setText((pref->files_filter));
+    ui->ShowStatusBar->setChecked(pref->status_bar);
+    ui->showVolume->setEnabled(ui->ShowStatusBar->isChecked());
 
 }
 
@@ -63,4 +65,11 @@ void PreferencesWindow::on_fileFilter_editingFinished()
 {
     pref->files_filter = ui->fileFilter->text();
     emit file_filter_changed();
+}
+
+void PreferencesWindow::on_ShowStatusBar_toggled(bool checked)
+{
+    pref->status_bar = checked;
+    ui->showVolume->setEnabled(checked);
+    emit hide_status_bar(!checked);
 }
