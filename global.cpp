@@ -19,6 +19,7 @@
 
 #include "global.h"
 #include "preferences.h"
+#include "mediainfo.h"
 
 #ifndef MINILIB
 
@@ -32,6 +33,7 @@
 QSettings * Global::settings = 0;
 Preferences * Global::pref = 0;
 Translator * Global::translator = 0;
+//MediaInfo * Global::mediaInfo =  0;
 
 using namespace Global;
 
@@ -58,6 +60,7 @@ void Global::global_init(const QString & config_path) {
 
 	// Preferences
         pref = new Preferences();
+     //   mediaInfo = new MediaInfo();
 
 }
 
@@ -65,6 +68,7 @@ void Global::global_end() {
 	qDebug("global_end");
 
         // delete
+     //   delete mediaInfo;
 	delete pref;
 	pref = 0;
 

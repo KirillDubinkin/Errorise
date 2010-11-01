@@ -271,9 +271,9 @@ void Preferences::reset() {
         status_bar_format = "%codec% | %bitrate% | %samplerate% | %bits% | %channels% | %playback_time% / %length%";
         window_title_format = "%artist% - %title% [%playback_time% / %length%]";
 
-        pl_columns_names = "№[;]Title[;]Bitrate[;]Format[;]Length";
-        pl_columns_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
-        pl_columns_sizes = "10;200;50;50;100";
+        pl_columns_names = "№[;]Track Name[;]Bitrate[;]Format[;]Length";
+        pl_columns_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3 color=#104015>%title%</font> <font size=1 color=#505050>// %artist%</font></center>[;]<center><font color=#505050>%bitrate%</font></center>[;]<center><font color=#505050>%codec%</font></center>[;]<center>%length%</center>";
+        pl_columns_sizes = "23;365;75;50;65";
 
     /* ********
        TV (dvb)

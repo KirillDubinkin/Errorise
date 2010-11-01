@@ -9,6 +9,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QFile>
+#include <QListWidgetItem>
 
 using namespace Global;
 
@@ -32,6 +33,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->statusFormat->setEnabled(ui->ShowStatusBar->isChecked());
 
     ui->windowFormat->setText(pref->window_title_format);
+
+    fillPlaylistPref();
 
 }
 
@@ -89,4 +92,79 @@ void PreferencesWindow::on_statusFormat_textChanged(QString tex)
 void PreferencesWindow::on_windowFormat_textChanged(QString tex)
 {
     pref->window_title_format = tex;
+}
+
+
+void PreferencesWindow::fillPlaylistPref()
+{
+    if (colnames.isEmpty()){
+        colnames = pref->pl_columns_names.split("[;]");
+        colformat = pref->pl_columns_format.split("[;]");
+        colsize = pref->pl_columns_sizes.split(";");
+    }
+
+    ui->colList->clear();
+    ui->colList->insertItems(0, colnames);
+
+}
+
+
+void PreferencesWindow::changePlPref()
+{
+    QListWidgetItem *item;
+    item = ui->colList->item(curColumnIndex);
+
+    item->setText(colnames.at(curColumnIndex));
+}
+
+void PreferencesWindow::on_colList_pressed(QModelIndex index)
+{
+    curColumnIndex = index.row();
+    ui->colTitle->setText( index.data().toString() );
+    ui->colFormat->setPlainText( colformat.at(curColumnIndex));
+    ui->colSize->setText( colsize.at(curColumnIndex));
+}
+
+void PreferencesWindow::on_colTitle_editingFinished()
+{
+    colnames.replace(curColumnIndex, ui->colTitle->text());
+    fillPlaylistPref();
+}
+
+void PreferencesWindow::on_colSize_editingFinished()
+{
+    colsize.replace(curColumnIndex, ui->colSize->text());
+}
+
+void PreferencesWindow::on_colFormat_textChanged()
+{
+    colformat.replace(curColumnIndex, ui->colFormat->toPlainText());
+}
+
+void PreferencesWindow::on_colApply_clicked()
+{
+    emit playlist_changed(colnames, colformat, colsize);
+}
+
+void PreferencesWindow::on_colSave_clicked()
+{
+    pref->pl_columns_names = colnames.join("[;]");
+    pref->pl_columns_format = colformat.join("[;]");
+    pref->pl_columns_sizes = colsize.join(";");
+}
+
+void PreferencesWindow::on_colReset_clicked()
+{
+    colnames.clear();
+    colformat.clear();
+    colsize.clear();
+
+    fillPlaylistPref();
+    ui->colList->setCurrentRow(curColumnIndex);
+
+    ui->colTitle->setText( colnames.at(curColumnIndex) );
+    ui->colFormat->setPlainText( colformat.at(curColumnIndex));
+    ui->colSize->setText( colsize.at(curColumnIndex));
+
+    emit playlist_reset();
 }

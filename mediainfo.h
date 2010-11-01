@@ -21,6 +21,8 @@ public:
 
     QString title;
 
+    int numParsedFiles;
+
 signals:
 
 public slots:

@@ -22,6 +22,7 @@
 
 #include <QString>
 #include "preferences.h"
+#include "mediainfo.h"
 
 // Some global objects
 
@@ -30,6 +31,7 @@
 class QSettings;
 class Preferences;
 class Translator;
+//class MediaInfo;
 
 namespace Global {
 
@@ -41,6 +43,10 @@ namespace Global {
 
 	//! Translator (for changing language)
 	extern Translator * translator;
+
+
+        //extern MediaInfo * mediaInfo;
+
 
 	void global_init(const QString & config_path);
 	void global_end();

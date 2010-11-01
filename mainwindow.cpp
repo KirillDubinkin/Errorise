@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->preferences, SIGNAL(file_filter_changed()), this, SLOT(plFilter()));
 //    connect(this->preferences, SIGNAL(status_bar(bool)), this, SLOT(showStatusBar(bool)));
     connect(this->preferences, SIGNAL(hide_status_bar(bool)), ui->statusBar, SLOT(setHidden(bool)));
+    connect(this->preferences, SIGNAL(playlist_changed(QStringList,QStringList,QStringList)),
+                this, SLOT(changePL(QStringList,QStringList,QStringList)));
+    connect(this->preferences, SIGNAL(playlist_reset()), this, SLOT(resetPl()));
 
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
@@ -62,30 +65,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setPlColumns()
+void MainWindow::changePL(QStringList names, QStringList format, QStringList sizes)
+{
+    setPlColumns(names, sizes);
+    setPlRows(format);
+}
+
+void MainWindow::resetPl()
+{
+    setPlColumns();
+    setPlRows();
+}
+
+void MainWindow::setPlColumns(QStringList names, QStringList sizes)
 {
     // first - absolete file path - hidden
     ui->AlbumPL->setColumnCount(1);
     int col=1;
-    QStringList name = pref->pl_columns_names.split("[;]"),
-                size = pref->pl_columns_sizes.split(";");
 
-    for (int i = 0; i < name.size(); i++)
+    for (int i = 0; i < names.size(); i++)
     {
         ui->AlbumPL->insertColumn(col);
-        QTableWidgetItem *item = new QTableWidgetItem(name.at(i));
+        QTableWidgetItem *item = new QTableWidgetItem(names.at(i));
 
         ui->AlbumPL->setHorizontalHeaderItem(col, item);
-        ui->AlbumPL->setColumnWidth(col++, QString(size.at(i)).toInt());
+        ui->AlbumPL->setColumnWidth(col++, QString(sizes.at(i)).toInt());
     }
 }
 
 
-void MainWindow::setPlRows(const QStringList &files)
+void MainWindow::setPlRows(QStringList form)
 {
-    QStringList form = pref->pl_columns_format.split("[;]");
-
-    int num = files.size();
+    int num = mediaInfo->numParsedFiles;
 
         // Sets new rowCount
     if (num  <=  ui->AlbumPL->rowCount()){
@@ -174,7 +185,8 @@ void MainWindow::plFilter()
                                         QDir::Files | QDir::NoSymLinks);
 
     mediaInfo->parseDir(directory.absolutePath(), files);
-    setPlRows(files);
+    //setPlRows(files);
+    setPlRows();
 }
 
 

@@ -101,6 +101,7 @@ void MediaInfo::parseFile(QString file){
 
 void MediaInfo::parseDir(const QString &dir, const QStringList &files)
 {
+    numParsedFiles = files.size();
     minfo->setWorkingDirectory(dir);
     minfo->start(pref->mediainfo_cli, files);
     //minfo->waitForReadyRead();

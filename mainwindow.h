@@ -40,8 +40,12 @@ public slots:
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
     void updateStatusBar(const QModelIndex &idx);
-    void setPlColumns();
-    void setPlRows(const QStringList &files);
+    void setPlColumns(QStringList name = pref->pl_columns_names.split("[;]"),
+                      QStringList size = pref->pl_columns_sizes.split(";"));
+    void setPlRows(QStringList form = pref->pl_columns_format.split("[;]"));
+
+    void changePL(QStringList names, QStringList format, QStringList sizes);
+    void resetPl();
 
 
 private:
