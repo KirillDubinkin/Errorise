@@ -69,14 +69,16 @@ void MainWindow::setPlColumns()
     // first - absolete file path - hidden
     ui->AlbumPL->setColumnCount(1);
     int col=1;
-    QStringList name = pref->pl_columns_names.split("[;]");
+    QStringList name = pref->pl_columns_names.split("[;]"),
+                size = pref->pl_columns_sizes.split(";");
 
     for (int i = 0; i < name.size(); i++)
     {
         ui->AlbumPL->insertColumn(col);
         QTableWidgetItem *item = new QTableWidgetItem(name.at(i));
 
-        ui->AlbumPL->setHorizontalHeaderItem(col++, item);
+        ui->AlbumPL->setHorizontalHeaderItem(col, item);
+        ui->AlbumPL->setColumnWidth(col++, QString(size.at(i)).toInt());
     }
 }
 

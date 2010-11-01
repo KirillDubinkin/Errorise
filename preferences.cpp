@@ -273,6 +273,7 @@ void Preferences::reset() {
 
         pl_columns_names = "№[;]Title[;]Bitrate[;]Format[;]Length";
         pl_columns_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
+        pl_columns_sizes = "10;200;50;50;100";
 
     /* ********
        TV (dvb)
@@ -570,6 +571,7 @@ void Preferences::save() {
         set->setValue("window_title_format", window_title_format);
         set->setValue("pl_columns_names", pl_columns_names);
         set->setValue("pl_columns_format", pl_columns_format);
+        set->setValue("pl_columns_sizes", pl_columns_sizes);
 
 	set->endGroup(); // gui
 
@@ -879,6 +881,7 @@ void Preferences::load() {
         window_title_format = set->value("window_title_format", window_title_format).toString();
         pl_columns_names = set->value("pl_columns_names", pl_columns_names).toString();
         pl_columns_format = set->value("pl_columns_format", pl_columns_format).toString();
+        pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toString();
 
 	set->endGroup(); // gui
 

@@ -285,6 +285,7 @@ public:
 
         QString pl_columns_names;
         QString pl_columns_format;
+        QString pl_columns_sizes;
 
 
 
