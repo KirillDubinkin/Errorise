@@ -45,13 +45,11 @@ MainWindow::MainWindow(QWidget *parent) :
                     SLOT(directoryChanged(const QModelIndex &, const QModelIndex &)));
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(plFilter()));
 
-    connect(ui->AlbumPL, SIGNAL(clicked(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
-
+    connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
 
     setPlColumns();
     ui->AlbumPL->hideColumn(0);
-    //createColumns();
 
     ui->statusBar->setHidden(!pref->status_bar);
 }

@@ -289,9 +289,8 @@ void Preferences::reset() {
        Directories
        *********** */
 
-        latest_dir = QDir::homePath();
         music_library_path = QString("/media/ft/Music");
-        files_filter = QString("*");
+        files_filter = QString("*.mp3;*.flac;*.ogg;*.dts;*.ape");
 
 //	last_dvd_directory="";
 
@@ -575,24 +574,11 @@ void Preferences::save() {
 
 	set->endGroup(); // gui
 
-
-    /* ********
-       TV (dvb)
-       ******** */
-/*
-	set->beginGroup( "tv");
-        set->setValue("check_channels_conf_on_startup", check_channels_conf_on_startup);
-	set->setValue("initial_tv_deinterlace", initial_tv_deinterlace);
-	set->setValue("last_dvb_channel", last_dvb_channel);
-	set->setValue("last_tv_channel", last_tv_channel);
-	set->endGroup(); // tv
-*/
     /* ***********
        Directories
        *********** */
 
 	set->beginGroup( "directories");
-	set->setValue("latest_dir", latest_dir);
         set->setValue("music_library_path", music_library_path);
         set->setValue("files_filter", files_filter);
 //	set->setValue("last_dvd_directory", last_dvd_directory);
@@ -886,25 +872,12 @@ void Preferences::load() {
 	set->endGroup(); // gui
 
 
-    /* ********
-       TV (dvb)
-       ******** */
-/*
-	set->beginGroup( "tv");
-	check_channels_conf_on_startup = set->value("check_channels_conf_on_startup", check_channels_conf_on_startup).toBool();
-	initial_tv_deinterlace = set->value("initial_tv_deinterlace", initial_tv_deinterlace).toInt();
-	last_dvb_channel = set->value("last_dvb_channel", last_dvb_channel).toString();
-	last_tv_channel = set->value("last_tv_channel", last_tv_channel).toString();
-	set->endGroup(); // tv
-*/
 
     /* ***********
        Directories
        *********** */
 
 	set->beginGroup( "directories");
-	latest_dir = set->value("latest_dir", latest_dir).toString();
-//	last_dvd_directory = set->value("last_dvd_directory", last_dvd_directory).toString();
 
         music_library_path = set->value("music_library_path", music_library_path).toString();
         files_filter = set->value("files_filter", files_filter).toString();

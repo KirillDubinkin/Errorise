@@ -303,9 +303,6 @@ public:
        Directories
        *********** */
 
-	QString latest_dir; //!< Directory of the latest file loaded
-//	QString last_dvd_directory;
-
         QString music_library_path;
         QString files_filter;
 
