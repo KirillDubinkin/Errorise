@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     changeAlbumDir();
 
-    rx_var = QRegExp("%[a-z]*.[a-z]*%");
 
     connect(ui->actionPreferences, SIGNAL(triggered()), this->preferences, SLOT(show()));
     connect(this->preferences, SIGNAL(music_folder_changed()), this, SLOT(changeAlbumDir()));
@@ -77,36 +76,66 @@ void MainWindow::setPlColumns()
         ui->AlbumPL->insertColumn(col);
         QTableWidgetItem *item = new QTableWidgetItem(name.at(i));
 
-        ui->AlbumPL->setHorizontalHeaderItem(col, item);
+        ui->AlbumPL->setHorizontalHeaderItem(col++, item);
+    }
+}
 
-        col++;
+
+void MainWindow::setPlRows(const QStringList &files)
+{
+    QStringList form = pref->pl_columns_format.split("[;]");
+
+    int num = files.size();
+
+        // Sets new rowCount
+    if (num  <=  ui->AlbumPL->rowCount()){
+        ui->AlbumPL->setRowCount(num);
+    } else {
+        for (int i = ui->AlbumPL->rowCount(); i < num; i++){
+            ui->AlbumPL->insertRow(i);
+        }
+    }
+
+        // Adds absolete file path in first column
+    for (int i = 0; i < num; i++){
+        QTableWidgetItem *filepath = new QTableWidgetItem(mediaInfo->track[i].filename);
+        ui->AlbumPL->setItem(i, 0, filepath);
+    }
+
+        // Fills remaining cells
+    for (int i = 0, col = 1; i < form.size(); i++, col++){
+        for (int row = 0; row < num; row++)
+        {
+            QLabel *label = new QLabel;
+            label->setText( parseLine(row, form.at(i)) );
+                // label gets parsed text
+
+            ui->AlbumPL->setCellWidget(row, col, label);
+        }
     }
 }
 
 QString MainWindow::parseLine(const int &idx, QString pattern)
 {
-    if (rx_var.indexIn(pattern) < 0){
-        return pattern;
-    } else {
-        pattern.replace("%artist%", mediaInfo->track[idx].clip_artist);
-        pattern.replace("%album%", mediaInfo->track[idx].clip_album);
-        pattern.replace("%date%", mediaInfo->track[idx].clip_date);
-        pattern.replace("%genre%", mediaInfo->track[idx].clip_genre);
-        pattern.replace("%tracknumber%", mediaInfo->track[idx].clip_track);
-        pattern.replace("%codec%", mediaInfo->track[idx].audio_codec);
-        pattern.replace("%format%", mediaInfo->track[idx].audio_format);
-        pattern.replace("%bitrate%", mediaInfo->track[idx].bitrate);
-        pattern.replace("%samplerate%", mediaInfo->track[idx].samplerate);
-        pattern.replace("%channels%", mediaInfo->track[idx].channels);
-        pattern.replace("%length%", mediaInfo->track[idx].length);
+    pattern.replace("%title%", mediaInfo->track[idx].clip_name);
+    pattern.replace("%artist%", mediaInfo->track[idx].clip_artist);
+    pattern.replace("%album%", mediaInfo->track[idx].clip_album);
+    pattern.replace("%date%", mediaInfo->track[idx].clip_date);
+    pattern.replace("%genre%", mediaInfo->track[idx].clip_genre);
+    pattern.replace("%tracknumber%", mediaInfo->track[idx].clip_track);
+    pattern.replace("%codec%", mediaInfo->track[idx].audio_codec);
+    pattern.replace("%format%", mediaInfo->track[idx].audio_format);
+    pattern.replace("%bitrate%", mediaInfo->track[idx].bitrate);
+    pattern.replace("%samplerate%", mediaInfo->track[idx].samplerate);
+    pattern.replace("%channels%", mediaInfo->track[idx].channels);
+    pattern.replace("%length%", mediaInfo->track[idx].length);
 
-        if (!core->playing){
-            pattern.replace("%playback_time%", mediaInfo->track[idx].length);
-        } else {
-            // вот тут надо будет сделать _то_что_надо_.
-        }
+    if (!core->playing){
+        pattern.replace("%playback_time%", mediaInfo->track[idx].length);
+    } else {
+        // вот тут надо будет сделать _то_что_надо_.
     }
-    //qDebug() << pattern;
+
     return pattern;
 }
 
@@ -115,7 +144,6 @@ void MainWindow::updateStatusBar(const QModelIndex &idx)
 {
     if (!ui->statusBar->isHidden()){
         status->setText(parseLine(idx.row(), pref->status_bar_format));
-//        ui->statusBar->showMessage(parseLine(idx.row(), pref->status_bar_format));
     }
 }
 
@@ -144,147 +172,12 @@ void MainWindow::plFilter()
 
     files = directory.entryList(pref->files_filter.split(";"),
                                         QDir::Files | QDir::NoSymLinks);
-    ui->AlbumPL->setRowCount(0);
-    showFiles(directory, files);
-}
 
-
-
-// Создать аналогичную ф-ю, или переделать эту, для "анимированного" вывода
-    // mediaInfo->parseFile
-void MainWindow::showFiles(const QDir &directory, const QStringList &files, const QString &pattern)
-{
     mediaInfo->parseDir(directory.absolutePath(), files);
-
-    for (int i = 0; i < files.size(); ++i)
-    {
-
-        QTableWidgetItem *fileNameItem = new QTableWidgetItem(directory.absoluteFilePath(files[i]));
-
-        QTableWidgetItem *titleItem = new QTableWidgetItem(mediaInfo->track[i].clip_name);
-        titleItem->setFlags(Qt::ItemIsEnabled);
-
-        QTableWidgetItem *typeItem = new QTableWidgetItem(mediaInfo->track[i].audio_format + " - "
-                                                          + mediaInfo->track[i].bitrate);
-        typeItem->setFlags(Qt::ItemIsEnabled);
-        QTableWidgetItem *lengthItem = new QTableWidgetItem(mediaInfo->track[i].length);
-        lengthItem->setFlags(Qt::ItemIsEnabled);
-
-        int row = ui->AlbumPL->rowCount();
-        ui->AlbumPL->insertRow(row);
-        ui->AlbumPL->setRowHeight(row, 20);
-
-        ui->AlbumPL->setItem(row, 0, fileNameItem);
-
-        for (int i=0; i < pattern.length(); )
-        {
-
-            switch (pattern[i++].toAscii())
-            {
-            case 'N':
-                ui->AlbumPL->setItem(row, i, titleItem);
-                break;
-
-            case 'T':
-                ui->AlbumPL->setItem(row, i, typeItem);
-                break;
-
-            case 'L':
-                ui->AlbumPL->setItem(row, i, lengthItem);
-                break;
-
-            default:
-                qWarning("ui::showFiles:  Unknown character in pattern! - \"%c\"", pattern[i].toAscii());
-            }
-
-
-        }
-        ui->AlbumPL->repaint();
-    }
-
+    setPlRows(files);
 }
 
 
-/*
-void MainWindow::setPlColumns(const QString pattern)
-{
-    for (int i=0; i < pattern.length(); i++)
-    {
-        switch (pattern[i].toAscii())
-        {
-        case 'N':
-            ui->AlbumPL->setColumnHidden(1, false);
-            break;
-
-        case 'T':
-            ui->AlbumPL->setColumnHidden(2, false);
-            break;
-
-        case 'L':
-            ui->AlbumPL->setColumnHidden(3, false);
-            break;
-
-        default:
-            qWarning("ui::setPLColumns:  Unknown character in pattern! - \"%c\"", pattern[i].toAscii());
-            break;
-        }
-    }
-}
-*/
-
-void MainWindow::createColumns(const QString &pattern)
-{
-        // 1st column - hidden, contains the absolute path of files
-    ui->AlbumPL->setColumnCount(1);
-    ui->AlbumPL->hideColumn(0);
-
-    /*   ui->AlbumPL->insertColumn(1);
-    ui->AlbumPL->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Title")));
-    ui->AlbumPL->insertColumn(2);
-    ui->AlbumPL->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Type")));
-    ui->AlbumPL->insertColumn(3);
-    ui->AlbumPL->setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Length")));
-
-    ui->AlbumPL->hideColumn(0);
-    ui->AlbumPL->hideColumn(1);
-    ui->AlbumPL->hideColumn(2);
-    ui->AlbumPL->hideColumn(3);
-
-    ui->AlbumPL->setColumnWidth(1, ui->AlbumPL->width() - 270);
-    ui->AlbumPL->setColumnWidth(2, 150);
-    ui->AlbumPL->setColumnWidth(3, 60);
-
-   // qDebug() << ui->AlbumPL->columnCount();
-
-    setPlColumns();
-*/
-    for (int i=0; i < pattern.length(); i++)
-    {
-       int col = ui->AlbumPL->columnCount();
-       ui->AlbumPL->insertColumn(col);
-
-       switch (pattern[i].toAscii())
-       {
-       case 'N':
-           ui->AlbumPL->setHorizontalHeaderItem(col, new QTableWidgetItem(tr("Title")));
-           ui->AlbumPL->setColumnWidth(col, ui->AlbumPL->width() - 270);
-           break;
-
-       case 'T':
-           ui->AlbumPL->setHorizontalHeaderItem(col, new QTableWidgetItem(tr("Type")));
-           ui->AlbumPL->setColumnWidth(col, 150);
-           break;
-
-       case 'L':
-           ui->AlbumPL->setHorizontalHeaderItem(col, new QTableWidgetItem(tr("Length")));
-           ui->AlbumPL->setColumnWidth(col, 60);
-           break;
-
-       default:
-           qWarning("ui::createColumn:  Unknown character in pattern! - \"%c\"", pattern[i].toAscii());
-       }
-    }
-}
 
 void MainWindow::playFromPL(QModelIndex idx)
 {

@@ -30,17 +30,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    QRegExp rx_var;
-    /*
-    QRegExp rx_codec;
-    QRegExp rx_bitrate;
-    QRegExp rx_samplerate;
-    QRegExp rx_bits;
-    QRegExp rx_channels;
-    QRegExp rx_playback_time;
-    QRegExp rx_length;
-    */
-
     QString parseLine(const int &idx, QString pattern);
 
 
@@ -52,22 +41,18 @@ public slots:
     void directoryChanged(const QModelIndex &, const QModelIndex &);
     void updateStatusBar(const QModelIndex &idx);
     void setPlColumns();
+    void setPlRows(const QStringList &files);
 
 
 private:
     Ui::MainWindow *ui;
-    void createColumns(const QString &pattern = pref->pl_columns);
+    //void createColumns(const QString &pattern = pref->pl_columns);
 
     QFileSystemModel *FSmodel;
     QSortFilterProxyModel *sortProxy;
     QLabel *status;
 
     QString currentPath;
- //   void setPlColumns(const QString pattern = pref->pl_columns);
-
-    QStringList filterFiles(const QDir &directory, const QStringList &files,
-                                  const QString &text);
-    void showFiles(const QDir &directory, const QStringList &files, const QString &pattern = pref->pl_columns);
 
 protected:
     Core * core;

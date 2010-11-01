@@ -266,7 +266,7 @@ void Preferences::reset() {
         auto_add_to_playlist = true;
         add_to_playlist_consecutive_files = false;
 
-        pl_columns = "NTL";
+
         status_bar = true;
         status_bar_format = "%codec% | %bitrate% | %samplerate% | %bits% | %channels% | %playback_time% / %length%";
         window_title_format = "%artist% - %title% [%playback_time% / %length%]";
@@ -565,7 +565,6 @@ void Preferences::save() {
     set->setValue("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files);
 
 
-        set->setValue("pl_columns", pl_columns);
         set->setValue("status_bar", status_bar);
         set->setValue("status_bar_format", status_bar_format);
         set->setValue("window_title_format", window_title_format);
@@ -874,7 +873,7 @@ void Preferences::load() {
 	auto_add_to_playlist = set->value("auto_add_to_playlist", auto_add_to_playlist).toBool();
 	add_to_playlist_consecutive_files = set->value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
 
-        pl_columns = set->value("pl_columns", pl_columns).toString();
+
         status_bar = set->value("status_bar", status_bar).toBool();
         status_bar_format = set->value("status_bar_format", status_bar_format).toString();
         window_title_format = set->value("window_title_format", window_title_format).toString();

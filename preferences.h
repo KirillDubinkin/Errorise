@@ -277,7 +277,6 @@ public:
 	bool auto_add_to_playlist; //!< Add files to open to playlist
 	bool add_to_playlist_consecutive_files;
 
-        QString pl_columns;
 
         // Formating displayed information
         bool status_bar;
