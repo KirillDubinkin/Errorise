@@ -32,6 +32,7 @@ protected:
     void stopMplayer();
 
 signals:
+    void showTime(int sec);
 
 
 protected:
@@ -40,6 +41,9 @@ protected:
 public slots:
     void openFile(QString filename, int seek=-1);
     void tellmp(const QString & command);
+
+protected slots:
+    void changeCurrentSec(int sec);
 
 };
 

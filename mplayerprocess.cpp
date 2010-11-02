@@ -77,6 +77,7 @@ void MplayerProcess::writeToStdin(QString text) {
 }
 
 static QRegExp rx_av("^[AV]: *([0-9,:.-]+)");
+
 static QRegExp rx_frame("^[AV]:.* (\\d+)\\/.\\d+");// [0-9,.]+");
 static QRegExp rx("^(.*)=(.*)");
 #if !NOTIFY_AUDIO_CHANGES
@@ -141,6 +142,11 @@ void MplayerProcess::parseLine(QByteArray ba) {
 	//qDebug("%s", line.toUtf8().data());
     if (rx_av.indexIn(line) > -1) {
 		double sec = rx_av.cap(1).toDouble();
+
+                if ( rx_av.cap(1).contains(".0") ){
+                    emit receivedCSec(sec);
+                }
+
 		//qDebug("cap(1): '%s'", rx_av.cap(1).toUtf8().data() );
 		//qDebug("sec: %f", sec);
 
@@ -166,7 +172,6 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		}
 		
 	    emit receivedCurrentSec( sec );
-
 	}
 	else {
 		// Emulates mplayer version in Ubuntu:

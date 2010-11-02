@@ -20,6 +20,8 @@ Core::Core(QObject *parent) :
     mset.reset();
     playing = false;
 
+    connect(proc, SIGNAL(receivedCSec(int)), this, SLOT(changeCurrentSec(int)));
+
 }
 
 Core::~Core()
@@ -29,6 +31,20 @@ Core::~Core()
     delete proc;
 }
 
+
+void Core::changeCurrentSec(int sec)
+{
+    static int tsec;
+    if (tsec != sec){
+        tsec = sec;
+
+        mset.current_sec = sec;
+
+        emit showTime(sec);
+
+      //  qDebug() << sec;
+    }
+}
 
 void Core::openFile(QString filename, int seek) {
         //qDebug("Core::openFile: '%s'", filename.toUtf8().data());
@@ -54,9 +70,9 @@ void Core::playNewFile(QString file, int seek) {
                 stopMplayer();
         }
 
-        mdat.reset();
-        mdat.filename = file;
-        mdat.type = TYPE_FILE;
+ //       mdat.reset();
+ //       mdat.filename = file;
+ //       mdat.type = TYPE_FILE;
 
         int old_volume = mset.volume;
         mset.reset();
@@ -78,7 +94,7 @@ void Core::initPlaying(int seek) {
                 stopMplayer();
         }
 
-        int start_sec = (int) mset.current_sec;
+        int start_sec = mset.current_sec;
         if (seek > -1) start_sec = seek;
 
         startMplayer( mdat.filename, start_sec );

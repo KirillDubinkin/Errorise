@@ -12,6 +12,8 @@ public:
     explicit MediaInfo(QObject *parent = 0);
     ~MediaInfo();
 
+    static int timeToSec(QString time);
+
     //MediaData *track;
     MediaData track[1000];
 

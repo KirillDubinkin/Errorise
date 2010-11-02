@@ -47,6 +47,7 @@ public:
 	virtual ~MediaData();
 
 	virtual void reset();
+        static QString formatTime(int secs);
 
 	QString filename;
 	double duration;

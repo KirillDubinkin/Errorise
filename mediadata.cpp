@@ -74,6 +74,19 @@ QString MediaData::displayName() {
 }
 
 
+QString MediaData::formatTime(int secs) {
+        int t = secs;
+    int hours = (int) t / 3600;
+    t -= hours*3600;
+    int minutes = (int) t / 60;
+    t -= minutes*60;
+    int seconds = t;
+
+    QString tf;
+    return tf.sprintf("%02d:%02d:%02d",hours,minutes,seconds);
+}
+
+
 void MediaData::list() {
 	qDebug("MediaData::list");
 

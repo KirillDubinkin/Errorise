@@ -5,6 +5,7 @@
 
 #include <QtDebug>
 #include <QLabel>
+#include <QTime>
 
 using namespace Global;
 
@@ -39,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->preferences, SIGNAL(playlist_reset()), this, SLOT(resetPl()));
 
 
+    connect(this->core, SIGNAL(showTime(int)), this, SLOT(showCurrentTime(int)));
+
+
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
     connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
     connect(ui->AlbumPL, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(playFromPL(QModelIndex)));
@@ -48,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
                     SLOT(directoryChanged(const QModelIndex &, const QModelIndex &)));
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(plFilter()));
 
-    connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
+   // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
 
     setPlColumns();
@@ -63,6 +67,15 @@ MainWindow::~MainWindow()
     delete mediaInfo;
     delete core;
     delete ui;
+}
+
+void MainWindow::showCurrentTime(int sec)
+{
+    if ( (!ui->statusBar->isHidden())
+        && (pref->status_bar_format.contains("%playback_time%")) )
+        {
+        status->setText(parseLine(&core->mdat, pref->status_bar_format));
+    }
 }
 
 void MainWindow::changePL(QStringList names, QStringList format, QStringList sizes)
@@ -118,7 +131,7 @@ void MainWindow::setPlRows(QStringList form)
         for (int row = 0; row < num; row++)
         {
             QLabel *label = new QLabel;
-            label->setText( parseLine(row, form.at(i)) );
+            label->setText( parseLine(&mediaInfo->track[row], form.at(i)) );
                 // label gets parsed text
 
             ui->AlbumPL->setCellWidget(row, col, label);
@@ -126,37 +139,27 @@ void MainWindow::setPlRows(QStringList form)
     }
 }
 
-QString MainWindow::parseLine(const int &idx, QString pattern)
-{
-    pattern.replace("%title%", mediaInfo->track[idx].clip_name);
-    pattern.replace("%artist%", mediaInfo->track[idx].clip_artist);
-    pattern.replace("%album%", mediaInfo->track[idx].clip_album);
-    pattern.replace("%date%", mediaInfo->track[idx].clip_date);
-    pattern.replace("%genre%", mediaInfo->track[idx].clip_genre);
-    pattern.replace("%tracknumber%", mediaInfo->track[idx].clip_track);
-    pattern.replace("%codec%", mediaInfo->track[idx].audio_codec);
-    pattern.replace("%format%", mediaInfo->track[idx].audio_format);
-    pattern.replace("%bitrate%", mediaInfo->track[idx].bitrate);
-    pattern.replace("%samplerate%", mediaInfo->track[idx].samplerate);
-    pattern.replace("%channels%", mediaInfo->track[idx].channels);
-    pattern.replace("%length%", mediaInfo->track[idx].length);
 
-    if (!core->playing){
-        pattern.replace("%playback_time%", mediaInfo->track[idx].length);
-    } else {
-        // вот тут надо будет сделать _то_что_надо_.
-    }
+QString MainWindow::parseLine(MediaData *data, QString pattern)
+{
+    pattern.replace("%title%", data->clip_name);
+    pattern.replace("%artist%", data->clip_artist);
+    pattern.replace("%album%", data->clip_album);
+    pattern.replace("%date%", data->clip_date);
+    pattern.replace("%genre%", data->clip_genre);
+    pattern.replace("%tracknumber%", data->clip_track);
+    pattern.replace("%codec%", data->audio_codec);
+    pattern.replace("%format%", data->audio_format);
+    pattern.replace("%bitrate%", data->bitrate);
+    pattern.replace("%samplerate%", data->samplerate);
+    pattern.replace("%channels%", data->channels);
+    pattern.replace("%length%", MediaData::formatTime(data->duration));
+
+    pattern.replace("%playback_time%", MediaData::formatTime(core->mset.current_sec));
 
     return pattern;
 }
 
-
-void MainWindow::updateStatusBar(const QModelIndex &idx)
-{
-    if (!ui->statusBar->isHidden()){
-        status->setText(parseLine(idx.row(), pref->status_bar_format));
-    }
-}
 
 
 void MainWindow::changeAlbumDir()
@@ -193,6 +196,8 @@ void MainWindow::plFilter()
 
 void MainWindow::playFromPL(QModelIndex idx)
 {
+    core->mdat = mediaInfo->track[idx.row()];
+
     if (pref->play_only_this) {
       //  qDebug("Playing one track, and stop.");
         core->openFile(ui->AlbumPL->item(idx.row(), 0)->text());

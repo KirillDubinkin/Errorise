@@ -47,6 +47,7 @@ signals:
 	void lineAvailable(QString line);
 
 	void receivedCurrentSec(double sec);
+        void receivedCSec(int csec);
 	void receivedCurrentFrame(int frame);
 	void receivedPause();
 //	void receivedWindowResolution(int,int);

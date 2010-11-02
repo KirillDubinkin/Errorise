@@ -54,8 +54,6 @@ static QRegExp rx_date("^Recorded date .*: (.*)");
 static QRegExp rx_genre("^Genre .*: (.*)");
 static QRegExp rx_tracknumber("^Track name/Position .*: (.*)");
 
-
-
 void MediaInfo::parseFile(QString file){
     if (!file.isEmpty()){
         start(file);
@@ -114,6 +112,24 @@ void MediaInfo::parseDir(const QString &dir, const QStringList &files)
 }
 
 
+int MediaInfo::timeToSec(QString time)
+{
+    int sec=0;
+    static QRegExp rx_hour("([0-9]*)h"), rx_min("([0-9]*)m"), rx_sec("([0-9]*)s");
+
+    if (rx_hour.indexIn(time) > -1){
+        sec += rx_hour.cap(1).toInt() * 3600;
+    }
+    if (rx_min.indexIn(time) > -1){
+        sec += rx_min.cap(1).toInt() * 60;
+    }
+    if (rx_sec.indexIn(time) > -1){
+        sec += rx_sec.cap(1).toInt();
+    }
+    return sec;
+}
+
+
 void MediaInfo::parse(const QStringList &out, const QStringList &files)
 {
     QString line;
@@ -143,7 +159,7 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
 
         else
         if (rx_duration.indexIn(line) > -1){
-            track[id].length = rx_duration.cap(1);
+            track[id].duration = timeToSec(rx_duration.cap(1));
              //   qDebug() << QTime().fromString(rx_duration.cap(1), "m'm s's");
         }
 

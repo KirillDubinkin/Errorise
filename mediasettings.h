@@ -46,7 +46,8 @@ public:
 
 	virtual void reset();
 
-	double current_sec;
+        //double current_sec;
+        int current_sec;
 
 #if PROGRAM_SWITCH
 	int current_program_id;
