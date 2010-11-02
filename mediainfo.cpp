@@ -115,7 +115,7 @@ void MediaInfo::parseDir(const QString &dir, const QStringList &files)
 int MediaInfo::timeToSec(QString time)
 {
     int sec=0;
-    static QRegExp rx_hour("([0-9]*)h"), rx_min("([0-9]*)m"), rx_sec("([0-9]*)s");
+    static QRegExp rx_hour("([0-9]*)h"), rx_min("([0-9]*)mn"), rx_sec("([0-9]*)s");
 
     if (rx_hour.indexIn(time) > -1){
         sec += rx_hour.cap(1).toInt() * 3600;

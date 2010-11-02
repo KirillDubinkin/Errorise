@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
                     SLOT(directoryChanged(const QModelIndex &, const QModelIndex &)));
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(plFilter()));
 
+    connect(this->core, SIGNAL(finished()), status, SLOT(clear()));
+
    // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
 

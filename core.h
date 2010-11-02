@@ -33,6 +33,7 @@ protected:
 
 signals:
     void showTime(int sec);
+    void finished();
 
 
 protected:
@@ -44,6 +45,7 @@ public slots:
 
 protected slots:
     void changeCurrentSec(int sec);
+    void processFinished();
 
 };
 

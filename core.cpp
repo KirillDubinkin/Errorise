@@ -21,6 +21,7 @@ Core::Core(QObject *parent) :
     playing = false;
 
     connect(proc, SIGNAL(receivedCSec(int)), this, SLOT(changeCurrentSec(int)));
+    connect(proc, SIGNAL(processExited()), this, SLOT(processFinished()));
 
 }
 
@@ -31,6 +32,11 @@ Core::~Core()
     delete proc;
 }
 
+
+void Core::processFinished()
+{
+    emit finished();
+}
 
 void Core::changeCurrentSec(int sec)
 {
