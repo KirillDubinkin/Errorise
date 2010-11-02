@@ -36,7 +36,7 @@ void MediaSettings::reset() {
 #if PROGRAM_SWITCH
 	current_program_id = NoneSelected;
 #endif
-	current_audio_id = NoneSelected;
+        current_id = NoneSelected;
 
 	volume = pref->initial_volume;
         mute = false;
@@ -72,7 +72,7 @@ void MediaSettings::list() {
 #if PROGRAM_SWITCH
 	qDebug("  current_program_id: %d", current_program_id);
 #endif
-	qDebug("  current_audio_id: %d", current_audio_id);
+        qDebug("  current_audio_id: %d", current_id);
 
 	qDebug("  volume: %d", volume);
 	qDebug("  mute: %d", mute);
@@ -109,7 +109,7 @@ void MediaSettings::save(QSettings * set) {
 #if PROGRAM_SWITCH
 	set->setValue( "current_program_id", current_program_id );
 #endif
-	set->setValue( "current_audio_id", current_audio_id );
+        set->setValue( "current_audio_id", current_id );
 
         set->setValue( "volume", volume );
         set->setValue( "mute", mute );
@@ -147,7 +147,7 @@ void MediaSettings::load(QSettings * set) {
 #if PROGRAM_SWITCH
 	current_program_id = set->value( "current_program_id", current_program_id ).toInt();
 #endif
-	current_audio_id = set->value( "current_audio_id", current_audio_id ).toInt();
+        current_id = set->value( "current_audio_id", current_id ).toInt();
 
         volume = set->value( "volume", volume ).toInt();
 	mute = set->value( "mute", mute ).toBool();

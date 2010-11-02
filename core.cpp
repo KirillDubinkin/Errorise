@@ -46,7 +46,7 @@ void Core::changeCurrentSec(int sec)
 
         mset.current_sec = sec;
 
-        emit showTime(sec);
+        emit showTime();
 
       //  qDebug() << sec;
     }
@@ -81,7 +81,7 @@ void Core::playNewFile(QString file, int seek) {
  //       mdat.type = TYPE_FILE;
 
         int old_volume = mset.volume;
-        mset.reset();
+      //  mset.reset();
         mset.volume = old_volume;
 
         /* initializeMenus(); */

@@ -10,6 +10,7 @@
 #include <QStatusBar>
 #include <QRegExp>
 #include <QLabel>
+#include <QTableWidgetItem>
 
 #include "global.h"
 #include "core.h"
@@ -32,6 +33,8 @@ public:
 
     QString parseLine(MediaData *data, QString pattern);
 
+    QTableWidgetItem *playingItem, *playingItemLength;
+
 public slots:
     void changeAlbumDir();
     void playFromPL(QModelIndex idx);
@@ -46,7 +49,7 @@ public slots:
     void changePL(QStringList names, QStringList format, QStringList sizes);
     void resetPl();
 
-    void showCurrentTime(int sec);
+    void showCurrentTime();
 
 
 private:
@@ -58,6 +61,12 @@ private:
     QLabel *status;
 
     QString currentPath;
+    QStringList PlPattern;
+
+    void showPlPlaytime();
+
+    int lengthColumn();
+    int timeColumn;
 
 protected:
     Core * core;

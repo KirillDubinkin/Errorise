@@ -5,7 +5,7 @@
 
 #include <QtDebug>
 #include <QLabel>
-#include <QTime>
+#include <QTableWidgetItem>
 
 using namespace Global;
 
@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     status = new QLabel;
     ui->statusBar->addWidget(status);
 
+    timeColumn = -1;
+
     changeAlbumDir();
 
 
@@ -40,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->preferences, SIGNAL(playlist_reset()), this, SLOT(resetPl()));
 
 
-    connect(this->core, SIGNAL(showTime(int)), this, SLOT(showCurrentTime(int)));
+    connect(this->core, SIGNAL(showTime()), this, SLOT(showCurrentTime()));
 
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
@@ -57,10 +59,16 @@ MainWindow::MainWindow(QWidget *parent) :
    // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
 
+    PlPattern = pref->pl_columns_format.split("[;]");
+
     setPlColumns();
     ui->AlbumPL->hideColumn(0);
 
     ui->statusBar->setHidden(!pref->status_bar);
+
+
+    lengthColumn();
+
 }
 
 MainWindow::~MainWindow()
@@ -71,14 +79,67 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::showCurrentTime(int sec)
+void MainWindow::showCurrentTime()
 {
     if ( (!ui->statusBar->isHidden())
         && (pref->status_bar_format.contains("%playback_time%")) )
         {
         status->setText(parseLine(&core->mdat, pref->status_bar_format));
     }
+
+    if (pref->pl_show_playing_time){
+        showPlPlaytime();
+    }
+
+
 }
+
+
+void MainWindow::showPlPlaytime()
+{
+    if (lengthColumn() > 0)
+    {
+        if (core->mdat.filename == ui->AlbumPL->item(core->mset.current_id, 0)->text())
+        {
+            QString temp;
+            temp = PlPattern.at(lengthColumn()-1);
+
+            temp.replace("%length%", MediaData::formatTime(core->mset.current_sec));
+
+            QLabel *label = new QLabel(temp);
+            qDebug() << label->text();
+            ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
+        }
+        else { // Maybe, current track just go for a walk
+//            core->mset.current_id = -1;
+            for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
+            {
+
+                if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
+                    core->mset.current_id = i;
+                }
+            }
+        }
+    }
+}
+
+int MainWindow::lengthColumn()
+{
+    if (timeColumn < 1)
+    {
+        QString s;
+        for (int i = 0; i < PlPattern.size(); i++){
+            s = PlPattern.at(i);
+            if (s.contains("%length%")){
+                timeColumn = i+1;
+                return timeColumn;
+            }
+        }
+        timeColumn = -1;
+    }
+    return timeColumn;
+}
+
 
 void MainWindow::changePL(QStringList names, QStringList format, QStringList sizes)
 {
@@ -199,6 +260,8 @@ void MainWindow::plFilter()
 void MainWindow::playFromPL(QModelIndex idx)
 {
     core->mdat = mediaInfo->track[idx.row()];
+    core->mset.reset();
+    core->mset.current_id = idx.row();
 
     if (pref->play_only_this) {
       //  qDebug("Playing one track, and stop.");

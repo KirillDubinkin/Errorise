@@ -53,7 +53,7 @@ public:
 	int current_program_id;
 #endif
 
-	int current_audio_id;
+        int current_id;
 
 	int volume;
 	bool mute;

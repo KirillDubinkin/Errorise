@@ -32,7 +32,7 @@ protected:
     void stopMplayer();
 
 signals:
-    void showTime(int sec);
+    void showTime();
     void finished();
 
 
