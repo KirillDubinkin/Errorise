@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this->core, SIGNAL(finished()), status, SLOT(clear()));
     connect(this->core, SIGNAL(finished()), this, SLOT(defWindowTitle()));
+    connect(this->core, SIGNAL(finished()), this, SLOT(playNext()));
 
    // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
@@ -350,16 +351,36 @@ void MainWindow::playFromPL(QModelIndex idx)
     }
     else {
       //  qDebug("Playing many files:");
-        QString files = ui->AlbumPL->item(idx.row(),0)->text();
+    /*    QString files = ui->AlbumPL->item(idx.row(),0)->text();
         for (int row=idx.row()+1; row<ui->AlbumPL->rowCount(); row++){
             files += ";" + ui->AlbumPL->item(row,0)->text();
         }
         core->openFile(files);
+    */
+        core->openFile(ui->AlbumPL->item(idx.row(), 0)->text());
+
     }
 
     this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
     highlightCurrentTrack();
 
+}
+
+
+void MainWindow::playNext()
+{
+    if (core->mset.current_id > -1){
+        int row = core->mset.current_id + 1;
+
+        core->mdat = mediaInfo->track[row];
+        core->mset.reset();
+        core->mset.current_id = row;
+
+        core->openFile(mediaInfo->track[row].filename);
+
+        this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+        highlightCurrentTrack();
+    }
 }
 
 void MainWindow::play(QString filename)

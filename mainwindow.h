@@ -39,6 +39,7 @@ public slots:
     void changeAlbumDir();
     void playFromPL(QModelIndex idx);
     void play(QString filename);
+    void playNext();
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
 
@@ -54,6 +55,8 @@ public slots:
     void defWindowTitle();
     void tryFindCurrentTrack();
     void highlightCurrentTrack();
+
+
 
 private:
     Ui::MainWindow *ui;
