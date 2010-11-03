@@ -7,6 +7,8 @@
 #include <QtDebug>
 #include <QLabel>
 #include <QTableWidgetItem>
+#include <QGraphicsColorizeEffect>
+#include <QColor>
 
 using namespace Global;
 
@@ -85,8 +87,43 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::highlightCurrentTrack()
+{
+    int id = -1;
+    for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
+    {
+
+        if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
+            id = i;
+        }
+    }
+
+    if (id > -1){
+        for (int i = 0; i < PlPattern.size(); i++)
+        {
+            QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + PlPattern.at(i) + "</b>"));
+         //   QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect();
+         //   effect->setColor(QColor(192,128,50));
+
+         //   label->setGraphicsEffect(effect);
+
+            label->setStyleSheet("QLabel { background-color: rgb(29, 66, 77); color: rgb(232, 232, 174) }");
+
+            ui->AlbumPL->setCellWidget(id, i+1, label);
+        }
+    }
+
+
+
+}
+
 void MainWindow::showCurrentTime()
 {
+    if (pref->window_title_format.contains("%playback_time%")){
+        this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+    }
+
     if ( (!ui->statusBar->isHidden())
         && (pref->status_bar_format.contains("%playback_time%")) )
         {
@@ -96,12 +133,6 @@ void MainWindow::showCurrentTime()
     if (pref->pl_show_playing_time){
         showPlPlaytime();
     }
-
-    if (pref->window_title_format.contains("%playback_time%")){
-        this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
-    }
-
-
 }
 
 
@@ -126,20 +157,25 @@ void MainWindow::defWindowTitle()
 }
 
 
+void MainWindow::tryFindCurrentTrack()
+{
+    core->mset.current_id = -2;  // We try just once
+    for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
+    {
+
+        if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
+            core->mset.current_id = i;
+        }
+    }
+}
+
 void MainWindow::showPlPlaytime()
 {
     if (lengthColumn() > 0)
     {
         if (core->mset.current_id == -1) // try to find
         {
-            core->mset.current_id = -2;  // We try just once
-            for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
-            {
-
-                if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
-                    core->mset.current_id = i;
-                }
-            }
+            tryFindCurrentTrack();
         }
 
         else if (core->mset.current_id > -1)
@@ -297,6 +333,7 @@ void MainWindow::plFilter()
         core->mset.current_id = -1;
         // to check, if _realy_ current track present in playlist
     }
+    highlightCurrentTrack();
 }
 
 
@@ -321,6 +358,7 @@ void MainWindow::playFromPL(QModelIndex idx)
     }
 
     this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+    highlightCurrentTrack();
 
 }
 

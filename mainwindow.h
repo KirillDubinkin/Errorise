@@ -52,6 +52,8 @@ public slots:
     void showCurrentTime();
     void showDefTimePl();
     void defWindowTitle();
+    void tryFindCurrentTrack();
+    void highlightCurrentTrack();
 
 private:
     Ui::MainWindow *ui;
