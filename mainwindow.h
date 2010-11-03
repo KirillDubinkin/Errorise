@@ -50,6 +50,7 @@ public slots:
     void resetPl();
 
     void showCurrentTime();
+    void showDefTimePl();
     void defWindowTitle();
 
 private:

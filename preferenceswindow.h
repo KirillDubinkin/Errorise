@@ -29,6 +29,7 @@ private:
     void changePlPref();
 
 private slots:
+    void on_showPlplayingTime_toggled(bool checked);
     void on_colReset_clicked();
     void on_colSave_clicked();
     void on_colApply_clicked();
@@ -50,6 +51,7 @@ signals:
     void hide_status_bar(bool checked);
     void playlist_changed(const QStringList &names, const QStringList &format, const QStringList &sizes);
     void playlist_reset();
+    void dontShowCurrentTimeInPl();
 
 };
 

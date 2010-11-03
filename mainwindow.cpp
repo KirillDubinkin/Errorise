@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(this->core, SIGNAL(showTime()), this, SLOT(showCurrentTime()));
+    connect(this->preferences, SIGNAL(dontShowCurrentTimeInPl()), this, SLOT(showDefTimePl()));
 
 
     connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
@@ -104,6 +105,21 @@ void MainWindow::showCurrentTime()
 }
 
 
+void MainWindow::showDefTimePl()
+{
+    if (lengthColumn() > 0)
+    {
+        QString temp;
+        temp = PlPattern.at(lengthColumn() -1);
+
+        temp.replace("%length%", MediaData::formatTime(core->mdat.duration));
+
+        QLabel *label = new QLabel(temp);
+        ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
+    }
+}
+
+
 void MainWindow::defWindowTitle()
 {
     this->setWindowTitle("AMPlayer v." + amplayerVersion());
@@ -114,25 +130,33 @@ void MainWindow::showPlPlaytime()
 {
     if (lengthColumn() > 0)
     {
-        if (core->mdat.filename == ui->AlbumPL->item(core->mset.current_id, 0)->text())
+        if (core->mset.current_id == -1) // try to find
         {
-            QString temp;
-            temp = PlPattern.at(lengthColumn()-1);
-
-            temp.replace("%length%", MediaData::formatTime(core->mset.current_sec));
-
-            QLabel *label = new QLabel(temp);
-            qDebug() << label->text();
-            ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
-        }
-        else { // Maybe, current track just go for a walk
-//            core->mset.current_id = -1;
+            core->mset.current_id = -2;  // We try just once
             for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
             {
 
                 if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
                     core->mset.current_id = i;
                 }
+            }
+        }
+
+        else if (core->mset.current_id > -1)
+        {
+            if (core->mdat.filename == ui->AlbumPL->item(core->mset.current_id, 0)->text())
+            {
+                QString temp;
+                temp = PlPattern.at(lengthColumn() -1);
+
+                temp.replace("%length%", MediaData::formatTime(core->mset.current_sec));
+
+                QLabel *label = new QLabel(temp);
+               // qDebug() << label->text();
+                ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
+            }
+            else { // Maybe, current track just go for a walk
+                core->mset.current_id = -1;
             }
         }
     }
@@ -268,6 +292,11 @@ void MainWindow::plFilter()
     mediaInfo->parseDir(directory.absolutePath(), files);
     //setPlRows(files);
     setPlRows();
+
+    if (core->playing){
+        core->mset.current_id = -1;
+        // to check, if _realy_ current track present in playlist
+    }
 }
 
 

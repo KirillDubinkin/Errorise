@@ -103,12 +103,9 @@
                      </spacer>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="showVolume">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
+                     <widget class="QCheckBox" name="showPlplayingTime">
                       <property name="text">
-                       <string>Show Volume</string>
+                       <string>Show playing time in playlist</string>
                       </property>
                      </widget>
                     </item>
