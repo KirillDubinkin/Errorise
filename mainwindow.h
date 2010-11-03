@@ -35,6 +35,8 @@ public:
 
     QTableWidgetItem *playingItem, *playingItemLength;
 
+    bool openNewTrack;
+
 public slots:
     void changeAlbumDir();
     void playFromPL(QModelIndex idx);
@@ -53,6 +55,7 @@ public slots:
     void showCurrentTime();
     void showDefTimePl();
     void defWindowTitle();
+    void defPlhighlight();
     void tryFindCurrentTrack();
     void highlightCurrentTrack();
 

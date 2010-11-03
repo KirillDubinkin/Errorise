@@ -23,6 +23,7 @@ public:
     MediaSettings mset;
 
     bool playing;
+    bool restarting;
 
 
 protected:
@@ -34,6 +35,7 @@ protected:
 signals:
     void showTime();
     void finished();
+    void playnext();
 
 
 protected:

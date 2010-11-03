@@ -19,6 +19,7 @@ Core::Core(QObject *parent) :
     proc = new MplayerProcess(this);
     mset.reset();
     playing = false;
+    restarting = false;
 
     connect(proc, SIGNAL(receivedCSec(int)), this, SLOT(changeCurrentSec(int)));
     connect(proc, SIGNAL(processExited()), this, SLOT(processFinished()));
@@ -36,6 +37,9 @@ Core::~Core()
 void Core::processFinished()
 {
     emit finished();
+    if (!restarting){
+        emit playnext();
+    }
 }
 
 void Core::changeCurrentSec(int sec)
@@ -380,14 +384,15 @@ void Core::startMplayer(QString file, double seek ) {
             // error handling
             playing = false;
             qWarning("Core::startMplayer: mplayer process didn't start");
+        } else {
+            restarting = false;
         }
+
 }
 
 
 void Core::stopMplayer() {
         qDebug("Core::stopMplayer");
-
-        playing = false;
 
         if (!proc->isRunning()) {
                 qWarning("Core::stopMplayer: mplayer in not running!");

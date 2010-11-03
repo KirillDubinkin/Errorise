@@ -62,7 +62,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this->core, SIGNAL(finished()), status, SLOT(clear()));
     connect(this->core, SIGNAL(finished()), this, SLOT(defWindowTitle()));
-    connect(this->core, SIGNAL(finished()), this, SLOT(playNext()));
+//    connect(this->core, SIGNAL(finished()), this, SLOT(defPlhighlight()));
+    connect(this->core, SIGNAL(playnext()), this, SLOT(playNext()));
 
    // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
@@ -89,16 +90,28 @@ MainWindow::~MainWindow()
 }
 
 
+void MainWindow::defPlhighlight()
+{
+    if (core->mset.current_id > -1){
+        for (int i = 0; i < PlPattern.size(); i++)
+        {
+            QLabel *label = new QLabel(parseLine(&core->mdat, PlPattern.at(i)));
+            ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
+        }
+    }
+}
+
 void MainWindow::highlightCurrentTrack()
 {
     int id = -1;
     for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
     {
-
         if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
             id = i;
         }
     }
+
+    qDebug() << "id: " << id;
 
     if (id > -1){
         for (int i = 0; i < PlPattern.size(); i++)
@@ -113,10 +126,9 @@ void MainWindow::highlightCurrentTrack()
 
             ui->AlbumPL->setCellWidget(id, i+1, label);
         }
+
+        core->mset.current_id = id;
     }
-
-
-
 }
 
 void MainWindow::showCurrentTime()
@@ -341,9 +353,12 @@ void MainWindow::plFilter()
 
 void MainWindow::playFromPL(QModelIndex idx)
 {
+    defPlhighlight();
+
     core->mdat = mediaInfo->track[idx.row()];
     core->mset.reset();
     core->mset.current_id = idx.row();
+    core->restarting = true;
 
     if (pref->play_only_this) {
       //  qDebug("Playing one track, and stop.");
@@ -369,8 +384,14 @@ void MainWindow::playFromPL(QModelIndex idx)
 
 void MainWindow::playNext()
 {
-    if (core->mset.current_id > -1){
-        int row = core->mset.current_id + 1;
+    qDebug() << "curId: " << core->mset.current_id << "   rowCount: " << ui->AlbumPL->rowCount();
+
+
+
+    if ( (core->mset.current_id > -1) & (core->mset.current_id+1 < ui->AlbumPL->rowCount()) ){
+
+        defPlhighlight();
+        int row = core->mset.current_id+1;
 
         core->mdat = mediaInfo->track[row];
         core->mset.reset();
@@ -380,7 +401,11 @@ void MainWindow::playNext()
 
         this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
         highlightCurrentTrack();
+    } else {
+        defPlhighlight();
     }
+
+
 }
 
 void MainWindow::play(QString filename)
