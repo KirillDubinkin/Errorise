@@ -127,7 +127,7 @@ void AMPlayer::showInfo() {
         }
 #endif
         QString s = QObject::tr("This is AMPlayer v. %1 running on %2")
-                    .arg(smplayerVersion())
+                    .arg(amplayerVersion())
 #ifdef Q_OS_LINUX
            .arg("Linux")
 #else

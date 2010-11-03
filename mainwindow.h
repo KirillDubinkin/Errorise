@@ -50,7 +50,7 @@ public slots:
     void resetPl();
 
     void showCurrentTime();
-
+    void defWindowTitle();
 
 private:
     Ui::MainWindow *ui;
@@ -64,6 +64,7 @@ private:
     QStringList PlPattern;
 
     void showPlPlaytime();
+
 
     int lengthColumn();
     int timeColumn;

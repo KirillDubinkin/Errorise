@@ -21,7 +21,7 @@
 
 #include <QString>
 
-QString smplayerVersion();
+QString amplayerVersion();
 
 #endif
 

@@ -292,7 +292,7 @@ void Preferences::reset() {
        *********** */
 
         music_library_path = QString("/media/ft/Music");
-        files_filter = QString("*.mp3;*.flac;*.ogg;*.dts;*.ape");
+        files_filter = QString("*.mp3;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3");
 
 //	last_dvd_directory="";
 

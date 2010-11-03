@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "global.h"
 #include "core.h"
+#include "version.h"
 
 #include <QtDebug>
 #include <QLabel>
@@ -14,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    defWindowTitle();
+
     core = new Core(this);
     mediaInfo = new MediaInfo(this);
     preferences = new PreferencesWindow;
@@ -55,11 +58,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(plFilter()));
 
     connect(this->core, SIGNAL(finished()), status, SLOT(clear()));
+    connect(this->core, SIGNAL(finished()), this, SLOT(defWindowTitle()));
 
    // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
 
     PlPattern = pref->pl_columns_format.split("[;]");
+
 
     setPlColumns();
     ui->AlbumPL->hideColumn(0);
@@ -91,7 +96,17 @@ void MainWindow::showCurrentTime()
         showPlPlaytime();
     }
 
+    if (pref->window_title_format.contains("%playback_time%")){
+        this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+    }
 
+
+}
+
+
+void MainWindow::defWindowTitle()
+{
+    this->setWindowTitle("AMPlayer v." + amplayerVersion());
 }
 
 
@@ -275,6 +290,9 @@ void MainWindow::playFromPL(QModelIndex idx)
         }
         core->openFile(files);
     }
+
+    this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+
 }
 
 void MainWindow::play(QString filename)
