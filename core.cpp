@@ -39,7 +39,7 @@ Core::~Core()
 void Core::processFinished()
 {
     emit finished();
-    if (!restarting){
+    if ((!restarting) & (!pref->play_only_this)){
         emit playnext();
     }
 }

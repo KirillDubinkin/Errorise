@@ -364,25 +364,10 @@ void MainWindow::playFromPL(QModelIndex idx)
     core->mset.current_id = idx.row();
     core->restarting = true;
 
-    if (pref->play_only_this) {
-      //  qDebug("Playing one track, and stop.");
-        core->openFile(ui->AlbumPL->item(idx.row(), 0)->text());
-    }
-    else {
-      //  qDebug("Playing many files:");
-    /*    QString files = ui->AlbumPL->item(idx.row(),0)->text();
-        for (int row=idx.row()+1; row<ui->AlbumPL->rowCount(); row++){
-            files += ";" + ui->AlbumPL->item(row,0)->text();
-        }
-        core->openFile(files);
-    */
-        core->openFile(ui->AlbumPL->item(idx.row(), 0)->text());
-
-    }
+    core->openFile(ui->AlbumPL->item(idx.row(), 0)->text());
 
     this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
     highlightCurrentTrack();
-
 }
 
 
@@ -395,7 +380,6 @@ void MainWindow::playNext()
 
     if ( (core->mset.current_id > -1) & (core->mset.current_id+1 < ui->AlbumPL->rowCount()) ){
 
-        //defPlhighlight();
         row = core->mset.current_id+1;
         qDebug() << "current_id+1 = " << row;
 
@@ -409,11 +393,6 @@ void MainWindow::playNext()
         highlightCurrentTrack();
 
     } else {
-        //defPlhighlight();
-
-        //QModelIndexList *idxList = ui->AlbumPL->selectedIndexes();
-        //QModelIndex index = idxList.first();
-
         row = ui->AlbumPL->currentRow();
         qDebug() << "currentRow = " << row;
 
