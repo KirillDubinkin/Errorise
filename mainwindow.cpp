@@ -345,6 +345,9 @@ void MainWindow::plFilter()
     //setPlRows(files);
     setPlRows();
 
+
+    ui->AlbumPL->setCurrentCell(0,0);
+
     if (core->playing){
         core->mset.current_id = -1;
         // to check, if _realy_ current track present in playlist
@@ -416,8 +419,3 @@ void MainWindow::play(QString filename)
     core->openFile(filename);
 }
 
-
-void MainWindow::on_MainWindow_destroyed()
-{
-
-}

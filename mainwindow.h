@@ -83,8 +83,6 @@ protected:
     MediaInfo * mediaInfo;
     PreferencesWindow * preferences;
 
-private slots:
-    void on_MainWindow_destroyed();
 };
 
 #endif // MAINWINDOW_H
