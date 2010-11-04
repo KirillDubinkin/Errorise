@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setGeometry(0, 0, pref->res_main_width, pref->res_main_height);
     defWindowTitle();
 
     core = new Core(this);
@@ -84,6 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    pref->res_main_width = this->width();
+    pref->res_main_height = this->height();
     delete FSmodel;
     delete mediaInfo;
     delete core;

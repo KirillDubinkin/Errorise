@@ -278,6 +278,17 @@ void Preferences::reset() {
 
         pl_show_playing_time = false;
 
+
+        res_main_width = 800;
+        res_main_height = 480;
+
+        res_pref_width = 800;
+        res_pref_height = 480;
+
+
+
+
+
     /* ********
        TV (dvb)
        ******** */
@@ -571,10 +582,20 @@ void Preferences::save() {
         set->setValue("status_bar", status_bar);
         set->setValue("status_bar_format", status_bar_format);
         set->setValue("window_title_format", window_title_format);
+
         set->setValue("pl_columns_names", pl_columns_names);
         set->setValue("pl_columns_format", pl_columns_format);
+        set->setValue("pl_columns_playing_format", pl_columns_playing_format);
         set->setValue("pl_columns_sizes", pl_columns_sizes);
+
         set->setValue("pl_show_playing_time", pl_show_playing_time);
+
+
+        set->setValue("res_main_width", res_main_width);
+        set->setValue("res_main_height", res_main_height);
+
+        set->setValue("res_pref_width", res_pref_width);
+        set->setValue("res_pref_height", res_pref_height);
 
 
 	set->endGroup(); // gui
@@ -870,10 +891,20 @@ void Preferences::load() {
         status_bar = set->value("status_bar", status_bar).toBool();
         status_bar_format = set->value("status_bar_format", status_bar_format).toString();
         window_title_format = set->value("window_title_format", window_title_format).toString();
+
         pl_columns_names = set->value("pl_columns_names", pl_columns_names).toString();
         pl_columns_format = set->value("pl_columns_format", pl_columns_format).toString();
+        pl_columns_playing_format = set->value("pl_columns_playing_format", pl_columns_playing_format).toString();
         pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toString();
+
         pl_show_playing_time = set->value("pl_show_playing_time", pl_show_playing_time).toBool();
+
+
+        res_main_width = set->value("res_main_width", res_main_width).toInt();
+        res_main_height = set->value("res_main_height", res_main_height).toInt();
+
+        res_pref_width = set->value("res_pref_width", res_pref_width).toInt();
+        res_pref_height = set->value("res_pref_height", res_pref_height).toInt();
 
 	set->endGroup(); // gui
 

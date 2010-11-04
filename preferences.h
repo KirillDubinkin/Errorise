@@ -288,8 +288,16 @@ public:
         QString pl_columns_playing_format;
         QString pl_columns_sizes;
 
-
         bool pl_show_playing_time;
+
+
+
+        // Windows size
+        int res_main_width;
+        int res_main_height;
+
+        int res_pref_width;
+        int res_pref_height;
 
 
 

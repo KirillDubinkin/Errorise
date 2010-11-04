@@ -18,6 +18,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui(new Ui::PreferencesWindow)
 {
     ui->setupUi(this);
+    this->setGeometry(0, 0, pref->res_pref_width, pref->res_pref_height);
 
 
     // connect(ui->treeWidget, SIGNAL(activated(QModelIndex)), this, SLOT(changeWindow(QModelIndex)));
