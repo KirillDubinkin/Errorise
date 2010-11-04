@@ -93,6 +93,7 @@ MainWindow::~MainWindow()
 void MainWindow::defPlhighlight()
 {
     if (core->mset.current_id > -1){
+        PlPattern = pref->pl_columns_format.split("[;]");
         for (int i = 0; i < PlPattern.size(); i++)
         {
             QLabel *label = new QLabel(parseLine(&core->mdat, PlPattern.at(i)));
@@ -103,17 +104,15 @@ void MainWindow::defPlhighlight()
 
 void MainWindow::highlightCurrentTrack()
 {
-    int id = -1;
-    for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
+    if (core->mset.current_id == -1) // try to find
     {
-        if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
-            id = i;
-        }
+        tryFindCurrentTrack();
     }
 
-    qDebug() << "id: " << id;
+    qDebug() << "id: " << core->mset.current_id;
 
-    if (id > -1){
+    if (core->mset.current_id > -1){
+        PlPattern = pref->pl_columns_format.split("[;]");
         for (int i = 0; i < PlPattern.size(); i++)
         {
             QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + PlPattern.at(i) + "</b>"));
@@ -124,10 +123,8 @@ void MainWindow::highlightCurrentTrack()
 
             label->setStyleSheet("QLabel { background-color: rgb(29, 66, 77); color: rgb(232, 232, 174) }");
 
-            ui->AlbumPL->setCellWidget(id, i+1, label);
+            ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
         }
-
-        core->mset.current_id = id;
     }
 }
 
@@ -154,6 +151,8 @@ void MainWindow::showDefTimePl()
     if (lengthColumn() > 0)
     {
         QString temp;
+        PlPattern = pref->pl_columns_format.split("[;]");
+
         temp = PlPattern.at(lengthColumn() -1);
 
         temp.replace("%length%", MediaData::formatTime(core->mdat.duration));
@@ -172,14 +171,15 @@ void MainWindow::defWindowTitle()
 
 void MainWindow::tryFindCurrentTrack()
 {
-    core->mset.current_id = -2;  // We try just once
+    int id = -2; // We try just once
+
     for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
     {
-
         if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
-            core->mset.current_id = i;
+            id = i;
         }
     }
+    core->mset.current_id = id;
 }
 
 void MainWindow::showPlPlaytime()
@@ -196,6 +196,8 @@ void MainWindow::showPlPlaytime()
             if (core->mdat.filename == ui->AlbumPL->item(core->mset.current_id, 0)->text())
             {
                 QString temp;
+                PlPattern = pref->pl_columns_format.split("[;]");
+
                 temp = PlPattern.at(lengthColumn() -1);
 
                 temp.replace("%length%", MediaData::formatTime(core->mset.current_sec));
@@ -216,6 +218,7 @@ int MainWindow::lengthColumn()
     if (timeColumn < 1)
     {
         QString s;
+        PlPattern = pref->pl_columns_format.split("[;]");
         for (int i = 0; i < PlPattern.size(); i++){
             s = PlPattern.at(i);
             if (s.contains("%length%")){
@@ -345,8 +348,9 @@ void MainWindow::plFilter()
     if (core->playing){
         core->mset.current_id = -1;
         // to check, if _realy_ current track present in playlist
+        highlightCurrentTrack();
     }
-    highlightCurrentTrack();
+
 }
 
 
@@ -384,9 +388,7 @@ void MainWindow::playFromPL(QModelIndex idx)
 
 void MainWindow::playNext()
 {
-    qDebug() << "curId: " << core->mset.current_id << "   rowCount: " << ui->AlbumPL->rowCount();
-
-
+    //qDebug() << "curId: " << core->mset.current_id << "   rowCount: " << ui->AlbumPL->rowCount();
 
     if ( (core->mset.current_id > -1) & (core->mset.current_id+1 < ui->AlbumPL->rowCount()) ){
 
@@ -404,8 +406,6 @@ void MainWindow::playNext()
     } else {
         defPlhighlight();
     }
-
-
 }
 
 void MainWindow::play(QString filename)
