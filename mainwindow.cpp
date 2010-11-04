@@ -112,10 +112,10 @@ void MainWindow::highlightCurrentTrack()
     qDebug() << "id: " << core->mset.current_id;
 
     if (core->mset.current_id > -1){
-        PlPattern = pref->pl_columns_format.split("[;]");
+        QStringList curPlayFormat = pref->pl_columns_playing_format.split("[;]");
         for (int i = 0; i < PlPattern.size(); i++)
         {
-            QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + PlPattern.at(i) + "</b>"));
+            QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + curPlayFormat.at(i) + "</b>"));
          //   QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect();
          //   effect->setColor(QColor(192,128,50));
 
