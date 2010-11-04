@@ -105,7 +105,7 @@ void MediaInfo::parseDir(const QString &dir, const QStringList &files)
     //minfo->waitForReadyRead();
     minfo->waitForFinished();
 
-    out = QString(minfo->readAllStandardOutput()).split("\n");
+    out = QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
 
     //qDebug() << out.join("\n");
     parse(out, files);
