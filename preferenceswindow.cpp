@@ -99,6 +99,7 @@ void PreferencesWindow::fillPlaylistPref()
     if (colnames.isEmpty()){
         colnames = pref->pl_columns_names.split("[;]");
         colformat = pref->pl_columns_format.split("[;]");
+        colplayformat = pref->pl_columns_playing_format.split("[;]");
         colsize = pref->pl_columns_sizes.split(";");
     }
 
@@ -121,6 +122,7 @@ void PreferencesWindow::on_colList_pressed(QModelIndex index)
     curColumnIndex = index.row();
     ui->colTitle->setText( index.data().toString() );
     ui->colFormat->setPlainText( colformat.at(curColumnIndex));
+    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex));
     ui->colSize->setText( colsize.at(curColumnIndex));
 }
 
@@ -142,13 +144,14 @@ void PreferencesWindow::on_colFormat_textChanged()
 
 void PreferencesWindow::on_colApply_clicked()
 {
-    emit playlist_changed(colnames, colformat, colsize);
+    emit playlist_changed(colnames, colformat, colplayformat, colsize);
 }
 
 void PreferencesWindow::on_colSave_clicked()
 {
     pref->pl_columns_names = colnames.join("[;]");
     pref->pl_columns_format = colformat.join("[;]");
+    pref->pl_columns_playing_format = colplayformat.join("[;]");
     pref->pl_columns_sizes = colsize.join(";");
 }
 
@@ -156,6 +159,7 @@ void PreferencesWindow::on_colReset_clicked()
 {
     colnames.clear();
     colformat.clear();
+    colplayformat.clear();
     colsize.clear();
 
     fillPlaylistPref();
@@ -163,6 +167,7 @@ void PreferencesWindow::on_colReset_clicked()
 
     ui->colTitle->setText( colnames.at(curColumnIndex) );
     ui->colFormat->setPlainText( colformat.at(curColumnIndex));
+    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex));
     ui->colSize->setText( colsize.at(curColumnIndex));
 
     emit playlist_reset();
@@ -174,4 +179,9 @@ void PreferencesWindow::on_showPlplayingTime_toggled(bool checked)
     if (!checked){
         emit dontShowCurrentTimeInPl();
     }
+}
+
+void PreferencesWindow::on_colPlayFormat_textChanged()
+{
+    colplayformat.replace(curColumnIndex, ui->colPlayFormat->toPlainText());
 }

@@ -42,8 +42,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->preferences, SIGNAL(file_filter_changed()), this, SLOT(plFilter()));
 //    connect(this->preferences, SIGNAL(status_bar(bool)), this, SLOT(showStatusBar(bool)));
     connect(this->preferences, SIGNAL(hide_status_bar(bool)), ui->statusBar, SLOT(setHidden(bool)));
-    connect(this->preferences, SIGNAL(playlist_changed(QStringList,QStringList,QStringList)),
-                this, SLOT(changePL(QStringList,QStringList,QStringList)));
+
+    connect(this->preferences, SIGNAL(playlist_changed(QStringList,QStringList,QStringList,QStringList)),
+            this, SLOT(changePL(QStringList,QStringList,QStringList,QStringList)));
     connect(this->preferences, SIGNAL(playlist_reset()), this, SLOT(resetPl()));
 
 
@@ -102,25 +103,17 @@ void MainWindow::defPlhighlight()
     }
 }
 
-void MainWindow::highlightCurrentTrack()
+void MainWindow::highlightCurrentTrack(QStringList format)
 {
     if (core->mset.current_id == -1) // try to find
     {
         tryFindCurrentTrack();
     }
 
-    qDebug() << "id: " << core->mset.current_id;
-
     if (core->mset.current_id > -1){
-        QStringList curPlayFormat = pref->pl_columns_playing_format.split("[;]");
-        for (int i = 0; i < PlPattern.size(); i++)
+        for (int i = 0; i < format.size(); i++)
         {
-            QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + curPlayFormat.at(i) + "</b>"));
-         //   QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect();
-         //   effect->setColor(QColor(192,128,50));
-
-         //   label->setGraphicsEffect(effect);
-
+            QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + format.at(i) + "</b>"));
             label->setStyleSheet("QLabel { background-color: rgb(29, 66, 77); color: rgb(232, 232, 174) }");
 
             ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
@@ -232,16 +225,24 @@ int MainWindow::lengthColumn()
 }
 
 
-void MainWindow::changePL(QStringList names, QStringList format, QStringList sizes)
+void MainWindow::changePL(QStringList names, QStringList format, QStringList playformat, QStringList sizes)
 {
     setPlColumns(names, sizes);
     setPlRows(format);
+
+    if (core->playing){
+        highlightCurrentTrack(playformat);
+    }
 }
 
 void MainWindow::resetPl()
 {
     setPlColumns();
     setPlRows();
+
+    if (core->playing){
+        highlightCurrentTrack();
+    }
 }
 
 void MainWindow::setPlColumns(QStringList names, QStringList sizes)

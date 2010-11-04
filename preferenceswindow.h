@@ -22,13 +22,14 @@ public slots:
 private:
     Ui::PreferencesWindow *ui;
 
-    QStringList colnames, colformat, colsize;
+    QStringList colnames, colformat, colplayformat, colsize;
     int curColumnIndex;
 
     void fillPlaylistPref();
     void changePlPref();
 
 private slots:
+    void on_colPlayFormat_textChanged();
     void on_showPlplayingTime_toggled(bool checked);
     void on_colReset_clicked();
     void on_colSave_clicked();
@@ -49,7 +50,7 @@ signals:
     void music_folder_changed();
     void file_filter_changed();
     void hide_status_bar(bool checked);
-    void playlist_changed(const QStringList &names, const QStringList &format, const QStringList &sizes);
+    void playlist_changed(const QStringList &names, const QStringList &format, const QStringList &playformat, const QStringList &sizes);
     void playlist_reset();
     void dontShowCurrentTimeInPl();
 
