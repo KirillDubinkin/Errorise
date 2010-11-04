@@ -28,6 +28,8 @@ Core::Core(QObject *parent) :
 
 Core::~Core()
 {
+    //qDebug() << "Core::~Core()";
+    restarting = true;
     if (proc->isRunning()) stopMplayer();
     proc->terminate();
     delete proc;

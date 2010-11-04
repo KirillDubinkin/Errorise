@@ -390,10 +390,14 @@ void MainWindow::playNext()
 {
     //qDebug() << "curId: " << core->mset.current_id << "   rowCount: " << ui->AlbumPL->rowCount();
 
+    int row=-1;
+    defPlhighlight();
+
     if ( (core->mset.current_id > -1) & (core->mset.current_id+1 < ui->AlbumPL->rowCount()) ){
 
-        defPlhighlight();
-        int row = core->mset.current_id+1;
+        //defPlhighlight();
+        row = core->mset.current_id+1;
+        qDebug() << "current_id+1 = " << row;
 
         core->mdat = mediaInfo->track[row];
         core->mset.reset();
@@ -403,8 +407,26 @@ void MainWindow::playNext()
 
         this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
         highlightCurrentTrack();
+
     } else {
-        defPlhighlight();
+        //defPlhighlight();
+
+        //QModelIndexList *idxList = ui->AlbumPL->selectedIndexes();
+        //QModelIndex index = idxList.first();
+
+        row = ui->AlbumPL->currentRow();
+        qDebug() << "currentRow = " << row;
+
+        if ((row > -1) & (row <= ui->AlbumPL->rowCount())){
+            core->mdat = mediaInfo->track[row];
+            core->mset.reset();
+            core->mset.current_id = row;
+
+            core->openFile(mediaInfo->track[row].filename);
+
+            this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+            highlightCurrentTrack();
+        }
     }
 }
 
@@ -415,3 +437,8 @@ void MainWindow::play(QString filename)
     core->openFile(filename);
 }
 
+
+void MainWindow::on_MainWindow_destroyed()
+{
+
+}
