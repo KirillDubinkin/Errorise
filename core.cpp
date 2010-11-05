@@ -35,6 +35,11 @@ Core::~Core()
     delete proc;
 }
 
+void Core::stop()
+{
+    this->stopMplayer();
+}
+
 
 void Core::processFinished()
 {

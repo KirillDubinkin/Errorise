@@ -36,12 +36,17 @@ public:
     QTableWidgetItem *playingItem, *playingItemLength;
 
     bool openNewTrack;
+    bool readyToPlay;
 
 public slots:
     void changeAlbumDir();
-    void playFromPL(QModelIndex idx);
-    void play(QString filename);
+
+  //  void playFromPL(QModelIndex idx);
+    void play();
+    void stop();
     void playNext();
+    void playPrev();
+
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
 
@@ -58,6 +63,8 @@ public slots:
     void defWindowTitle();
     void defPlhighlight();
     void tryFindCurrentTrack();
+
+    void insertToolBars();
 
 
 private:

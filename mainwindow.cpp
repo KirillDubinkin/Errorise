@@ -9,6 +9,8 @@
 #include <QTableWidgetItem>
 #include <QGraphicsColorizeEffect>
 #include <QColor>
+#include <QPushButton>
+#include <QWidgetAction>
 
 using namespace Global;
 
@@ -33,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent) :
     status = new QLabel;
     ui->statusBar->addWidget(status);
 
+    readyToPlay = false;
+
+
     timeColumn = -1;
 
     changeAlbumDir();
@@ -53,9 +58,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->preferences, SIGNAL(dontShowCurrentTimeInPl()), this, SLOT(showDefTimePl()));
 
 
-    connect(ui->actionChoose_Directory, SIGNAL(triggered()), this, SLOT(choseAlbumDir()));
+
     connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
-    connect(ui->AlbumPL, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(playFromPL(QModelIndex)));
+    connect(ui->actionStop, SIGNAL(triggered()), this, SLOT(stop()));
+    connect(ui->actionNext, SIGNAL(triggered()), this, SLOT(playNext()));
+    connect(ui->actionPrevios, SIGNAL(triggered()), this, SLOT(playPrev()));
+
+
+    connect(ui->AlbumPL, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(play()));
     connect(ui->treeView->selectionModel(),
                     SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
             this,
@@ -81,6 +91,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     lengthColumn();
 
+
+    insertToolBars();
+
+
 }
 
 MainWindow::~MainWindow()
@@ -91,6 +105,25 @@ MainWindow::~MainWindow()
     delete mediaInfo;
     delete core;
     delete ui;
+}
+
+
+void MainWindow::insertToolBars()
+{
+    ui->mainToolBar->addWidget(new QPushButton());
+}
+
+
+
+void MainWindow::changeAlbumDir()
+{
+    if (!pref->music_library_path.isEmpty()){
+
+        ui->treeView->setRootIndex(FSmodel->index(pref->music_library_path));
+        ui->treeView->hideColumn(1);
+        ui->treeView->hideColumn(2);
+        ui->treeView->hideColumn(3);
+    }
 }
 
 
@@ -267,6 +300,7 @@ void MainWindow::setPlColumns(QStringList names, QStringList sizes)
 
 void MainWindow::setPlRows(QStringList form)
 {
+    readyToPlay = false;
     int num = mediaInfo->numParsedFiles;
 
         // Sets new rowCount
@@ -282,6 +316,8 @@ void MainWindow::setPlRows(QStringList form)
     for (int i = 0; i < num; i++){
         QTableWidgetItem *filepath = new QTableWidgetItem(mediaInfo->track[i].filename);
         ui->AlbumPL->setItem(i, 0, filepath);
+
+        readyToPlay = true;
     }
 
         // Fills remaining cells
@@ -320,17 +356,6 @@ QString MainWindow::parseLine(MediaData *data, QString pattern)
 
 
 
-void MainWindow::changeAlbumDir()
-{
-    if (!pref->music_library_path.isEmpty()){
-
-        ui->treeView->setRootIndex(FSmodel->index(pref->music_library_path));
-        ui->treeView->hideColumn(1);
-        ui->treeView->hideColumn(2);
-        ui->treeView->hideColumn(3);
-    }
-}
-
 void MainWindow::directoryChanged(const QModelIndex &cur, const QModelIndex &)
 {
     currentPath = FSmodel->filePath(cur);
@@ -362,64 +387,51 @@ void MainWindow::plFilter()
 
 
 
-void MainWindow::playFromPL(QModelIndex idx)
-{
-    defPlhighlight();
-
-    core->mdat = mediaInfo->track[idx.row()];
-    core->mset.reset();
-    core->mset.current_id = idx.row();
-    core->restarting = true;
-
-    core->openFile(ui->AlbumPL->item(idx.row(), 0)->text());
-
-    this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
-    highlightCurrentTrack();
-}
-
-
 void MainWindow::playNext()
 {
-    //qDebug() << "curId: " << core->mset.current_id << "   rowCount: " << ui->AlbumPL->rowCount();
-
-    int row=-1;
-    defPlhighlight();
-
-    if ( (core->mset.current_id > -1) & (core->mset.current_id+1 < ui->AlbumPL->rowCount()) ){
-
-        row = core->mset.current_id+1;
-        qDebug() << "current_id+1 = " << row;
-
-        core->mdat = mediaInfo->track[row];
-        core->mset.reset();
-        core->mset.current_id = row;
-
-        core->openFile(mediaInfo->track[row].filename);
-
-        this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
-        highlightCurrentTrack();
-
+    if (core->mset.current_id > -1){
+        if (core->mset.current_id+1 < ui->AlbumPL->rowCount())
+        {
+            ui->AlbumPL->setCurrentCell( core->mset.current_id+1, 0);
+            play();
+        }
     } else {
-        row = ui->AlbumPL->currentRow();
-        qDebug() << "currentRow = " << row;
-
-        if ((row > -1) & (row <= ui->AlbumPL->rowCount())){
-            core->mdat = mediaInfo->track[row];
-            core->mset.reset();
-            core->mset.current_id = row;
-
-            core->openFile(mediaInfo->track[row].filename);
-
-            this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
-            highlightCurrentTrack();
+        if (ui->AlbumPL->currentRow() <= ui->AlbumPL->rowCount())
+        {
+            play();
         }
     }
 }
 
-void MainWindow::play(QString filename)
-{
-    qDebug() << "Play: " << filename;
 
-    core->openFile(filename);
+void MainWindow::playPrev()
+{
+    if ( (core->playing) & (core->mset.current_id > 0) ){
+        ui->AlbumPL->setCurrentCell( core->mset.current_id-1, 0 );
+        play();
+    }
 }
 
+void MainWindow::play()
+{
+    defPlhighlight();
+
+    if (readyToPlay)
+    {
+        core->mdat = mediaInfo->track[ui->AlbumPL->currentRow()];
+        core->mset.reset();
+        core->mset.current_id = ui->AlbumPL->currentRow();
+        core->restarting = true;
+
+        core->openFile(ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text());
+
+        this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+        highlightCurrentTrack();
+    }
+}
+
+
+void MainWindow::stop()
+{
+    core->stop();
+}
