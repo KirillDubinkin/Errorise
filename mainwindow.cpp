@@ -394,6 +394,8 @@ void MainWindow::playNext()
         {
             ui->AlbumPL->setCurrentCell( core->mset.current_id+1, 0);
             play();
+        } else {
+            defPlhighlight();
         }
     } else {
         if (ui->AlbumPL->currentRow() <= ui->AlbumPL->rowCount())
@@ -433,5 +435,7 @@ void MainWindow::play()
 
 void MainWindow::stop()
 {
+    core->restarting=true;
+    defPlhighlight();
     core->stop();
 }
