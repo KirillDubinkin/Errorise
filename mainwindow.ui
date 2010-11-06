@@ -7,39 +7,37 @@
     <x>0</x>
     <y>0</y>
     <width>984</width>
-    <height>524</height>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Amplayer</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTableWidget" name="AlbumPL">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>10</y>
-      <width>631</width>
-      <height>441</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTreeView" name="treeView">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>321</width>
-      <height>441</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <attribute name="headerVisible">
-     <bool>false</bool>
-    </attribute>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QTreeView" name="treeView">
+       <property name="maximumSize">
+        <size>
+         <width>300</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+      <widget class="QTableWidget" name="AlbumPL"/>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -54,7 +52,6 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionChoose_Directory"/>
     <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
@@ -81,40 +78,41 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="separator"/>
+   <addaction name="actionStop"/>
+   <addaction name="actionPlay"/>
+   <addaction name="actionPause"/>
+   <addaction name="actionPrevios"/>
+   <addaction name="actionNext"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="enabled">
     <bool>true</bool>
    </property>
   </widget>
-  <action name="actionChoose_Directory">
-   <property name="text">
-    <string>Choose Directory</string>
-   </property>
-  </action>
   <action name="actionPlay">
    <property name="text">
-    <string>Play</string>
+    <string>[I&gt;]</string>
    </property>
   </action>
   <action name="actionPause">
    <property name="text">
-    <string>Play / Pause</string>
+    <string>[II]</string>
    </property>
   </action>
   <action name="actionStop">
    <property name="text">
-    <string>Stop</string>
+    <string>[#]</string>
    </property>
   </action>
   <action name="actionPrevios">
    <property name="text">
-    <string>Previos</string>
+    <string>[I&lt;]</string>
    </property>
   </action>
   <action name="actionNext">
    <property name="text">
-    <string>Next</string>
+    <string>[&gt;I]</string>
    </property>
   </action>
   <action name="actionPreferences">

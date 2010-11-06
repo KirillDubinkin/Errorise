@@ -299,6 +299,8 @@ public:
         int res_pref_width;
         int res_pref_height;
 
+        int res_tree_width;
+
 
 
     /* ********

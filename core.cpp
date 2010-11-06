@@ -41,6 +41,16 @@ void Core::stop()
 }
 
 
+
+void Core::goToSec( int sec ) {
+        qDebug("Core::goToSec: %d", sec);
+
+    if (sec < 0) sec = 0;
+    if (sec > mdat.duration ) sec = mdat.duration - 1;
+    tellmp("seek " + QString::number(sec) + " 2");
+}
+
+
 void Core::processFinished()
 {
     emit finished();

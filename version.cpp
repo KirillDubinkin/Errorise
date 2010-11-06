@@ -18,7 +18,7 @@
 
 #include "version.h"
 
-#define VERSION "0.0.5"
+#define VERSION "0.0.6"
 
 QString amplayerVersion() {
 	return QString(VERSION);

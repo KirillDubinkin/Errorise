@@ -10,7 +10,7 @@
 #include <QGraphicsColorizeEffect>
 #include <QColor>
 #include <QPushButton>
-#include <QWidgetAction>
+
 
 using namespace Global;
 
@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     timeColumn = -1;
 
     changeAlbumDir();
+    createToolBars();
 
 
     connect(ui->actionPreferences, SIGNAL(triggered()), this->preferences, SLOT(show()));
@@ -80,6 +81,9 @@ MainWindow::MainWindow(QWidget *parent) :
    // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
 
 
+    connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
+   // connect(this->progress, SIGNAL(actionTriggered(int)), this, SLOT(setTime(int)));
+
     PlPattern = pref->pl_columns_format.split("[;]");
 
 
@@ -92,13 +96,16 @@ MainWindow::MainWindow(QWidget *parent) :
     lengthColumn();
 
 
-    insertToolBars();
+    //insertToolBars();
+
+    ui->treeView->setGeometry(0,0,pref->res_tree_width, 0);
 
 
 }
 
 MainWindow::~MainWindow()
 {
+    pref->res_tree_width = ui->treeView->width();
     pref->res_main_width = this->width();
     pref->res_main_height = this->height();
     delete FSmodel;
@@ -108,11 +115,29 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::insertToolBars()
+void MainWindow::createToolBars()
 {
-    ui->mainToolBar->addWidget(new QPushButton());
+    progress = new QSlider;
+    progress->setOrientation(Qt::Horizontal);
+
+//    ui->mainToolBar->addWidget(&buttonStop);
+//    ui->mainToolBar->addWidget(&buttonPlay);
+//    ui->mainToolBar->addWidget(&buttonPrev);
+//    ui->mainToolBar->addWidget(&buttonNext);
+
+    ui->mainToolBar->addWidget(progress);
+
 }
 
+
+
+void MainWindow::setTime(int seek)
+{
+    qDebug() << seek;
+
+
+    core->goToSec(seek);
+}
 
 
 void MainWindow::changeAlbumDir()
@@ -172,6 +197,8 @@ void MainWindow::showCurrentTime()
     if (pref->pl_show_playing_time){
         showPlPlaytime();
     }
+
+    progress->setValue(core->mset.current_sec);
 }
 
 
@@ -194,7 +221,7 @@ void MainWindow::showDefTimePl()
 
 void MainWindow::defWindowTitle()
 {
-    this->setWindowTitle("AMPlayer v." + amplayerVersion());
+    this->setWindowTitle("Errorise v." + amplayerVersion());
 }
 
 
@@ -429,6 +456,11 @@ void MainWindow::play()
 
         this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
         highlightCurrentTrack();
+
+        /////////////////////
+//        progress->setMinimum(0);
+
+        progress->setMaximum(core->mdat.duration);
     }
 }
 

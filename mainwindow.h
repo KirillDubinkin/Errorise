@@ -11,6 +11,8 @@
 #include <QRegExp>
 #include <QLabel>
 #include <QTableWidgetItem>
+#include <QSlider>
+#include <QToolButton>
 
 #include "global.h"
 #include "core.h"
@@ -33,7 +35,9 @@ public:
 
     QString parseLine(MediaData *data, QString pattern);
 
-    QTableWidgetItem *playingItem, *playingItemLength;
+//    QTableWidgetItem *playingItem, *playingItemLength;
+
+    QSlider *progress;
 
     bool openNewTrack;
     bool readyToPlay;
@@ -46,6 +50,8 @@ public slots:
     void stop();
     void playNext();
     void playPrev();
+
+    void setTime(int seek);
 
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
@@ -64,8 +70,7 @@ public slots:
     void defPlhighlight();
     void tryFindCurrentTrack();
 
-    void insertToolBars();
-
+    void createToolBars();
 
 private:
     Ui::MainWindow *ui;

@@ -285,6 +285,8 @@ void Preferences::reset() {
         res_pref_width = 800;
         res_pref_height = 480;
 
+        res_tree_width = 300;
+
 
 
 
@@ -597,6 +599,8 @@ void Preferences::save() {
         set->setValue("res_pref_width", res_pref_width);
         set->setValue("res_pref_height", res_pref_height);
 
+        set->setValue("res_tree_width", res_tree_width);
+
 
 	set->endGroup(); // gui
 
@@ -905,6 +909,8 @@ void Preferences::load() {
 
         res_pref_width = set->value("res_pref_width", res_pref_width).toInt();
         res_pref_height = set->value("res_pref_height", res_pref_height).toInt();
+
+        res_tree_width = set->value("res_tree_width", res_tree_width).toInt();
 
 	set->endGroup(); // gui
 
