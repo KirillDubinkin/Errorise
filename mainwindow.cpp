@@ -59,11 +59,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->preferences, SIGNAL(dontShowCurrentTimeInPl()), this, SLOT(showDefTimePl()));
 
 
-
-    connect(ui->actionPlay, SIGNAL(triggered()), this, SLOT(play()));
     connect(ui->actionStop, SIGNAL(triggered()), this, SLOT(stop()));
     connect(ui->actionNext, SIGNAL(triggered()), this, SLOT(playNext()));
     connect(ui->actionPrevios, SIGNAL(triggered()), this, SLOT(playPrev()));
+    connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(playPause()));
 
 
     connect(ui->AlbumPL, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(play()));
@@ -464,6 +463,14 @@ void MainWindow::play()
     }
 }
 
+
+void MainWindow::playPause()
+{
+    if (core->playing)
+        core->pause();
+    else
+        play();
+}
 
 void MainWindow::stop()
 {

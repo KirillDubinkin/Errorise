@@ -50,6 +50,7 @@ public slots:
     void stop();
     void playNext();
     void playPrev();
+    void playPause();
 
     void setTime(int seek);
 

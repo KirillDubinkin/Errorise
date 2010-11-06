@@ -407,6 +407,13 @@ void Core::startMplayer(QString file, double seek ) {
 
 }
 
+void Core::pause()
+{
+    if (proc->isRunning())
+        if (this->playing)
+            this->tellmp("pause");
+}
+
 
 void Core::stopMplayer() {
         qDebug("Core::stopMplayer");

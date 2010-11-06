@@ -34,7 +34,11 @@
         <bool>false</bool>
        </attribute>
       </widget>
-      <widget class="QTableWidget" name="AlbumPL"/>
+      <widget class="QTableWidget" name="AlbumPL">
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -61,7 +65,6 @@
     <property name="title">
      <string>Playing</string>
     </property>
-    <addaction name="actionPlay"/>
     <addaction name="actionPause"/>
     <addaction name="actionStop"/>
     <addaction name="separator"/>
@@ -78,26 +81,20 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="separator"/>
    <addaction name="actionStop"/>
-   <addaction name="actionPlay"/>
    <addaction name="actionPause"/>
    <addaction name="actionPrevios"/>
    <addaction name="actionNext"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="enabled">
     <bool>true</bool>
    </property>
   </widget>
-  <action name="actionPlay">
-   <property name="text">
-    <string>[I&gt;]</string>
-   </property>
-  </action>
   <action name="actionPause">
    <property name="text">
-    <string>[II]</string>
+    <string>[I&gt; | II]</string>
    </property>
   </action>
   <action name="actionStop">

@@ -44,6 +44,7 @@ protected:
 public slots:
     void openFile(QString filename, int seek=-1);
     void tellmp(const QString & command);
+    void pause();
     void stop();
     void goToSec(int sec);
 
