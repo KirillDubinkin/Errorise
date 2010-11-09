@@ -42,6 +42,36 @@ void Core::stop()
 
 
 
+void Core::setVolume(int volume) {
+        qDebug("Core::setVolume: %d", volume);
+
+        int current_volume = (pref->volume);
+
+        if (volume == current_volume) return;
+
+        current_volume = volume;
+        if (current_volume > 100) current_volume = 100;
+        if (current_volume < 0) current_volume = 0;
+/*
+        if (state() == Paused) {
+                // Change volume later, after quiting pause
+                change_volume_after_unpause = true;
+        } else */{
+                tellmp("volume " + QString::number(current_volume) + " 1");
+        }
+
+
+        pref->volume = current_volume;
+        pref->mute = false;
+
+        //updateWidgets();
+
+        //displayMessage( tr("Volume: %1").arg(current_volume) );
+        //emit volumeChanged( current_volume );
+}
+
+
+
 void Core::goToSec( int sec ) {
         qDebug("Core::goToSec: %d", sec);
 
@@ -101,13 +131,13 @@ void Core::playNewFile(QString file, int seek) {
  //       mdat.filename = file;
  //       mdat.type = TYPE_FILE;
 
-        int old_volume = mset.volume;
+//        int old_volume = mset.volume;
       //  mset.reset();
-        mset.volume = old_volume;
+//        mset.volume = old_volume;
 
         /* initializeMenus(); */
 
-        qDebug("Core::playNewFile: volume: %d, old_volume: %d", mset.volume, old_volume);
+//        qDebug("Core::playNewFile: volume: %d, old_volume: %d", mset.volume, old_volume);
         initPlaying(seek);
 }
 
@@ -244,16 +274,8 @@ void Core::startMplayer(QString file, double seek ) {
         #endif
 
 
-
-        // Set volume, requires mplayer svn r27872
-        bool use_volume_option = (MplayerVersion::isMplayerAtLeast(27872));
-
-        if (pref->global_volume) {
-                if (use_volume_option) {
-                        proc->addArgument("-volume");
-                        proc->addArgument( QString::number( pref->volume ) );
-                }
-        }
+        proc->addArgument("-volume");
+        proc->addArgument( QString::number( pref->volume ) );
 
         proc->addArgument("-nocache");
 

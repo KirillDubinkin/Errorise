@@ -37,7 +37,7 @@ public:
 
 //    QTableWidgetItem *playingItem, *playingItemLength;
 
-    QSlider *progress;
+    QSlider *progress, *vol;
 
     bool openNewTrack;
     bool readyToPlay;
@@ -53,6 +53,7 @@ public slots:
     void playPause();
 
     void setTime(int seek);
+    void setVol(int vol);
 
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);

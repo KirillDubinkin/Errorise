@@ -10,6 +10,12 @@
 #include <QGraphicsColorizeEffect>
 #include <QColor>
 #include <QPushButton>
+#include <QSplitter>
+#include <QWidgetAction>
+#include <QHBoxLayout>
+#include <QSpacerItem>
+
+
 
 
 using namespace Global;
@@ -83,6 +89,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
    // connect(this->progress, SIGNAL(actionTriggered(int)), this, SLOT(setTime(int)));
 
+    connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
+
     PlPattern = pref->pl_columns_format.split("[;]");
 
 
@@ -116,25 +124,37 @@ MainWindow::~MainWindow()
 
 void MainWindow::createToolBars()
 {
-    progress = new QSlider;
+    progress = new QSlider();
     progress->setOrientation(Qt::Horizontal);
 
-//    ui->mainToolBar->addWidget(&buttonStop);
-//    ui->mainToolBar->addWidget(&buttonPlay);
-//    ui->mainToolBar->addWidget(&buttonPrev);
-//    ui->mainToolBar->addWidget(&buttonNext);
+    vol = new QSlider();
+    vol->setOrientation(Qt::Horizontal);
+    vol->setMaximumWidth(150);
+    vol->setMinimum(0);
+    vol->setMaximum(100);
+    vol->setValue(pref->volume);
 
-    ui->mainToolBar->addWidget(progress);
+    QHBoxLayout *L = new QHBoxLayout(ui->menuBar);
+    L->setSpacing(4);
+    L->setMargin(1);
+
+    L->addWidget(ui->menuMenu);
+    L->addSpacing(25);
+    L->addWidget(ui->mainToolBar);
+    L->addWidget(progress);
+    L->addWidget(vol);
 
 }
 
 
+void MainWindow::setVol(int vol)
+{
+    core->setVolume(vol);
+}
+
 
 void MainWindow::setTime(int seek)
 {
-    qDebug() << seek;
-
-
     core->goToSec(seek);
 }
 

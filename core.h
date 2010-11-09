@@ -47,6 +47,7 @@ public slots:
     void pause();
     void stop();
     void goToSec(int sec);
+    void setVolume(int volume);
 
 protected slots:
     void changeCurrentSec(int sec);
