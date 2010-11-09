@@ -288,13 +288,17 @@ void MainWindow::showPlPlaytime()
             if (core->mdat.filename == ui->AlbumPL->item(core->mset.current_id, 0)->text())
             {
                 QString temp;
-                PlPattern = pref->pl_columns_format.split("[;]");
+                //PlPattern = pref->pl_columns_format.split("[;]");
+                QStringList format = pref->pl_columns_playing_format.split("[;]");
+                QStringList back = pref->pl_columns_playng_back.split("[;]");
 
-                temp = PlPattern.at(lengthColumn() -1);
+                temp = format.at(lengthColumn() -1);
 
                 temp.replace("%length%", MediaData::formatTime(core->mset.current_sec));
 
                 QLabel *label = new QLabel(temp);
+                label->setStyleSheet("QLabel { " + back.at(lengthColumn() -1) + " }");
+
                // qDebug() << label->text();
                 ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
             }
