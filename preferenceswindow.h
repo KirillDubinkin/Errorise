@@ -29,6 +29,7 @@ private:
     void changePlPref();
 
 private slots:
+    void on_rowHeight_textEdited(QString );
     void on_colBack_textChanged();
     void on_colPlayBack_textChanged();
     void on_colPlayFormat_textChanged();

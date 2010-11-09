@@ -36,6 +36,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->windowFormat->setText(pref->window_title_format);
 
     fillPlaylistPref();
+    ui->rowHeight->setText(QString().number(pref->pl_row_height));
 
 }
 
@@ -219,4 +220,9 @@ void PreferencesWindow::on_colPlayBack_textChanged()
 void PreferencesWindow::on_colBack_textChanged()
 {
     colback.replace(curColumnIndex, ui->colBack->toPlainText());
+}
+
+void PreferencesWindow::on_rowHeight_textEdited(QString tex)
+{
+    pref->pl_row_height = tex.toInt();
 }

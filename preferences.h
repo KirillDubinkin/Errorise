@@ -284,11 +284,15 @@ public:
         QString window_title_format;
 
         QString pl_columns_names;
+
         QString pl_columns_format;
         QString pl_columns_back;
+
         QString pl_columns_playing_format;
         QString pl_columns_playng_back;
+
         QString pl_columns_sizes;
+        int pl_row_height;
 
         bool pl_show_playing_time;
 

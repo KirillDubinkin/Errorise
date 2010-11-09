@@ -376,13 +376,14 @@ void MainWindow::setPlRows(QStringList form, QStringList back)
     } else {
         for (int i = ui->AlbumPL->rowCount(); i < num; i++){
             ui->AlbumPL->insertRow(i);
-        }
+            }
     }
 
         // Adds absolete file path in first column
     for (int i = 0; i < num; i++){
         QTableWidgetItem *filepath = new QTableWidgetItem(mediaInfo->track[i].filename);
         ui->AlbumPL->setItem(i, 0, filepath);
+        ui->AlbumPL->setRowHeight(i, pref->pl_row_height);
 
         readyToPlay = true;
     }

@@ -280,6 +280,7 @@ void Preferences::reset() {
         pl_columns_playng_back = "background-color: rgb(238, 221, 130); color: rgb(80, 80, 80)[;]background-color: rgb(238, 221, 130); color: rgb(30, 80, 96)[;]background-color: rgb(238, 221, 130); color: rgb(40, 60, 60)[;]background-color: rgb(238, 221, 130); color: rgb(40, 60, 60)[;]background-color: rgb(238, 221, 130); color: rgb(20, 40, 40)[;]";
 
         pl_columns_sizes = "23;365;75;50;65";
+        pl_row_height = 20;
 
         pl_show_playing_time = false;
 
@@ -596,6 +597,7 @@ void Preferences::save() {
         set->setValue("pl_columns_playing_format", pl_columns_playing_format);
         set->setValue("pl_columns_playng_back", pl_columns_playng_back);
         set->setValue("pl_columns_sizes", pl_columns_sizes);
+        set->setValue("pl_row_height", pl_row_height);
 
         set->setValue("pl_show_playing_time", pl_show_playing_time);
 
@@ -909,6 +911,7 @@ void Preferences::load() {
         pl_columns_playing_format = set->value("pl_columns_playing_format", pl_columns_playing_format).toString();
         pl_columns_playng_back = set->value("pl_columns_playng_back", pl_columns_playng_back).toString();
         pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toString();
+        pl_row_height = set->value("pl_row_height", pl_row_height).toInt();
 
         pl_show_playing_time = set->value("pl_show_playing_time", pl_show_playing_time).toBool();
 
