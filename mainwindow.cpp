@@ -192,11 +192,18 @@ void MainWindow::highlightCurrentTrack(QStringList format)
         tryFindCurrentTrack();
     }
 
+    QStringList back = pref->pl_columns_playng_back.split("[;]");
+
     if (core->mset.current_id > -1){
         for (int i = 0; i < format.size(); i++)
         {
             QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + format.at(i) + "</b>"));
-            label->setStyleSheet("QLabel { background-color: rgb(29, 66, 77); color: rgb(232, 232, 174) }");
+
+            if (i+1 < back.size()){
+                label->setStyleSheet("QLabel { " + back.at(i) + " }");
+                qDebug() << "label->setStyle(" << i << "): " << back.at(i);
+            }
+//            label->setStyleSheet("QLabel { background-color: rgb(29, 66, 77); color: rgb(232, 232, 174) }");
 
             ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
         }

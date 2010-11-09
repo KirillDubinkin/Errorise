@@ -273,7 +273,9 @@ void Preferences::reset() {
 
         pl_columns_names = "№[;]Track Name[;]Bitrate[;]Format[;]Length";
         pl_columns_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3 color=#104015>%title%</font> <font size=1 color=#505050>// %artist%</font></center>[;]<center><font color=#505050>%bitrate%</font></center>[;]<center><font color=#505050>%codec%</font></center>[;]<center>%length%</center>";
+        pl_columns_back = "";
         pl_columns_playing_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3>%title%</font> <font size=1>// %artist%</font></center>[;]<center>%bitrate%</center>[;]<center>%codec%</center>[;]<center>%length%</center>";
+        pl_columns_playng_back = "background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]";
         pl_columns_sizes = "23;365;75;50;65";
 
         pl_show_playing_time = false;
@@ -587,7 +589,9 @@ void Preferences::save() {
 
         set->setValue("pl_columns_names", pl_columns_names);
         set->setValue("pl_columns_format", pl_columns_format);
+        set->setValue("pl_columns_back", pl_columns_back);
         set->setValue("pl_columns_playing_format", pl_columns_playing_format);
+        set->setValue("pl_columns_playng_back", pl_columns_playng_back);
         set->setValue("pl_columns_sizes", pl_columns_sizes);
 
         set->setValue("pl_show_playing_time", pl_show_playing_time);
@@ -898,7 +902,9 @@ void Preferences::load() {
 
         pl_columns_names = set->value("pl_columns_names", pl_columns_names).toString();
         pl_columns_format = set->value("pl_columns_format", pl_columns_format).toString();
+        pl_columns_back = set->value("pl_columns_back", pl_columns_back).toString();
         pl_columns_playing_format = set->value("pl_columns_playing_format", pl_columns_playing_format).toString();
+        pl_columns_playng_back = set->value("pl_columns_playng_back", pl_columns_playng_back).toString();
         pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toString();
 
         pl_show_playing_time = set->value("pl_show_playing_time", pl_show_playing_time).toBool();

@@ -285,7 +285,9 @@ public:
 
         QString pl_columns_names;
         QString pl_columns_format;
+        QString pl_columns_back;
         QString pl_columns_playing_format;
+        QString pl_columns_playng_back;
         QString pl_columns_sizes;
 
         bool pl_show_playing_time;
