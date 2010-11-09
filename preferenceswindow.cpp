@@ -38,6 +38,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     fillPlaylistPref();
     ui->rowHeight->setText(QString().number(pref->pl_row_height));
 
+    ui->recursive_scan->setChecked(pref->recursive_dirs);
+
 }
 
 PreferencesWindow::~PreferencesWindow()
@@ -225,4 +227,9 @@ void PreferencesWindow::on_colBack_textChanged()
 void PreferencesWindow::on_rowHeight_textEdited(QString tex)
 {
     pref->pl_row_height = tex.toInt();
+}
+
+void PreferencesWindow::on_recursive_scan_toggled(bool checked)
+{
+    pref->recursive_dirs = checked;
 }
