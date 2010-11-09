@@ -140,11 +140,11 @@ void MainWindow::createToolBars()
     vol->setValue(pref->volume);
 
     QHBoxLayout *L = new QHBoxLayout(ui->menuBar);
-    L->setSpacing(4);
+    L->setSpacing(6);
     L->setMargin(1);
 
     L->addWidget(ui->menuMenu);
-    L->addSpacing(25);
+    L->addSpacing(20);
     L->addWidget(ui->mainToolBar);
     L->addWidget(progress);
     L->addWidget(vol);
@@ -399,6 +399,7 @@ void MainWindow::setPlRows(QStringList form, QStringList back)
             ui->AlbumPL->setCellWidget(row, col, label);
         }
     }
+    ui->AlbumPL->repaint();
 }
 
 
@@ -439,6 +440,7 @@ void MainWindow::plFilter()
     else
         files = QDir(currentPath).entryList(pref->files_filter.split(";"),
                                             QDir::Files);
+
     mediaInfo->parseDir(files);
 
     setPlRows();
@@ -450,7 +452,6 @@ void MainWindow::plFilter()
         // to check, if _realy_ current track present in playlist
         highlightCurrentTrack();
     }
-
 }
 
 
