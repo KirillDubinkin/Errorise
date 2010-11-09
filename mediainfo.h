@@ -30,7 +30,7 @@ signals:
 public slots:
     void start(QString file);
     void parseFile(QString file);
-    void parseDir(const QString &dir, const QStringList &files);
+    void parseDir(const QStringList &files);
     void parse(const QStringList &out, const QStringList &files);
 
 private:

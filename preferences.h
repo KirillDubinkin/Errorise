@@ -308,6 +308,9 @@ public:
         int res_tree_width;
 
 
+        bool recursive_dirs;
+
+
 
     /* ********
        TV (dvb)

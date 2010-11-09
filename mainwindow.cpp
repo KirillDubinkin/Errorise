@@ -432,16 +432,16 @@ void MainWindow::directoryChanged(const QModelIndex &cur, const QModelIndex &)
 
 void MainWindow::plFilter()
 {
-    QDir directory = QDir(currentPath);
-    QStringList files;
+    files.clear();
 
-    files = directory.entryList(pref->files_filter.split(";"),
-                                        QDir::Files | QDir::NoSymLinks);
+    if (pref->recursive_dirs)
+        recursiveDirectory(currentPath);
+    else
+        files = QDir(currentPath).entryList(pref->files_filter.split(";"),
+                                            QDir::Files);
+    mediaInfo->parseDir(files);
 
-    mediaInfo->parseDir(directory.absolutePath(), files);
-    //setPlRows(files);
     setPlRows();
-
 
     ui->AlbumPL->setCurrentCell(0,0);
 
@@ -453,6 +453,27 @@ void MainWindow::plFilter()
 
 }
 
+
+void MainWindow::recursiveDirectory(const QString &sDir)
+{
+    QDir dir(sDir);
+    QFileInfoList list = dir.entryInfoList(pref->files_filter.split(";"), QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot);
+    for (int iList=0;iList<list.count();iList++)
+    {
+        QFileInfo info = list[iList];
+
+        QString sFilePath = info.filePath();
+        if (info.isDir())
+        {
+            // recursive
+            recursiveDirectory(sFilePath);
+        }
+        else
+        {
+            files << sFilePath;
+        }
+    }
+}
 
 
 void MainWindow::playNext()

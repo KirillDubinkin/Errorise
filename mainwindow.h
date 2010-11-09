@@ -88,10 +88,12 @@ private:
     QLabel *status;
 
     QString currentPath;
+    QStringList files;
     QStringList PlPattern;
 
     void showPlPlaytime();
 
+    void recursiveDirectory(const QString &sDir);
 
     int lengthColumn();
     int timeColumn;

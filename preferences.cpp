@@ -293,6 +293,8 @@ void Preferences::reset() {
 
         res_tree_width = 300;
 
+        recursive_dirs = true;
+
 
 
 
@@ -610,6 +612,8 @@ void Preferences::save() {
 
         set->setValue("res_tree_width", res_tree_width);
 
+        set->setValue("recursive_dirs", recursive_dirs);
+
 
 	set->endGroup(); // gui
 
@@ -923,6 +927,8 @@ void Preferences::load() {
         res_pref_height = set->value("res_pref_height", res_pref_height).toInt();
 
         res_tree_width = set->value("res_tree_width", res_tree_width).toInt();
+
+        recursive_dirs = set->value("recursive_dirs", recursive_dirs).toBool();
 
 	set->endGroup(); // gui
 
