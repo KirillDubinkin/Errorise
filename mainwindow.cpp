@@ -56,8 +56,11 @@ MainWindow::MainWindow(QWidget *parent) :
 //    connect(this->preferences, SIGNAL(status_bar(bool)), this, SLOT(showStatusBar(bool)));
     connect(this->preferences, SIGNAL(hide_status_bar(bool)), ui->statusBar, SLOT(setHidden(bool)));
 
-    connect(this->preferences, SIGNAL(playlist_changed(QStringList,QStringList,QStringList,QStringList)),
-            this, SLOT(changePL(QStringList,QStringList,QStringList,QStringList)));
+   // connect(this->preferences, SIGNAL(playlist_changed(QStringList,QStringList,QStringList,QStringList)),
+   //         this, SLOT(changePL(QStringList,QStringList,QStringList,QStringList)));
+
+    connect(this->preferences, SIGNAL(playlist_changed(QStringList,QStringList,QStringList,QStringList,QStringList,QStringList)),
+            this, SLOT(changePL(QStringList,QStringList,QStringList,QStringList,QStringList,QStringList)));
     connect(this->preferences, SIGNAL(playlist_reset()), this, SLOT(resetPl()));
 
 
@@ -177,38 +180,43 @@ void MainWindow::defPlhighlight()
 {
     if (core->mset.current_id > -1){
         PlPattern = pref->pl_columns_format.split("[;]");
+        QStringList back = pref->pl_columns_back.split("[;]");
+
         for (int i = 0; i < PlPattern.size(); i++)
         {
             QLabel *label = new QLabel(parseLine(&core->mdat, PlPattern.at(i)));
+            label->setStyleSheet("QLabel { " + back.at(i) + " }");
             ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
         }
     }
 }
 
-void MainWindow::highlightCurrentTrack(QStringList format)
+void MainWindow::highlightCurrentTrack(QStringList format, QStringList back)
 {
     if (core->mset.current_id == -1) // try to find
     {
         tryFindCurrentTrack();
     }
 
-    QStringList back = pref->pl_columns_playng_back.split("[;]");
+    //QStringList back = pref->pl_columns_playng_back.split("[;]");
 
     if (core->mset.current_id > -1){
         for (int i = 0; i < format.size(); i++)
         {
-            QLabel *label = new QLabel(parseLine(&core->mdat, "<b>" + format.at(i) + "</b>"));
+            QLabel *label = new QLabel(parseLine(&core->mdat, format.at(i)));
 
-            if (i+1 < back.size()){
+            //if (i+1 < back.size()){
                 label->setStyleSheet("QLabel { " + back.at(i) + " }");
-                qDebug() << "label->setStyle(" << i << "): " << back.at(i);
-            }
+               // qDebug() << "label->setStyle(" << i << "): " << back.at(i);
+           // }
 //            label->setStyleSheet("QLabel { background-color: rgb(29, 66, 77); color: rgb(232, 232, 174) }");
 
             ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
         }
     }
 }
+
+
 
 void MainWindow::showCurrentTime()
 {
@@ -316,13 +324,13 @@ int MainWindow::lengthColumn()
 }
 
 
-void MainWindow::changePL(QStringList names, QStringList format, QStringList playformat, QStringList sizes)
+void MainWindow::changePL(QStringList names, QStringList format, QStringList back, QStringList playformat, QStringList playback, QStringList sizes)
 {
     setPlColumns(names, sizes);
-    setPlRows(format);
+    setPlRows(format, back);
 
     if (core->playing){
-        highlightCurrentTrack(playformat);
+        highlightCurrentTrack(playformat, playback);
     }
 }
 
@@ -353,7 +361,7 @@ void MainWindow::setPlColumns(QStringList names, QStringList sizes)
 }
 
 
-void MainWindow::setPlRows(QStringList form)
+void MainWindow::setPlRows(QStringList form, QStringList back)
 {
     readyToPlay = false;
     int num = mediaInfo->numParsedFiles;
@@ -379,8 +387,8 @@ void MainWindow::setPlRows(QStringList form)
     for (int i = 0, col = 1; i < form.size(); i++, col++){
         for (int row = 0; row < num; row++)
         {
-            QLabel *label = new QLabel;
-            label->setText( parseLine(&mediaInfo->track[row], form.at(i)) );
+            QLabel *label = new QLabel(parseLine(&mediaInfo->track[row], form.at(i)));
+            label->setStyleSheet("QLabel { " + back.at(i) + " }");
                 // label gets parsed text
 
             ui->AlbumPL->setCellWidget(row, col, label);

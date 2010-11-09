@@ -99,8 +99,13 @@ void PreferencesWindow::fillPlaylistPref()
 {
     if (colnames.isEmpty()){
         colnames = pref->pl_columns_names.split("[;]");
+
         colformat = pref->pl_columns_format.split("[;]");
+        colback = pref->pl_columns_back.split("[;]");
+
         colplayformat = pref->pl_columns_playing_format.split("[;]");
+        colplayback = pref->pl_columns_playng_back.split("[;]");
+
         colsize = pref->pl_columns_sizes.split(";");
     }
 
@@ -121,10 +126,16 @@ void PreferencesWindow::changePlPref()
 void PreferencesWindow::on_colList_pressed(QModelIndex index)
 {
     curColumnIndex = index.row();
+
     ui->colTitle->setText( index.data().toString() );
-    ui->colFormat->setPlainText( colformat.at(curColumnIndex));
-    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex));
-    ui->colSize->setText( colsize.at(curColumnIndex));
+
+    ui->colFormat->setPlainText( colformat.at(curColumnIndex) );
+    ui->colBack->setPlainText( colback.at(curColumnIndex) );
+
+    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex) );
+    ui->colPlayBack->setPlainText( colplayback.at(curColumnIndex) );
+
+    ui->colSize->setText( colsize.at(curColumnIndex) );
 }
 
 void PreferencesWindow::on_colTitle_editingFinished()
@@ -145,14 +156,19 @@ void PreferencesWindow::on_colFormat_textChanged()
 
 void PreferencesWindow::on_colApply_clicked()
 {
-    emit playlist_changed(colnames, colformat, colplayformat, colsize);
+    emit playlist_changed(colnames, colformat, colback, colplayformat, colplayback, colsize);
 }
 
 void PreferencesWindow::on_colSave_clicked()
 {
     pref->pl_columns_names = colnames.join("[;]");
+
     pref->pl_columns_format = colformat.join("[;]");
+    pref->pl_columns_back = colback.join("[;]");
+
     pref->pl_columns_playing_format = colplayformat.join("[;]");
+    pref->pl_columns_playng_back = colplayback.join("[;]");
+
     pref->pl_columns_sizes = colsize.join(";");
 }
 
@@ -160,16 +176,24 @@ void PreferencesWindow::on_colReset_clicked()
 {
     colnames.clear();
     colformat.clear();
+    colback.clear();
     colplayformat.clear();
+    colplayback.clear();
     colsize.clear();
 
-    fillPlaylistPref();
-    ui->colList->setCurrentRow(curColumnIndex);
 
+    fillPlaylistPref();
+
+    ui->colList->setCurrentRow(curColumnIndex);
     ui->colTitle->setText( colnames.at(curColumnIndex) );
-    ui->colFormat->setPlainText( colformat.at(curColumnIndex));
-    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex));
-    ui->colSize->setText( colsize.at(curColumnIndex));
+
+    ui->colFormat->setPlainText( colformat.at(curColumnIndex) );
+    ui->colBack->setPlainText( colback.at(curColumnIndex) );
+
+    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex) );
+    ui->colPlayBack->setPlainText( colplayback.at(curColumnIndex) );
+
+    ui->colSize->setText( colsize.at(curColumnIndex) );
 
     emit playlist_reset();
 }
@@ -185,4 +209,14 @@ void PreferencesWindow::on_showPlplayingTime_toggled(bool checked)
 void PreferencesWindow::on_colPlayFormat_textChanged()
 {
     colplayformat.replace(curColumnIndex, ui->colPlayFormat->toPlainText());
+}
+
+void PreferencesWindow::on_colPlayBack_textChanged()
+{
+    colplayback.replace(curColumnIndex, ui->colPlayBack->toPlainText());
+}
+
+void PreferencesWindow::on_colBack_textChanged()
+{
+    colback.replace(curColumnIndex, ui->colBack->toPlainText());
 }

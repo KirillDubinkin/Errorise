@@ -272,10 +272,13 @@ void Preferences::reset() {
         window_title_format = "%artist% - %title% [%playback_time% / %length%]";
 
         pl_columns_names = "№[;]Track Name[;]Bitrate[;]Format[;]Length";
-        pl_columns_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3 color=#104015>%title%</font> <font size=1 color=#505050>// %artist%</font></center>[;]<center><font color=#505050>%bitrate%</font></center>[;]<center><font color=#505050>%codec%</font></center>[;]<center>%length%</center>";
-        pl_columns_back = "";
-        pl_columns_playing_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3>%title%</font> <font size=1>// %artist%</font></center>[;]<center>%bitrate%</center>[;]<center>%codec%</center>[;]<center>%length%</center>";
-        pl_columns_playng_back = "background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]background-color: rgb(29, 66, 77); color: rgb(232, 232, 174)[;]";
+
+        pl_columns_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3 color=#7a378b>%title%</font> <font size=1 color=#8b5a00>// %artist%</font></center>[;]<center><font color=#505050>%bitrate%</font></center>[;]<center><font color=#505050>%codec%</font></center>[;]<center>%length%</center>";
+        pl_columns_back = "background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)";
+
+        pl_columns_playing_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3>%title%</font> \n<font size=1 color=#204040>// %artist%</font></center>[;]<center>%bitrate%</center>[;]<center>%codec%</center>[;]<center>%length%</center>";
+        pl_columns_playng_back = "background-color: rgb(238, 221, 130); color: rgb(80, 80, 80)[;]background-color: rgb(238, 221, 130); color: rgb(30, 80, 96)[;]background-color: rgb(238, 221, 130); color: rgb(40, 60, 60)[;]background-color: rgb(238, 221, 130); color: rgb(40, 60, 60)[;]background-color: rgb(238, 221, 130); color: rgb(20, 40, 40)[;]";
+
         pl_columns_sizes = "23;365;75;50;65";
 
         pl_show_playing_time = false;

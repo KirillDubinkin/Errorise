@@ -60,10 +60,15 @@ public slots:
 
     void setPlColumns(QStringList name = pref->pl_columns_names.split("[;]"),
                       QStringList size = pref->pl_columns_sizes.split(";"));
-    void setPlRows(QStringList form = pref->pl_columns_format.split("[;]"));
-    void highlightCurrentTrack(QStringList format = pref->pl_columns_playing_format.split("[;]"));
 
-    void changePL(QStringList names, QStringList format, QStringList playformat, QStringList sizes);
+    void setPlRows(QStringList form = pref->pl_columns_format.split("[;]"),
+                   QStringList back = pref->pl_columns_back.split("[;]"));
+
+    void highlightCurrentTrack(QStringList format = pref->pl_columns_playing_format.split("[;]"),
+                               QStringList back = pref->pl_columns_playng_back.split("[;]"));
+
+    void changePL(QStringList names, QStringList format, QStringList back,
+                  QStringList playformat, QStringList playback, QStringList sizes);
     void resetPl();
 
     void showCurrentTime();
