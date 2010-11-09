@@ -115,6 +115,8 @@ MainWindow::~MainWindow()
     pref->res_tree_width = ui->treeView->width();
     pref->res_main_width = this->width();
     pref->res_main_height = this->height();
+    pref->res_pref_width = preferences->width();
+    pref->res_pref_height = preferences->height();
     delete FSmodel;
     delete mediaInfo;
     delete core;

@@ -279,11 +279,11 @@ void Preferences::reset() {
         pl_show_playing_time = false;
 
 
-        res_main_width = 800;
-        res_main_height = 480;
+        res_main_width = 960;
+        res_main_height = 600;
 
-        res_pref_width = 800;
-        res_pref_height = 480;
+        res_pref_width = 960;
+        res_pref_height = 600;
 
         res_tree_width = 300;
 
