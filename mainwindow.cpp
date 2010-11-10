@@ -14,8 +14,7 @@
 #include <QWidgetAction>
 #include <QHBoxLayout>
 #include <QSpacerItem>
-
-
+#include <QPixmap>
 
 
 using namespace Global;
@@ -149,6 +148,21 @@ void MainWindow::createToolBars()
     L->addWidget(progress);
     L->addWidget(vol);
 
+
+
+
+
+    QLabel *image = new QLabel(ui->splitter);
+    image->setBackgroundRole(QPalette::Base);
+    image->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    image->setScaledContents(true);
+
+
+    //ui->splitter->addWidget(image);
+
+    image->setPixmap(QPixmap("/home/we_apon/Музыка/Indie/Death in Vegas/1997 - Dirt/cover.jpg"));
+
+    image->show();
 }
 
 
@@ -243,13 +257,15 @@ void MainWindow::showDefTimePl()
     if (lengthColumn() > 0)
     {
         QString temp;
-        PlPattern = pref->pl_columns_format.split("[;]");
+        QStringList format = pref->pl_columns_playing_format.split("[;]");
+        QStringList back = pref->pl_columns_playng_back.split("[;]");
 
-        temp = PlPattern.at(lengthColumn() -1);
+        temp = format.at(lengthColumn() -1);
 
         temp.replace("%length%", MediaData::formatTime(core->mdat.duration));
 
         QLabel *label = new QLabel(temp);
+        label->setStyleSheet("QLabel { " + back.at(lengthColumn() -1) + " }");
         ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
     }
 }
@@ -265,10 +281,14 @@ void MainWindow::tryFindCurrentTrack()
 {
     int id = -2; // We try just once
 
+
     for (int i = 0; i < ui->AlbumPL->rowCount(); i++)
     {
-        if (core->mdat.filename == ui->AlbumPL->item(i, 0)->text()){
-            id = i;
+        if (ui->AlbumPL->item(i, 0)->text() != "span")
+        {
+            if (core->mdat.filename == mediaInfo->track[ui->AlbumPL->item(i, 0)->text().toInt()].filename){
+                id = i;
+            }
         }
     }
     core->mset.current_id = id;
@@ -276,8 +296,10 @@ void MainWindow::tryFindCurrentTrack()
 
 void MainWindow::showPlPlaytime()
 {
+ //   qDebug() << "lengthColumn:" << lengthColumn();
     if (lengthColumn() > 0)
     {
+   //     qDebug() << "current_id:" << core->mset.current_id;
         if (core->mset.current_id == -1) // try to find
         {
             tryFindCurrentTrack();
@@ -285,7 +307,7 @@ void MainWindow::showPlPlaytime()
 
         else if (core->mset.current_id > -1)
         {
-            if (core->mdat.filename == ui->AlbumPL->item(core->mset.current_id, 0)->text())
+            if (core->mdat.filename == mediaInfo->track[ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt()].filename)
             {
                 QString temp;
                 //PlPattern = pref->pl_columns_format.split("[;]");
@@ -303,6 +325,9 @@ void MainWindow::showPlPlaytime()
                 ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
             }
             else { // Maybe, current track just go for a walk
+  //              qDebug() << "go to walk id:" << core->mset.current_id;
+   //             qDebug() << "mdat:" << core->mdat.filename;
+    //            qDebug() << "mediaInfo:" << mediaInfo->track[ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt()].filename;
                 core->mset.current_id = -1;
             }
         }
@@ -371,13 +396,15 @@ void MainWindow::setPlRows(QStringList form, QStringList back)
     int num = mediaInfo->numParsedFiles;
 
         // Sets new rowCount
-    if (num  <=  ui->AlbumPL->rowCount()){
+/*    if (num  <=  ui->AlbumPL->rowCount()){
         ui->AlbumPL->setRowCount(num);
     } else {
         for (int i = ui->AlbumPL->rowCount(); i < num; i++){
             ui->AlbumPL->insertRow(i);
             }
     }
+*/
+    ui->AlbumPL->setRowCount(num);
 
         // Adds absolete file path in first column
     for (int i = 0; i < num; i++){
@@ -400,6 +427,79 @@ void MainWindow::setPlRows(QStringList form, QStringList back)
         }
     }
     ui->AlbumPL->repaint();
+
+    setPlGroupRows();
+}
+
+
+void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back)
+{
+    this->readyToPlay = false;
+
+    int num = mediaInfo->numParsedFiles, row = 0;
+    QString prev, cur;
+
+        // clear playlist
+    ui->AlbumPL->setRowCount(0);
+    ui->AlbumPL->insertRow(row);
+
+        // insert first group
+    ui->AlbumPL->setSpan(row,1,1,form.size());
+    prev = parseLine(&mediaInfo->track[0], "%artist% - %album%");  // needs pattern in preferences
+    QLabel *g = new QLabel(prev);
+    ui->AlbumPL->setCellWidget(row, 1, g);
+        // we inset "span" letter in first column to know what row is it
+    QTableWidgetItem *span = new QTableWidgetItem("span");
+    ui->AlbumPL->setItem(row, 0, span);
+
+
+        // insert index of first track
+    ui->AlbumPL->insertRow(++row);
+    QTableWidgetItem *index = new QTableWidgetItem("0");
+    ui->AlbumPL->setItem(row, 0, index);
+
+        // fills row of first track
+    for (int i = 0, col = 1; i < form.size(); i++, col++)
+    {
+        QLabel *label = new QLabel(parseLine(&mediaInfo->track[0], form.at(i)));
+        label->setStyleSheet("QLabel { " + back.at(i) + " }");
+
+        ui->AlbumPL->setCellWidget(row, col, label);
+        ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+    }
+
+        // do the same for every next track
+    for (int i = 1; i < num; i++){
+        cur = parseLine(&mediaInfo->track[i], "%artist% - %album%");
+
+            // if group chenged - insert new group
+        if (prev != cur)
+        {
+            ui->AlbumPL->insertRow(++row);
+            ui->AlbumPL->setSpan(row, 1, 1, form.size());
+
+            QLabel *group = new QLabel(cur);
+            ui->AlbumPL->setCellWidget(row, 1, group);
+
+            QTableWidgetItem *span = new QTableWidgetItem("span");
+            ui->AlbumPL->setItem(row, 0, span);
+        }
+
+        ui->AlbumPL->insertRow(++row);
+        QTableWidgetItem *idx = new QTableWidgetItem(QString().number(i));
+        ui->AlbumPL->setItem(row, 0, idx);
+
+        for (int j = 0, col = 1; j < form.size(); j++, col++)
+        {
+            QLabel *lbl = new QLabel(parseLine(&mediaInfo->track[i], form.at(j)));
+            lbl->setStyleSheet("QLabel { " + back.at(j) + " }");
+            ui->AlbumPL->setCellWidget(row, col, lbl);
+            ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+        }
+        prev = cur;
+        ui->AlbumPL->repaint();
+    }
+    this->readyToPlay = true;
 }
 
 
@@ -443,7 +543,8 @@ void MainWindow::plFilter()
 
     mediaInfo->parseDir(files);
 
-    setPlRows();
+//    setPlRows();
+    setPlGroupRows();
 
     ui->AlbumPL->setCurrentCell(0,0);
 
@@ -508,14 +609,21 @@ void MainWindow::play()
 {
     defPlhighlight();
 
+    if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "span"){
+        ui->AlbumPL->setCurrentCell(ui->AlbumPL->currentRow()+1, 0);
+    }
+    int idx = ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text().toInt();
+
+    qDebug() << "idx:" << idx;
+
     if (readyToPlay)
     {
-        core->mdat = mediaInfo->track[ui->AlbumPL->currentRow()];
+        core->mdat = mediaInfo->track[idx];
         core->mset.reset();
         core->mset.current_id = ui->AlbumPL->currentRow();
         core->restarting = true;
 
-        core->openFile(ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text());
+        core->openFile(mediaInfo->track[idx].filename);
 
         this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
         highlightCurrentTrack();
@@ -525,6 +633,7 @@ void MainWindow::play()
 
         progress->setMaximum(core->mdat.duration);
     }
+
 }
 
 

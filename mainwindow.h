@@ -64,6 +64,9 @@ public slots:
     void setPlRows(QStringList form = pref->pl_columns_format.split("[;]"),
                    QStringList back = pref->pl_columns_back.split("[;]"));
 
+    void setPlGroupRows(const QStringList &form = pref->pl_columns_format.split("[;]"),
+                        const QStringList &back = pref->pl_columns_back.split("[;]"));
+
     void highlightCurrentTrack(QStringList format = pref->pl_columns_playing_format.split("[;]"),
                                QStringList back = pref->pl_columns_playng_back.split("[;]"));
 
