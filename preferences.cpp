@@ -284,6 +284,9 @@ void Preferences::reset() {
 
         pl_show_playing_time = false;
 
+        pl_use_html = false;
+        pl_use_groups = true;
+
 
         res_main_width = 960;
         res_main_height = 600;
@@ -602,6 +605,8 @@ void Preferences::save() {
         set->setValue("pl_row_height", pl_row_height);
 
         set->setValue("pl_show_playing_time", pl_show_playing_time);
+        set->setValue("pl_use_html", pl_use_html);
+        set->setValue("pl_use_groups", pl_use_groups);
 
 
         set->setValue("res_main_width", res_main_width);
@@ -918,6 +923,8 @@ void Preferences::load() {
         pl_row_height = set->value("pl_row_height", pl_row_height).toInt();
 
         pl_show_playing_time = set->value("pl_show_playing_time", pl_show_playing_time).toBool();
+        pl_use_html = set->value("pl_use_html", pl_use_html).toBool();
+        pl_use_groups = set->value("pl_use_groups", pl_use_groups).toBool();
 
 
         res_main_width = set->value("res_main_width", res_main_width).toInt();

@@ -152,7 +152,7 @@ void MainWindow::createToolBars()
 
 
 
-    QLabel *image = new QLabel(ui->splitter);
+  /*  QLabel *image = new QLabel(ui->splitter);
     image->setBackgroundRole(QPalette::Base);
     image->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     image->setScaledContents(true);
@@ -160,9 +160,10 @@ void MainWindow::createToolBars()
 
     //ui->splitter->addWidget(image);
 
-    image->setPixmap(QPixmap("/home/we_apon/Музыка/Indie/Death in Vegas/1997 - Dirt/cover.jpg"));
+    image->setPixmap(QPixmap("/home/we_apon/kimi_ni_todoke_tentacles.png"));
 
     image->show();
+*/
 }
 
 
@@ -356,7 +357,11 @@ int MainWindow::lengthColumn()
 void MainWindow::changePL(QStringList names, QStringList format, QStringList back, QStringList playformat, QStringList playback, QStringList sizes)
 {
     setPlColumns(names, sizes);
-    setPlRows(format, back);
+
+    if (pref->pl_use_groups)
+        this->setPlGroupRows(format, back);
+    else
+        this->setPlRows(format, back);
 
     if (core->playing){
         highlightCurrentTrack(playformat, playback);
@@ -366,7 +371,11 @@ void MainWindow::changePL(QStringList names, QStringList format, QStringList bac
 void MainWindow::resetPl()
 {
     setPlColumns();
-    setPlRows();
+
+    if (pref->pl_use_groups)
+        this->setPlGroupRows();
+    else
+        this->setPlRows();
 
     if (core->playing){
         highlightCurrentTrack();
@@ -395,40 +404,24 @@ void MainWindow::setPlRows(QStringList form, QStringList back)
     readyToPlay = false;
     int num = mediaInfo->numParsedFiles;
 
-        // Sets new rowCount
-/*    if (num  <=  ui->AlbumPL->rowCount()){
-        ui->AlbumPL->setRowCount(num);
-    } else {
-        for (int i = ui->AlbumPL->rowCount(); i < num; i++){
-            ui->AlbumPL->insertRow(i);
-            }
-    }
-*/
     ui->AlbumPL->setRowCount(num);
 
-        // Adds absolete file path in first column
-    for (int i = 0; i < num; i++){
-        QTableWidgetItem *filepath = new QTableWidgetItem(mediaInfo->track[i].filename);
-        ui->AlbumPL->setItem(i, 0, filepath);
-        ui->AlbumPL->setRowHeight(i, pref->pl_row_height);
+    int row = -1;
 
-        readyToPlay = true;
-    }
+    for (int idx = 0; idx < num; idx++)
+    {
+        QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
+        ui->AlbumPL->setItem(++row, 0, index);
 
-        // Fills remaining cells
-    for (int i = 0, col = 1; i < form.size(); i++, col++){
-        for (int row = 0; row < num; row++)
+        for (int col = 0; col < form.size(); col++)
         {
-            QLabel *label = new QLabel(parseLine(&mediaInfo->track[row], form.at(i)));
-            label->setStyleSheet("QLabel { " + back.at(i) + " }");
-                // label gets parsed text
-
-            ui->AlbumPL->setCellWidget(row, col, label);
+            if (pref->pl_use_html)
+                this->fillRowHtml(idx, row, col, form, back);
+            else
+                this->fillRowClear(idx, row, col, form);
         }
     }
-    ui->AlbumPL->repaint();
-
-    setPlGroupRows();
+    readyToPlay = true;
 }
 
 
@@ -459,18 +452,19 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
     ui->AlbumPL->setItem(row, 0, index);
 
         // fills row of first track
-    for (int i = 0, col = 1; i < form.size(); i++, col++)
+    for (int col = 0; col < form.size(); col++)
     {
-        QLabel *label = new QLabel(parseLine(&mediaInfo->track[0], form.at(i)));
-        label->setStyleSheet("QLabel { " + back.at(i) + " }");
-
-        ui->AlbumPL->setCellWidget(row, col, label);
-        ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+        if (pref->pl_use_html)
+            this->fillRowHtml(0, row, col, form, back);
+        else
+            this->fillRowClear(0, row, col, form);
     }
 
+
+
         // do the same for every next track
-    for (int i = 1; i < num; i++){
-        cur = parseLine(&mediaInfo->track[i], "%artist% - %album%");
+    for (int idx = 1; idx < num; idx++){
+        cur = parseLine(&mediaInfo->track[idx], "%artist% - %album%");
 
             // if group chenged - insert new group
         if (prev != cur)
@@ -486,20 +480,42 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
         }
 
         ui->AlbumPL->insertRow(++row);
-        QTableWidgetItem *idx = new QTableWidgetItem(QString().number(i));
-        ui->AlbumPL->setItem(row, 0, idx);
+        QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
+        ui->AlbumPL->setItem(row, 0, index);
 
-        for (int j = 0, col = 1; j < form.size(); j++, col++)
+        for (int col = 0; col < form.size(); col++)
         {
-            QLabel *lbl = new QLabel(parseLine(&mediaInfo->track[i], form.at(j)));
-            lbl->setStyleSheet("QLabel { " + back.at(j) + " }");
-            ui->AlbumPL->setCellWidget(row, col, lbl);
-            ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+            if (pref->pl_use_html)
+                this->fillRowHtml(idx, row, col, form, back);
+            else
+                this->fillRowClear(idx, row, col, form);
         }
         prev = cur;
-       // ui->AlbumPL->repaint();
     }
+
     this->readyToPlay = true;
+
+    if (!pref->pl_use_html)
+        ui->AlbumPL->setStyleSheet("QTableWidget { " + back.at(1) + " }");
+}
+
+
+void MainWindow::fillRowClear(int idx, int row, int col, const QStringList &format)
+{
+    QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)));
+
+    ui->AlbumPL->setItem(row, col+1, item);
+    ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+}
+
+
+void MainWindow::fillRowHtml(int idx, int row, int col, const QStringList &format, const QStringList &back)
+{
+    QLabel *label = new QLabel(parseLine(&mediaInfo->track[idx], format.at(col)));
+    label->setStyleSheet("QLabel { " + back.at(col) + " }");
+
+    ui->AlbumPL->setCellWidget(row, col+1, label);
+    ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
 }
 
 
@@ -543,8 +559,10 @@ void MainWindow::plFilter()
 
     mediaInfo->parseDir(files);
 
-//    setPlRows();
-    setPlGroupRows();
+    if (pref->pl_use_groups)
+        this->setPlGroupRows();
+    else
+        this->setPlRows();
 
     ui->AlbumPL->setCurrentCell(0,0);
 

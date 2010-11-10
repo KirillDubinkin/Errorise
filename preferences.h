@@ -296,6 +296,8 @@ public:
 
         bool pl_show_playing_time;
 
+        bool pl_use_html;
+        bool pl_use_groups;
 
 
         // Windows size

@@ -96,6 +96,12 @@ private:
 
     void showPlPlaytime();
 
+    void fillRowClear(int idx, int row, int col, const QStringList &format = pref->pl_columns_format.split("[;]"));
+
+    void fillRowHtml(int idx, int row, int col,
+                     const QStringList &format = pref->pl_columns_format.split("[;]"),
+                     const QStringList &back = pref->pl_columns_back.split("[;]"));
+
     void recursiveDirectory(const QString &sDir);
 
     int lengthColumn();
