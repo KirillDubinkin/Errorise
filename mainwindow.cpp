@@ -199,9 +199,18 @@ void MainWindow::defPlhighlight()
 
         for (int i = 0; i < PlPattern.size(); i++)
         {
-            QLabel *label = new QLabel(parseLine(&core->mdat, PlPattern.at(i)));
-            label->setStyleSheet("QLabel { " + back.at(i) + " }");
-            ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
+            qDebug() << pref->pl_use_html;
+            if (pref->pl_use_html)
+            {
+                QLabel *label = new QLabel(parseLine(&core->mdat, PlPattern.at(i)));
+                label->setStyleSheet("QLabel { " + back.at(i) + " }");
+                ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
+            } else
+            {
+                ui->AlbumPL->removeCellWidget(core->mset.current_id, i+1);
+                QTableWidgetItem *item = new QTableWidgetItem(parseLine(&core->mdat, PlPattern.at(i)));
+                ui->AlbumPL->setItem(core->mset.current_id, i+1, item);
+            }
         }
     }
 }
