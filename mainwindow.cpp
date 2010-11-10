@@ -497,7 +497,7 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
             ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
         }
         prev = cur;
-        ui->AlbumPL->repaint();
+       // ui->AlbumPL->repaint();
     }
     this->readyToPlay = true;
 }
