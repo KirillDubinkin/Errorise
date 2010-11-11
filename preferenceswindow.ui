@@ -386,7 +386,7 @@
                    <item>
                     <widget class="QCheckBox" name="useHTML">
                      <property name="text">
-                      <string>Use HTML-tags</string>
+                      <string>Use Labels</string>
                      </property>
                     </widget>
                    </item>

@@ -285,6 +285,16 @@ void Preferences::reset() {
         pl_columns_color << "1E3232" << "7E378B" << "325050" << "325050" << "1E3C3C";
         pl_columns_back_color << "DFDFA7" << "DFDFA7" << "DFDFA7" << "DFDFA7" << "DFDFA7";
 
+
+
+        pl_groups_format = "[%date%] %album_artist% - / %album%";
+        pl_groups_back ="";
+        pl_groups_color = "000000";
+        pl_groups_back_color = "FFFFFF";
+        pl_groups_aligment = 2;
+        pl_group_height = 30;
+
+
         pl_row_height = 18;
 
         pl_show_playing_time = false;
@@ -611,6 +621,15 @@ void Preferences::save() {
         set->setValue("pl_columns_color", pl_columns_color);
         set->setValue("pl_columns_back_color", pl_columns_back_color);
 
+
+        set->setValue("pl_groups_format", pl_groups_format);
+        set->setValue("pl_groups_back", pl_groups_back);
+        set->setValue("pl_groups_color", pl_groups_color);
+        set->setValue("pl_groups_back_color", pl_groups_back_color);
+        set->setValue("pl_groups_aligment", pl_groups_aligment);
+        set->setValue("pl_group_height", pl_group_height);
+
+
         set->setValue("pl_row_height", pl_row_height);
 
         set->setValue("pl_show_playing_time", pl_show_playing_time);
@@ -932,6 +951,15 @@ void Preferences::load() {
         pl_columns_aligment = set->value("pl_columns_aligment", pl_columns_aligment).toStringList();
         pl_columns_color = set->value("pl_columns_color", pl_columns_color).toStringList();
         pl_columns_back_color = set->value("pl_columns_back_color", pl_columns_back_color).toStringList();
+
+
+        pl_groups_format = set->value("pl_groups_format", pl_groups_format).toString();
+        pl_groups_back = set->value("pl_groups_back", pl_groups_back).toString();
+        pl_groups_color = set->value("pl_groups_color", pl_groups_color).toString();
+        pl_groups_back_color = set->value("pl_groups_back_color", pl_groups_back_color).toString();
+        pl_groups_aligment = set->value("pl_groups_aligment", pl_groups_aligment).toInt();
+        pl_group_height = set->value("pl_group_height", pl_group_height).toInt();
+
 
         pl_row_height = set->value("pl_row_height", pl_row_height).toInt();
 

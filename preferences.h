@@ -297,6 +297,15 @@ public:
         QStringList pl_columns_color;
         QStringList pl_columns_back_color;
 
+
+        QString pl_groups_format;
+        QString pl_groups_back;
+        QString pl_groups_color;
+        QString pl_groups_back_color;
+        int pl_groups_aligment;
+        int pl_group_height;
+
+
         int pl_row_height;
 
         bool pl_show_playing_time;

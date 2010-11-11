@@ -491,8 +491,8 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 
     this->readyToPlay = true;
 
-    if (!pref->pl_use_html)
-        ui->AlbumPL->setStyleSheet("QTableWidget { " + back.at(1) + " }");
+  //  if (!pref->pl_use_html)
+  //      ui->AlbumPL->setStyleSheet("QTableWidget { " + back.at(1) + " }");
 }
 
 
@@ -625,8 +625,15 @@ void MainWindow::playNext()
 void MainWindow::playPrev()
 {
     if ( (core->playing) & (core->mset.current_id > 0) ){
-        ui->AlbumPL->setCurrentCell( core->mset.current_id-1, 0 );
-        play();
+        if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "span"){
+            if (core->mset.current_id > 2){
+                ui->AlbumPL->setCurrentCell( core->mset.current_id-2, 0 );
+                play();
+            }
+        } else {
+            ui->AlbumPL->setCurrentCell( core->mset.current_id-1, 0 );
+            play();
+        }
     }
 }
 
