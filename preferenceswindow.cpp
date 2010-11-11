@@ -118,6 +118,7 @@ void PreferencesWindow::fillPlaylistPref()
     }
 
 
+    ui->colAligment->clear();
     ui->colAligment->addItem("Left", "1");
     ui->colAligment->addItem("Right", "2");
     ui->colAligment->addItem("Center", "4");

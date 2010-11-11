@@ -9,6 +9,7 @@
 #include <QTableWidgetItem>
 #include <QGraphicsColorizeEffect>
 #include <QColor>
+#include <QRgb>
 #include <QPushButton>
 #include <QSplitter>
 #include <QWidgetAction>
@@ -497,8 +498,10 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 
 void MainWindow::fillRowClear(int idx, int row, int col, const QStringList &format)
 {
-    QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)));
+    QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)).replace('\n', " "));
     item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
+//    item->setTextColor(QColor(0x7a378b));
+//    item->setBackgroundColor(QColor(223, 223, 167));
 
     ui->AlbumPL->setItem(row, col+1, item);
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
