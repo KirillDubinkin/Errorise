@@ -39,6 +39,9 @@ public:
 
     QSlider *progress, *vol;
 
+    enum al {center = Qt::AlignHCenter };
+
+
     bool openNewTrack;
     bool readyToPlay;
 

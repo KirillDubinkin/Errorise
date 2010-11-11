@@ -29,6 +29,7 @@ private:
     void changePlPref();
 
 private slots:
+    void on_colAligment_currentIndexChanged(int index);
     void on_groupTracks_toggled(bool checked);
     void on_useHTML_toggled(bool checked);
     void on_recursive_scan_toggled(bool checked);

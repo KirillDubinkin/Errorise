@@ -292,6 +292,8 @@ public:
         QString pl_columns_playng_back;
 
         QString pl_columns_sizes;
+        QStringList pl_columns_aligment;
+
         int pl_row_height;
 
         bool pl_show_playing_time;

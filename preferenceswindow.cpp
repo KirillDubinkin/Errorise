@@ -43,6 +43,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->useHTML->setChecked(pref->pl_use_html);
     ui->groupTracks->setChecked(pref->pl_use_groups);
 
+
+
 }
 
 PreferencesWindow::~PreferencesWindow()
@@ -115,6 +117,13 @@ void PreferencesWindow::fillPlaylistPref()
         colsize = pref->pl_columns_sizes.split(";");
     }
 
+
+    ui->colAligment->addItem("Left", "1");
+    ui->colAligment->addItem("Right", "2");
+    ui->colAligment->addItem("Center", "4");
+    ui->colAligment->addItem("Justify", "8");
+
+
     ui->colList->clear();
     ui->colList->insertItems(0, colnames);
 
@@ -145,6 +154,17 @@ void PreferencesWindow::on_colList_pressed(QModelIndex index)
     ui->colPlayBack->setPlainText( colplayback.at(curColumnIndex) );
 
     ui->colSize->setText( colsize.at(curColumnIndex) );
+
+    switch (QString(pref->pl_columns_aligment.at(curColumnIndex)).toInt()){
+    case 1:
+        ui->colAligment->setCurrentIndex(0); break;
+    case 2:
+        ui->colAligment->setCurrentIndex(1); break;
+    case 4:
+        ui->colAligment->setCurrentIndex(2); break;
+    case 8:
+        ui->colAligment->setCurrentIndex(3); break;
+    }
 }
 
 void PreferencesWindow::on_colTitle_editingFinished()
@@ -248,4 +268,16 @@ void PreferencesWindow::on_useHTML_toggled(bool checked)
 void PreferencesWindow::on_groupTracks_toggled(bool checked)
 {
     pref->pl_use_groups = checked;
+}
+
+void PreferencesWindow::on_colAligment_currentIndexChanged(int index)
+{
+    if (this->isVisible()){
+        switch (index){
+        case 0: pref->pl_columns_aligment.replace(curColumnIndex, "1"); break;
+        case 1: pref->pl_columns_aligment.replace(curColumnIndex, "2"); break;
+        case 2: pref->pl_columns_aligment.replace(curColumnIndex, "4"); break;
+        case 3: pref->pl_columns_aligment.replace(curColumnIndex, "8"); break;
+        }
+    }
 }

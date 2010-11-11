@@ -197,19 +197,16 @@ void MainWindow::defPlhighlight()
         PlPattern = pref->pl_columns_format.split("[;]");
         QStringList back = pref->pl_columns_back.split("[;]");
 
-        for (int i = 0; i < PlPattern.size(); i++)
+        for (int col = 0; col < PlPattern.size(); col++)
         {
-            qDebug() << pref->pl_use_html;
             if (pref->pl_use_html)
+                this->fillRowHtml(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+                                  core->mset.current_id, col, PlPattern, back);
+            else
             {
-                QLabel *label = new QLabel(parseLine(&core->mdat, PlPattern.at(i)));
-                label->setStyleSheet("QLabel { " + back.at(i) + " }");
-                ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
-            } else
-            {
-                ui->AlbumPL->removeCellWidget(core->mset.current_id, i+1);
-                QTableWidgetItem *item = new QTableWidgetItem(parseLine(&core->mdat, PlPattern.at(i)));
-                ui->AlbumPL->setItem(core->mset.current_id, i+1, item);
+                ui->AlbumPL->removeCellWidget(core->mset.current_id, col+1);
+                this->fillRowClear(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+                                   core->mset.current_id, col, PlPattern);
             }
         }
     }
@@ -222,21 +219,10 @@ void MainWindow::highlightCurrentTrack(QStringList format, QStringList back)
         tryFindCurrentTrack();
     }
 
-    //QStringList back = pref->pl_columns_playng_back.split("[;]");
-
     if (core->mset.current_id > -1){
-        for (int i = 0; i < format.size(); i++)
-        {
-            QLabel *label = new QLabel(parseLine(&core->mdat, format.at(i)));
-
-            //if (i+1 < back.size()){
-                label->setStyleSheet("QLabel { " + back.at(i) + " }");
-               // qDebug() << "label->setStyle(" << i << "): " << back.at(i);
-           // }
-//            label->setStyleSheet("QLabel { background-color: rgb(29, 66, 77); color: rgb(232, 232, 174) }");
-
-            ui->AlbumPL->setCellWidget(core->mset.current_id, i+1, label);
-        }
+        for (int col = 0; col < format.size(); col++)
+            this->fillRowHtml(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+                              core->mset.current_id, col, format, back);
     }
 }
 
@@ -512,6 +498,7 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 void MainWindow::fillRowClear(int idx, int row, int col, const QStringList &format)
 {
     QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)));
+    item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
 
     ui->AlbumPL->setItem(row, col+1, item);
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
@@ -522,6 +509,13 @@ void MainWindow::fillRowHtml(int idx, int row, int col, const QStringList &forma
 {
     QLabel *label = new QLabel(parseLine(&mediaInfo->track[idx], format.at(col)));
     label->setStyleSheet("QLabel { " + back.at(col) + " }");
+
+    switch (QString(pref->pl_columns_aligment.at(col)).toInt()){
+    case 1: label->setAlignment(Qt::AlignLeft); break;
+    case 2: label->setAlignment(Qt::AlignRight); break;
+    case 4: label->setAlignment(Qt::AlignHCenter); break;
+    case 8: label->setAlignment(Qt::AlignJustify); break;
+    }
 
     ui->AlbumPL->setCellWidget(row, col+1, label);
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
