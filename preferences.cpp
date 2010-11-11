@@ -269,32 +269,35 @@ void Preferences::reset() {
 
         status_bar = true;
         status_bar_format = "%format% | %bitrate% | %samplerate% | %channels% | %playback_time% / %length%";
-        window_title_format = "%artist% - %title% [%playback_time% / %length%]";
+        window_title_format = "%artist% - %title%";
 
-        pl_columns_names = "№[;]Track Name[;]Bitrate[;]Format[;]Length";
+        pl_columns_names = "#[;]Track Name[;]Bitrate[;]Format[;]Length";
 
-        pl_columns_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3 color=#7a378b>%title%</font> <font size=1 color=#8b5a00>// %artist%</font></center>[;]<center><font color=#505050>%bitrate%</font></center>[;]<center><font color=#505050>%codec%</font></center>[;]<center>%length%</center>";
-        pl_columns_back = "background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)[;]background-color: rgb(250, 250, 210)";
+        pl_columns_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
+        pl_columns_back = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 50, 50);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(126, 55, 139);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 60, 60);";
 
-        pl_columns_playing_format = "<center><b>%tracknumber%</b></center>[;]<center><font size=3>%title%</font> \n<font size=1 color=#204040>// %artist%</font></center>[;]<center>%bitrate%</center>[;]<center>%codec%</center>[;]<center>%length%</center>";
-        pl_columns_playng_back = "background-color: rgb(238, 221, 130); color: rgb(80, 80, 80)[;]background-color: rgb(238, 221, 130); color: rgb(30, 80, 96)[;]background-color: rgb(238, 221, 130); color: rgb(40, 60, 60)[;]background-color: rgb(238, 221, 130); color: rgb(40, 60, 60)[;]background-color: rgb(238, 221, 130); color: rgb(20, 40, 40)[;]";
+        pl_columns_playing_format = "<b>%tracknumber%</b>[;]<b>%title%</b>[;]<b>%bitrate%</b>[;]<b>%codec%</b>[;]<b>%length%</b>";
+        pl_columns_playng_back = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(20, 30, 60)[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(126, 55, 139);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(30, 60, 60);[;]";
 
         pl_columns_sizes = "23;365;75;50;65";
         pl_columns_aligment << "4" << "4" << "4" << "4" << "4";
 
-        pl_row_height = 20;
+        pl_columns_color << "1E3232" << "7E378B" << "325050" << "325050" << "1E3C3C";
+        pl_columns_back_color << "DFDFA7" << "DFDFA7" << "DFDFA7" << "DFDFA7" << "DFDFA7";
+
+        pl_row_height = 18;
 
         pl_show_playing_time = false;
 
-        pl_use_html = false;
+        pl_use_html = true;
         pl_use_groups = true;
 
 
-        res_main_width = 960;
-        res_main_height = 600;
+        res_main_width = 926;
+        res_main_height = 546;
 
-        res_pref_width = 960;
-        res_pref_height = 600;
+        res_pref_width = 802;
+        res_pref_height = 586;
 
         res_tree_width = 300;
 
@@ -605,6 +608,8 @@ void Preferences::save() {
         set->setValue("pl_columns_playng_back", pl_columns_playng_back);
         set->setValue("pl_columns_sizes", pl_columns_sizes);
         set->setValue("pl_columns_aligment", pl_columns_aligment);
+        set->setValue("pl_columns_color", pl_columns_color);
+        set->setValue("pl_columns_back_color", pl_columns_back_color);
 
         set->setValue("pl_row_height", pl_row_height);
 
@@ -925,6 +930,8 @@ void Preferences::load() {
         pl_columns_playng_back = set->value("pl_columns_playng_back", pl_columns_playng_back).toString();
         pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toString();
         pl_columns_aligment = set->value("pl_columns_aligment", pl_columns_aligment).toStringList();
+        pl_columns_color = set->value("pl_columns_color", pl_columns_color).toStringList();
+        pl_columns_back_color = set->value("pl_columns_back_color", pl_columns_back_color).toStringList();
 
         pl_row_height = set->value("pl_row_height", pl_row_height).toInt();
 

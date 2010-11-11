@@ -292,7 +292,10 @@ public:
         QString pl_columns_playng_back;
 
         QString pl_columns_sizes;
+
         QStringList pl_columns_aligment;
+        QStringList pl_columns_color;
+        QStringList pl_columns_back_color;
 
         int pl_row_height;
 

@@ -498,10 +498,11 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 
 void MainWindow::fillRowClear(int idx, int row, int col, const QStringList &format)
 {
+    bool ok;
     QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)).replace('\n', " "));
     item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
-//    item->setTextColor(QColor(0x7a378b));
-//    item->setBackgroundColor(QColor(223, 223, 167));
+    item->setTextColor( QColor(QString(pref->pl_columns_color.at(col)).toInt(&ok, 16)) );
+    item->setBackgroundColor( QColor(QString(pref->pl_columns_back_color.at(col)).toInt(&ok, 16)) );
 
     ui->AlbumPL->setItem(row, col+1, item);
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
