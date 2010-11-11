@@ -3,6 +3,7 @@
 # Project created by QtCreator 2010-09-17T18:51:22
 #
 #-------------------------------------------------
+#QT       += phonon
 
 QT       += core gui
 

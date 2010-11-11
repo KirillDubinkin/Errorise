@@ -115,6 +115,9 @@ void PreferencesWindow::fillPlaylistPref()
     ui->colList->clear();
     ui->colList->insertItems(0, colnames);
 
+    ui->colList->setCurrentRow(0);
+    this->on_colList_pressed(ui->colList->currentIndex());
+
 }
 
 
