@@ -29,6 +29,8 @@ private:
     void changePlPref();
 
 private slots:
+    void on_groupTracks_toggled(bool checked);
+    void on_useHTML_toggled(bool checked);
     void on_recursive_scan_toggled(bool checked);
     void on_rowHeight_textEdited(QString );
     void on_colBack_textChanged();

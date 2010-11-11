@@ -403,14 +403,14 @@
                  <item row="0" column="0">
                   <layout class="QHBoxLayout" name="horizontalLayout_8">
                    <item>
-                    <widget class="QCheckBox" name="checkBox">
+                    <widget class="QCheckBox" name="groupTracks">
                      <property name="text">
                       <string>Grouping tracks</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QCheckBox" name="checkBox_2">
+                    <widget class="QCheckBox" name="useHTML">
                      <property name="text">
                       <string>Use HTML-tags</string>
                      </property>

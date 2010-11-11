@@ -40,6 +40,9 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
 
     ui->recursive_scan->setChecked(pref->recursive_dirs);
 
+    ui->useHTML->setChecked(pref->pl_use_html);
+    ui->groupTracks->setChecked(pref->pl_use_groups);
+
 }
 
 PreferencesWindow::~PreferencesWindow()
@@ -235,4 +238,14 @@ void PreferencesWindow::on_rowHeight_textEdited(QString tex)
 void PreferencesWindow::on_recursive_scan_toggled(bool checked)
 {
     pref->recursive_dirs = checked;
+}
+
+void PreferencesWindow::on_useHTML_toggled(bool checked)
+{
+    pref->pl_use_html = checked;
+}
+
+void PreferencesWindow::on_groupTracks_toggled(bool checked)
+{
+    pref->pl_use_groups = checked;
 }
