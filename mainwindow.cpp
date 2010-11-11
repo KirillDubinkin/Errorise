@@ -201,12 +201,12 @@ void MainWindow::defPlhighlight()
         for (int col = 0; col < PlPattern.size(); col++)
         {
             if (pref->pl_use_html)
-                this->fillRowHtml(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+                this->addRowLabel(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
                                   core->mset.current_id, col, PlPattern, back);
             else
             {
                 ui->AlbumPL->removeCellWidget(core->mset.current_id, col+1);
-                this->fillRowClear(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+                this->addRowItem(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
                                    core->mset.current_id, col, PlPattern);
             }
         }
@@ -222,8 +222,12 @@ void MainWindow::highlightCurrentTrack(QStringList format, QStringList back)
 
     if (core->mset.current_id > -1){
         for (int col = 0; col < format.size(); col++)
-            this->fillRowHtml(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+            if (pref->pl_use_html)
+                this->addRowLabel(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
                               core->mset.current_id, col, format, back);
+            else
+                this->addRowItem(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+                                 core->mset.current_id, col, format);
     }
 }
 
@@ -412,9 +416,9 @@ void MainWindow::setPlRows(QStringList form, QStringList back)
         for (int col = 0; col < form.size(); col++)
         {
             if (pref->pl_use_html)
-                this->fillRowHtml(idx, row, col, form, back);
+                this->addRowLabel(idx, row, col, form, back);
             else
-                this->fillRowClear(idx, row, col, form);
+                this->addRowItem(idx, row, col, form);
         }
     }
     readyToPlay = true;
@@ -430,16 +434,13 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 
         // clear playlist
     ui->AlbumPL->setRowCount(0);
-    ui->AlbumPL->insertRow(row);
 
-        // insert first group
-    ui->AlbumPL->setSpan(row,1,1,form.size());
-    prev = parseLine(&mediaInfo->track[0], "%artist% - %album%");  // needs pattern in preferences
-    QLabel *g = new QLabel(prev);
-    ui->AlbumPL->setCellWidget(row, 1, g);
-        // we inset "span" letter in first column to know what row is it
-    QTableWidgetItem *span = new QTableWidgetItem("span");
-    ui->AlbumPL->setItem(row, 0, span);
+    prev = parseLine(&mediaInfo->track[0], pref->pl_groups_format);
+
+    if (!pref->pl_use_html)
+        this->addGroupItem(row, form.size(), prev);
+    else
+        this->addGroupLabel(row, form.size(), prev);
 
 
         // insert index of first track
@@ -451,28 +452,24 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
     for (int col = 0; col < form.size(); col++)
     {
         if (pref->pl_use_html)
-            this->fillRowHtml(0, row, col, form, back);
+            this->addRowLabel(0, row, col, form, back);
         else
-            this->fillRowClear(0, row, col, form);
+            this->addRowItem(0, row, col, form);
     }
 
 
 
         // do the same for every next track
     for (int idx = 1; idx < num; idx++){
-        cur = parseLine(&mediaInfo->track[idx], "%artist% - %album%");
+        cur = parseLine(&mediaInfo->track[idx], pref->pl_groups_format);
 
             // if group chenged - insert new group
         if (prev != cur)
         {
-            ui->AlbumPL->insertRow(++row);
-            ui->AlbumPL->setSpan(row, 1, 1, form.size());
-
-            QLabel *group = new QLabel(cur);
-            ui->AlbumPL->setCellWidget(row, 1, group);
-
-            QTableWidgetItem *span = new QTableWidgetItem("span");
-            ui->AlbumPL->setItem(row, 0, span);
+            if (!pref->pl_use_html)
+                this->addGroupItem(++row, form.size(), cur);
+            else
+                this->addGroupLabel(++row, form.size(), cur);
         }
 
         ui->AlbumPL->insertRow(++row);
@@ -482,9 +479,9 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
         for (int col = 0; col < form.size(); col++)
         {
             if (pref->pl_use_html)
-                this->fillRowHtml(idx, row, col, form, back);
+                this->addRowLabel(idx, row, col, form, back);
             else
-                this->fillRowClear(idx, row, col, form);
+                this->addRowItem(idx, row, col, form);
         }
         prev = cur;
     }
@@ -496,20 +493,64 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 }
 
 
-void MainWindow::fillRowClear(int idx, int row, int col, const QStringList &format)
+void MainWindow::addGroupItem(int row, int spanSize, const QString &text)
+{
+    bool ok;
+
+    ui->AlbumPL->insertRow(row);
+    ui->AlbumPL->setSpan(row, 1, 1, spanSize);
+
+    QTableWidgetItem *group = new QTableWidgetItem(text);
+    group->setTextAlignment( pref->pl_groups_aligment );
+    group->setTextColor( QColor(pref->pl_groups_color.toInt(&ok, 16)) );
+    group->setBackgroundColor( QColor(pref->pl_groups_back_color.toInt(&ok, 16)) );
+    group->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    ui->AlbumPL->setItem(row, 1, group);
+    ui->AlbumPL->setRowHeight(row, pref->pl_group_height);
+
+    QTableWidgetItem *span = new QTableWidgetItem("span");
+    ui->AlbumPL->setItem(row, 0, span);
+}
+
+void MainWindow::addGroupLabel(int row, int spanSize, const QString &text)
+{
+    ui->AlbumPL->insertRow(row);
+    ui->AlbumPL->setSpan(row, 1, 1, spanSize);
+
+    QLabel *group = new QLabel(text);
+    group->setStyleSheet("QLabel { " + pref->pl_groups_back + " }");
+
+    switch (pref->pl_groups_aligment){
+    case 1: group->setAlignment(Qt::AlignLeft); break;
+    case 2: group->setAlignment(Qt::AlignRight); break;
+    case 4: group->setAlignment(Qt::AlignHCenter); break;
+    case 8: group->setAlignment(Qt::AlignJustify); break;
+    }
+
+    ui->AlbumPL->setCellWidget(row, 1, group);
+    ui->AlbumPL->setRowHeight(row, pref->pl_group_height);
+
+    QTableWidgetItem *span = new QTableWidgetItem("span");
+    ui->AlbumPL->setItem(row, 0, span);
+}
+
+
+void MainWindow::addRowItem(int idx, int row, int col, const QStringList &format)
 {
     bool ok;
     QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)).replace('\n', " "));
     item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
     item->setTextColor( QColor(QString(pref->pl_columns_color.at(col)).toInt(&ok, 16)) );
     item->setBackgroundColor( QColor(QString(pref->pl_columns_back_color.at(col)).toInt(&ok, 16)) );
+    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     ui->AlbumPL->setItem(row, col+1, item);
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
 }
 
 
-void MainWindow::fillRowHtml(int idx, int row, int col, const QStringList &format, const QStringList &back)
+void MainWindow::addRowLabel(int idx, int row, int col, const QStringList &format, const QStringList &back)
 {
     QLabel *label = new QLabel(parseLine(&mediaInfo->track[idx], format.at(col)));
     label->setStyleSheet("QLabel { " + back.at(col) + " }");

@@ -96,11 +96,14 @@ private:
 
     void showPlPlaytime();
 
-    void fillRowClear(int idx, int row, int col, const QStringList &format = pref->pl_columns_format.split("[;]"));
+    void addRowItem(int idx, int row, int col, const QStringList &format = pref->pl_columns_format.split("[;]"));
 
-    void fillRowHtml(int idx, int row, int col,
+    void addRowLabel(int idx, int row, int col,
                      const QStringList &format = pref->pl_columns_format.split("[;]"),
                      const QStringList &back = pref->pl_columns_back.split("[;]"));
+
+    void addGroupItem(int row, int spanSize, const QString &text);
+    void addGroupLabel(int row, int spanSize, const QString &text);
 
     void recursiveDirectory(const QString &sDir);
 
