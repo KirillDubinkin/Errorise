@@ -625,7 +625,7 @@ void MainWindow::playNext()
 void MainWindow::playPrev()
 {
     if ( (core->playing) & (core->mset.current_id > 0) ){
-        if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "span"){
+        if (ui->AlbumPL->item(ui->AlbumPL->currentRow()-1, 0)->text() == "span"){
             if (core->mset.current_id > 2){
                 ui->AlbumPL->setCurrentCell( core->mset.current_id-2, 0 );
                 play();
