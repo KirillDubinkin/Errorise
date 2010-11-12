@@ -86,9 +86,8 @@ void Preferences::setPalette()
                 int r=0, g=0, b=0;
                 palette.base().color().getRgb(&r, &g, &b);
                 pl_color_back.replace(i, getHex(r, g, b));
-                qDebug() << pl_color_back.at(i);
+             //   qDebug() << pl_color_back.at(i);
         }
-
 
         if (i <= pl_color_text.size())
             if (QString(pl_color_text.at(i)).isEmpty()){
@@ -96,9 +95,20 @@ void Preferences::setPalette()
                 palette.text().color().getRgb(&r, &g, &b);
                 pl_color_text.replace(i, getHex(r, g, b));
         }
-
-
     }
+
+    if (this->pl_groups_back_color.isEmpty()){
+        int r=0, g=0, b=0;
+        palette.base().color().getRgb(&r, &g, &b);
+        pl_groups_back_color = getHex(r, g, b);
+    }
+
+    if (this->pl_groups_color.isEmpty()){
+        int r=0, g=0, b=0;
+        palette.text().color().getRgb(&r, &g, &b);
+        pl_groups_color = getHex(r, g, b);
+    }
+
    // qDebug() << pl_color_back.at(1);
 }
 
