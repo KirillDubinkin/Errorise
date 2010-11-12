@@ -77,7 +77,6 @@ void Preferences::setPalette()
     if (!color_window.isEmpty())
         palette.setColor(QPalette::Window, QColor(color_window.toInt(&ok, 16)));
 
-
     int col = this->pl_columns_names.count("[;]")+1;
 
     for (int i = 0; i < col; i++){
@@ -348,14 +347,14 @@ void Preferences::reset() {
         pl_color_play_text << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF";
         pl_color_play_back << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F";
 
-        pl_stylesheet = "background-color: rgb(13, 13, 13); gridline-color: rgb(80, 30, 30);";
+        pl_stylesheet = "gridline-color: rgb(80, 30, 30);";
 
 
 
         pl_groups_format = "%artist% - [%date%] %album%";
         pl_groups_back ="";
-        pl_groups_color = "EFEFEF";
-        pl_groups_back_color = "0F1919";
+        pl_groups_color = "";
+        pl_groups_back_color = "";
         pl_groups_aligment = 1;
         pl_group_height = 30;
 
@@ -364,7 +363,7 @@ void Preferences::reset() {
 
         pl_show_playing_time = false;
 
-        pl_use_html = true;
+        pl_use_html = false;
         pl_use_groups = true;
 
 
