@@ -25,6 +25,7 @@
 #include <QString>
 #include <QStringList>
 #include <QSize>
+#include <QPalette>
 #include "config.h"
 //#include "audioequalizerlist.h"
 //#include "assstyles.h"
@@ -55,6 +56,8 @@ public:
 	void save();
 	void load();
 #endif
+        void setPalette();
+        QString getHex(int r, int g, int b);
 
 
     /* *******
@@ -294,14 +297,24 @@ public:
         QString pl_columns_sizes;
 
         QStringList pl_columns_aligment;
-        QStringList pl_columns_color;
-        QStringList pl_columns_back_color;
+
+
+
+        QStringList pl_color_text;
+        QStringList pl_color_back;
+        QStringList pl_color_play_text;
+        QStringList pl_color_play_back;
+
+        QString pl_stylesheet;
+
+
 
 
         QString pl_groups_format;
         QString pl_groups_back;
         QString pl_groups_color;
         QString pl_groups_back_color;
+
         int pl_groups_aligment;
         int pl_group_height;
 
@@ -325,6 +338,27 @@ public:
 
 
         bool recursive_dirs;
+
+
+
+
+
+
+    /* *********
+        Colors
+       ********* */
+
+        QPalette palette;
+
+        QString color_text;
+        QString color_base;
+        QString color_window;
+
+
+
+
+
+
 
 
 

@@ -30,6 +30,7 @@
 #include <QDir>
 #include <QLocale>
 #include <QTextCodec>
+#include <QDebug>
 
 using namespace Global;
 
@@ -48,6 +49,8 @@ Preferences::Preferences() {
 	load();
         qDebug("ok");
 #endif
+
+        setPalette();
 }
 
 Preferences::~Preferences() {
@@ -59,6 +62,61 @@ Preferences::~Preferences() {
 	delete history_urls;
 	delete filters;
 }
+
+
+void Preferences::setPalette()
+{
+    bool ok;
+
+    if (!color_text.isEmpty())
+        palette.setColor(QPalette::Text, QColor(color_text.toInt(&ok, 16)));
+
+    if (!color_base.isEmpty())
+        palette.setColor(QPalette::Base, QColor(color_base.toInt(&ok, 16)));
+
+    if (!color_window.isEmpty())
+        palette.setColor(QPalette::Window, QColor(color_window.toInt(&ok, 16)));
+
+
+    int col = this->pl_columns_names.count("[;]")+1;
+
+    for (int i = 0; i < col; i++){
+        //qDebug() << pl_color_back.at(i);
+        if (i <= pl_color_back.size())
+            if (QString(pl_color_back.at(i)).isEmpty()){
+                int r=0, g=0, b=0;
+                palette.base().color().getRgb(&r, &g, &b);
+                pl_color_back.replace(i, getHex(r, g, b));
+                qDebug() << pl_color_back.at(i);
+        }
+
+
+        if (i <= pl_color_text.size())
+            if (QString(pl_color_text.at(i)).isEmpty()){
+                int r=0, g=0, b=0;
+                palette.text().color().getRgb(&r, &g, &b);
+                pl_color_text.replace(i, getHex(r, g, b));
+        }
+
+
+    }
+   // qDebug() << pl_color_back.at(1);
+}
+
+
+QString Preferences::getHex(int r, int g, int b)
+{
+    QString str = "";
+    if (r < 16) str = "0";
+    str += QString().number(r,16);
+    if (g < 16) str += "0";
+    str += QString().number(g,16);
+    if (b < 16) str += "0";
+    str += QString().number(b,16);
+
+    return str;
+}
+
 
 void Preferences::reset() {
     /* *******
@@ -276,22 +334,29 @@ void Preferences::reset() {
         pl_columns_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
         pl_columns_back = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 50, 50);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(126, 55, 139);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 60, 60);";
 
-        pl_columns_playing_format = "<b>%tracknumber%</b>[;]<b>%title%</b>[;]<b>%bitrate%</b>[;]<b>%codec%</b>[;]<b>%length%</b>";
+        pl_columns_playing_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
         pl_columns_playng_back = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(20, 30, 60)[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(126, 55, 139);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(30, 60, 60);[;]";
 
         pl_columns_sizes = "23;365;75;50;65";
         pl_columns_aligment << "4" << "4" << "4" << "4" << "4";
 
-        pl_columns_color << "1E3232" << "7E378B" << "325050" << "325050" << "1E3C3C";
-        pl_columns_back_color << "DFDFA7" << "DFDFA7" << "DFDFA7" << "DFDFA7" << "DFDFA7";
+
+
+        pl_color_text << "" << "" << "" << "" << "";
+        pl_color_back << "" << "" << "" << "" << "";
+
+        pl_color_play_text << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF";
+        pl_color_play_back << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F";
+
+        pl_stylesheet = "background-color: rgb(13, 13, 13); gridline-color: rgb(80, 30, 30);";
 
 
 
-        pl_groups_format = "[%date%] %album_artist% - / %album%";
+        pl_groups_format = "%artist% - [%date%] %album%";
         pl_groups_back ="";
-        pl_groups_color = "000000";
-        pl_groups_back_color = "FFFFFF";
-        pl_groups_aligment = 2;
+        pl_groups_color = "EFEFEF";
+        pl_groups_back_color = "0F1919";
+        pl_groups_aligment = 1;
         pl_group_height = 30;
 
 
@@ -314,6 +379,15 @@ void Preferences::reset() {
         recursive_dirs = true;
 
 
+
+
+    /* ********
+        Colors
+       ******** */
+
+        color_text = "";
+        color_base = "";
+        color_window = "";
 
 
 
@@ -618,8 +692,14 @@ void Preferences::save() {
         set->setValue("pl_columns_playng_back", pl_columns_playng_back);
         set->setValue("pl_columns_sizes", pl_columns_sizes);
         set->setValue("pl_columns_aligment", pl_columns_aligment);
-        set->setValue("pl_columns_color", pl_columns_color);
-        set->setValue("pl_columns_back_color", pl_columns_back_color);
+
+
+        set->setValue("pl_color_text", pl_color_text);
+        set->setValue("pl_color_back", pl_color_back);
+        set->setValue("pl_color_play_text", pl_color_play_text);
+        set->setValue("pl_color_play_back", pl_color_play_back);
+
+        set->setValue("pl_stylesheet", pl_stylesheet);
 
 
         set->setValue("pl_groups_format", pl_groups_format);
@@ -649,6 +729,28 @@ void Preferences::save() {
 
 
 	set->endGroup(); // gui
+
+
+
+
+
+    /* ******
+       Colors
+       ****** */
+        set->beginGroup("colors");
+
+        set->setValue("color_text", color_text);
+        set->setValue("color_base", color_base);
+        set->setValue("color_window", color_window);
+
+        set->endGroup(); // colors
+
+
+
+
+
+
+
 
     /* ***********
        Directories
@@ -949,8 +1051,14 @@ void Preferences::load() {
         pl_columns_playng_back = set->value("pl_columns_playng_back", pl_columns_playng_back).toString();
         pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toString();
         pl_columns_aligment = set->value("pl_columns_aligment", pl_columns_aligment).toStringList();
-        pl_columns_color = set->value("pl_columns_color", pl_columns_color).toStringList();
-        pl_columns_back_color = set->value("pl_columns_back_color", pl_columns_back_color).toStringList();
+
+
+        pl_color_text = set->value("pl_color_text", pl_color_text).toStringList();
+        pl_color_back = set->value("pl_color_back", pl_color_back).toStringList();
+        pl_color_play_text = set->value("pl_color_play_text", pl_color_play_text).toStringList();
+        pl_color_play_back = set->value("pl_color_play_back", pl_color_play_back).toStringList();
+
+        pl_stylesheet = set->value("pl_stylesheet", pl_stylesheet).toString();
 
 
         pl_groups_format = set->value("pl_groups_format", pl_groups_format).toString();
@@ -980,6 +1088,20 @@ void Preferences::load() {
 
 	set->endGroup(); // gui
 
+
+
+
+    /* ******
+       Colors
+       ****** */
+
+        set->beginGroup("colors");
+
+        color_text = set->value("color_text", color_text).toString();
+        color_base = set->value("color_base", color_base).toString();
+        color_window = set->value("color_window", color_window).toString();
+
+        set->endGroup(); // colors
 
 
     /* ***********

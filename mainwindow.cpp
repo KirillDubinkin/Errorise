@@ -16,7 +16,7 @@
 #include <QHBoxLayout>
 #include <QSpacerItem>
 #include <QPixmap>
-
+#include <QPalette>
 
 using namespace Global;
 
@@ -42,9 +42,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->addWidget(status);
 
     readyToPlay = false;
-
-
     timeColumn = -1;
+
+    this->setPalette(pref->palette);
+ //   ui->AlbumPL->setPalette(pref->palette);
+ //   ui->treeView->setPalette(pref->palette);
 
     changeAlbumDir();
     createToolBars();
@@ -221,13 +223,29 @@ void MainWindow::highlightCurrentTrack(QStringList format, QStringList back)
     }
 
     if (core->mset.current_id > -1){
+
+        int row = core->mset.current_id;
+        int idx = ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt();
+
         for (int col = 0; col < format.size(); col++)
-            if (pref->pl_use_html)
-                this->addRowLabel(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
-                              core->mset.current_id, col, format, back);
+            if (!pref->pl_use_html)
+            {
+                bool ok;
+                QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)).replace('\n', " "));
+                item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
+
+                item->setTextColor( QColor(QString(pref->pl_color_play_text.at(col)).toInt(&ok, 16)) );
+                item->setBackgroundColor( QColor(QString(pref->pl_color_play_back.at(col)).toInt(&ok, 16)) );
+
+                item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+                ui->AlbumPL->setItem(row, col+1, item);
+                ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+
+
+            }
             else
-                this->addRowItem(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
-                                 core->mset.current_id, col, format);
+                this->addRowLabel(idx, row, col, format, back);
     }
 }
 
@@ -384,6 +402,11 @@ void MainWindow::resetPl()
 
 void MainWindow::setPlColumns(QStringList names, QStringList sizes)
 {
+    if (!pref->pl_stylesheet.isEmpty())
+        ui->AlbumPL->setStyleSheet("QTableWidget { " + pref->pl_stylesheet + " }");
+
+   // setColors();
+
     // first - absolete file path - hidden
     ui->AlbumPL->setColumnCount(1);
     int col=1;
@@ -396,6 +419,19 @@ void MainWindow::setPlColumns(QStringList names, QStringList sizes)
         ui->AlbumPL->setHorizontalHeaderItem(col, item);
         ui->AlbumPL->setColumnWidth(col++, QString(sizes.at(i)).toInt());
     }
+}
+
+
+void MainWindow::setColors()
+{
+    QPalette p = ui->AlbumPL->palette();
+
+    p.setColor(QPalette::AlternateBase, QColor(0x0C1A1A));
+    p.setColor(QPalette::Highlight, QColor(0x1F2F2F));
+    p.setColor(QPalette::HighlightedText, QColor(0x1F2F2F));
+
+
+    ui->AlbumPL->setPalette(p);
 }
 
 
@@ -488,8 +524,9 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 
     this->readyToPlay = true;
 
-  //  if (!pref->pl_use_html)
-  //      ui->AlbumPL->setStyleSheet("QTableWidget { " + back.at(1) + " }");
+   // if (!pref->pl_use_html)
+   //     ui->AlbumPL->setStyleSheet("QTableWidget { " + back.at(1) + " }");
+
 }
 
 
@@ -505,6 +542,7 @@ void MainWindow::addGroupItem(int row, int spanSize, const QString &text)
     group->setTextColor( QColor(pref->pl_groups_color.toInt(&ok, 16)) );
     group->setBackgroundColor( QColor(pref->pl_groups_back_color.toInt(&ok, 16)) );
     group->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
 
     ui->AlbumPL->setItem(row, 1, group);
     ui->AlbumPL->setRowHeight(row, pref->pl_group_height);
@@ -541,8 +579,8 @@ void MainWindow::addRowItem(int idx, int row, int col, const QStringList &format
     bool ok;
     QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)).replace('\n', " "));
     item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
-    item->setTextColor( QColor(QString(pref->pl_columns_color.at(col)).toInt(&ok, 16)) );
-    item->setBackgroundColor( QColor(QString(pref->pl_columns_back_color.at(col)).toInt(&ok, 16)) );
+    item->setTextColor( QColor(QString(pref->pl_color_text.at(col)).toInt(&ok, 16)) );
+    item->setBackgroundColor( QColor(QString(pref->pl_color_back.at(col)).toInt(&ok, 16)) );
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     ui->AlbumPL->setItem(row, col+1, item);

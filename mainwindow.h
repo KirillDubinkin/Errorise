@@ -82,6 +82,8 @@ public slots:
 
     void createToolBars();
 
+    void setColors();
+
 private:
     Ui::MainWindow *ui;
     //void createColumns(const QString &pattern = pref->pl_columns);
