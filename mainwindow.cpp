@@ -85,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this->core, SIGNAL(finished()), status, SLOT(clear()));
     connect(this->core, SIGNAL(finished()), this, SLOT(defWindowTitle()));
-//    connect(this->core, SIGNAL(finished()), this, SLOT(defPlhighlight()));
+    connect(this->core, SIGNAL(finished()), this, SLOT(defPlhighlight()));
     connect(this->core, SIGNAL(playnext()), this, SLOT(playNext()));
 
    // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
