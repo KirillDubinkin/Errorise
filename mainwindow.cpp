@@ -539,14 +539,13 @@ void MainWindow::addGroupItem(int row, int spanSize, const QString &text)
     ui->AlbumPL->setSpan(row, 1, 1, spanSize);
 
     QTableWidgetItem *group = new QTableWidgetItem(text);
-    group->setTextAlignment( pref->pl_groups_aligment );
+    group->setTextAlignment( pref->pl_groups_aligment  | Qt::AlignVCenter);
     group->setTextColor( QColor(pref->pl_groups_color.toInt(&ok, 16)) );
     group->setBackgroundColor( QColor(pref->pl_groups_back_color.toInt(&ok, 16)) );
     group->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-
-    ui->AlbumPL->setItem(row, 1, group);
     ui->AlbumPL->setRowHeight(row, pref->pl_group_height);
+    ui->AlbumPL->setItem(row, 1, group);
 
     QTableWidgetItem *span = new QTableWidgetItem("span");
     ui->AlbumPL->setItem(row, 0, span);
@@ -561,14 +560,14 @@ void MainWindow::addGroupLabel(int row, int spanSize, const QString &text)
     group->setStyleSheet("QLabel { " + pref->pl_groups_back + " }");
 
     switch (pref->pl_groups_aligment){
-    case 1: group->setAlignment(Qt::AlignLeft); break;
-    case 2: group->setAlignment(Qt::AlignRight); break;
-    case 4: group->setAlignment(Qt::AlignHCenter); break;
-    case 8: group->setAlignment(Qt::AlignJustify); break;
+    case 1: group->setAlignment(Qt::AlignLeft | Qt::AlignVCenter); break;
+    case 2: group->setAlignment(Qt::AlignRight | Qt::AlignVCenter); break;
+    case 4: group->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter); break;
+    case 8: group->setAlignment(Qt::AlignJustify | Qt::AlignVCenter); break;
     }
 
-    ui->AlbumPL->setCellWidget(row, 1, group);
     ui->AlbumPL->setRowHeight(row, pref->pl_group_height);
+    ui->AlbumPL->setCellWidget(row, 1, group);
 
     QTableWidgetItem *span = new QTableWidgetItem("span");
     ui->AlbumPL->setItem(row, 0, span);
@@ -584,8 +583,8 @@ void MainWindow::addRowItem(int idx, int row, int col, const QStringList &format
     item->setBackgroundColor( QColor(QString(pref->pl_color_back.at(col)).toInt(&ok, 16)) );
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    ui->AlbumPL->setItem(row, col+1, item);
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+    ui->AlbumPL->setItem(row, col+1, item);
 }
 
 
@@ -601,8 +600,8 @@ void MainWindow::addRowLabel(int idx, int row, int col, const QStringList &forma
     case 8: label->setAlignment(Qt::AlignJustify); break;
     }
 
-    ui->AlbumPL->setCellWidget(row, col+1, label);
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+    ui->AlbumPL->setCellWidget(row, col+1, label);
 }
 
 
