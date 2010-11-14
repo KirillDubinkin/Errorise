@@ -540,7 +540,7 @@ void MainWindow::addGroupItem(int row, int spanSize, const QString &text)
 
     QTableWidgetItem *group = new QTableWidgetItem(text);
     group->setTextAlignment( pref->pl_groups_aligment  | Qt::AlignVCenter);
-    group->setTextColor( QColor(pref->pl_groups_color.toInt(&ok, 16)) );
+    group->setTextColor( QColor(pref->pl_groups_text_color.toInt(&ok, 16)) );
     group->setBackgroundColor( QColor(pref->pl_groups_back_color.toInt(&ok, 16)) );
     group->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
@@ -557,7 +557,7 @@ void MainWindow::addGroupLabel(int row, int spanSize, const QString &text)
     ui->AlbumPL->setSpan(row, 1, 1, spanSize);
 
     QLabel *group = new QLabel(text);
-    group->setStyleSheet("QLabel { " + pref->pl_groups_back + " }");
+    group->setStyleSheet("QLabel { " + pref->pl_groups_stylesheet + " }");
 
     switch (pref->pl_groups_aligment){
     case 1: group->setAlignment(Qt::AlignLeft | Qt::AlignVCenter); break;

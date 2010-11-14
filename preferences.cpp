@@ -103,10 +103,10 @@ void Preferences::setPalette()
         pl_groups_back_color = getHex(r, g, b);
     }
 
-    if (this->pl_groups_color.isEmpty()){
+    if (this->pl_groups_text_color.isEmpty()){
         int r=0, g=0, b=0;
         palette.text().color().getRgb(&r, &g, &b);
-        pl_groups_color = getHex(r, g, b);
+        pl_groups_text_color = getHex(r, g, b);
     }
 
    // qDebug() << pl_color_back.at(1);
@@ -362,8 +362,8 @@ void Preferences::reset() {
 
 
         pl_groups_format = "%artist% - [%date%] %album%";
-        pl_groups_back ="";
-        pl_groups_color = "";
+        pl_groups_stylesheet ="";
+        pl_groups_text_color = "";
         pl_groups_back_color = "";
         pl_groups_aligment = 1;
         pl_group_height = 30;
@@ -712,8 +712,8 @@ void Preferences::save() {
 
 
         set->setValue("pl_groups_format", pl_groups_format);
-        set->setValue("pl_groups_back", pl_groups_back);
-        set->setValue("pl_groups_color", pl_groups_color);
+        set->setValue("pl_groups_stylesheet", pl_groups_stylesheet);
+        set->setValue("pl_groups_text_color", pl_groups_text_color);
         set->setValue("pl_groups_back_color", pl_groups_back_color);
         set->setValue("pl_groups_aligment", pl_groups_aligment);
         set->setValue("pl_group_height", pl_group_height);
@@ -1071,8 +1071,8 @@ void Preferences::load() {
 
 
         pl_groups_format = set->value("pl_groups_format", pl_groups_format).toString();
-        pl_groups_back = set->value("pl_groups_back", pl_groups_back).toString();
-        pl_groups_color = set->value("pl_groups_color", pl_groups_color).toString();
+        pl_groups_stylesheet = set->value("pl_groups_stylesheet", pl_groups_stylesheet).toString();
+        pl_groups_text_color = set->value("pl_groups_text_color", pl_groups_text_color).toString();
         pl_groups_back_color = set->value("pl_groups_back_color", pl_groups_back_color).toString();
         pl_groups_aligment = set->value("pl_groups_aligment", pl_groups_aligment).toInt();
         pl_group_height = set->value("pl_group_height", pl_group_height).toInt();

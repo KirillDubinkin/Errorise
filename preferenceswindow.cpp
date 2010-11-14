@@ -2,6 +2,7 @@
 #include "ui_preferenceswindow.h"
 #include "global.h"
 #include "mainwindow.h"
+#include <version.h>
 
 #include <QDebug>
 #include <QString>
@@ -10,6 +11,7 @@
 #include <QFileInfo>
 #include <QFile>
 #include <QListWidgetItem>
+#include <QPalette>
 
 using namespace Global;
 
@@ -18,6 +20,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui(new Ui::PreferencesWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Errorise v." + amplayerVersion() + " - Preferences");
     this->setGeometry(0, 0, pref->res_pref_width, pref->res_pref_height);
 
 
@@ -41,11 +44,28 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->recursive_scan->setChecked(pref->recursive_dirs);
 
     ui->useHTML->setChecked(pref->pl_use_html);
+    ui->tabPlColStyleSheets->setEnabled(pref->pl_use_html);
+    ui->plGroupStyle->setEnabled(pref->pl_use_html);
+    ui->lblPlGroupStyle->setEnabled(pref->pl_use_html);
+    ui->groupPlItemsColors->setEnabled(!pref->pl_use_html);
+    ui->groupPlGroupColors->setEnabled(!pref->pl_use_html);
+
     ui->groupTracks->setChecked(pref->pl_use_groups);
+    ui->tabPlGroups->setEnabled(pref->pl_use_groups);
 
 
+
+    ui->plGroupStyle->setPlainText(pref->pl_groups_stylesheet);
+    ui->plGroupColorText->setText(pref->pl_groups_text_color);
+    ui->plGroupColorBack->setText(pref->pl_groups_back_color);
+    ui->plGroupTextFormat->setPlainText(pref->pl_groups_format);
+
+    ui->colorText->setStyleSheet("QPushButton { background-color: #" + pref->color_text + " }");
+    ui->colorBase->setStyleSheet("QPushButton { background-color: #" + pref->color_base + " }");
+    ui->colorWindow->setStyleSheet("QPushButton { background-color: #" + pref->color_window + " }");
 
 }
+
 
 PreferencesWindow::~PreferencesWindow()
 {
@@ -166,6 +186,11 @@ void PreferencesWindow::on_colList_pressed(QModelIndex index)
     case 8:
         ui->colAligment->setCurrentIndex(3); break;
     }
+
+    ui->plColorText->setText(pref->pl_color_text.at(curColumnIndex));
+    ui->plColorBack->setText(pref->pl_color_back.at(curColumnIndex));
+    ui->plColorPlayText->setText(pref->pl_color_play_text.at(curColumnIndex));
+    ui->plColorPlayBack->setText(pref->pl_color_play_back.at(curColumnIndex));
 }
 
 void PreferencesWindow::on_colTitle_editingFinished()
@@ -264,11 +289,19 @@ void PreferencesWindow::on_recursive_scan_toggled(bool checked)
 void PreferencesWindow::on_useHTML_toggled(bool checked)
 {
     pref->pl_use_html = checked;
+
+    ui->tabPlColStyleSheets->setEnabled(checked);
+    ui->lblPlGroupStyle->setEnabled(checked);
+    ui->plGroupStyle->setEnabled(checked);
+
+    ui->groupPlGroupColors->setEnabled(!checked);
+    ui->groupPlItemsColors->setEnabled(!checked);
 }
 
 void PreferencesWindow::on_groupTracks_toggled(bool checked)
 {
     pref->pl_use_groups = checked;
+    ui->tabPlGroups->setEnabled(checked);
 }
 
 void PreferencesWindow::on_colAligment_currentIndexChanged(int index)

@@ -311,8 +311,8 @@ public:
 
 
         QString pl_groups_format;
-        QString pl_groups_back;
-        QString pl_groups_color;
+        QString pl_groups_stylesheet;
+        QString pl_groups_text_color;
         QString pl_groups_back_color;
 
         int pl_groups_aligment;
