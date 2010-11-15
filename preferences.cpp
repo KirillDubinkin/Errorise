@@ -338,6 +338,15 @@ void Preferences::reset() {
         status_bar_format = "%format% | %bitrate% | %samplerate% | %channels% | %playback_time% / %length%";
         window_title_format = "%artist% - %title%";
 
+
+        main_stylesheet = "";
+        pl_stylesheet = "";
+
+        pl_alternate_colors = true;
+        pl_custom_colors = false;
+
+
+
         pl_columns_names = "#[;]Track Name[;]Bitrate[;]Format[;]Length";
 
         pl_columns_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
@@ -357,7 +366,7 @@ void Preferences::reset() {
         pl_color_play_text << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF";
         pl_color_play_back << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F";
 
-        pl_stylesheet = "gridline-color: rgb(80, 30, 30);";
+
 
 
 
@@ -693,6 +702,10 @@ void Preferences::save() {
         set->setValue("status_bar", status_bar);
         set->setValue("status_bar_format", status_bar_format);
         set->setValue("window_title_format", window_title_format);
+
+        set->setValue("main_stylesheet", main_stylesheet);
+        set->setValue("pl_alternate_colors", pl_alternate_colors);
+        set->setValue("pl_custom_colors", pl_custom_colors);
 
         set->setValue("pl_columns_names", pl_columns_names);
         set->setValue("pl_columns_format", pl_columns_format);
@@ -1052,6 +1065,12 @@ void Preferences::load() {
         status_bar = set->value("status_bar", status_bar).toBool();
         status_bar_format = set->value("status_bar_format", status_bar_format).toString();
         window_title_format = set->value("window_title_format", window_title_format).toString();
+
+        main_stylesheet = set->value("main_stylesheet", main_stylesheet).toString();
+
+
+        pl_alternate_colors = set->value("pl_alternate_colors", pl_alternate_colors).toBool();
+        pl_custom_colors = set->value("pl_custom_colors", pl_custom_colors).toBool();
 
         pl_columns_names = set->value("pl_columns_names", pl_columns_names).toString();
         pl_columns_format = set->value("pl_columns_format", pl_columns_format).toString();

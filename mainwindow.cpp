@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setGeometry(0, 0, pref->res_main_width, pref->res_main_height);
+    this->setStyleSheet(pref->main_stylesheet);
+
+    ui->AlbumPL->setStyleSheet(pref->pl_stylesheet);
+    ui->AlbumPL->setAlternatingRowColors(pref->pl_alternate_colors);
+
     defWindowTitle();
 
     core = new Core(this);
@@ -44,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     readyToPlay = false;
     timeColumn = -1;
 
-    this->setPalette(pref->palette);
+ //   this->setPalette(pref->palette);
  //   ui->AlbumPL->setPalette(pref->palette);
  //   ui->treeView->setPalette(pref->palette);
 
@@ -97,6 +102,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
 
+
+
+        //Stylesheets
+    connect(preferences, SIGNAL(mainStyleChanged(QString)), this, SLOT(setStyleSheet(QString)));
+    connect(preferences, SIGNAL(plStyleChanged(QString)), ui->AlbumPL, SLOT(setStyleSheet(QString)));
+
+
     PlPattern = pref->pl_columns_format.split("[;]");
 
 
@@ -112,7 +124,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //insertToolBars();
 
     ui->treeView->setGeometry(0,0,pref->res_tree_width, 0);
-
 
 }
 
@@ -403,8 +414,8 @@ void MainWindow::resetPl()
 
 void MainWindow::setPlColumns(QStringList names, QStringList sizes)
 {
-    if (!pref->pl_stylesheet.isEmpty())
-        ui->AlbumPL->setStyleSheet("QTableWidget { " + pref->pl_stylesheet + " }");
+  //  if (!pref->pl_stylesheet.isEmpty())
+  //      ui->AlbumPL->setStyleSheet(pref->pl_stylesheet);
 
    // setColors();
 
@@ -579,9 +590,20 @@ void MainWindow::addRowItem(int idx, int row, int col, const QStringList &format
     bool ok;
     QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)).replace('\n', " "));
     item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
-    item->setTextColor( QColor(QString(pref->pl_color_text.at(col)).toInt(&ok, 16)) );
-    item->setBackgroundColor( QColor(QString(pref->pl_color_back.at(col)).toInt(&ok, 16)) );
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    if (!pref->pl_alternate_colors)
+    {
+        if (pref->pl_color_text.at(col) != "")
+            item->setTextColor( QColor(QString(pref->pl_color_text.at(col)).toInt(&ok, 16)) );
+
+
+        if (pref->pl_color_back.at(col) != "")
+            item->setBackgroundColor( QColor(QString(pref->pl_color_back.at(col)).toInt(&ok, 16)) );
+        else
+            item->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
+    }
+
 
     ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
     ui->AlbumPL->setItem(row, col+1, item);

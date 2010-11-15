@@ -286,6 +286,16 @@ public:
         QString status_bar_format;
         QString window_title_format;
 
+
+            // Stylesheets
+        QString main_stylesheet;
+        QString pl_stylesheet;
+
+
+        bool pl_alternate_colors;
+        bool pl_custom_colors;
+
+
         QString pl_columns_names;
 
         QString pl_columns_format;
@@ -305,7 +315,7 @@ public:
         QStringList pl_color_play_text;
         QStringList pl_color_play_back;
 
-        QString pl_stylesheet;
+
 
 
 

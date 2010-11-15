@@ -29,6 +29,10 @@ private:
     void changePlPref();
 
 private slots:
+    void on_plAlternateColors_toggled(bool checked);
+    void on_plStylesheet_textChanged();
+    void on_mainStylesheet_textChanged();
+    void on_plRemoveCol_clicked();
     void on_colAligment_currentIndexChanged(int index);
     void on_groupTracks_toggled(bool checked);
     void on_useHTML_toggled(bool checked);
@@ -61,6 +65,9 @@ signals:
                           const QStringList &playformat, const QStringList &playback, const QStringList &sizes);
     void playlist_reset();
     void dontShowCurrentTimeInPl();
+
+    void mainStyleChanged(QString stylesheet);
+    void plStyleChanged(QString stylesheet);
 
 };
 

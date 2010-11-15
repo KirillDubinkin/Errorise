@@ -60,9 +60,10 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->plGroupColorBack->setText(pref->pl_groups_back_color);
     ui->plGroupTextFormat->setPlainText(pref->pl_groups_format);
 
-    ui->colorText->setStyleSheet("QPushButton { background-color: #" + pref->color_text + " }");
-    ui->colorBase->setStyleSheet("QPushButton { background-color: #" + pref->color_base + " }");
-    ui->colorWindow->setStyleSheet("QPushButton { background-color: #" + pref->color_window + " }");
+    ui->mainStylesheet->setPlainText(pref->main_stylesheet);
+    ui->plStylesheet->setPlainText(pref->pl_stylesheet);
+
+    ui->plAlternateColors->setChecked(pref->pl_alternate_colors);
 
 }
 
@@ -314,4 +315,34 @@ void PreferencesWindow::on_colAligment_currentIndexChanged(int index)
         case 3: pref->pl_columns_aligment.replace(curColumnIndex, "8"); break;
         }
     }
+}
+
+void PreferencesWindow::on_plRemoveCol_clicked()
+{
+    int idx = ui->colList->currentRow();
+
+    if (idx > -1){
+       // this->on_colSave_clicked();
+
+        // this's simple, but i think we need qstringlists in preferences, not qstrings
+        // so.. it's will be next, after
+
+    }
+}
+
+void PreferencesWindow::on_mainStylesheet_textChanged()
+{
+    pref->main_stylesheet = ui->mainStylesheet->toPlainText();
+    emit mainStyleChanged(pref->main_stylesheet);
+}
+
+void PreferencesWindow::on_plStylesheet_textChanged()
+{
+    pref->pl_stylesheet = ui->plStylesheet->toPlainText();
+    emit plStyleChanged(pref->pl_stylesheet);
+}
+
+void PreferencesWindow::on_plAlternateColors_toggled(bool checked)
+{
+    pref->pl_alternate_colors = checked;
 }

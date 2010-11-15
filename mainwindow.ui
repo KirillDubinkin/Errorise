@@ -36,7 +36,7 @@
       </widget>
       <widget class="QTableWidget" name="AlbumPL">
        <property name="styleSheet">
-        <string notr="true">selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 #FF92BB, stop: 1 white);</string>
+        <string notr="true"/>
        </property>
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
