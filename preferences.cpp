@@ -396,6 +396,8 @@ void Preferences::reset() {
 
         recursive_dirs = true;
 
+        x=100;
+        y=100;
 
 
 
@@ -748,6 +750,7 @@ void Preferences::save() {
         set->setValue("res_tree_width", res_tree_width);
 
         set->setValue("recursive_dirs", recursive_dirs);
+        set->setValue("window_pos", QString().number(x) + "x" + QString().number(y));
 
 
 	set->endGroup(); // gui
@@ -1113,6 +1116,10 @@ void Preferences::load() {
         res_tree_width = set->value("res_tree_width", res_tree_width).toInt();
 
         recursive_dirs = set->value("recursive_dirs", recursive_dirs).toBool();
+        QStringList res_lst = set->value("window_pos", res_lst).toString().split("x");
+        x = QString(res_lst.at(0)).toInt();
+        y = QString(res_lst.at(1)).toInt();
+
 
 	set->endGroup(); // gui
 

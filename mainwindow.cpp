@@ -17,6 +17,7 @@
 #include <QSpacerItem>
 #include <QPixmap>
 #include <QPalette>
+#include <QDesktopWidget>
 
 using namespace Global;
 
@@ -25,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setGeometry(0, 0, pref->res_main_width, pref->res_main_height);
+
+    this->setGeometry(pref->x, pref->y, pref->res_main_width, pref->res_main_height);
     this->setStyleSheet(pref->main_stylesheet);
 
     ui->AlbumPL->setStyleSheet(pref->pl_stylesheet);
@@ -35,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     core = new Core(this);
     mediaInfo = new MediaInfo(this);
-    preferences = new PreferencesWindow;
+    preferences = new PreferencesWindow(this);
 
     FSmodel = new QFileSystemModel;
 
@@ -130,6 +132,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     pref->res_tree_width = ui->treeView->width();
+    pref->x = this->x();
+    pref->y = this->y();
     pref->res_main_width = this->width();
     pref->res_main_height = this->height();
     pref->res_pref_width = preferences->width();

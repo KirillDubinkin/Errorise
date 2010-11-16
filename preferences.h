@@ -350,6 +350,7 @@ public:
         bool recursive_dirs;
 
 
+        int x, y;
 
 
 

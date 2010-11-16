@@ -22,7 +22,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Errorise v." + amplayerVersion() + " - Preferences");
-    this->setGeometry(0, 0, pref->res_pref_width, pref->res_pref_height);
+    this->setGeometry(parent->x()+30, parent->y()+50, pref->res_pref_width, pref->res_pref_height);
 
 
     // connect(ui->treeWidget, SIGNAL(activated(QModelIndex)), this, SLOT(changeWindow(QModelIndex)));
