@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QListWidgetItem>
 #include <QPalette>
+#include <QColorDialog>
 
 using namespace Global;
 
@@ -63,7 +64,13 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->mainStylesheet->setPlainText(pref->main_stylesheet);
     ui->plStylesheet->setPlainText(pref->pl_stylesheet);
 
+
+
     ui->plAlternateColors->setChecked(pref->pl_alternate_colors);
+//    ui->plColorText->setEnabled(!pref->pl_alternate_colors);
+    ui->plColorBack->setEnabled(!pref->pl_alternate_colors);
+//    ui->lblPlColorText->setEnabled(!pref->pl_alternate_colors);
+    ui->lblPlColorBack->setEnabled(!pref->pl_alternate_colors);
 
 }
 
@@ -345,4 +352,63 @@ void PreferencesWindow::on_plStylesheet_textChanged()
 void PreferencesWindow::on_plAlternateColors_toggled(bool checked)
 {
     pref->pl_alternate_colors = checked;
+
+//    ui->plColorText->setEnabled(!checked);
+    ui->plColorBack->setEnabled(!checked);
+//    ui->lblPlColorText->setEnabled(!checked);
+    ui->lblPlColorBack->setEnabled(!checked);
+}
+
+void PreferencesWindow::on_plColorText_editingFinished()
+{
+    pref->pl_color_text.replace(curColumnIndex, ui->plColorText->text());
+}
+
+void PreferencesWindow::on_plColorBack_editingFinished()
+{
+    pref->pl_color_back.replace(curColumnIndex, ui->plColorBack->text());
+}
+
+void PreferencesWindow::on_plColorPlayText_editingFinished()
+{
+    pref->pl_color_play_text.replace(curColumnIndex, ui->plColorPlayText->text());
+}
+
+void PreferencesWindow::on_plColorPlayBack_editingFinished()
+{
+    pref->pl_color_play_back.replace(curColumnIndex, ui->plColorPlayBack->text());
+}
+
+void PreferencesWindow::on_btnPlColorText_clicked()
+{
+    ui->plColorText->setText(this->getRGBText(ui->plColorText->text()));
+    this->on_plColorText_editingFinished();
+}
+
+void PreferencesWindow::on_btnPlColorBack_clicked()
+{
+    ui->plColorBack->setText(this->getRGBText(ui->plColorBack->text()));
+    this->on_plColorBack_editingFinished();
+}
+
+void PreferencesWindow::on_btnPlColorPlayText_clicked()
+{
+    ui->plColorPlayText->setText(this->getRGBText(ui->plColorPlayText->text()));
+    this->on_plColorPlayText_editingFinished();
+}
+
+void PreferencesWindow::on_btnPlColorPlayBack_clicked()
+{
+    ui->plColorPlayBack->setText(getRGBText(ui->plColorPlayBack->text()));
+    this->on_plColorPlayBack_editingFinished();
+}
+
+
+QString PreferencesWindow::getRGBText(const QString &initColor)
+{
+    bool ok;
+    int r=0, g=0, b=0;
+
+    QColor(QColorDialog::getColor(QColor(QRgb(initColor.toInt(&ok, 16))))).getRgb(&r, &g, &b);
+    return pref->getHex(r, g, b);
 }

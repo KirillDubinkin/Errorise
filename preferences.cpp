@@ -50,7 +50,7 @@ Preferences::Preferences() {
         qDebug("ok");
 #endif
 
-        setPalette();
+      //  setPalette();
 }
 
 Preferences::~Preferences() {
@@ -78,7 +78,7 @@ void Preferences::setPalette()
         palette.setColor(QPalette::Window, QColor(color_window.toInt(&ok, 16)));
 
     int col = this->pl_columns_names.count("[;]")+1;
-
+/*
     for (int i = 0; i < col; i++){
         //qDebug() << pl_color_back.at(i);
         if (i <= pl_color_back.size())
@@ -108,7 +108,7 @@ void Preferences::setPalette()
         palette.text().color().getRgb(&r, &g, &b);
         pl_groups_text_color = getHex(r, g, b);
     }
-
+*/
    // qDebug() << pl_color_back.at(1);
 }
 

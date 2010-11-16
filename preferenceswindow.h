@@ -27,8 +27,17 @@ private:
 
     void fillPlaylistPref();
     void changePlPref();
+    QString getRGBText(const QString &initColor);
 
 private slots:
+    void on_btnPlColorPlayBack_clicked();
+    void on_btnPlColorPlayText_clicked();
+    void on_btnPlColorBack_clicked();
+    void on_btnPlColorText_clicked();
+    void on_plColorPlayBack_editingFinished();
+    void on_plColorPlayText_editingFinished();
+    void on_plColorBack_editingFinished();
+    void on_plColorText_editingFinished();
     void on_plAlternateColors_toggled(bool checked);
     void on_plStylesheet_textChanged();
     void on_mainStylesheet_textChanged();

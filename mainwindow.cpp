@@ -592,12 +592,11 @@ void MainWindow::addRowItem(int idx, int row, int col, const QStringList &format
     item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
+    if (pref->pl_color_text.at(col) != "")
+        item->setTextColor( QColor(QString(pref->pl_color_text.at(col)).toInt(&ok, 16)) );
+
     if (!pref->pl_alternate_colors)
     {
-        if (pref->pl_color_text.at(col) != "")
-            item->setTextColor( QColor(QString(pref->pl_color_text.at(col)).toInt(&ok, 16)) );
-
-
         if (pref->pl_color_back.at(col) != "")
             item->setBackgroundColor( QColor(QString(pref->pl_color_back.at(col)).toInt(&ok, 16)) );
         else
@@ -613,7 +612,7 @@ void MainWindow::addRowItem(int idx, int row, int col, const QStringList &format
 void MainWindow::addRowLabel(int idx, int row, int col, const QStringList &format, const QStringList &back)
 {
     QLabel *label = new QLabel(parseLine(&mediaInfo->track[idx], format.at(col)));
-    label->setStyleSheet("QLabel { " + back.at(col) + " }");
+    //label->setStyleSheet("QLabel { " + back.at(col) + " }");
 
     switch (QString(pref->pl_columns_aligment.at(col)).toInt()){
     case 1: label->setAlignment(Qt::AlignLeft); break;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>710</width>
-    <height>539</height>
+    <width>662</width>
+    <height>596</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -387,7 +387,7 @@
                 <bool>true</bool>
                </property>
                <property name="currentIndex">
-                <number>0</number>
+                <number>1</number>
                </property>
                <widget class="QWidget" name="tab_4">
                 <attribute name="title">
@@ -586,19 +586,6 @@
                          </item>
                         </layout>
                        </item>
-                       <item row="2" column="0">
-                        <spacer name="verticalSpacer_8">
-                         <property name="orientation">
-                          <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>20</width>
-                           <height>44</height>
-                          </size>
-                         </property>
-                        </spacer>
-                       </item>
                        <item row="3" column="0">
                         <widget class="QGroupBox" name="groupPlItemsColors">
                          <property name="title">
@@ -606,97 +593,39 @@
                          </property>
                          <layout class="QGridLayout" name="gridLayout_9">
                           <item row="0" column="0">
-                           <widget class="QLabel" name="label_16">
-                            <property name="text">
-                             <string>Text</string>
+                           <widget class="QFrame" name="frame">
+                            <property name="frameShape">
+                             <enum>QFrame::StyledPanel</enum>
                             </property>
+                            <property name="frameShadow">
+                             <enum>QFrame::Raised</enum>
+                            </property>
+                            <zorder>btnPlColorBack</zorder>
+                            <zorder>btnPlColorText</zorder>
+                            <zorder>lblPlColorText</zorder>
+                            <zorder>lblPlColorBack</zorder>
+                            <zorder>horizontalSpacer_5</zorder>
+                            <zorder>horizontalSpacer_7</zorder>
+                            <zorder>plColorText</zorder>
+                            <zorder>plColorBack</zorder>
+                            <zorder>btnPlColorBack</zorder>
+                            <zorder>btnPlColorText</zorder>
+                            <zorder>lblPlColorText</zorder>
+                            <zorder>lblPlColorBack</zorder>
+                            <zorder>horizontalSpacer_5</zorder>
+                            <zorder>horizontalSpacer_7</zorder>
+                            <zorder>plColorBack</zorder>
+                            <zorder>plColorText</zorder>
                            </widget>
                           </item>
-                          <item row="0" column="1">
-                           <spacer name="horizontalSpacer_5">
-                            <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>40</width>
-                              <height>20</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item row="0" column="2">
-                           <widget class="QLineEdit" name="plColorText"/>
-                          </item>
-                          <item row="0" column="3">
-                           <widget class="QPushButton" name="pushButton_5">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>30</width>
-                              <height>16777215</height>
-                             </size>
-                            </property>
-                            <property name="text">
-                             <string>...</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item row="1" column="0">
-                           <widget class="QLabel" name="label_17">
-                            <property name="text">
-                             <string>Background</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item row="1" column="1">
-                           <spacer name="horizontalSpacer_7">
-                            <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>40</width>
-                              <height>20</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item row="1" column="2">
-                           <widget class="QLineEdit" name="plColorBack"/>
-                          </item>
-                          <item row="1" column="3">
-                           <widget class="QPushButton" name="pushButton_6">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>30</width>
-                              <height>16777215</height>
-                             </size>
-                            </property>
-                            <property name="text">
-                             <string>...</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item row="2" column="0">
+                          <item row="4" column="0">
                            <widget class="QLabel" name="label_18">
                             <property name="text">
                              <string>Playing text</string>
                             </property>
                            </widget>
                           </item>
-                          <item row="2" column="1">
+                          <item row="4" column="1">
                            <spacer name="horizontalSpacer_8">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
@@ -709,11 +638,11 @@
                             </property>
                            </spacer>
                           </item>
-                          <item row="2" column="2">
+                          <item row="4" column="2">
                            <widget class="QLineEdit" name="plColorPlayText"/>
                           </item>
-                          <item row="2" column="3">
-                           <widget class="QPushButton" name="pushButton_7">
+                          <item row="4" column="3">
+                           <widget class="QPushButton" name="btnPlColorPlayText">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -731,14 +660,14 @@
                             </property>
                            </widget>
                           </item>
-                          <item row="3" column="0">
+                          <item row="5" column="0">
                            <widget class="QLabel" name="label_19">
                             <property name="text">
                              <string>Playing background</string>
                             </property>
                            </widget>
                           </item>
-                          <item row="3" column="1">
+                          <item row="5" column="1">
                            <spacer name="horizontalSpacer_9">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
@@ -751,11 +680,11 @@
                             </property>
                            </spacer>
                           </item>
-                          <item row="3" column="2">
+                          <item row="5" column="2">
                            <widget class="QLineEdit" name="plColorPlayBack"/>
                           </item>
-                          <item row="3" column="3">
-                           <widget class="QPushButton" name="pushButton_8">
+                          <item row="5" column="3">
+                           <widget class="QPushButton" name="btnPlColorPlayBack">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -772,6 +701,116 @@
                              <string>...</string>
                             </property>
                            </widget>
+                          </item>
+                          <item row="1" column="2">
+                           <widget class="QLineEdit" name="plColorText"/>
+                          </item>
+                          <item row="2" column="2">
+                           <widget class="QLineEdit" name="plColorBack"/>
+                          </item>
+                          <item row="2" column="1">
+                           <spacer name="horizontalSpacer_7">
+                            <property name="orientation">
+                             <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                             <size>
+                              <width>40</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                           </spacer>
+                          </item>
+                          <item row="1" column="1">
+                           <spacer name="horizontalSpacer_5">
+                            <property name="orientation">
+                             <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                             <size>
+                              <width>40</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                           </spacer>
+                          </item>
+                          <item row="2" column="0">
+                           <widget class="QLabel" name="lblPlColorBack">
+                            <property name="text">
+                             <string>Background</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="0">
+                           <widget class="QLabel" name="lblPlColorText">
+                            <property name="text">
+                             <string>Text</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="3">
+                           <widget class="QPushButton" name="btnPlColorText">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>30</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>...</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="2" column="3">
+                           <widget class="QPushButton" name="btnPlColorBack">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>30</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>...</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="6" column="1">
+                           <spacer name="verticalSpacer_8">
+                            <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                             <size>
+                              <width>20</width>
+                              <height>44</height>
+                             </size>
+                            </property>
+                           </spacer>
+                          </item>
+                          <item row="3" column="1">
+                           <spacer name="verticalSpacer_6">
+                            <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                             <size>
+                              <width>20</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                           </spacer>
                           </item>
                          </layout>
                         </widget>
