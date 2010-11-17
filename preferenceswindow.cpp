@@ -136,15 +136,15 @@ void PreferencesWindow::on_windowFormat_textChanged(QString tex)
 void PreferencesWindow::fillPlaylistPref()
 {
     if (colnames.isEmpty()){
-        colnames = pref->pl_columns_names.split("[;]");
+        colnames = pref->pl_columns_names;
 
-        colformat = pref->pl_columns_format.split("[;]");
-        colback = pref->pl_columns_back.split("[;]");
+        colformat = pref->pl_columns_format;
+        colback = pref->pl_columns_back;
 
-        colplayformat = pref->pl_columns_playing_format.split("[;]");
-        colplayback = pref->pl_columns_playng_back.split("[;]");
+        colplayformat = pref->pl_columns_playing_format;
+        colplayback = pref->pl_columns_playng_back;
 
-        colsize = pref->pl_columns_sizes.split(";");
+        colsize = pref->pl_columns_sizes;
     }
 
 
@@ -226,15 +226,15 @@ void PreferencesWindow::on_colApply_clicked()
 
 void PreferencesWindow::on_colSave_clicked()
 {
-    pref->pl_columns_names = colnames.join("[;]");
+    pref->pl_columns_names = colnames;
 
-    pref->pl_columns_format = colformat.join("[;]");
-    pref->pl_columns_back = colback.join("[;]");
+    pref->pl_columns_format = colformat;
+    pref->pl_columns_back = colback;
 
-    pref->pl_columns_playing_format = colplayformat.join("[;]");
-    pref->pl_columns_playng_back = colplayback.join("[;]");
+    pref->pl_columns_playing_format = colplayformat;
+    pref->pl_columns_playng_back = colplayback;
 
-    pref->pl_columns_sizes = colsize.join(";");
+    pref->pl_columns_sizes = colsize;
 }
 
 void PreferencesWindow::on_colReset_clicked()

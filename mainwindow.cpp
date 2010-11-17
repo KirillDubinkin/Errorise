@@ -111,9 +111,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(preferences, SIGNAL(plStyleChanged(QString)), ui->AlbumPL, SLOT(setStyleSheet(QString)));
 
 
-    PlPattern = pref->pl_columns_format.split("[;]");
-
-
     setPlColumns();
     ui->AlbumPL->hideColumn(0);
 
@@ -213,25 +210,22 @@ void MainWindow::changeAlbumDir()
 void MainWindow::defPlhighlight()
 {
     if (core->mset.current_id > -1){
-        PlPattern = pref->pl_columns_format.split("[;]");
-        QStringList back = pref->pl_columns_back.split("[;]");
-
-        for (int col = 0; col < PlPattern.size(); col++)
+        for (int col = 0; col < pref->pl_columns_format.size(); col++)
         {
             if (pref->pl_use_html)
                 this->addRowLabel(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
-                                  core->mset.current_id, col, PlPattern, back);
+                                  core->mset.current_id, col, pref->pl_columns_format, pref->pl_columns_back);
             else
             {
                 ui->AlbumPL->removeCellWidget(core->mset.current_id, col+1);
                 this->addRowItem(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
-                                   core->mset.current_id, col, PlPattern);
+                                   core->mset.current_id, col, pref->pl_columns_format);
             }
         }
     }
 }
 
-void MainWindow::highlightCurrentTrack(QStringList format, QStringList back)
+void MainWindow::highlightCurrentTrack(const QStringList &format, const QStringList &back)
 {
     if (core->mset.current_id == -1) // try to find
     {
@@ -301,15 +295,12 @@ void MainWindow::showDefTimePl()
     if (lengthColumn() > 0)
     {
         QString temp;
-        QStringList format = pref->pl_columns_playing_format.split("[;]");
-        QStringList back = pref->pl_columns_playng_back.split("[;]");
-
-        temp = format.at(lengthColumn() -1);
+        temp = pref->pl_columns_playing_format.at(lengthColumn() -1);
 
         temp.replace("%length%", MediaData::formatTime(core->mdat.duration));
 
         QLabel *label = new QLabel(temp);
-        label->setStyleSheet("QLabel { " + back.at(lengthColumn() -1) + " }");
+        label->setStyleSheet("QLabel { " + pref->pl_columns_playng_back.at(lengthColumn() -1) + " }");
         ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
     }
 }
@@ -354,16 +345,13 @@ void MainWindow::showPlPlaytime()
             if (core->mdat.filename == mediaInfo->track[ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt()].filename)
             {
                 QString temp;
-                //PlPattern = pref->pl_columns_format.split("[;]");
-                QStringList format = pref->pl_columns_playing_format.split("[;]");
-                QStringList back = pref->pl_columns_playng_back.split("[;]");
 
-                temp = format.at(lengthColumn() -1);
+                temp = pref->pl_columns_playing_format.at(lengthColumn() -1);
 
                 temp.replace("%length%", MediaData::formatTime(core->mset.current_sec));
 
                 QLabel *label = new QLabel(temp);
-                label->setStyleSheet("QLabel { " + back.at(lengthColumn() -1) + " }");
+                label->setStyleSheet("QLabel { " + pref->pl_columns_playng_back.at(lengthColumn() -1) + " }");
 
                // qDebug() << label->text();
                 ui->AlbumPL->setCellWidget(core->mset.current_id, lengthColumn(), label);
@@ -383,9 +371,8 @@ int MainWindow::lengthColumn()
     if (timeColumn < 1)
     {
         QString s;
-        PlPattern = pref->pl_columns_format.split("[;]");
-        for (int i = 0; i < PlPattern.size(); i++){
-            s = PlPattern.at(i);
+        for (int i = 0; i < pref->pl_columns_format.size(); i++){
+            s = pref->pl_columns_format.at(i);
             if (s.contains("%length%")){
                 timeColumn = i+1;
                 return timeColumn;
@@ -425,13 +412,8 @@ void MainWindow::resetPl()
     }
 }
 
-void MainWindow::setPlColumns(QStringList names, QStringList sizes)
+void MainWindow::setPlColumns(const QStringList &names, const QStringList &sizes)
 {
-  //  if (!pref->pl_stylesheet.isEmpty())
-  //      ui->AlbumPL->setStyleSheet(pref->pl_stylesheet);
-
-   // setColors();
-
     // first - absolete file path - hidden
     ui->AlbumPL->setColumnCount(1);
     int col=1;
@@ -460,7 +442,7 @@ void MainWindow::setColors()
 }
 
 
-void MainWindow::setPlRows(QStringList form, QStringList back)
+void MainWindow::setPlRows(const QStringList &form, const QStringList &back)
 {
     readyToPlay = false;
     int num = mediaInfo->numParsedFiles;

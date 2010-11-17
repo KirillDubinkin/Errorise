@@ -58,17 +58,17 @@ public slots:
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
 
-    void setPlColumns(QStringList name = pref->pl_columns_names.split("[;]"),
-                      QStringList size = pref->pl_columns_sizes.split(";"));
+    void setPlColumns(const QStringList &names = pref->pl_columns_names,
+                      const QStringList &sizes = pref->pl_columns_sizes);
 
-    void setPlRows(QStringList form = pref->pl_columns_format.split("[;]"),
-                   QStringList back = pref->pl_columns_back.split("[;]"));
+    void setPlRows(const QStringList &form = pref->pl_columns_format,
+                   const QStringList &back = pref->pl_columns_back);
 
-    void setPlGroupRows(const QStringList &form = pref->pl_columns_format.split("[;]"),
-                        const QStringList &back = pref->pl_columns_back.split("[;]"));
+    void setPlGroupRows(const QStringList &form = pref->pl_columns_format,
+                        const QStringList &back = pref->pl_columns_back);
 
-    void highlightCurrentTrack(QStringList format = pref->pl_columns_playing_format.split("[;]"),
-                               QStringList back = pref->pl_columns_playng_back.split("[;]"));
+    void highlightCurrentTrack(const QStringList &format = pref->pl_columns_playing_format,
+                               const QStringList &back = pref->pl_columns_playng_back);
 
     void changePL(QStringList names, QStringList format, QStringList back,
                   QStringList playformat, QStringList playback, QStringList sizes);
@@ -98,11 +98,11 @@ private:
 
     void showPlPlaytime();
 
-    void addRowItem(int idx, int row, int col, const QStringList &format = pref->pl_columns_format.split("[;]"));
+    void addRowItem(int idx, int row, int col, const QStringList &format = pref->pl_columns_format);
 
     void addRowLabel(int idx, int row, int col,
-                     const QStringList &format = pref->pl_columns_format.split("[;]"),
-                     const QStringList &back = pref->pl_columns_back.split("[;]"));
+                     const QStringList &format = pref->pl_columns_format,
+                     const QStringList &back = pref->pl_columns_back);
 
     void addGroupItem(int row, int spanSize, const QString &text);
     void addGroupLabel(int row, int spanSize, const QString &text);

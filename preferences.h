@@ -296,15 +296,15 @@ public:
         bool pl_custom_colors;
 
 
-        QString pl_columns_names;
+        QStringList pl_columns_names;
 
-        QString pl_columns_format;
-        QString pl_columns_back;
+        QStringList pl_columns_format;
+        QStringList pl_columns_back;
 
-        QString pl_columns_playing_format;
-        QString pl_columns_playng_back;
+        QStringList pl_columns_playing_format;
+        QStringList pl_columns_playng_back;
 
-        QString pl_columns_sizes;
+        QStringList pl_columns_sizes;
 
         QStringList pl_columns_aligment;
 

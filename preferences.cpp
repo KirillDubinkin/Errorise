@@ -77,7 +77,7 @@ void Preferences::setPalette()
     if (!color_window.isEmpty())
         palette.setColor(QPalette::Window, QColor(color_window.toInt(&ok, 16)));
 
-    int col = this->pl_columns_names.count("[;]")+1;
+    int col = this->pl_columns_names.size();
 /*
     for (int i = 0; i < col; i++){
         //qDebug() << pl_color_back.at(i);
@@ -347,15 +347,15 @@ void Preferences::reset() {
 
 
 
-        pl_columns_names = "#[;]Track Name[;]Bitrate[;]Format[;]Length";
+        pl_columns_names << "#" << "Track ,Name" << "Bitrate" << "Format" << "Length";
 
-        pl_columns_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
-        pl_columns_back = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 50, 50);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(126, 55, 139);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 60, 60);";
+        pl_columns_format << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
+        pl_columns_back << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 50, 50);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(126, 55, 139);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 60, 60);";
 
-        pl_columns_playing_format = "%tracknumber%[;]%title%[;]%bitrate%[;]%codec%[;]%length%";
-        pl_columns_playng_back = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(20, 30, 60)[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(126, 55, 139);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);[;]background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(30, 60, 60);[;]";
+        pl_columns_playing_format << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
+        pl_columns_playng_back << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(20, 30, 60)" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(126, 55, 139);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(30, 60, 60);";
 
-        pl_columns_sizes = "23;365;75;50;65";
+        pl_columns_sizes << "23" << "365" << "75" << "50" << "65";
         pl_columns_aligment << "4" << "4" << "4" << "4" << "4";
 
 
@@ -708,6 +708,7 @@ void Preferences::save() {
         set->setValue("main_stylesheet", main_stylesheet);
         set->setValue("pl_alternate_colors", pl_alternate_colors);
         set->setValue("pl_custom_colors", pl_custom_colors);
+
 
         set->setValue("pl_columns_names", pl_columns_names);
         set->setValue("pl_columns_format", pl_columns_format);
@@ -1077,12 +1078,13 @@ void Preferences::load() {
         pl_alternate_colors = set->value("pl_alternate_colors", pl_alternate_colors).toBool();
         pl_custom_colors = set->value("pl_custom_colors", pl_custom_colors).toBool();
 
-        pl_columns_names = set->value("pl_columns_names", pl_columns_names).toString();
-        pl_columns_format = set->value("pl_columns_format", pl_columns_format).toString();
-        pl_columns_back = set->value("pl_columns_back", pl_columns_back).toString();
-        pl_columns_playing_format = set->value("pl_columns_playing_format", pl_columns_playing_format).toString();
-        pl_columns_playng_back = set->value("pl_columns_playng_back", pl_columns_playng_back).toString();
-        pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toString();
+
+        pl_columns_names = set->value("pl_columns_names", pl_columns_names).toStringList();
+        pl_columns_format = set->value("pl_columns_format", pl_columns_format).toStringList();
+        pl_columns_back = set->value("pl_columns_back", pl_columns_back).toStringList();
+        pl_columns_playing_format = set->value("pl_columns_playing_format", pl_columns_playing_format).toStringList();
+        pl_columns_playng_back = set->value("pl_columns_playng_back", pl_columns_playng_back).toStringList();
+        pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toStringList();
         pl_columns_aligment = set->value("pl_columns_aligment", pl_columns_aligment).toStringList();
 
 
