@@ -58,20 +58,12 @@ public slots:
     void plFilter();
     void directoryChanged(const QModelIndex &, const QModelIndex &);
 
-    void setPlColumns(const QStringList &names = pref->pl_columns_names,
-                      const QStringList &sizes = pref->pl_columns_sizes);
+    void setPlColumns();
+    void setPlRows();
+    void setPlGroupRows();
+    void highlightCurrentTrack();
 
-    void setPlRows(const QStringList &form = pref->pl_columns_format,
-                   const QStringList &back = pref->pl_columns_back);
-
-    void setPlGroupRows(const QStringList &form = pref->pl_columns_format,
-                        const QStringList &back = pref->pl_columns_back);
-
-    void highlightCurrentTrack(const QStringList &format = pref->pl_columns_playing_format,
-                               const QStringList &back = pref->pl_columns_playng_back);
-
-    void changePL(QStringList names, QStringList format, QStringList back,
-                  QStringList playformat, QStringList playback, QStringList sizes);
+    void changePL();
     void resetPl();
 
     void showCurrentTime();
@@ -98,14 +90,12 @@ private:
 
     void showPlPlaytime();
 
-    void addRowItem(int idx, int row, int col, const QStringList &format = pref->pl_columns_format);
+    void addRowItem(int idx, int row, int col);
 
-    void addRowLabel(int idx, int row, int col,
-                     const QStringList &format = pref->pl_columns_format,
-                     const QStringList &back = pref->pl_columns_back);
+    void addRowLabel(int idx, int row, int col);
 
-    void addGroupItem(int row, int spanSize, const QString &text);
-    void addGroupLabel(int row, int spanSize, const QString &text);
+    void addGroupItem(int row, const QString &text);
+    void addGroupLabel(int row, const QString &text);
 
     void recursiveDirectory(const QString &sDir);
 

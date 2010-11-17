@@ -135,18 +135,6 @@ void PreferencesWindow::on_windowFormat_textChanged(QString tex)
 
 void PreferencesWindow::fillPlaylistPref()
 {
-    if (colnames.isEmpty()){
-        colnames = pref->pl_columns_names;
-
-        colformat = pref->pl_columns_format;
-        colback = pref->pl_columns_back;
-
-        colplayformat = pref->pl_columns_playing_format;
-        colplayback = pref->pl_columns_playng_back;
-
-        colsize = pref->pl_columns_sizes;
-    }
-
 
     ui->colAligment->clear();
     ui->colAligment->addItem("Left", "1");
@@ -156,7 +144,7 @@ void PreferencesWindow::fillPlaylistPref()
 
 
     ui->colList->clear();
-    ui->colList->insertItems(0, colnames);
+    ui->colList->insertItems(0, pref->pl_columns_names);
 
     ui->colList->setCurrentRow(0);
     this->on_colList_pressed(ui->colList->currentIndex());
@@ -169,7 +157,7 @@ void PreferencesWindow::changePlPref()
     QListWidgetItem *item;
     item = ui->colList->item(curColumnIndex);
 
-    item->setText(colnames.at(curColumnIndex));
+    item->setText(pref->pl_columns_names.at(curColumnIndex));
 }
 
 void PreferencesWindow::on_colList_pressed(QModelIndex index)
@@ -178,13 +166,13 @@ void PreferencesWindow::on_colList_pressed(QModelIndex index)
 
     ui->colTitle->setText( index.data().toString() );
 
-    ui->colFormat->setPlainText( colformat.at(curColumnIndex) );
-    ui->colBack->setPlainText( colback.at(curColumnIndex) );
+    ui->colFormat->setPlainText( pref->pl_columns_format.at(curColumnIndex) );
+    ui->colBack->setPlainText( pref->pl_columns_back.at(curColumnIndex) );
 
-    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex) );
-    ui->colPlayBack->setPlainText( colplayback.at(curColumnIndex) );
+    ui->colPlayFormat->setPlainText( pref->pl_columns_playing_format.at(curColumnIndex) );
+    ui->colPlayBack->setPlainText( pref->pl_columns_playng_back.at(curColumnIndex) );
 
-    ui->colSize->setText( colsize.at(curColumnIndex) );
+    ui->colSize->setText( pref->pl_columns_sizes.at(curColumnIndex) );
 
     switch (QString(pref->pl_columns_aligment.at(curColumnIndex)).toInt()){
     case 1:
@@ -205,63 +193,26 @@ void PreferencesWindow::on_colList_pressed(QModelIndex index)
 
 void PreferencesWindow::on_colTitle_editingFinished()
 {
-    colnames.replace(curColumnIndex, ui->colTitle->text());
+    pref->pl_columns_names.replace(curColumnIndex, ui->colTitle->text());
     fillPlaylistPref();
 }
 
 void PreferencesWindow::on_colSize_editingFinished()
 {
-    colsize.replace(curColumnIndex, ui->colSize->text());
+    pref->pl_columns_sizes.replace(curColumnIndex, ui->colSize->text());
 }
 
 void PreferencesWindow::on_colFormat_textChanged()
 {
-    colformat.replace(curColumnIndex, ui->colFormat->toPlainText());
+    pref->pl_columns_format.replace(curColumnIndex, ui->colFormat->toPlainText());
 }
 
 void PreferencesWindow::on_colApply_clicked()
 {
-    emit playlist_changed(colnames, colformat, colback, colplayformat, colplayback, colsize);
+    emit playlist_changed();
 }
 
-void PreferencesWindow::on_colSave_clicked()
-{
-    pref->pl_columns_names = colnames;
 
-    pref->pl_columns_format = colformat;
-    pref->pl_columns_back = colback;
-
-    pref->pl_columns_playing_format = colplayformat;
-    pref->pl_columns_playng_back = colplayback;
-
-    pref->pl_columns_sizes = colsize;
-}
-
-void PreferencesWindow::on_colReset_clicked()
-{
-    colnames.clear();
-    colformat.clear();
-    colback.clear();
-    colplayformat.clear();
-    colplayback.clear();
-    colsize.clear();
-
-
-    fillPlaylistPref();
-
-    ui->colList->setCurrentRow(curColumnIndex);
-    ui->colTitle->setText( colnames.at(curColumnIndex) );
-
-    ui->colFormat->setPlainText( colformat.at(curColumnIndex) );
-    ui->colBack->setPlainText( colback.at(curColumnIndex) );
-
-    ui->colPlayFormat->setPlainText( colplayformat.at(curColumnIndex) );
-    ui->colPlayBack->setPlainText( colplayback.at(curColumnIndex) );
-
-    ui->colSize->setText( colsize.at(curColumnIndex) );
-
-    emit playlist_reset();
-}
 
 void PreferencesWindow::on_showPlplayingTime_toggled(bool checked)
 {
@@ -273,17 +224,17 @@ void PreferencesWindow::on_showPlplayingTime_toggled(bool checked)
 
 void PreferencesWindow::on_colPlayFormat_textChanged()
 {
-    colplayformat.replace(curColumnIndex, ui->colPlayFormat->toPlainText());
+    pref->pl_columns_playing_format.replace(curColumnIndex, ui->colPlayFormat->toPlainText());
 }
 
 void PreferencesWindow::on_colPlayBack_textChanged()
 {
-    colplayback.replace(curColumnIndex, ui->colPlayBack->toPlainText());
+    pref->pl_columns_playng_back.replace(curColumnIndex, ui->colPlayBack->toPlainText());
 }
 
 void PreferencesWindow::on_colBack_textChanged()
 {
-    colback.replace(curColumnIndex, ui->colBack->toPlainText());
+    pref->pl_columns_back.replace(curColumnIndex, ui->colBack->toPlainText());
 }
 
 void PreferencesWindow::on_rowHeight_textEdited(QString tex)
