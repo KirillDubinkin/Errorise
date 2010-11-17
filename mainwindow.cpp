@@ -519,7 +519,6 @@ void MainWindow::setPlGroupRows()
         QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
         ui->AlbumPL->setItem(row, 0, index);
 
-        qDebug() << "col:" << pref->pl_columns_format.size();
         for (int col = 0; col < pref->pl_columns_format.size(); col++)
         {
             if (pref->pl_use_html)

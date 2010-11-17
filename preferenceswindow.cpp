@@ -40,6 +40,12 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->windowFormat->setText(pref->window_title_format);
 
     fillPlaylistPref();
+    ui->colAligment->clear();
+    ui->colAligment->addItem("Left", "1");
+    ui->colAligment->addItem("Right", "2");
+    ui->colAligment->addItem("Center", "4");
+    ui->colAligment->addItem("Justify", "8");
+
     ui->rowHeight->setText(QString().number(pref->pl_row_height));
 
     ui->recursive_scan->setChecked(pref->recursive_dirs);
@@ -135,20 +141,15 @@ void PreferencesWindow::on_windowFormat_textChanged(QString tex)
 
 void PreferencesWindow::fillPlaylistPref()
 {
-
-    ui->colAligment->clear();
-    ui->colAligment->addItem("Left", "1");
-    ui->colAligment->addItem("Right", "2");
-    ui->colAligment->addItem("Center", "4");
-    ui->colAligment->addItem("Justify", "8");
-
+    int row = ui->colList->currentRow();
 
     ui->colList->clear();
     ui->colList->insertItems(0, pref->pl_columns_names);
 
     ui->colList->setCurrentRow(0);
-    this->on_colList_pressed(ui->colList->currentIndex());
 
+    if (ui->colList->count() >= row)
+        ui->colList->setCurrentRow(row);
 }
 
 
