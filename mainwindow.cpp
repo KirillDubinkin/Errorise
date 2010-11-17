@@ -254,12 +254,12 @@ void MainWindow::highlightCurrentTrack(QStringList format, QStringList back)
                 if (pref->pl_color_play_text.at(col) != "")
                     item->setTextColor( QColor(QString(pref->pl_color_play_text.at(col)).toInt(&ok, 16)) );
                 else
-                    item->setTextColor(ui->AlbumPL->palette().color(QPalette::HighlightedText));
+                    item->setTextColor(ui->AlbumPL->palette().color(QPalette::Active, QPalette::HighlightedText));
 
                 if (pref->pl_color_play_back.at(col) != "")
                     item->setBackgroundColor( QColor(QString(pref->pl_color_play_back.at(col)).toInt(&ok, 16)) );
                 else
-                    item->setBackground(ui->AlbumPL->palette().brush(QPalette::Highlight));
+                    item->setBackground(ui->AlbumPL->palette().brush(QPalette::Active, QPalette::Highlight));
 
 
                 item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
