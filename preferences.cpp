@@ -363,8 +363,8 @@ void Preferences::reset() {
         pl_color_text << "" << "" << "" << "" << "";
         pl_color_back << "" << "" << "" << "" << "";
 
-        pl_color_play_text << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF" << "FFFFFF";
-        pl_color_play_back << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F" << "4B0F0F";
+        pl_color_play_text << "" << "" << "" << "" << "";
+        pl_color_play_back << "" << "" << "" << "" << "";
 
 
 

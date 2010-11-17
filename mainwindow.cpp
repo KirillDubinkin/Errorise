@@ -250,8 +250,17 @@ void MainWindow::highlightCurrentTrack(QStringList format, QStringList back)
                 QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], format.at(col)).replace('\n', " "));
                 item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
 
-                item->setTextColor( QColor(QString(pref->pl_color_play_text.at(col)).toInt(&ok, 16)) );
-                item->setBackgroundColor( QColor(QString(pref->pl_color_play_back.at(col)).toInt(&ok, 16)) );
+
+                if (pref->pl_color_play_text.at(col) != "")
+                    item->setTextColor( QColor(QString(pref->pl_color_play_text.at(col)).toInt(&ok, 16)) );
+                else
+                    item->setTextColor(ui->AlbumPL->palette().color(QPalette::HighlightedText));
+
+                if (pref->pl_color_play_back.at(col) != "")
+                    item->setBackgroundColor( QColor(QString(pref->pl_color_play_back.at(col)).toInt(&ok, 16)) );
+                else
+                    item->setBackground(ui->AlbumPL->palette().brush(QPalette::Highlight));
+
 
                 item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
@@ -555,9 +564,17 @@ void MainWindow::addGroupItem(int row, int spanSize, const QString &text)
 
     QTableWidgetItem *group = new QTableWidgetItem(text);
     group->setTextAlignment( pref->pl_groups_aligment  | Qt::AlignVCenter);
-    group->setTextColor( QColor(pref->pl_groups_text_color.toInt(&ok, 16)) );
-    group->setBackgroundColor( QColor(pref->pl_groups_back_color.toInt(&ok, 16)) );
     group->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    if (!pref->pl_groups_text_color.isEmpty())
+        group->setTextColor( QColor(pref->pl_groups_text_color.toInt(&ok, 16)) );
+
+    if (!pref->pl_groups_back_color.isEmpty())
+        group->setBackgroundColor( QColor(pref->pl_groups_back_color.toInt(&ok, 16)) );
+    else
+        group->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
+
+
 
     ui->AlbumPL->setRowHeight(row, pref->pl_group_height);
     ui->AlbumPL->setItem(row, 1, group);
