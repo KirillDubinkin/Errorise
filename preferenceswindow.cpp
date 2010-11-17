@@ -412,3 +412,25 @@ QString PreferencesWindow::getRGBText(const QString &initColor)
     QColor(QColorDialog::getColor(QColor(QRgb(initColor.toInt(&ok, 16))))).getRgb(&r, &g, &b);
     return pref->getHex(r, g, b);
 }
+
+void PreferencesWindow::on_btnPlGroupTextColor_clicked()
+{
+    ui->plGroupColorText->setText(this->getRGBText(ui->plGroupColorText->text()));
+    this->on_plGroupColorText_editingFinished();
+}
+
+void PreferencesWindow::on_plGroupColorText_editingFinished()
+{
+    pref->pl_groups_text_color = ui->plGroupColorText->text();
+}
+
+void PreferencesWindow::on_plGroupColorBack_editingFinished()
+{
+    pref->pl_groups_back_color = ui->plGroupColorBack->text();
+}
+
+void PreferencesWindow::on_btnPlGroupBackColor_clicked()
+{
+    ui->plGroupColorBack->setText(this->getRGBText(ui->plGroupColorBack->text()));
+    this->on_plGroupColorBack_editingFinished();
+}

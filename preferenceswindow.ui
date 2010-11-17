@@ -387,7 +387,7 @@
                 <bool>true</bool>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>2</number>
                </property>
                <widget class="QWidget" name="tab_4">
                 <attribute name="title">
@@ -600,22 +600,6 @@
                             <property name="frameShadow">
                              <enum>QFrame::Raised</enum>
                             </property>
-                            <zorder>btnPlColorBack</zorder>
-                            <zorder>btnPlColorText</zorder>
-                            <zorder>lblPlColorText</zorder>
-                            <zorder>lblPlColorBack</zorder>
-                            <zorder>horizontalSpacer_5</zorder>
-                            <zorder>horizontalSpacer_7</zorder>
-                            <zorder>plColorText</zorder>
-                            <zorder>plColorBack</zorder>
-                            <zorder>btnPlColorBack</zorder>
-                            <zorder>btnPlColorText</zorder>
-                            <zorder>lblPlColorText</zorder>
-                            <zorder>lblPlColorBack</zorder>
-                            <zorder>horizontalSpacer_5</zorder>
-                            <zorder>horizontalSpacer_7</zorder>
-                            <zorder>plColorBack</zorder>
-                            <zorder>plColorText</zorder>
                            </widget>
                           </item>
                           <item row="4" column="0">
@@ -994,7 +978,7 @@
                      <widget class="QLineEdit" name="plGroupColorText"/>
                     </item>
                     <item row="0" column="3">
-                     <widget class="QPushButton" name="pushButton_9">
+                     <widget class="QPushButton" name="btnPlGroupTextColor">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1036,7 +1020,7 @@
                      <widget class="QLineEdit" name="plGroupColorBack"/>
                     </item>
                     <item row="1" column="3">
-                     <widget class="QPushButton" name="pushButton_10">
+                     <widget class="QPushButton" name="btnPlGroupBackColor">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>

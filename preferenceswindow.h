@@ -30,6 +30,10 @@ private:
     QString getRGBText(const QString &initColor);
 
 private slots:
+    void on_btnPlGroupBackColor_clicked();
+    void on_plGroupColorBack_editingFinished();
+    void on_plGroupColorText_editingFinished();
+    void on_btnPlGroupTextColor_clicked();
     void on_btnPlColorPlayBack_clicked();
     void on_btnPlColorPlayText_clicked();
     void on_btnPlColorBack_clicked();
