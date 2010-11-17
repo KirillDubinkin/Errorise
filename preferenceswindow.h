@@ -30,6 +30,9 @@ private:
     QString getRGBText(const QString &initColor);
 
 private slots:
+    void on_pushButton_3_clicked();
+    void on_pushButton_2_clicked();
+    void on_pushButton_clicked();
     void on_plGroupStyle_textChanged();
     void on_plGroupTextFormat_textChanged();
     void on_plGroupsLabels_toggled(bool checked);

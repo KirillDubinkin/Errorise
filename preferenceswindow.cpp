@@ -277,12 +277,16 @@ void PreferencesWindow::on_plRemoveCol_clicked()
     int idx = ui->colList->currentRow();
 
     if (idx > -1){
-       // this->on_colSave_clicked();
+        pref->pl_columns_names.removeAt(idx);
+        pref->pl_columns_format.removeAt(idx);
+        pref->pl_columns_back.removeAt(idx);
+        pref->pl_columns_playing_format.removeAt(idx);
+        pref->pl_columns_playng_back.removeAt(idx);
+        pref->pl_columns_sizes.removeAt(idx);
+        pref->pl_columns_aligment.removeAt(idx);
 
-        // this's simple, but i think we need qstringlists in preferences, not qstrings
-        // so.. it's will be next, after
-
-    }
+        this->fillPlaylistPref();
+     }
 }
 
 void PreferencesWindow::on_mainStylesheet_textChanged()
@@ -402,4 +406,47 @@ void PreferencesWindow::on_plGroupTextFormat_textChanged()
 void PreferencesWindow::on_plGroupStyle_textChanged()
 {
     pref->pl_groups_stylesheet = ui->plGroupStyle->toPlainText();
+}
+
+void PreferencesWindow::on_pushButton_clicked()
+{
+    pref->pl_columns_aligment.append("4");
+    pref->pl_columns_back.append("");
+    pref->pl_columns_format.append("");
+    pref->pl_columns_names.append("New");
+    pref->pl_columns_playing_format.append("");
+    pref->pl_columns_playng_back.append("");
+    pref->pl_columns_sizes.append("20");
+
+    this->fillPlaylistPref();
+}
+
+void PreferencesWindow::on_pushButton_2_clicked()
+{
+    if (curColumnIndex > 0){
+        pref->pl_columns_aligment.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_columns_back.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_columns_format.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_columns_names.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_columns_playing_format.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_columns_playng_back.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_columns_sizes.move(curColumnIndex, curColumnIndex-1);
+
+        this->fillPlaylistPref();
+    }
+}
+
+void PreferencesWindow::on_pushButton_3_clicked()
+{
+    if (curColumnIndex+1 < ui->colList->count()){
+        pref->pl_columns_aligment.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_columns_back.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_columns_format.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_columns_names.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_columns_playing_format.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_columns_playng_back.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_columns_sizes.move(curColumnIndex, curColumnIndex+1);
+
+        this->fillPlaylistPref();
+    }
 }
