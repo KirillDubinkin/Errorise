@@ -592,24 +592,14 @@
                           <string>Playlist items colors</string>
                          </property>
                          <layout class="QGridLayout" name="gridLayout_9">
-                          <item row="0" column="0">
-                           <widget class="QFrame" name="frame">
-                            <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
-                            </property>
-                            <property name="frameShadow">
-                             <enum>QFrame::Raised</enum>
-                            </property>
-                           </widget>
-                          </item>
-                          <item row="4" column="0">
+                          <item row="3" column="0">
                            <widget class="QLabel" name="label_18">
                             <property name="text">
                              <string>Playing text</string>
                             </property>
                            </widget>
                           </item>
-                          <item row="4" column="1">
+                          <item row="3" column="1">
                            <spacer name="horizontalSpacer_8">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
@@ -622,10 +612,10 @@
                             </property>
                            </spacer>
                           </item>
-                          <item row="4" column="2">
+                          <item row="3" column="2">
                            <widget class="QLineEdit" name="plColorPlayText"/>
                           </item>
-                          <item row="4" column="3">
+                          <item row="3" column="3">
                            <widget class="QPushButton" name="btnPlColorPlayText">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -644,14 +634,14 @@
                             </property>
                            </widget>
                           </item>
-                          <item row="5" column="0">
+                          <item row="4" column="0">
                            <widget class="QLabel" name="label_19">
                             <property name="text">
                              <string>Playing background</string>
                             </property>
                            </widget>
                           </item>
-                          <item row="5" column="1">
+                          <item row="4" column="1">
                            <spacer name="horizontalSpacer_9">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
@@ -664,10 +654,10 @@
                             </property>
                            </spacer>
                           </item>
-                          <item row="5" column="2">
+                          <item row="4" column="2">
                            <widget class="QLineEdit" name="plColorPlayBack"/>
                           </item>
-                          <item row="5" column="3">
+                          <item row="4" column="3">
                            <widget class="QPushButton" name="btnPlColorPlayBack">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -686,13 +676,13 @@
                             </property>
                            </widget>
                           </item>
-                          <item row="1" column="2">
+                          <item row="0" column="2">
                            <widget class="QLineEdit" name="plColorText"/>
                           </item>
-                          <item row="2" column="2">
+                          <item row="1" column="2">
                            <widget class="QLineEdit" name="plColorBack"/>
                           </item>
-                          <item row="2" column="1">
+                          <item row="1" column="1">
                            <spacer name="horizontalSpacer_7">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
@@ -705,7 +695,7 @@
                             </property>
                            </spacer>
                           </item>
-                          <item row="1" column="1">
+                          <item row="0" column="1">
                            <spacer name="horizontalSpacer_5">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
@@ -718,21 +708,21 @@
                             </property>
                            </spacer>
                           </item>
-                          <item row="2" column="0">
+                          <item row="1" column="0">
                            <widget class="QLabel" name="lblPlColorBack">
                             <property name="text">
                              <string>Background</string>
                             </property>
                            </widget>
                           </item>
-                          <item row="1" column="0">
+                          <item row="0" column="0">
                            <widget class="QLabel" name="lblPlColorText">
                             <property name="text">
                              <string>Text</string>
                             </property>
                            </widget>
                           </item>
-                          <item row="1" column="3">
+                          <item row="0" column="3">
                            <widget class="QPushButton" name="btnPlColorText">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -751,7 +741,7 @@
                             </property>
                            </widget>
                           </item>
-                          <item row="2" column="3">
+                          <item row="1" column="3">
                            <widget class="QPushButton" name="btnPlColorBack">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -770,7 +760,7 @@
                             </property>
                            </widget>
                           </item>
-                          <item row="6" column="1">
+                          <item row="5" column="1">
                            <spacer name="verticalSpacer_8">
                             <property name="orientation">
                              <enum>Qt::Vertical</enum>
@@ -783,7 +773,7 @@
                             </property>
                            </spacer>
                           </item>
-                          <item row="3" column="1">
+                          <item row="2" column="1">
                            <spacer name="verticalSpacer_6">
                             <property name="orientation">
                              <enum>Qt::Vertical</enum>
@@ -1044,9 +1034,9 @@
                  <item row="2" column="0">
                   <layout class="QVBoxLayout" name="lasarsdd">
                    <item>
-                    <widget class="QLabel" name="lblPlGroupStyle">
+                    <widget class="QCheckBox" name="plGroupsLabels">
                      <property name="text">
-                      <string>Groups StyleSheet</string>
+                      <string>Use StyleSheet and HTML-tags</string>
                      </property>
                     </widget>
                    </item>

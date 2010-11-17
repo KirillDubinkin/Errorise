@@ -498,7 +498,7 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
 
     prev = parseLine(&mediaInfo->track[0], pref->pl_groups_format);
 
-    if (!pref->pl_use_html)
+    if (!pref->pl_groups_labels)
         this->addGroupItem(row, form.size(), prev);
     else
         this->addGroupLabel(row, form.size(), prev);
@@ -527,7 +527,7 @@ void MainWindow::setPlGroupRows(const QStringList &form, const QStringList &back
             // if group chenged - insert new group
         if (prev != cur)
         {
-            if (!pref->pl_use_html)
+            if (!pref->pl_groups_labels)
                 this->addGroupItem(++row, form.size(), cur);
             else
                 this->addGroupLabel(++row, form.size(), cur);

@@ -319,7 +319,7 @@ public:
 
 
 
-
+        bool pl_groups_labels;
         QString pl_groups_format;
         QString pl_groups_stylesheet;
         QString pl_groups_text_color;

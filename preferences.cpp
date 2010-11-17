@@ -369,7 +369,7 @@ void Preferences::reset() {
 
 
 
-
+        pl_groups_labels = false;
         pl_groups_format = "%artist% - [%date%] %album%";
         pl_groups_stylesheet = "";
         pl_groups_text_color = "";
@@ -725,7 +725,7 @@ void Preferences::save() {
 
         set->setValue("pl_stylesheet", pl_stylesheet);
 
-
+        set->setValue("pl_groups_labels", pl_groups_labels);
         set->setValue("pl_groups_format", pl_groups_format);
         set->setValue("pl_groups_stylesheet", pl_groups_stylesheet);
         set->setValue("pl_groups_text_color", pl_groups_text_color);
@@ -1093,7 +1093,7 @@ void Preferences::load() {
 
         pl_stylesheet = set->value("pl_stylesheet", pl_stylesheet).toString();
 
-
+        pl_groups_labels = set->value("pl_groups_labels", pl_groups_labels).toBool();
         pl_groups_format = set->value("pl_groups_format", pl_groups_format).toString();
         pl_groups_stylesheet = set->value("pl_groups_stylesheet", pl_groups_stylesheet).toString();
         pl_groups_text_color = set->value("pl_groups_text_color", pl_groups_text_color).toString();

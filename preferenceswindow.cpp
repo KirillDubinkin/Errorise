@@ -46,10 +46,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
 
     ui->useHTML->setChecked(pref->pl_use_html);
     ui->tabPlColStyleSheets->setEnabled(pref->pl_use_html);
-    ui->plGroupStyle->setEnabled(pref->pl_use_html);
-    ui->lblPlGroupStyle->setEnabled(pref->pl_use_html);
-    ui->groupPlItemsColors->setEnabled(!pref->pl_use_html);
-    ui->groupPlGroupColors->setEnabled(!pref->pl_use_html);
+
+
 
     ui->groupTracks->setChecked(pref->pl_use_groups);
     ui->tabPlGroups->setEnabled(pref->pl_use_groups);
@@ -72,6 +70,10 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
 //    ui->lblPlColorText->setEnabled(!pref->pl_alternate_colors);
     ui->lblPlColorBack->setEnabled(!pref->pl_alternate_colors);
 
+    ui->plGroupsLabels->setChecked(pref->pl_groups_labels);
+    ui->plGroupStyle->setEnabled(pref->pl_groups_labels);
+    ui->groupPlGroupColors->setEnabled(!pref->pl_groups_labels);
+    ui->groupPlItemsColors->setEnabled(!pref->pl_groups_labels);
 }
 
 
@@ -297,13 +299,7 @@ void PreferencesWindow::on_recursive_scan_toggled(bool checked)
 void PreferencesWindow::on_useHTML_toggled(bool checked)
 {
     pref->pl_use_html = checked;
-
     ui->tabPlColStyleSheets->setEnabled(checked);
-    ui->lblPlGroupStyle->setEnabled(checked);
-    ui->plGroupStyle->setEnabled(checked);
-
-    ui->groupPlGroupColors->setEnabled(!checked);
-    ui->groupPlItemsColors->setEnabled(!checked);
 }
 
 void PreferencesWindow::on_groupTracks_toggled(bool checked)
@@ -433,4 +429,25 @@ void PreferencesWindow::on_btnPlGroupBackColor_clicked()
 {
     ui->plGroupColorBack->setText(this->getRGBText(ui->plGroupColorBack->text()));
     this->on_plGroupColorBack_editingFinished();
+}
+
+void PreferencesWindow::on_plGroupsLabels_toggled(bool checked)
+{
+    pref->pl_groups_labels = checked;
+
+    ui->plGroupsLabels->setChecked(checked);
+    ui->plGroupStyle->setEnabled(checked);
+    ui->groupPlGroupColors->setEnabled(!checked);
+    ui->groupPlItemsColors->setEnabled(!checked);
+}
+
+
+void PreferencesWindow::on_plGroupTextFormat_textChanged()
+{
+    pref->pl_groups_format = ui->plGroupTextFormat->toPlainText();
+}
+
+void PreferencesWindow::on_plGroupStyle_textChanged()
+{
+    pref->pl_groups_stylesheet = ui->plGroupStyle->toPlainText();
 }
