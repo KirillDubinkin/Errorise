@@ -246,34 +246,6 @@ void Core::startMplayer(QString file, double seek ) {
 
 
 
-        // Performance options
-        #ifdef Q_OS_WIN
-        QString p;
-        int app_p = NORMAL_PRIORITY_CLASS;
-        switch (pref->priority) {
-                case Preferences::Realtime: 	p = "realtime";
-                                                                                app_p = REALTIME_PRIORITY_CLASS;
-                                                                                break;
-                case Preferences::High:			p = "high";
-                                                                                app_p = REALTIME_PRIORITY_CLASS;
-                                                                                break;
-                case Preferences::AboveNormal:	p = "abovenormal";
-                                                                                app_p = HIGH_PRIORITY_CLASS;
-                                                                                break;
-                case Preferences::Normal: 		p = "normal";
-                                                                                app_p = ABOVE_NORMAL_PRIORITY_CLASS;
-                                                                                break;
-                case Preferences::BelowNormal: 	p = "belownormal"; break;
-                case Preferences::Idle: 		p = "idle"; break;
-                default: 						p = "normal";
-        }
-        proc->addArgument("-priority");
-        proc->addArgument( p );
-        SetPriorityClass(GetCurrentProcess(), app_p);
-        qDebug("Core::startMplayer: priority of smplayer process set to %d", app_p);
-        #endif
-
-
         proc->addArgument("-volume");
         proc->addArgument( QString::number( pref->volume ) );
 
@@ -384,12 +356,6 @@ void Core::startMplayer(QString file, double seek ) {
 
         // File to play
 
-
-#ifdef Q_OS_WIN
-        if (pref->use_short_pathnames)
-                proc->addArgument(Helper::shortPathName(file));
-        else
-#endif
 
         if (pref->play_only_this){
             proc->addArgument(file);

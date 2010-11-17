@@ -371,10 +371,10 @@ void Preferences::reset() {
 
 
         pl_groups_format = "%artist% - [%date%] %album%";
-        pl_groups_stylesheet ="";
+        pl_groups_stylesheet = "";
         pl_groups_text_color = "";
         pl_groups_back_color = "";
-        pl_groups_aligment = 1;
+        pl_groups_aligment = 0x1;
         pl_group_height = 30;
 
 
@@ -425,8 +425,8 @@ void Preferences::reset() {
        Directories
        *********** */
 
-        music_library_path = QString("/media/ft/Music");
-        files_filter = QString("*.mp3;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3");
+        music_library_path = QDir::homePath();
+        files_filter = QString("*.mp3;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
 
 //	last_dvd_directory="";
 
@@ -750,7 +750,9 @@ void Preferences::save() {
         set->setValue("res_tree_width", res_tree_width);
 
         set->setValue("recursive_dirs", recursive_dirs);
-        set->setValue("window_pos", QString().number(x) + "x" + QString().number(y));
+
+        set->setValue("window_x", x);
+        set->setValue("window_y", y);
 
 
 	set->endGroup(); // gui
@@ -1116,10 +1118,12 @@ void Preferences::load() {
         res_tree_width = set->value("res_tree_width", res_tree_width).toInt();
 
         recursive_dirs = set->value("recursive_dirs", recursive_dirs).toBool();
-        QStringList res_lst = set->value("window_pos", res_lst).toString().split("x");
-        x = QString(res_lst.at(0)).toInt();
-        y = QString(res_lst.at(1)).toInt();
+        //QStringList res_lst = set->value("window_pos", res_lst).toString().split("x");
+        //x = QString(res_lst.at(0)).toInt();
+        //y = QString(res_lst.at(1)).toInt();
 
+        x = set->value("window_x", x).toInt();
+        y = set->value("window_y", y).toInt();
 
 	set->endGroup(); // gui
 
