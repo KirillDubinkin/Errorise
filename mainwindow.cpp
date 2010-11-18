@@ -418,13 +418,19 @@ void MainWindow::setPlColumns()
     ui->AlbumPL->setColumnCount(1);
     int col=1;
 
+    this->coverColumn = -1;
+
     for (int i = 0; i < pref->pl_columns_names.size(); i++)
     {
+        if (QString(pref->pl_columns_format.at(i)).contains("%art%"))
+            this->coverColumn = col;
+
         ui->AlbumPL->insertColumn(col);
         QTableWidgetItem *item = new QTableWidgetItem(pref->pl_columns_names.at(i));
 
         ui->AlbumPL->setHorizontalHeaderItem(col, item);
         ui->AlbumPL->setColumnWidth(col++, QString(pref->pl_columns_sizes.at(i)).toInt());
+
     }
 }
 
@@ -472,7 +478,7 @@ void MainWindow::setPlGroupRows()
 {
     this->readyToPlay = false;
 
-    int num = mediaInfo->numParsedFiles, row = 0;
+    int num = mediaInfo->numParsedFiles, row = 0, prevGroupRow=0;
     QString prev, cur;
 
         // clear playlist
@@ -494,10 +500,12 @@ void MainWindow::setPlGroupRows()
         // fills row of first track
     for (int col = 0; col < pref->pl_columns_format.size(); col++)
     {
-        if (pref->pl_use_html)
-            this->addRowLabel(0, row, col);
-        else
-            this->addRowItem(0, row, col);
+        if (this->coverColumn-1 != col){
+            if (pref->pl_use_html)
+                this->addRowLabel(0, row, col);
+            else
+                this->addRowItem(0, row, col);
+        }
     }
 
 
@@ -509,10 +517,20 @@ void MainWindow::setPlGroupRows()
             // if group chenged - insert new group
         if (prev != cur)
         {
+            if (this->coverColumn > -1){
+
+                this->addCover(prevGroupRow+1, row-prevGroupRow, QFileInfo(mediaInfo->track[idx-1].filename).dir());
+
+                row++;
+            }
+
+
             if (!pref->pl_groups_labels)
                 this->addGroupItem(++row, cur);
             else
                 this->addGroupLabel(++row, cur);
+
+            prevGroupRow = row;
         }
 
         ui->AlbumPL->insertRow(++row);
@@ -521,13 +539,18 @@ void MainWindow::setPlGroupRows()
 
         for (int col = 0; col < pref->pl_columns_format.size(); col++)
         {
-            if (pref->pl_use_html)
-                this->addRowLabel(idx, row, col);
-            else
-                this->addRowItem(idx, row, col);
+            if (this->coverColumn-1 != col){
+                if (pref->pl_use_html)
+                    this->addRowLabel(idx, row, col);
+                else
+                    this->addRowItem(idx, row, col);
+            }
         }
         prev = cur;
     }
+
+    if (this->coverColumn > -1)
+        this->addCover(prevGroupRow+1, row-prevGroupRow, QFileInfo(mediaInfo->track[num-1].filename).dir());
 
     this->readyToPlay = true;
 
@@ -536,6 +559,34 @@ void MainWindow::setPlGroupRows()
 
 }
 
+
+void MainWindow::addCover(int row, int spanRow, const QDir &path)
+{
+    int newRow = row + spanRow;
+    ui->AlbumPL->insertRow(newRow);
+    QTableWidgetItem *index = new QTableWidgetItem(*ui->AlbumPL->item(row, 0));
+    ui->AlbumPL->setItem(newRow, 0, index);
+
+    ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
+
+    QStringList files = path.entryList(QStringList() << "*cover*.jpg" << "*folder*.jpg", QDir::Files);
+
+    if (!files.isEmpty())
+    {
+        QPixmap pic(path.absoluteFilePath(files.at(0)));
+
+        float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
+        int curGroupSize = pref->pl_row_height * (spanRow+1);
+
+        QLabel *art = new QLabel;
+        art->setScaledContents(true);
+        art->setPixmap(pic);
+
+        ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
+        if (curGroupSize < (pic.height() * factor))
+            ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
+    }
+}
 
 void MainWindow::addGroupItem(int row, const QString &text)
 {

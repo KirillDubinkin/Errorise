@@ -91,16 +91,18 @@ private:
     void showPlPlaytime();
 
     void addRowItem(int idx, int row, int col);
-
     void addRowLabel(int idx, int row, int col);
 
     void addGroupItem(int row, const QString &text);
     void addGroupLabel(int row, const QString &text);
 
+    void addCover(int row, int spanRow, const QDir &path);
+
     void recursiveDirectory(const QString &sDir);
 
     int lengthColumn();
     int timeColumn;
+    int coverColumn;
 
 protected:
     Core * core;
