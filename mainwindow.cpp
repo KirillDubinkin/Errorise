@@ -560,7 +560,7 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
 {
     int newRow = row + spanRow;
     ui->AlbumPL->insertRow(newRow);
-    QTableWidgetItem *index = new QTableWidgetItem(*ui->AlbumPL->item(row, 0));
+    QTableWidgetItem *index = new QTableWidgetItem("art");
     ui->AlbumPL->setItem(newRow, 0, index);
 
     ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
@@ -779,24 +779,35 @@ void MainWindow::playPrev()
 {
     if ( (core->playing) & (core->mset.current_id > 0) ){
         if (ui->AlbumPL->item(ui->AlbumPL->currentRow()-1, 0)->text() == "span"){
-            if (core->mset.current_id > 2){
+            if (core->mset.current_id > 2)
+            {
                 ui->AlbumPL->setCurrentCell( core->mset.current_id-2, 0 );
+
+                if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "art")
+                    ui->AlbumPL->setCurrentCell(ui->AlbumPL->currentRow()-1, 0);
+
                 play();
             }
         } else {
             ui->AlbumPL->setCurrentCell( core->mset.current_id-1, 0 );
             play();
         }
+
     }
 }
+
 
 void MainWindow::play()
 {
     defPlhighlight();
 
-    if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "span"){
-        ui->AlbumPL->setCurrentCell(ui->AlbumPL->currentRow()+1, 0);
-    }
+    if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "art")
+            ui->AlbumPL->setCurrentCell(ui->AlbumPL->currentRow()+2, 0);
+
+    else if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "span")
+            ui->AlbumPL->setCurrentCell(ui->AlbumPL->currentRow()+1, 0);
+
+
     int idx = ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text().toInt();
 
     qDebug() << "idx:" << idx;
