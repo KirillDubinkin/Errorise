@@ -668,6 +668,9 @@ void MainWindow::plFilter()
         files = QDir(currentPath).entryList(pref->files_filter.split(";"),
                                             QDir::Files);
 
+    if (files.isEmpty())
+        return;
+
     mediaInfo->parseDir(files);
 
     if (pref->pl_use_groups)
