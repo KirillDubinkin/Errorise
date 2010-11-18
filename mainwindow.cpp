@@ -14,6 +14,7 @@
 #include <QSplitter>
 #include <QWidgetAction>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QSpacerItem>
 #include <QPixmap>
 #include <QPalette>
@@ -209,62 +210,57 @@ void MainWindow::changeAlbumDir()
 
 void MainWindow::defPlhighlight()
 {
-    if (core->mset.current_id > -1){
+    if (core->mset.current_id > -1)
         for (int col = 0; col < pref->pl_columns_format.size(); col++)
-        {
-            if (pref->pl_use_html)
-                this->addRowLabel(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+            if (this->coverColumn-1 != col)
+                if (pref->pl_use_html)
+                    this->addRowLabel(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
                                   core->mset.current_id, col);
-            else
-            {
-                ui->AlbumPL->removeCellWidget(core->mset.current_id, col+1);
-                this->addRowItem(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
+                else
+                {
+                    ui->AlbumPL->removeCellWidget(core->mset.current_id, col+1);
+                    this->addRowItem(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
                                    core->mset.current_id, col);
-            }
-        }
-    }
+                }
 }
 
 void MainWindow::highlightCurrentTrack()
 {
     if (core->mset.current_id == -1) // try to find
-    {
         tryFindCurrentTrack();
-    }
 
-    if (core->mset.current_id > -1){
-
+    if (core->mset.current_id > -1)
+    {
         int row = core->mset.current_id;
         int idx = ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt();
 
         for (int col = 0; col < pref->pl_columns_playing_format.size(); col++)
-            if (!pref->pl_use_html)
-            {
-                bool ok;
-                QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], pref->pl_columns_playing_format.at(col)).replace('\n', " "));
-                item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
+            if (this->coverColumn-1 != col)
+                if (!pref->pl_use_html)
+                {
+                    bool ok;
+                    QTableWidgetItem *item = new QTableWidgetItem(parseLine(&mediaInfo->track[idx], pref->pl_columns_playing_format.at(col)).replace('\n', " "));
+                    item->setTextAlignment(QString(pref->pl_columns_aligment.at(col)).toInt());
 
 
-                if (pref->pl_color_play_text.at(col) != "")
-                    item->setTextColor( QColor(QString(pref->pl_color_play_text.at(col)).toInt(&ok, 16)) );
+                    if (pref->pl_color_play_text.at(col) != "")
+                        item->setTextColor( QColor(QString(pref->pl_color_play_text.at(col)).toInt(&ok, 16)) );
+                    else
+                        item->setTextColor(ui->AlbumPL->palette().color(QPalette::Active, QPalette::HighlightedText));
+
+                    if (pref->pl_color_play_back.at(col) != "")
+                        item->setBackgroundColor( QColor(QString(pref->pl_color_play_back.at(col)).toInt(&ok, 16)) );
+                    else
+                        item->setBackground(ui->AlbumPL->palette().brush(QPalette::Active, QPalette::Highlight));
+
+
+                    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+                    ui->AlbumPL->setItem(row, col+1, item);
+                    ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
+                }
                 else
-                    item->setTextColor(ui->AlbumPL->palette().color(QPalette::Active, QPalette::HighlightedText));
-
-                if (pref->pl_color_play_back.at(col) != "")
-                    item->setBackgroundColor( QColor(QString(pref->pl_color_play_back.at(col)).toInt(&ok, 16)) );
-                else
-                    item->setBackground(ui->AlbumPL->palette().brush(QPalette::Active, QPalette::Highlight));
-
-
-                item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-                ui->AlbumPL->setItem(row, col+1, item);
-                ui->AlbumPL->setRowHeight(row, pref->pl_row_height);
-
-
-            }
-            else
-                this->addRowLabel(idx, row, col);
+                    this->addRowLabel(idx, row, col);
     }
 }
 
@@ -583,6 +579,7 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
         art->setPixmap(pic);
 
         ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
+
         if (curGroupSize < (pic.height() * factor))
             ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
     }
