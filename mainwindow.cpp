@@ -563,6 +563,11 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
     QTableWidgetItem *index = new QTableWidgetItem("art");
     ui->AlbumPL->setItem(newRow, 0, index);
 
+    if (this->coverColumn == 1)
+        ui->AlbumPL->setSpan(newRow, 2, 1, pref->pl_columns_names.size() - 1);
+    else if (this->coverColumn == pref->pl_columns_names.size())
+        ui->AlbumPL->setSpan(newRow, 1, 1, pref->pl_columns_names.size() - 1);
+
     ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
 
     QStringList files = path.entryList(QStringList() << "*cover*.jpg" << "*folder*.jpg", QDir::Files);
@@ -807,6 +812,8 @@ void MainWindow::play()
     else if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "span")
             ui->AlbumPL->setCurrentCell(ui->AlbumPL->currentRow()+1, 0);
 
+    if ((ui->AlbumPL->currentRow() < 0) | (ui->AlbumPL->currentRow() > ui->AlbumPL->rowCount()))
+        return;
 
     int idx = ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text().toInt();
 
