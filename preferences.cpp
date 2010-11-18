@@ -347,7 +347,7 @@ void Preferences::reset() {
 
 
 
-        pl_columns_names << "#" << "Track ,Name" << "Bitrate" << "Format" << "Length";
+        pl_columns_names << "#" << "Track Name" << "Bitrate" << "Format" << "Length";
 
         pl_columns_format << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
         pl_columns_back << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 50, 50);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(126, 55, 139);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 60, 60);";

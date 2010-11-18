@@ -272,22 +272,7 @@ void PreferencesWindow::on_colAligment_currentIndexChanged(int index)
     }
 }
 
-void PreferencesWindow::on_plRemoveCol_clicked()
-{
-    int idx = ui->colList->currentRow();
 
-    if (idx > -1){
-        pref->pl_columns_names.removeAt(idx);
-        pref->pl_columns_format.removeAt(idx);
-        pref->pl_columns_back.removeAt(idx);
-        pref->pl_columns_playing_format.removeAt(idx);
-        pref->pl_columns_playng_back.removeAt(idx);
-        pref->pl_columns_sizes.removeAt(idx);
-        pref->pl_columns_aligment.removeAt(idx);
-
-        this->fillPlaylistPref();
-     }
-}
 
 void PreferencesWindow::on_mainStylesheet_textChanged()
 {
@@ -417,9 +402,36 @@ void PreferencesWindow::on_pushButton_clicked()
     pref->pl_columns_playing_format.append("");
     pref->pl_columns_playng_back.append("");
     pref->pl_columns_sizes.append("20");
+    pref->pl_color_back.append("");
+    pref->pl_color_play_back.append("");
+    pref->pl_color_play_text.append("");
+    pref->pl_color_text.append("");
 
     this->fillPlaylistPref();
 }
+
+
+void PreferencesWindow::on_plRemoveCol_clicked()
+{
+    int idx = ui->colList->currentRow();
+
+    if (idx > -1){
+        pref->pl_columns_names.removeAt(idx);
+        pref->pl_columns_format.removeAt(idx);
+        pref->pl_columns_back.removeAt(idx);
+        pref->pl_columns_playing_format.removeAt(idx);
+        pref->pl_columns_playng_back.removeAt(idx);
+        pref->pl_columns_sizes.removeAt(idx);
+        pref->pl_columns_aligment.removeAt(idx);
+        pref->pl_color_back.removeAt(idx);
+        pref->pl_color_play_back.removeAt(idx);
+        pref->pl_color_play_text.removeAt(idx);
+        pref->pl_color_text.removeAt(idx);
+
+        this->fillPlaylistPref();
+     }
+}
+
 
 void PreferencesWindow::on_pushButton_2_clicked()
 {
@@ -431,6 +443,10 @@ void PreferencesWindow::on_pushButton_2_clicked()
         pref->pl_columns_playing_format.move(curColumnIndex, curColumnIndex-1);
         pref->pl_columns_playng_back.move(curColumnIndex, curColumnIndex-1);
         pref->pl_columns_sizes.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_color_back.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_color_play_back.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_color_play_text.move(curColumnIndex, curColumnIndex-1);
+        pref->pl_color_text.move(curColumnIndex, curColumnIndex-1);
 
         this->fillPlaylistPref();
     }
@@ -446,6 +462,10 @@ void PreferencesWindow::on_pushButton_3_clicked()
         pref->pl_columns_playing_format.move(curColumnIndex, curColumnIndex+1);
         pref->pl_columns_playng_back.move(curColumnIndex, curColumnIndex+1);
         pref->pl_columns_sizes.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_color_back.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_color_play_back.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_color_play_text.move(curColumnIndex, curColumnIndex+1);
+        pref->pl_color_text.move(curColumnIndex, curColumnIndex+1);
 
         this->fillPlaylistPref();
     }
