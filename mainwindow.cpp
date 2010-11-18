@@ -579,14 +579,14 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
         float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
         int curGroupSize = pref->pl_row_height * (spanRow+1);
 
+        if (curGroupSize < (pic.height() * factor))
+            ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
+
         QLabel *art = new QLabel;
         art->setScaledContents(true);
         art->setPixmap(pic);
 
         ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
-
-        if (curGroupSize < (pic.height() * factor))
-            ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
     }
 }
 
