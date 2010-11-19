@@ -64,7 +64,6 @@ public slots:
     void highlightCurrentTrack();
 
     void changePL();
-    void resetPl();
 
     void showCurrentTime();
     void showDefTimePl();

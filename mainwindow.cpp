@@ -52,10 +52,6 @@ MainWindow::MainWindow(QWidget *parent) :
     readyToPlay = false;
     timeColumn = -1;
 
- //   this->setPalette(pref->palette);
- //   ui->AlbumPL->setPalette(pref->palette);
- //   ui->treeView->setPalette(pref->palette);
-
     changeAlbumDir();
     createToolBars();
 
@@ -63,16 +59,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPreferences, SIGNAL(triggered()), this->preferences, SLOT(show()));
     connect(this->preferences, SIGNAL(music_folder_changed()), this, SLOT(changeAlbumDir()));
     connect(this->preferences, SIGNAL(file_filter_changed()), this, SLOT(plFilter()));
-//    connect(this->preferences, SIGNAL(status_bar(bool)), this, SLOT(showStatusBar(bool)));
     connect(this->preferences, SIGNAL(hide_status_bar(bool)), ui->statusBar, SLOT(setHidden(bool)));
 
-   // connect(this->preferences, SIGNAL(playlist_changed(QStringList,QStringList,QStringList,QStringList)),
-   //         this, SLOT(changePL(QStringList,QStringList,QStringList,QStringList)));
 
-    connect(this->preferences, SIGNAL(playlist_changed()),
-            this, SLOT(changePL()));
-    connect(this->preferences, SIGNAL(playlist_reset()), this, SLOT(resetPl()));
-
+    connect(this->preferences, SIGNAL(playlist_changed()), this, SLOT(changePL()));
 
     connect(this->core, SIGNAL(showTime()), this, SLOT(showCurrentTime()));
     connect(this->preferences, SIGNAL(dontShowCurrentTimeInPl()), this, SLOT(showDefTimePl()));
@@ -97,11 +87,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->core, SIGNAL(playnext()), this, SLOT(playNext()));
 
 
-   // connect(ui->AlbumPL, SIGNAL(pressed(QModelIndex)), this, SLOT(updateStatusBar(QModelIndex)));
-
-
     connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
-   // connect(this->progress, SIGNAL(actionTriggered(int)), this, SLOT(setTime(int)));
 
     connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
 
@@ -396,19 +382,6 @@ void MainWindow::changePL()
     }
 }
 
-void MainWindow::resetPl()
-{
-    setPlColumns();
-
-    if (pref->pl_use_groups)
-        this->setPlGroupRows();
-    else
-        this->setPlRows();
-
-    if (core->playing){
-        highlightCurrentTrack();
-    }
-}
 
 void MainWindow::setPlColumns()
 {
@@ -586,6 +559,7 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
     if (!files.isEmpty())
     {
         QPixmap pic(path.absoluteFilePath(files.at(0)));
+        status->setText(path.absoluteFilePath(files.at(0)));
 
         float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
         int curGroupSize = pref->pl_row_height * (spanRow+2);
