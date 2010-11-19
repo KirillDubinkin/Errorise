@@ -554,26 +554,30 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
 
     ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
 
-    QStringList files = path.entryList(QStringList() << "*cover*.jpg" << "*folder*.jpg", QDir::Files);
 
-    if (!files.isEmpty())
+    if (!pref->pl_art_search_pattern.isEmpty())
     {
-        QPixmap pic(path.absoluteFilePath(files.at(0)));
-        status->setText(path.absoluteFilePath(files.at(0)));
+        QStringList files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
 
-        float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
-        int curGroupSize = pref->pl_row_height * (spanRow+2);
+        if (!files.isEmpty())
+        {
+            QPixmap pic(path.absoluteFilePath(files.at(0)));
+            status->setText(path.absoluteFilePath(files.at(0)));
 
-        QLabel *art = new QLabel;
-        art->setScaledContents(true);
-        art->setPixmap(pic);
+            float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
+            int curGroupSize = pref->pl_row_height * (spanRow+2);
 
-        if (curGroupSize < (pic.height() * factor))
-            ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
-        else
-            art->setMaximumHeight(pic.height() * factor);
+            QLabel *art = new QLabel;
+            art->setScaledContents(true);
+            art->setPixmap(pic);
 
-        ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
+            if (curGroupSize < (pic.height() * factor))
+                ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
+            else
+                art->setMaximumHeight(pic.height() * factor);
+
+            ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
+        }
     }
 }
 

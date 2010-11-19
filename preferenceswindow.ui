@@ -373,7 +373,7 @@
                 <bool>true</bool>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="tab_4">
                 <attribute name="title">
@@ -456,6 +456,33 @@
                   </spacer>
                  </item>
                  <item row="2" column="0" colspan="4">
+                  <layout class="QVBoxLayout" name="verticalLayout_22">
+                   <item>
+                    <widget class="QLabel" name="label_2">
+                     <property name="text">
+                      <string>Artwork seach pattern</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="plArtSearchPattern"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="3" column="1">
+                  <spacer name="verticalSpacer_12">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="4" column="0" colspan="4">
                   <layout class="QVBoxLayout" name="verticalLayout_21">
                    <item>
                     <widget class="QLabel" name="label_22">

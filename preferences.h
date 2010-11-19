@@ -309,14 +309,13 @@ public:
         QStringList pl_columns_aligment;
 
 
+        QStringList pl_art_search_pattern;
+
 
         QStringList pl_color_text;
         QStringList pl_color_back;
         QStringList pl_color_play_text;
         QStringList pl_color_play_back;
-
-
-
 
 
         bool pl_groups_labels;

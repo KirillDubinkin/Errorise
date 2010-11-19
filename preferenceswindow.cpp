@@ -80,6 +80,9 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->plGroupsLabels->setChecked(pref->pl_groups_labels);
     ui->plGroupStyle->setEnabled(pref->pl_groups_labels);
     ui->groupPlGroupColors->setEnabled(!pref->pl_groups_labels);
+
+
+    ui->plArtSearchPattern->setText(pref->pl_art_search_pattern.join(";"));
 }
 
 
@@ -491,4 +494,9 @@ void PreferencesWindow::on_pushButton_3_clicked()
 
         this->fillPlaylistPref();
     }
+}
+
+void PreferencesWindow::on_plArtSearchPattern_editingFinished()
+{
+    pref->pl_art_search_pattern = ui->plArtSearchPattern->text().split(";");
 }

@@ -358,6 +358,8 @@ void Preferences::reset() {
         pl_columns_sizes << "300" << "23" << "75" << "200" << "75" << "50";
         pl_columns_aligment << "4" << "4" << "4" << "4" << "4" << "4";
 
+        pl_art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
+
 
 
         pl_color_text << "" << "527482" << "43606b" << "" << "43606b" << "527482";
@@ -718,6 +720,7 @@ void Preferences::save() {
         set->setValue("pl_columns_sizes", pl_columns_sizes);
         set->setValue("pl_columns_aligment", pl_columns_aligment);
 
+        set->setValue("pl_art_search_pattern", pl_art_search_pattern);
 
         set->setValue("pl_color_text", pl_color_text);
         set->setValue("pl_color_back", pl_color_back);
@@ -1087,6 +1090,7 @@ void Preferences::load() {
         pl_columns_sizes = set->value("pl_columns_sizes", pl_columns_sizes).toStringList();
         pl_columns_aligment = set->value("pl_columns_aligment", pl_columns_aligment).toStringList();
 
+        pl_art_search_pattern = set->value("pl_art_search_pattern", pl_art_search_pattern).toStringList();
 
         pl_color_text = set->value("pl_color_text", pl_color_text).toStringList();
         pl_color_back = set->value("pl_color_back", pl_color_back).toStringList();
