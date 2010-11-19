@@ -140,7 +140,7 @@ void Preferences::reset() {
         ao = "";
 
 #ifdef Q_OS_WIN
-        mediainfo_cli = "mediainfo.exe";
+        mediainfo_cli = "mediainfo/mediainfo.exe";
 #else
         mediainfo_cli = "mediainfo";
 #endif
@@ -340,45 +340,45 @@ void Preferences::reset() {
 
 
         main_stylesheet = "";
-        pl_stylesheet = "";
+        pl_stylesheet = "selection-background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(91, 0, 115, 255), stop:1 rgba(175, 43, 202, 255));\nselection-color: rgb(255, 255, 255);\n";
 
         pl_alternate_colors = true;
         pl_custom_colors = false;
 
 
 
-        pl_columns_names << "#" << "Track Name" << "Bitrate" << "Format" << "Length";
+        pl_columns_names << "Cover" << "#" << "Track Name" << "Bitrate" << "Format" << "Length";
 
-        pl_columns_format << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
-        pl_columns_back << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 50, 50);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(126, 55, 139);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(215, 215, 161, 255), stop:1 rgba(255, 255, 221, 255));\ncolor: rgb(30, 60, 60);";
+        pl_columns_format << "%art%" << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
+        pl_columns_back << "" << "" << "" << "" << "" << "";
 
-        pl_columns_playing_format << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
-        pl_columns_playng_back << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(20, 30, 60)" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(126, 55, 139);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(50, 80, 80);" << "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.595, fx:0.5, fy:0.5, stop:0 rgba(180, 180, 134, 255), stop:1 rgba(237, 237, 178, 255));\ncolor: rgb(30, 60, 60);";
+        pl_columns_playing_format << "%art%" << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
+        pl_columns_playng_back << "" << "" << "" << "" << "" << "";
 
-        pl_columns_sizes << "23" << "365" << "75" << "50" << "65";
-        pl_columns_aligment << "4" << "4" << "4" << "4" << "4";
-
-
-
-        pl_color_text << "" << "" << "" << "" << "";
-        pl_color_back << "" << "" << "" << "" << "";
-
-        pl_color_play_text << "" << "" << "" << "" << "";
-        pl_color_play_back << "" << "" << "" << "" << "";
+        pl_columns_sizes << "300" << "23" << "75" << "200" << "75" << "50";
+        pl_columns_aligment << "4" << "4" << "4" << "4" << "4" << "4";
 
 
 
+        pl_color_text << "" << "527482" << "43606b" << "" << "43606b" << "527482";
+        pl_color_back << "" << "" << "" << "" << "" << "";
 
-        pl_groups_labels = false;
-        pl_groups_format = "%artist% - [%date%] %album%";
-        pl_groups_stylesheet = "";
-        pl_groups_text_color = "";
-        pl_groups_back_color = "";
+        pl_color_play_text << "" << "" << "" << "" << "" << "";
+        pl_color_play_back << "" << "" << "" << "" << "" << "";
+
+
+
+
+        pl_groups_labels = true;
+        pl_groups_format = "[%date%] %album%";
+        pl_groups_stylesheet = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
+        pl_groups_text_color = "ffffff";
+        pl_groups_back_color = "13363b";
         pl_groups_aligment = 0x1;
         pl_group_height = 30;
 
 
-        pl_row_height = 18;
+        pl_row_height = 15;
 
         pl_show_playing_time = false;
 
@@ -386,8 +386,8 @@ void Preferences::reset() {
         pl_use_groups = true;
 
 
-        res_main_width = 926;
-        res_main_height = 546;
+        res_main_width = 1072;
+        res_main_height = 720;
 
         res_pref_width = 802;
         res_pref_height = 586;

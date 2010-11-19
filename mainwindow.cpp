@@ -562,11 +562,20 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
     ui->AlbumPL->insertRow(newRow);
     QTableWidgetItem *index = new QTableWidgetItem("art");
     ui->AlbumPL->setItem(newRow, 0, index);
+    ui->AlbumPL->setRowHeight(newRow, 0);
 
     if (this->coverColumn == 1)
         ui->AlbumPL->setSpan(newRow, 2, 1, pref->pl_columns_names.size() - 1);
     else if (this->coverColumn == pref->pl_columns_names.size())
         ui->AlbumPL->setSpan(newRow, 1, 1, pref->pl_columns_names.size() - 1);
+    else
+    {
+        if (this->coverColumn+1 < pref->pl_columns_names.size())
+            ui->AlbumPL->setSpan(newRow, this->coverColumn+1, 1, pref->pl_columns_names.size() - this->coverColumn);
+
+        if (this->coverColumn > 2)
+            ui->AlbumPL->setSpan(newRow, 1, 1, this->coverColumn-1);
+    }
 
     ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
 
@@ -577,14 +586,16 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
         QPixmap pic(path.absoluteFilePath(files.at(0)));
 
         float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
-        int curGroupSize = pref->pl_row_height * (spanRow+1);
-
-        if (curGroupSize < (pic.height() * factor))
-            ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
+        int curGroupSize = pref->pl_row_height * (spanRow+2);
 
         QLabel *art = new QLabel;
         art->setScaledContents(true);
         art->setPixmap(pic);
+
+        if (curGroupSize < (pic.height() * factor))
+            ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
+        else
+            art->setMaximumHeight(pic.height() * factor);
 
         ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
     }
