@@ -384,10 +384,12 @@ void MainWindow::changePL()
 {
     setPlColumns();
 
-    if (pref->pl_use_groups)
-        this->setPlGroupRows();
-    else
-        this->setPlRows();
+    if (!files.isEmpty()){
+        if (pref->pl_use_groups)
+            this->setPlGroupRows();
+        else
+            this->setPlRows();
+    }
 
     if (core->playing){
         highlightCurrentTrack();

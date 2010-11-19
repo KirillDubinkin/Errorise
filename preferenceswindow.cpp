@@ -40,6 +40,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->windowFormat->setText(pref->window_title_format);
 
     fillPlaylistPref();
+    curColumnIndex = -100;
     ui->colAligment->clear();
     ui->colAligment->addItem("Left", "1");
     ui->colAligment->addItem("Right", "2");
@@ -79,7 +80,6 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui->plGroupsLabels->setChecked(pref->pl_groups_labels);
     ui->plGroupStyle->setEnabled(pref->pl_groups_labels);
     ui->groupPlGroupColors->setEnabled(!pref->pl_groups_labels);
-    ui->groupPlItemsColors->setEnabled(!pref->pl_groups_labels);
 }
 
 
@@ -150,6 +150,8 @@ void PreferencesWindow::fillPlaylistPref()
 
     if (ui->colList->count() >= row)
         ui->colList->setCurrentRow(row);
+
+//    curColumnIndex = 0;
 }
 
 
@@ -163,7 +165,9 @@ void PreferencesWindow::changePlPref()
 
 void PreferencesWindow::on_colList_pressed(QModelIndex index)
 {
-    curColumnIndex = index.row();
+    int row = index.row();
+    if ((row > -1) && (row <= ui->colList->count()))
+        curColumnIndex = row;
 
     ui->colTitle->setText( index.data().toString() );
 
@@ -194,18 +198,23 @@ void PreferencesWindow::on_colList_pressed(QModelIndex index)
 
 void PreferencesWindow::on_colTitle_editingFinished()
 {
-    pref->pl_columns_names.replace(curColumnIndex, ui->colTitle->text());
-    fillPlaylistPref();
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+    {
+        pref->pl_columns_names.replace(curColumnIndex, ui->colTitle->text());
+        fillPlaylistPref();
+    }
 }
 
 void PreferencesWindow::on_colSize_editingFinished()
 {
-    pref->pl_columns_sizes.replace(curColumnIndex, ui->colSize->text());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_columns_sizes.replace(curColumnIndex, ui->colSize->text());
 }
 
 void PreferencesWindow::on_colFormat_textChanged()
 {
-    pref->pl_columns_format.replace(curColumnIndex, ui->colFormat->toPlainText());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_columns_format.replace(curColumnIndex, ui->colFormat->toPlainText());
 }
 
 void PreferencesWindow::on_colApply_clicked()
@@ -225,17 +234,20 @@ void PreferencesWindow::on_showPlplayingTime_toggled(bool checked)
 
 void PreferencesWindow::on_colPlayFormat_textChanged()
 {
-    pref->pl_columns_playing_format.replace(curColumnIndex, ui->colPlayFormat->toPlainText());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_columns_playing_format.replace(curColumnIndex, ui->colPlayFormat->toPlainText());
 }
 
 void PreferencesWindow::on_colPlayBack_textChanged()
 {
-    pref->pl_columns_playng_back.replace(curColumnIndex, ui->colPlayBack->toPlainText());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_columns_playng_back.replace(curColumnIndex, ui->colPlayBack->toPlainText());
 }
 
 void PreferencesWindow::on_colBack_textChanged()
 {
-    pref->pl_columns_back.replace(curColumnIndex, ui->colBack->toPlainText());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_columns_back.replace(curColumnIndex, ui->colBack->toPlainText());
 }
 
 void PreferencesWindow::on_rowHeight_textEdited(QString tex)
@@ -298,46 +310,58 @@ void PreferencesWindow::on_plAlternateColors_toggled(bool checked)
 
 void PreferencesWindow::on_plColorText_editingFinished()
 {
-    pref->pl_color_text.replace(curColumnIndex, ui->plColorText->text());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_color_text.replace(curColumnIndex, ui->plColorText->text());
 }
 
 void PreferencesWindow::on_plColorBack_editingFinished()
 {
-    pref->pl_color_back.replace(curColumnIndex, ui->plColorBack->text());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_color_back.replace(curColumnIndex, ui->plColorBack->text());
 }
 
 void PreferencesWindow::on_plColorPlayText_editingFinished()
 {
-    pref->pl_color_play_text.replace(curColumnIndex, ui->plColorPlayText->text());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_color_play_text.replace(curColumnIndex, ui->plColorPlayText->text());
 }
 
 void PreferencesWindow::on_plColorPlayBack_editingFinished()
 {
-    pref->pl_color_play_back.replace(curColumnIndex, ui->plColorPlayBack->text());
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size()))
+        pref->pl_color_play_back.replace(curColumnIndex, ui->plColorPlayBack->text());
 }
 
 void PreferencesWindow::on_btnPlColorText_clicked()
 {
-    ui->plColorText->setText(this->getRGBText(ui->plColorText->text()));
-    this->on_plColorText_editingFinished();
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size())) {
+        ui->plColorText->setText(this->getRGBText(ui->plColorText->text()));
+        this->on_plColorText_editingFinished();
+    }
 }
 
 void PreferencesWindow::on_btnPlColorBack_clicked()
 {
-    ui->plColorBack->setText(this->getRGBText(ui->plColorBack->text()));
-    this->on_plColorBack_editingFinished();
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size())) {
+        ui->plColorBack->setText(this->getRGBText(ui->plColorBack->text()));
+        this->on_plColorBack_editingFinished();
+    }
 }
 
 void PreferencesWindow::on_btnPlColorPlayText_clicked()
 {
-    ui->plColorPlayText->setText(this->getRGBText(ui->plColorPlayText->text()));
-    this->on_plColorPlayText_editingFinished();
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size())) {
+        ui->plColorPlayText->setText(this->getRGBText(ui->plColorPlayText->text()));
+        this->on_plColorPlayText_editingFinished();
+    }
 }
 
 void PreferencesWindow::on_btnPlColorPlayBack_clicked()
 {
-    ui->plColorPlayBack->setText(getRGBText(ui->plColorPlayBack->text()));
-    this->on_plColorPlayBack_editingFinished();
+    if ( (curColumnIndex > -1) && (curColumnIndex <= pref->pl_columns_names.size())) {
+        ui->plColorPlayBack->setText(getRGBText(ui->plColorPlayBack->text()));
+        this->on_plColorPlayBack_editingFinished();
+    }
 }
 
 
@@ -376,10 +400,8 @@ void PreferencesWindow::on_plGroupsLabels_toggled(bool checked)
 {
     pref->pl_groups_labels = checked;
 
-    ui->plGroupsLabels->setChecked(checked);
     ui->plGroupStyle->setEnabled(checked);
     ui->groupPlGroupColors->setEnabled(!checked);
-    ui->groupPlItemsColors->setEnabled(!checked);
 }
 
 
