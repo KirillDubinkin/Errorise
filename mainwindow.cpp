@@ -290,7 +290,7 @@ void MainWindow::showDefTimePl()
 
 void MainWindow::defWindowTitle()
 {
-    this->setWindowTitle("Errorise v." + amplayerVersion());
+    this->setWindowTitle(myplayerName() + " v." + myplayerVersion());
 }
 
 
@@ -795,6 +795,8 @@ void MainWindow::playPrev()
 
 void MainWindow::play()
 {
+    qDebug() << "play()";
+
     defPlhighlight();
 
     if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "art")

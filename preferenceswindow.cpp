@@ -21,7 +21,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
     ui(new Ui::PreferencesWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Errorise v." + amplayerVersion() + " - Preferences");
+    this->setWindowTitle(myplayerName() + " v." + myplayerVersion() + " - Preferences");
     this->setGeometry(parent->x()+30, parent->y()+50, pref->res_pref_width, pref->res_pref_height);
 
 
@@ -83,6 +83,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent) :
 
 
     ui->plArtSearchPattern->setText(pref->pl_art_search_pattern.join(";"));
+
+    ui->plGroupHeight->setText(QString().number(pref->pl_group_height));
 }
 
 
@@ -499,4 +501,9 @@ void PreferencesWindow::on_pushButton_3_clicked()
 void PreferencesWindow::on_plArtSearchPattern_editingFinished()
 {
     pref->pl_art_search_pattern = ui->plArtSearchPattern->text().split(";");
+}
+
+void PreferencesWindow::on_plGroupHeight_editingFinished()
+{
+    pref->pl_group_height = ui->plGroupHeight->text().toInt();
 }

@@ -46,7 +46,7 @@ void AMPlayer::createConfigDirectory() {
         if (!QFile::exists(Paths::configPath())) {
                 QDir d;
                 if (!d.mkdir(Paths::configPath())) {
-                        qWarning("AMPlayer::createConfigDirectory: can't create %s", Paths::configPath().toUtf8().data());
+                        qWarning("%s::createConfigDirectory: can't create %s", myplayerName().toUtf8().data(), Paths::configPath().toUtf8().data());
                 }
         }
 }
@@ -58,8 +58,8 @@ MainWindow * AMPlayer::gui() {
         if (main_window == 0) {
                 // Changes to app path, so smplayer can find a relative mplayer path
                 QDir::setCurrent(Paths::appPath());
-                qDebug("AMPlayer::gui: changed working directory to app path");
-                qDebug("AMPlayer::gui: current directory: %s", QDir::currentPath().toUtf8().data());
+                qDebug("%s::gui: changed working directory to app path", myplayerName().toUtf8().data());
+                qDebug("%s::gui: current directory: %s", myplayerName().toUtf8().data(), QDir::currentPath().toUtf8().data());
 
                 /*if (gui_to_use.toLower() == "minigui")
                         main_window = new MiniGui(0);
@@ -72,11 +72,11 @@ MainWindow * AMPlayer::gui() {
                 main_window = new MainWindow(0);
 
                 if (move_gui) {
-                        qDebug("AMPlayer::gui: moving main window to %d %d", gui_position.x(), gui_position.y());
+                        qDebug("%s::gui: moving main window to %d %d", myplayerName().toUtf8().data(), gui_position.x(), gui_position.y());
                         main_window->move(gui_position);
                 }
                 if (resize_gui) {
-                        qDebug("AMPlayer::gui: resizing main window to %dx%d", gui_size.width(), gui_size.height());
+                        qDebug("%s::gui: resizing main window to %dx%d", myplayerName().toUtf8().data(), gui_size.width(), gui_size.height());
                         main_window->resize(gui_size);
                 }
 
@@ -126,8 +126,8 @@ void AMPlayer::showInfo() {
                 default: win_ver = QString("other: %1").arg(QSysInfo::WindowsVersion);
         }
 #endif
-        QString s = QObject::tr("This is AMPlayer v. %1 running on %2")
-                    .arg(amplayerVersion())
+        QString s = QObject::tr("This is %1 v. %2 running on %3").arg(myplayerName())
+                    .arg(myplayerVersion())
 #ifdef Q_OS_LINUX
            .arg("Linux")
 #else
@@ -144,11 +144,11 @@ void AMPlayer::showInfo() {
         qDebug("Compiled with Qt v. %s, using %s", QT_VERSION_STR, qVersion());
 
         qDebug(" * application path: '%s'", Paths::appPath().toUtf8().data());
-        qDebug(" * data path: '%s'", Paths::dataPath().toUtf8().data());
-        qDebug(" * translation path: '%s'", Paths::translationPath().toUtf8().data());
-        qDebug(" * doc path: '%s'", Paths::docPath().toUtf8().data());
-        qDebug(" * themes path: '%s'", Paths::themesPath().toUtf8().data());
-        qDebug(" * shortcuts path: '%s'", Paths::shortcutsPath().toUtf8().data());
+  //      qDebug(" * data path: '%s'", Paths::dataPath().toUtf8().data());
+  //      qDebug(" * translation path: '%s'", Paths::translationPath().toUtf8().data());
+  //      qDebug(" * doc path: '%s'", Paths::docPath().toUtf8().data());
+  //      qDebug(" * themes path: '%s'", Paths::themesPath().toUtf8().data());
+  //      qDebug(" * shortcuts path: '%s'", Paths::shortcutsPath().toUtf8().data());
         qDebug(" * config path: '%s'", Paths::configPath().toUtf8().data());
         qDebug(" * ini path: '%s'", Paths::iniPath().toUtf8().data());
         qDebug(" * current path: '%s'", QDir::currentPath().toUtf8().data());

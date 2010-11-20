@@ -27,6 +27,8 @@
 #include <stdlib.h>
 #endif
 
+#include "version.h"
+
 QString Paths::app_path;
 QString Paths::config_path;
 
@@ -137,12 +139,12 @@ QString Paths::configPath() {
 		const char * XDG_CONFIG_HOME = getenv("XDG_CONFIG_HOME");
 		if (XDG_CONFIG_HOME!=NULL) {
 			qDebug("Paths::configPath: XDG_CONFIG_HOME: %s", XDG_CONFIG_HOME);
-                        return QString(XDG_CONFIG_HOME) + "/amplayer";
+                        return QString(XDG_CONFIG_HOME) + "/" + myplayerName().toLower();
 		} 
 		else
-                return QDir::homePath() + "/.config/amplayer";
+                return QDir::homePath() + "/.config/" + myplayerName().toLower();
 		#else
-                return QDir::homePath() + "/.amplayer";
+                return QDir::homePath() + "/." + myplayerName().toLower();
 		#endif
 #endif
 	}

@@ -26,6 +26,7 @@
 
 // Some global objects
 
+
 #ifndef MINILIB
 
 class QSettings;

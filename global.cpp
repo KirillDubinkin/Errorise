@@ -29,6 +29,7 @@
 #include "paths.h"
 #include <QApplication>
 #include <QFile>
+#include "version.h"
 
 QSettings * Global::settings = 0;
 Preferences * Global::pref = 0;
@@ -52,7 +53,7 @@ void Global::global_init(const QString & config_path) {
 		settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
     	                         QString(COMPANY), QString(PROGRAM) );
 	} else {
-                QString filename = Paths::iniPath() + "/amplayer.ini";
+                QString filename = Paths::iniPath() + "/" + myplayerName().toLower() + ".ini";
 		settings = new QSettings( filename, QSettings::IniFormat );
 		qDebug("global_init: config file: '%s'", filename.toUtf8().data());
 

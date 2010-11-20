@@ -21,7 +21,8 @@
 
 #include <QString>
 
-QString amplayerVersion();
+QString myplayerVersion();
+QString myplayerName();
 
 #endif
 

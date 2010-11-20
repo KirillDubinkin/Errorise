@@ -5,6 +5,7 @@
 #include <QTime>
 
 #include "amplayer.h"
+#include "version.h"
 #include "global.h"
 //#include "helper.h"
 #include "paths.h"
@@ -12,6 +13,7 @@
 
 #include <stdio.h>
 
+// #define NO_DEBUG_ON_CONSOLE
 
 /*
 int main(int argc, char *argv[])
@@ -98,7 +100,7 @@ void myMessageOutput( QtMsgType type, const char *msg ) {
                         // Save log to file
                         if (!output_log.isOpen()) {
                                 // FIXME: the config path may not be initialized if USE_LOCKS is not defined
-                                output_log.setFileName( Paths::configPath() + "/amplayer_log.txt" );
+                                output_log.setFileName( Paths::configPath() + "/" + myplayerName().toLower() + "_log.txt" );
                                 output_log.open(QIODevice::WriteOnly);
                         }
                         if (output_log.isOpen()) {
@@ -123,11 +125,11 @@ int main( int argc, char ** argv )
 #ifdef PORTABLE_APP
         config_path = a.applicationDirPath();
 #else
-        // If a amplayer.ini exists in the app path, will use that path
+        // If a myplayerName.ini exists in the app path, will use that path
         // for the config file by default
-        if (QFile::exists( a.applicationDirPath() + "/amplayer.ini" ) ) {
+        if (QFile::exists( a.applicationDirPath() + "/" + myplayerName().toLower() + ".ini" ) ) {
                 config_path = a.applicationDirPath();
-                qDebug("main: using existing %s", QString(config_path + "/amplayer.ini").toUtf8().data());
+                qDebug("main: using existing %s", QString(config_path + "/" + myplayerName().toLower() + ".ini").toUtf8().data());
         }
 #endif
 
@@ -142,7 +144,7 @@ int main( int argc, char ** argv )
         }
 */
         mainwindow_instance = amplayer->gui();
-        a.connect(amplayer->gui(), SIGNAL(quitSolicited()), &a, SLOT(quit()));
+        //a.connect(amplayer->gui(), SIGNAL(quitSolicited()), &a, SLOT(quit()));
         amplayer->start();
 
         int r = a.exec();

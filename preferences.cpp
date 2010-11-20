@@ -39,15 +39,11 @@ Preferences::Preferences() {
 	history_urls = new URLHistory;
 	filters = new Filters;
 
-        qDebug("Prefences::reset");
 	reset();
-        qDebug("ok");
 
 
 #ifndef NO_USE_INI_FILES
-        //qDebug("Prefences::load");
 	load();
-        qDebug("ok");
 #endif
 
       //  setPalette();
@@ -128,6 +124,9 @@ QString Preferences::getHex(int r, int g, int b)
 
 
 void Preferences::reset() {
+
+    qDebug("Prefences::reset");
+
     /* *******
        General
        ******* */
@@ -137,7 +136,7 @@ void Preferences::reset() {
 #else
         mplayer_bin = "mplayer";
 #endif
-        ao = "";
+        ao = "alsa";
 
 #ifdef Q_OS_WIN
         mediainfo_cli = "mediainfo/mediainfo.exe";
@@ -238,7 +237,7 @@ void Preferences::reset() {
         log_amplayer = true;
         log_filter = ".*";
         verbose_log = false;
-        save_amplayer_log = false;
+        save_amplayer_log = true;
 
     //mplayer log autosaving
     autosave_mplayer_log = false;
@@ -347,15 +346,15 @@ void Preferences::reset() {
 
 
 
-        pl_columns_names << "Cover" << "#" << "Track Name" << "Bitrate" << "Format" << "Length";
+        pl_columns_names << "Cover" << "#" << "Length" << "Track Name" << "Bitrate" << "Format";
 
-        pl_columns_format << "%art%" << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
+        pl_columns_format << "%art%" << "%tracknumber%" << "%length%" << "%title%" << "%bitrate%" << "%codec%";
         pl_columns_back << "" << "" << "" << "" << "" << "";
 
-        pl_columns_playing_format << "%art%" << "%tracknumber%" << "%title%" << "%bitrate%" << "%codec%" << "%length%";
+        pl_columns_playing_format << "%art%" << "%tracknumber%" << "%length%" << "%title%" << "%bitrate%" << "%codec%";
         pl_columns_playng_back << "" << "" << "" << "" << "" << "";
 
-        pl_columns_sizes << "300" << "23" << "75" << "200" << "75" << "50";
+        pl_columns_sizes << "200" << "23" << "75" << "200" << "75" << "50";
         pl_columns_aligment << "4" << "4" << "4" << "4" << "4" << "4";
 
         pl_art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
@@ -377,10 +376,10 @@ void Preferences::reset() {
         pl_groups_text_color = "ffffff";
         pl_groups_back_color = "13363b";
         pl_groups_aligment = 0x1;
-        pl_group_height = 30;
+        pl_group_height = 20;
 
 
-        pl_row_height = 15;
+        pl_row_height = 14;
 
         pl_show_playing_time = false;
 
@@ -388,7 +387,7 @@ void Preferences::reset() {
         pl_use_groups = true;
 
 
-        res_main_width = 1072;
+        res_main_width = 972;
         res_main_height = 720;
 
         res_pref_width = 802;
@@ -428,7 +427,7 @@ void Preferences::reset() {
        *********** */
 
         music_library_path = QDir::homePath();
-        files_filter = QString("*.mp3;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
+        files_filter = QString("*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
 
 //	last_dvd_directory="";
 
