@@ -136,7 +136,7 @@ void Preferences::reset() {
 #else
         mplayer_bin = "mplayer";
 #endif
-        ao = "alsa";
+        ao = "";
 
 #ifdef Q_OS_WIN
         mediainfo_cli = "mediainfo/mediainfo.exe";

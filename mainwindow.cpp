@@ -574,22 +574,21 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
     if (!pref->pl_art_search_pattern.isEmpty())
     {
 
+
 #ifdef Q_OS_WIN
         qt_ntfs_permission_lookup++;
-        QStringList files = QDir(path.absolutePath().remove(0, 1)).entryList(pref->pl_art_search_pattern, QDir::Files);
-#else
-        QStringList files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+
 #endif
 
+        QStringList files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
 
         if (!files.isEmpty())
         {
-#ifdef Q_OS_WIN
-            QPixmap pic(path.absoluteFilePath(files.at(0)).remove(0,1));
 
-            qt_ntfs_permission_lookup--;
-#else
             QPixmap pic(path.absoluteFilePath(files.at(0)));
+
+#ifdef Q_OS_WIN
+            qt_ntfs_permission_lookup--;
 #endif
             float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
             int curGroupSize = pref->pl_row_height * (spanRow+2);
@@ -867,7 +866,6 @@ void MainWindow::play()
 
         progress->setMaximum(core->mdat.duration);
     }
-
 }
 
 
