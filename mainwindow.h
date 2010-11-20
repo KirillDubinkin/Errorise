@@ -39,6 +39,7 @@ public:
 
     QSlider *progress, *vol;
 
+    bool dont_change_time; // KOSTbIL' ^^
     bool openNewTrack;
     bool readyToPlay;
 

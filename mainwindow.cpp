@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->addWidget(status);
 
     readyToPlay = false;
+    this->dont_change_time = false;
     timeColumn = -1;
 
     changeAlbumDir();
@@ -93,8 +94,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
+    connect(this->progress, SIGNAL(valueChanged(int)), this, SLOT(setTime(int)));
 
-    connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
+    // connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
+    connect(this->vol, SIGNAL(valueChanged(int)), this, SLOT(setVol(int)));
 
 
 
@@ -183,7 +186,13 @@ void MainWindow::setVol(int vol)
 
 void MainWindow::setTime(int seek)
 {
-    core->goToSec(seek);
+    if (!this->dont_change_time)
+    {
+        if (core->playing)
+            core->goToSec(seek);
+        else
+            this->progress->setValue(0);
+    }
 }
 
 
@@ -273,7 +282,9 @@ void MainWindow::showCurrentTime()
         showPlPlaytime();
     }
 
+    this->dont_change_time = true;
     progress->setValue(core->mset.current_sec);
+    this->dont_change_time = false;
 }
 
 
@@ -823,6 +834,9 @@ void MainWindow::play()
 
     defPlhighlight();
 
+    if (ui->AlbumPL->rowCount() <= 0)
+        return;
+
     if (ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text() == "art")
             ui->AlbumPL->setCurrentCell(ui->AlbumPL->currentRow()+2, 0);
 
@@ -859,6 +873,7 @@ void MainWindow::play()
 
 void MainWindow::playPause()
 {
+    qDebug() << "core->playing" << core->playing;
     if (core->playing)
         core->pause();
     else
@@ -867,6 +882,7 @@ void MainWindow::playPause()
 
 void MainWindow::stop()
 {
+    this->dont_change_time = false;
     core->restarting=true;
     defPlhighlight();
     core->stop();

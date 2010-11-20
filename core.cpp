@@ -406,6 +406,8 @@ void Core::pause()
 void Core::stopMplayer() {
         qDebug("Core::stopMplayer");
 
+        this->playing = false;
+
         if (!proc->isRunning()) {
                 qWarning("Core::stopMplayer: mplayer in not running!");
                 return;
