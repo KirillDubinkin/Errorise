@@ -146,7 +146,7 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
 
         if (rx_general.indexIn(line) > -1){
             id++;
-            track[id].filename = minfo->workingDirectory() + "/" + files.at(id);
+            track[id].filename = files.at(id);
             track[id].audio_codec = QFileInfo(track[id].filename).suffix().toUpper();
            // qDebug() << "filename" << track[id].filename;
         }
@@ -160,6 +160,9 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
         else
         if (rx_format.indexIn(line) > -1){
             track[id].audio_format = rx_format.cap(1);
+#ifdef Q_OS_WIN
+            track[id].audio_format.remove(track[id].audio_format.size(), 1);
+#endif
         }
 
         else
@@ -171,17 +174,26 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
         else
         if (rx_bit_rate.indexIn(line) > -1){
             track[id].bitrate = rx_bit_rate.cap(1);
+#ifdef Q_OS_WIN
+            track[id].bitrate.remove(track[id].bitrate.size()-1, 1);
+#endif
             //qDebug() << "Bit rate: " << track[id].audio_bitrate;
         }
 
         else
         if (rx_track_name.indexIn(line) > -1){
             track[id].clip_name = rx_track_name.cap(1);
+#ifdef Q_OS_WIN
+            track[id].clip_name.remove(track[id].clip_name.size()-1, 1);
+#endif
         }
 
         else
         if (rx_sample_rate.indexIn(line) > -1){
             track[id].samplerate = rx_sample_rate.cap(1);
+#ifdef Q_OS_WIN
+            track[id].samplerate.remove(track[id].samplerate.size()-1, 1);
+#endif
         }
 
         else
@@ -222,26 +234,41 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
         else
         if (rx_artist.indexIn(line) > -1){
             track[id].clip_artist = rx_artist.cap(1);
+#ifdef Q_OS_WIN
+            track[id].clip_artist.remove(track[id].clip_artist.size()-1, 1);
+#endif
         }
 
         else
         if (rx_album.indexIn(line) > -1){
             track[id].clip_album = rx_album.cap(1);
+#ifdef Q_OS_WIN
+            track[id].clip_album.remove(track[id].clip_album.size()-1, 1);
+#endif
         }
 
         else
         if (rx_date.indexIn(line) > -1){
             track[id].clip_date = rx_date.cap(1);
+#ifdef Q_OS_WIN
+            track[id].clip_date.remove(track[id].clip_date.size()-1, 1);
+#endif
         }
 
         else
         if (rx_genre.indexIn(line) > -1){
             track[id].clip_genre = rx_genre.cap(1);
+#ifdef Q_OS_WIN
+            track[id].clip_genre.remove(track[id].clip_genre.size()-1, 1);
+#endif
         }
 
         else
         if (rx_tracknumber.indexIn(line) > -1){
             track[id].clip_track = rx_tracknumber.cap(1);
+#ifdef Q_OS_WIN
+            track[id].clip_track.remove(track[id].clip_track.size()-1, 1);
+#endif
         }
     }
 }
