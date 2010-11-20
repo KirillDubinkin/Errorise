@@ -12,7 +12,7 @@ MediaInfo::MediaInfo(QObject *parent):
     QObject(parent)
 {
     minfo = new QProcess;
-    //track = new MediaData();
+    track = new MediaData[1];
 }
 
 
@@ -20,7 +20,7 @@ MediaInfo::~MediaInfo(){
     if (minfo->isOpen())
         minfo->terminate();
     delete minfo;
-   // delete track;
+    delete [] track;
 }
 
 
@@ -102,7 +102,12 @@ void MediaInfo::parseDir(const QStringList &files)
     numParsedFiles = files.size();
     //minfo->setWorkingDirectory(dir);
     minfo->start(pref->mediainfo_cli, files);
+
+    delete [] track;
+    track = new MediaData[numParsedFiles];
+
     //minfo->waitForReadyRead();
+
     minfo->waitForFinished();
 
     out = QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");

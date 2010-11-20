@@ -15,7 +15,7 @@ public:
     static int timeToSec(QString time);
 
     //MediaData *track;
-    MediaData track[99999];
+    MediaData *track;
 
     QString format;
     QString duration;
