@@ -20,6 +20,11 @@
 #include <QPalette>
 #include <QDesktopWidget>
 
+
+#ifdef Q_OS_WIN
+extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
+#endif
+
 using namespace Global;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -557,13 +562,24 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
 
     if (!pref->pl_art_search_pattern.isEmpty())
     {
+
+#ifdef Q_OS_WIN
+        qt_ntfs_permission_lookup++;
+        QStringList files = QDir(path.absolutePath().remove(0, 1)).entryList(pref->pl_art_search_pattern, QDir::Files);
+#else
         QStringList files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+#endif
+
 
         if (!files.isEmpty())
         {
-            QPixmap pic(path.absoluteFilePath(files.at(0)));
-            status->setText(path.absoluteFilePath(files.at(0)));
+#ifdef Q_OS_WIN
+            QPixmap pic(path.absoluteFilePath(files.at(0)).remove(0,1));
 
+            qt_ntfs_permission_lookup--;
+#else
+            QPixmap pic(path.absoluteFilePath(files.at(0)));
+#endif
             float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
             int curGroupSize = pref->pl_row_height * (spanRow+2);
 
@@ -706,6 +722,10 @@ void MainWindow::plFilter()
 {
     files.clear();
 
+#ifdef Q_OS_WIN
+    qt_ntfs_permission_lookup++;
+#endif
+
     if (pref->recursive_dirs)
         recursiveDirectory(currentPath);
     else
@@ -716,6 +736,10 @@ void MainWindow::plFilter()
         return;
 
     mediaInfo->parseDir(files);
+
+#ifdef Q_OS_WIN
+    qt_ntfs_permission_lookup++;
+#endif
 
     if (pref->pl_use_groups)
         this->setPlGroupRows();

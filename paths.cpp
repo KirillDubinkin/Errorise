@@ -144,7 +144,7 @@ QString Paths::configPath() {
 		else
                 return QDir::homePath() + "/.config/" + myplayerName().toLower();
 		#else
-                return QDir::homePath() + "/." + myplayerName().toLower();
+                return QDir::homePath() + "/" + myplayerName();
 		#endif
 #endif
 	}
