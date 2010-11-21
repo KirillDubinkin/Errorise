@@ -132,14 +132,14 @@ void Preferences::reset() {
        ******* */
 
 #ifdef Q_OS_WIN
-        mplayer_bin= "mplayer/mplayer.exe";
+        mplayer_bin= "mplayer.exe";
 #else
         mplayer_bin = "mplayer";
 #endif
         ao = "";
 
 #ifdef Q_OS_WIN
-        mediainfo_cli = "mediainfo/mediainfo.exe";
+        mediainfo_cli = "mediainfo.exe";
 #else
         mediainfo_cli = "mediainfo";
 #endif

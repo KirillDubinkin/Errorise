@@ -93,11 +93,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->core, SIGNAL(playnext()), this, SLOT(playNext()));
 
 
-    connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
+   // connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
     connect(this->progress, SIGNAL(valueChanged(int)), this, SLOT(setTime(int)));
 
-    // connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
-    connect(this->vol, SIGNAL(valueChanged(int)), this, SLOT(setVol(int)));
+    connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
+ //   connect(this->vol, SIGNAL(valueChanged(int)), this, SLOT(setVol(int)));
 
 
 
@@ -832,6 +832,7 @@ void MainWindow::play()
     qDebug() << "play()";
 
     defPlhighlight();
+    this->progress->setValue(0);
 
     if (ui->AlbumPL->rowCount() <= 0)
         return;
@@ -880,7 +881,7 @@ void MainWindow::playPause()
 
 void MainWindow::stop()
 {
-    this->dont_change_time = false;
+    this->progress->setValue(0);
     core->restarting=true;
     defPlhighlight();
     core->stop();
