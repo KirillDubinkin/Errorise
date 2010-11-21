@@ -507,3 +507,8 @@ void PreferencesWindow::on_plGroupHeight_editingFinished()
 {
     pref->pl_group_height = ui->plGroupHeight->text().toInt();
 }
+
+void PreferencesWindow::on_buttonBox_accepted()
+{
+    emit playlist_changed();
+}

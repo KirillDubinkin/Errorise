@@ -30,6 +30,7 @@ private:
     QString getRGBText(const QString &initColor);
 
 private slots:
+    void on_buttonBox_accepted();
     void on_plGroupHeight_editingFinished();
     void on_plArtSearchPattern_editingFinished();
     void on_pushButton_3_clicked();
