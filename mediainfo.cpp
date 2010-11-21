@@ -54,47 +54,30 @@ static QRegExp rx_date("^Recorded date .*: (.*)");
 static QRegExp rx_genre("^Genre .*: (.*)");
 static QRegExp rx_tracknumber("^Track name/Position .*: (.*)");
 
-void MediaInfo::parseFile(QString file){
-    if (!file.isEmpty()){
-        start(file);
-        QString line;
 
-        for (int i = 2; i < out.size(); i++){
-            line = out.at(i);
+#ifdef Q_OS_WIN
+void MediaInfo::parseDir(const QStringList &files)
+{
+    if (!files.isEmpty()){
+        numParsedFiles = files.size();
 
-            if (rx_audio.indexIn(line) > -1){
-                qDebug() << "rx_audio";
-                return;
-            }
+        out.clear();
 
-            else
-                if (rx_format.indexIn(line) > -1){
-                //qDebug() <<  "rx_format:" << rx_format.cap(1);
-                format = rx_format.cap(1);
-                track[i].audio_format = rx_format.cap(1);
-            }
-
-            else
-                if (rx_duration.indexIn(line) > -1){
-                duration = rx_duration.cap(1);
-                track[i].length = rx_duration.cap(1);
-
-                qDebug() << QTime().fromString(rx_duration.cap(1), "m'm s's");
-            }
-
-            else
-                if (rx_bit_rate.indexIn(line) > -1){
-                bitrate = rx_bit_rate.cap(1);
-            }
-
-            else
-                if (rx_track_name.indexIn(line) > -1){
-                title = rx_track_name.cap(1);
-            }
-
+        for (int i = 0; i < files.size(); i++)
+        {
+            minfo->start(pref->mediainfo_cli, QStringList() << files.at(i));
+            minfo->waitForFinished();
+            out += QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
         }
+
+        delete [] track;
+        track = new MediaData[numParsedFiles];
+
+        parse(out, files);
+
     }
 }
+#else
 
 
 void MediaInfo::parseDir(const QStringList &files)
@@ -116,6 +99,7 @@ void MediaInfo::parseDir(const QStringList &files)
     parse(out, files);
 }
 
+#endif
 
 int MediaInfo::timeToSec(QString time)
 {
