@@ -217,16 +217,16 @@ void MainWindow::defPlhighlight()
 {
     if (core->mset.current_id > -1)
         for (int col = 0; col < pref->pl_columns_format.size(); col++)
-            if (this->coverColumn-1 != col)
+            if (this->coverColumn-1 != col){
                 if (pref->pl_use_html)
                     this->addRowLabel(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
                                   core->mset.current_id, col);
-                else
-                {
+                else {
                     ui->AlbumPL->removeCellWidget(core->mset.current_id, col+1);
                     this->addRowItem(ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt(),
                                    core->mset.current_id, col);
                 }
+            }
 }
 
 void MainWindow::highlightCurrentTrack()
@@ -240,7 +240,7 @@ void MainWindow::highlightCurrentTrack()
         int idx = ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt();
 
         for (int col = 0; col < pref->pl_columns_playing_format.size(); col++)
-            if (this->coverColumn-1 != col)
+            if (this->coverColumn-1 != col){
                 if (!pref->pl_use_html)
                 {
                     bool ok;
@@ -266,6 +266,7 @@ void MainWindow::highlightCurrentTrack()
                 }
                 else
                     this->addRowLabel(idx, row, col);
+            }
     }
 }
 
@@ -875,8 +876,12 @@ void MainWindow::play()
 
         progress->setMaximum(core->mdat.duration);
 
-
-        ui->AlbumPL->scrollToItem(ui->AlbumPL->item(ui->AlbumPL->currentRow(), ui->AlbumPL->columnCount()-1));
+        if (ui->AlbumPL->columnCount() > 0){
+            if (this->coverColumn == 1)
+                ui->AlbumPL->scrollToItem(ui->AlbumPL->item(ui->AlbumPL->currentRow(), ui->AlbumPL->columnCount()-1));
+            else
+                ui->AlbumPL->scrollToItem(ui->AlbumPL->item(ui->AlbumPL->currentRow(), 1));
+        }
     }
 }
 

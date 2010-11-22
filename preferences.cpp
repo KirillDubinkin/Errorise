@@ -73,7 +73,7 @@ void Preferences::setPalette()
     if (!color_window.isEmpty())
         palette.setColor(QPalette::Window, QColor(color_window.toInt(&ok, 16)));
 
-    int col = this->pl_columns_names.size();
+//    int col = this->pl_columns_names.size();
 /*
     for (int i = 0; i < col; i++){
         //qDebug() << pl_color_back.at(i);

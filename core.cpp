@@ -109,18 +109,18 @@ void Core::openFile(QString filename, int seek) {
     if (pref->play_only_this){
         QFileInfo fi(filename);
         if (fi.exists()) {
-                playNewFile(fi.absoluteFilePath(), seek);
+                playNewFile(seek);
         } else {
             qWarning("Core::openFile: FILE DOESN'T EXIST!");
         }
     } else {
-        playNewFile(filename, seek);
+        playNewFile(seek);
     }
 }
 
 
 
-void Core::playNewFile(QString file, int seek) {
+void Core::playNewFile(int seek) {
         //qDebug("Core::playNewFile: '%s'", file.toUtf8().data());
 
         if (proc->isRunning()) {
@@ -154,14 +154,14 @@ void Core::initPlaying(int seek) {
         int start_sec = mset.current_sec;
         if (seek > -1) start_sec = seek;
 
-        startMplayer( mdat.filename, start_sec );
+        startMplayer( mdat.filename );
 }
 
 
 
 
 
-void Core::startMplayer(QString file, double seek ) {
+void Core::startMplayer(QString file) {
         qDebug("Core::startMplayer");
 
         if (file.isEmpty()) {

@@ -68,7 +68,7 @@ void MediaSettings::reset() {
 void MediaSettings::list() {
 	qDebug("MediaSettings::list");
 
-        qDebug("  current_sec: %f", current_sec);
+        qDebug("  current_sec: %d", current_sec);
 #if PROGRAM_SWITCH
 	qDebug("  current_program_id: %d", current_program_id);
 #endif

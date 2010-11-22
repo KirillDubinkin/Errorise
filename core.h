@@ -27,9 +27,9 @@ public:
 
 
 protected:
-    void playNewFile(QString file, int seek=-1);
+    void playNewFile(int seek=-1);
     void initPlaying(int seek=-1);
-    void startMplayer(QString file, double seek = -1 );
+    void startMplayer(QString file);
     void stopMplayer();
 
 signals:

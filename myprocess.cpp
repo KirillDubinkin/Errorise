@@ -159,7 +159,7 @@ void MyProcess::procFinished() {
 	qDebug("MyProcess::procFinished");
 
 #if !USE_TEMP_FILE
-	qDebug("MyProcess::procFinished: Bytes available: %ld", bytesAvailable());
+        qDebug("MyProcess::procFinished: Bytes available: %lld", bytesAvailable());
 	if ( bytesAvailable() > 0 ) readStdOut();
 #else
 	timer.stop();

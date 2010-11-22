@@ -313,7 +313,7 @@ void MplayerProcess::parseLine(QByteArray ba) {
 
                 // Audio CD titles
 		if (rx_cdda.indexIn(line) > -1 ) {
-			int ID = rx_cdda.cap(1).toInt();
+//			int ID = rx_cdda.cap(1).toInt();
 			QString length = rx_cdda.cap(2);
 			double duration = 0;
 			QRegExp r("(\\d+):(\\d+):(\\d+)");
