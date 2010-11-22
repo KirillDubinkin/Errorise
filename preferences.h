@@ -334,6 +334,7 @@ public:
 
         bool pl_use_html;
         bool pl_use_groups;
+        bool pl_auto_scroll;
 
 
         // Windows size

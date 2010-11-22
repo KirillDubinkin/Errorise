@@ -906,7 +906,8 @@ void MainWindow::play()
 
         progress->setMaximum(core->mdat.duration);
 
-        if (ui->AlbumPL->columnCount() > 0){
+        if ((pref->pl_auto_scroll) && (ui->AlbumPL->columnCount() > 0))
+        {
             if (this->coverColumn == 1)
                 ui->AlbumPL->scrollToItem(ui->AlbumPL->item(ui->AlbumPL->currentRow(), ui->AlbumPL->columnCount()-1));
             else

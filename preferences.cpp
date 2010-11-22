@@ -385,6 +385,7 @@ void Preferences::reset() {
 
         pl_use_html = false;
         pl_use_groups = true;
+        pl_auto_scroll = true;
 
 
         res_main_width = 972;
@@ -742,6 +743,7 @@ void Preferences::save() {
         set->setValue("pl_show_playing_time", pl_show_playing_time);
         set->setValue("pl_use_html", pl_use_html);
         set->setValue("pl_use_groups", pl_use_groups);
+        set->setValue("pl_auto_scroll", pl_auto_scroll);
 
 
         set->setValue("res_main_width", res_main_width);
@@ -1112,6 +1114,7 @@ void Preferences::load() {
         pl_show_playing_time = set->value("pl_show_playing_time", pl_show_playing_time).toBool();
         pl_use_html = set->value("pl_use_html", pl_use_html).toBool();
         pl_use_groups = set->value("pl_use_groups", pl_use_groups).toBool();
+        pl_auto_scroll = set->value("pl_auto_scroll", pl_auto_scroll).toBool();
 
 
         res_main_width = set->value("res_main_width", res_main_width).toInt();
