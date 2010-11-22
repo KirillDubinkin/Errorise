@@ -561,20 +561,50 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
     ui->AlbumPL->setItem(newRow, 0, index);
     ui->AlbumPL->setRowHeight(newRow, 0);
 
-    if (this->coverColumn == 1)
+    if (this->coverColumn == 1){
         ui->AlbumPL->setSpan(newRow, 2, 1, pref->pl_columns_names.size() - 1);
-    else if (this->coverColumn == pref->pl_columns_names.size())
+
+        QTableWidgetItem *spitem = new QTableWidgetItem();
+        spitem->setFlags(Qt::ItemIsEnabled);
+        spitem->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
+        ui->AlbumPL->setItem(newRow, 2, spitem);
+    }
+    else if (this->coverColumn == pref->pl_columns_names.size()){
         ui->AlbumPL->setSpan(newRow, 1, 1, pref->pl_columns_names.size() - 1);
+
+        QTableWidgetItem *spitem = new QTableWidgetItem();
+        spitem->setFlags(Qt::ItemIsEnabled);
+        spitem->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
+        ui->AlbumPL->setItem(newRow, 1, spitem);
+    }
     else
     {
         if (this->coverColumn+1 < pref->pl_columns_names.size())
             ui->AlbumPL->setSpan(newRow, this->coverColumn+1, 1, pref->pl_columns_names.size() - this->coverColumn);
 
+        QTableWidgetItem *spitem = new QTableWidgetItem();
+        spitem->setFlags(Qt::ItemIsEnabled);
+        spitem->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
+        ui->AlbumPL->setItem(newRow, this->coverColumn+1, spitem);
+
         if (this->coverColumn > 2)
             ui->AlbumPL->setSpan(newRow, 1, 1, this->coverColumn-1);
+
+        QTableWidgetItem *spitem2 = new QTableWidgetItem();
+        spitem2->setFlags(Qt::ItemIsEnabled);
+        spitem2->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
+        ui->AlbumPL->setItem(newRow, 1, spitem2);
+
     }
 
+
     ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
+
+    QTableWidgetItem *item = new QTableWidgetItem();
+    item->setFlags(Qt::ItemIsEnabled);
+    item->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
+    ui->AlbumPL->setItem(row, this->coverColumn, item);
+
 
 
     if (!pref->pl_art_search_pattern.isEmpty())
