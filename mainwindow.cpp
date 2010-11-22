@@ -96,8 +96,8 @@ MainWindow::MainWindow(QWidget *parent) :
    // connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
     connect(this->progress, SIGNAL(valueChanged(int)), this, SLOT(setTime(int)));
 
-    connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
- //   connect(this->vol, SIGNAL(valueChanged(int)), this, SLOT(setVol(int)));
+ //   connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
+    connect(this->vol, SIGNAL(valueChanged(int)), this, SLOT(setVol(int)));
 
 
 
@@ -124,8 +124,13 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     pref->res_tree_width = ui->treeView->width();
+#ifdef Q_OS_WIN
+    pref->x = this->x()+2;
+    pref->y = this->y()+20;
+#else
     pref->x = this->x();
     pref->y = this->y();
+#endif
     pref->res_main_width = this->width();
     pref->res_main_height = this->height();
     pref->res_pref_width = preferences->width();
@@ -832,7 +837,10 @@ void MainWindow::play()
     qDebug() << "play()";
 
     defPlhighlight();
+
+    this->dont_change_time = true;
     this->progress->setValue(0);
+    this->dont_change_time = false;
 
     if (ui->AlbumPL->rowCount() <= 0)
         return;
@@ -866,6 +874,9 @@ void MainWindow::play()
 //        progress->setMinimum(0);
 
         progress->setMaximum(core->mdat.duration);
+
+
+        ui->AlbumPL->scrollToItem(ui->AlbumPL->item(ui->AlbumPL->currentRow(), ui->AlbumPL->columnCount()-1));
     }
 }
 
