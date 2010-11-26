@@ -561,51 +561,34 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
     ui->AlbumPL->setItem(newRow, 0, index);
     ui->AlbumPL->setRowHeight(newRow, 0);
 
-    if (this->coverColumn == 1){
+    const QBrush &brush = ui->AlbumPL->palette().brush(QPalette::Base);
+
+    if (this->coverColumn == 1)
+    {
         ui->AlbumPL->setSpan(newRow, 2, 1, pref->pl_columns_names.size() - 1);
-
-        QTableWidgetItem *spitem = new QTableWidgetItem();
-        spitem->setFlags(Qt::ItemIsEnabled);
-        spitem->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
-        ui->AlbumPL->setItem(newRow, 2, spitem);
+        ui->AlbumPL->setItem(newRow, 2, this->newItem(brush, Qt::NoItemFlags));
     }
-    else if (this->coverColumn == pref->pl_columns_names.size()){
+    else if (this->coverColumn == pref->pl_columns_names.size())
+    {
         ui->AlbumPL->setSpan(newRow, 1, 1, pref->pl_columns_names.size() - 1);
-
-        QTableWidgetItem *spitem = new QTableWidgetItem();
-        spitem->setFlags(Qt::ItemIsEnabled);
-        spitem->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
-        ui->AlbumPL->setItem(newRow, 1, spitem);
+        ui->AlbumPL->setItem(newRow, 1, this->newItem(brush, Qt::NoItemFlags));
     }
     else
     {
         if (this->coverColumn+1 < pref->pl_columns_names.size())
             ui->AlbumPL->setSpan(newRow, this->coverColumn+1, 1, pref->pl_columns_names.size() - this->coverColumn);
 
-        QTableWidgetItem *spitem = new QTableWidgetItem();
-        spitem->setFlags(Qt::ItemIsEnabled);
-        spitem->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
-        ui->AlbumPL->setItem(newRow, this->coverColumn+1, spitem);
+        ui->AlbumPL->setItem(newRow, this->coverColumn+1, this->newItem(brush, Qt::NoItemFlags));
 
         if (this->coverColumn > 2)
             ui->AlbumPL->setSpan(newRow, 1, 1, this->coverColumn-1);
 
-        QTableWidgetItem *spitem2 = new QTableWidgetItem();
-        spitem2->setFlags(Qt::ItemIsEnabled);
-        spitem2->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
-        ui->AlbumPL->setItem(newRow, 1, spitem2);
+        ui->AlbumPL->setItem(newRow, 1, this->newItem(brush, Qt::NoItemFlags));
 
     }
 
-
     ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
-
-    QTableWidgetItem *item = new QTableWidgetItem();
-    item->setFlags(Qt::ItemIsEnabled);
-    item->setBackground(ui->AlbumPL->palette().brush(QPalette::Base));
-    ui->AlbumPL->setItem(row, this->coverColumn, item);
-
-
+    ui->AlbumPL->setItem(row, this->coverColumn, this->newItem(brush, Qt::NoItemFlags));
 
     if (!pref->pl_art_search_pattern.isEmpty())
     {
@@ -642,6 +625,17 @@ void MainWindow::addCover(int row, int spanRow, const QDir &path)
         }
     }
 }
+
+
+QTableWidgetItem * MainWindow::newItem(const QBrush &background, Qt::ItemFlags flags, const QString &text)
+{
+    QTableWidgetItem *item = new QTableWidgetItem(text);
+    item->setFlags(flags);
+    item->setBackground(background);
+
+    return item;
+}
+
 
 void MainWindow::addGroupItem(int row, const QString &text)
 {
@@ -867,8 +861,6 @@ void MainWindow::play()
 {
     qDebug() << "play()";
 
-    defPlhighlight();
-
     this->dont_change_time = true;
     this->progress->setValue(0);
     this->dont_change_time = false;
@@ -885,12 +877,15 @@ void MainWindow::play()
     if ((ui->AlbumPL->currentRow() < 0) | (ui->AlbumPL->currentRow() > ui->AlbumPL->rowCount()))
         return;
 
+
     int idx = ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text().toInt();
 
     qDebug() << "idx:" << idx;
 
     if (readyToPlay)
     {
+        defPlhighlight();
+
         core->mdat = mediaInfo->track[idx];
         core->mset.reset();
         core->mset.current_id = ui->AlbumPL->currentRow();

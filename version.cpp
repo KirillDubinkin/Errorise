@@ -19,7 +19,7 @@
 #include "version.h"
 
 #define NAME "Errorise"
-#define VERSION "0.0.8"
+#define VERSION "0.0.9"
 
 QString myplayerVersion() {
 	return QString(VERSION);

@@ -90,6 +90,8 @@ private:
 
     void showPlPlaytime();
 
+    QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,  const QString &text = "");
+
     void addRowItem(int idx, int row, int col);
     void addRowLabel(int idx, int row, int col);
 
