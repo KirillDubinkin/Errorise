@@ -53,7 +53,7 @@ static QRegExp rx_album("^Album .*: (.*)");
 static QRegExp rx_date("^Recorded date .*: (.*)");
 static QRegExp rx_genre("^Genre .*: (.*)");
 static QRegExp rx_tracknumber("^Track name/Position .*: (.*)");
-
+static QRegExp rx_album_artist("^ALBUM ARTIST .*: (.*)");
 
 #ifdef Q_OS_WIN
 void MediaInfo::parseDir(const QStringList &files)
@@ -220,6 +220,14 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
             track[id].clip_artist = rx_artist.cap(1);
 #ifdef Q_OS_WIN
             track[id].clip_artist.remove(track[id].clip_artist.size()-1, 1);
+#endif
+            track[id].album_artist = track[id].clip_artist;
+        }
+
+        if (rx_album_artist.indexIn(line) > -1){
+            track[id].album_artist = rx_album_artist.cap(1);
+#ifdef Q_OS_WIN
+            track[id].album_artist.remove(track[id].album_artist.size()-1, 1);
 #endif
         }
 

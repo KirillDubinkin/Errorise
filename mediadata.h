@@ -61,6 +61,8 @@ public:
         Tracks audios;
 
 	// Clip info
+        QString album_artist;
+
 	QString clip_name;
 	QString clip_artist;
 	QString clip_author;

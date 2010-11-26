@@ -734,6 +734,7 @@ QString MainWindow::parseLine(MediaData *data, QString pattern)
 {
     pattern.replace("%title%", data->clip_name);
     pattern.replace("%artist%", data->clip_artist);
+    pattern.replace("%album_artist%", data->album_artist);
     pattern.replace("%album%", data->clip_album);
     pattern.replace("%date%", data->clip_date);
     pattern.replace("%genre%", data->clip_genre);
