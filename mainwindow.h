@@ -53,6 +53,7 @@ public slots:
     void playPrev();
     void playPause();
 
+    void clkTime();
     void setTime(int seek);
     void setVol(int vol);
 
@@ -90,7 +91,8 @@ private:
 
     void showPlPlaytime();
 
-    QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,  const QString &text = "");
+    QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,
+                              const QString &text = "");
 
     void addRowItem(int idx, int row, int col);
     void addRowLabel(int idx, int row, int col);
