@@ -55,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->addWidget(status);
 
     readyToPlay = false;
-    this->dont_change_time = false;
     timeColumn = -1;
 
     changeAlbumDir();
@@ -862,9 +861,9 @@ void MainWindow::play()
 {
     qDebug() << "play()";
 
-    this->dont_change_time = true;
-    this->progress->setValue(0);
-    this->dont_change_time = false;
+    progress->blockSignals(true);
+    progress->setValue(0);
+    progress->blockSignals(false);
 
     if (ui->AlbumPL->rowCount() <= 0)
         return;

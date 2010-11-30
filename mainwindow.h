@@ -36,18 +36,14 @@ public:
 
     QString parseLine(MediaData *data, QString pattern);
 
-//    QTableWidgetItem *playingItem, *playingItemLength;
-
     QSlider *progress, *vol;
 
-    bool dont_change_time; // KOSTbIL' ^^
     bool openNewTrack;
     bool readyToPlay;
 
 public slots:
     void changeAlbumDir();
 
-  //  void playFromPL(QModelIndex idx);
     void play();
     void stop();
     void playNext();

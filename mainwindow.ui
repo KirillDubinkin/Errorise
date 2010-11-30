@@ -62,7 +62,6 @@
     <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
-    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>

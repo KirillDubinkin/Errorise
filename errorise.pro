@@ -7,9 +7,9 @@
 
 QT       += core gui
 
-CONFIG  += static
+#CONFIG  += static
 
-TARGET = Errorise
+TARGET = errorise
 TEMPLATE = app
 
 
@@ -30,10 +30,10 @@ SOURCES += main.cpp\
     urlhistory.cpp \
     mediasettings.cpp \
     amplayer.cpp \
-    version.cpp \
     core.cpp \
     mediainfo.cpp \
-    preferenceswindow.cpp
+    preferenceswindow.cpp \
+    version.cpp
 
 HEADERS  += mainwindow.h \
     myprocess.h \
