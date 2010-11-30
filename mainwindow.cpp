@@ -94,8 +94,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
    // connect(this->progress, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
-    connect(this->progress, SIGNAL(valueChanged(int)), this, SLOT(setTime(int)));
-    connect(this->progress, SIGNAL(sliderReleased()), this, SLOT(clkTime()));
+  //  connect(this->progress, SIGNAL(valueChanged(int)), this, SLOT(setTime(int)));
+    connect(this->progress, SIGNAL(sliderReleased()), this, SLOT(setTime()));
 
  //   connect(this->vol, SIGNAL(sliderMoved(int)), this, SLOT(setVol(int)));
     connect(this->vol, SIGNAL(valueChanged(int)), this, SLOT(setVol(int)));
@@ -145,11 +145,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::createToolBars()
 {
-    progress = new QSlider();
-    progress->setOrientation(Qt::Horizontal);
+    progress = new MySlider();
 
-
-    vol = new QSlider();
+    vol = new MySlider();
     vol->setOrientation(Qt::Horizontal);
     vol->setMaximumWidth(150);
     vol->setMinimum(0);
@@ -191,22 +189,13 @@ void MainWindow::setVol(int vol)
 }
 
 
-void MainWindow::setTime(int seek)
+void MainWindow::setTime()
 {
-    if (!progress->isSliderDown())
-    {
-        if (core->playing)
-            core->goToSec(seek);
-        else
-            this->progress->setValue(0);
-    }
+    if (core->playing)
+        core->goToSec(progress->value());
+    else
+        this->progress->setValue(0);
 }
-
-void MainWindow::clkTime()
-{
-    this->setTime(progress->value());
-}
-
 
 void MainWindow::changeAlbumDir()
 {

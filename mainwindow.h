@@ -18,6 +18,7 @@
 #include "core.h"
 #include "mediainfo.h"
 #include "preferenceswindow.h"
+#include "myslider.h"
 
 using namespace Global;
 
@@ -53,8 +54,7 @@ public slots:
     void playPrev();
     void playPause();
 
-    void clkTime();
-    void setTime(int seek);
+    void setTime();
     void setVol(int vol);
 
     void plFilter();

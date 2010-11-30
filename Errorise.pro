@@ -56,7 +56,8 @@ HEADERS  += mainwindow.h \
     version.h \
     core.h \
     mediainfo.h \
-    preferenceswindow.h
+    preferenceswindow.h \
+    myslider.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui

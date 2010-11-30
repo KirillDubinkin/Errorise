@@ -43,7 +43,7 @@ void Core::stop()
 
 
 void Core::setVolume(int volume) {
-        qDebug("Core::setVolume: %d", volume);
+     //   qDebug("Core::setVolume: %d", volume);
 
         int current_volume = (pref->volume);
 
@@ -73,7 +73,7 @@ void Core::setVolume(int volume) {
 
 
 void Core::goToSec( int sec ) {
-        qDebug("Core::goToSec: %d", sec);
+       // qDebug("Core::goToSec: %d", sec);
 
     if (sec < 0) sec = 0;
     if (sec > mdat.duration ) sec = mdat.duration - 1;
