@@ -40,7 +40,7 @@ public:
 	bool start();
 	void writeToStdin(QString text);
 
-        MediaData mediaData() { return md; };
+        MediaData mediaData() { return md; }
 
 signals:
 	void processExited();

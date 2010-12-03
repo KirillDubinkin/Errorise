@@ -21,6 +21,8 @@
 #include <QStringList>
 #include <QApplication>
 
+#include <QDebug>
+
 #include "global.h"
 #include "preferences.h"
 #include "mplayerversion.h"
@@ -143,9 +145,8 @@ void MplayerProcess::parseLine(QByteArray ba) {
     if (rx_av.indexIn(line) > -1) {
 		double sec = rx_av.cap(1).toDouble();
 
-                if ( rx_av.cap(1).contains(".0") ){
-                    emit receivedCSec(sec);
-                }
+                emit receivedCSec(sec);
+
 
 		//qDebug("cap(1): '%s'", rx_av.cap(1).toUtf8().data() );
 		//qDebug("sec: %f", sec);
