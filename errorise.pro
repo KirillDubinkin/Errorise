@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     core.cpp \
     mediainfo.cpp \
     preferenceswindow.cpp \
-    version.cpp
+    version.cpp \
+    queue.cpp
 
 HEADERS  += mainwindow.h \
     myprocess.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     core.h \
     mediainfo.h \
     preferenceswindow.h \
-    myslider.h
+    myslider.h \
+    queue.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui

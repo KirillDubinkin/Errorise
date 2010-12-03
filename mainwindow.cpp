@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->AlbumPL->setStyleSheet(pref->pl_stylesheet);
     ui->AlbumPL->setAlternatingRowColors(pref->pl_alternate_colors);
+    ui->AlbumPL->setContextMenuPolicy(Qt::ActionsContextMenu);
+    QAction *act;
+    ui->AlbumPL->addAction(act = new QAction("Add to Playback Queue", ui->AlbumPL));
+    connect(act, SIGNAL(triggered()), this, SLOT(addToQueue()));
 
     defWindowTitle();
 
@@ -141,6 +145,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::addToQueue()
+{
+    queue->addQueue(mediaInfo->track[ui->AlbumPL->item(ui->AlbumPL->currentRow(), 0)->text().toInt()]);
+}
 
 void MainWindow::createToolBars()
 {
@@ -820,6 +828,13 @@ void MainWindow::recursiveDirectory(const QString &sDir)
 
 void MainWindow::playNext()
 {
+    qDebug() << queue->size();
+    if (queue->size() > 0){
+        this->playQueue(queue->currentIdx());
+        queue->setCurrent(queue->currentIdx()+1);
+        return;
+    }
+
     if (core->mset.current_id > -1){
         if (core->mset.current_id+1 < ui->AlbumPL->rowCount())
         {
@@ -832,6 +847,46 @@ void MainWindow::playNext()
             play();
         }
     }
+}
+
+
+void MainWindow::playQueue(int idx)
+{
+    progress->blockSignals(true);
+    progress->setValue(0);
+    progress->blockSignals(false);
+
+    if (queue->size() > idx)
+    {
+        defPlhighlight();
+
+        core->mdat = queue->queue(idx);
+        core->mset.reset();
+        core->mset.current_id = -1;
+        core->restarting = true;
+
+        core->openFile(core->mdat.filename);
+
+        this->setWindowTitle(parseLine(&core->mdat, pref->window_title_format));
+        highlightCurrentTrack();
+
+        /////////////////////
+//        progress->setMinimum(0);
+
+        progress->setMaximum(core->mdat.duration);
+
+        if ((pref->pl_auto_scroll) && (ui->AlbumPL->columnCount() > 0) && (core->mset.current_id > -1))
+        {
+            if (this->coverColumn == 1)
+                ui->AlbumPL->scrollToItem(ui->AlbumPL->item(ui->AlbumPL->currentRow(), ui->AlbumPL->columnCount()-1));
+            else
+                ui->AlbumPL->scrollToItem(ui->AlbumPL->item(ui->AlbumPL->currentRow(), 1));
+        }
+    } else {
+        queue->clear();
+        this->playNext();
+    }
+
 }
 
 

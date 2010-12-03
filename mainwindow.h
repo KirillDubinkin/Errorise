@@ -45,6 +45,7 @@ public slots:
     void changeAlbumDir();
 
     void play();
+    void playQueue(int idx);
     void stop();
     void playNext();
     void playPrev();
@@ -73,6 +74,8 @@ public slots:
 
     void setColors();
 
+    void addToQueue();
+
 private:
     Ui::MainWindow *ui;
     //void createColumns(const QString &pattern = pref->pl_columns);
@@ -99,6 +102,8 @@ private:
     void addCover(int row, int spanRow, const QDir &path);
 
     void recursiveDirectory(const QString &sDir);
+
+
 
     int lengthColumn();
     int timeColumn;
