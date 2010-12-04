@@ -19,11 +19,11 @@
 #ifndef _CONSTANTS_H_
 #define _CONSTANTS_H_
 
-#define COMPANY "RVM"
-#define PROGRAM "smplayer"
+#define COMPANY "we_apon"
+#define PROGRAM "errorise"
 
-#define IS_PLAYLIST_TAG "|smplayer:isplaylist"
-#define IS_PLAYLIST_TAG_RX "\\|smplayer\\:isplaylist$"
+//#define IS_PLAYLIST_TAG "|smplayer:isplaylist"
+//#define IS_PLAYLIST_TAG_RX "\\|smplayer\\:isplaylist$"
 
 #endif
 
