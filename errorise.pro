@@ -34,7 +34,9 @@ SOURCES += main.cpp\
     mediainfo.cpp \
     preferenceswindow.cpp \
     version.cpp \
-    queue.cpp
+    queue.cpp \
+    simpleplaylist.cpp \
+    helper.cpp
 
 HEADERS  += mainwindow.h \
     myprocess.h \
@@ -59,7 +61,9 @@ HEADERS  += mainwindow.h \
     mediainfo.h \
     preferenceswindow.h \
     myslider.h \
-    queue.h
+    queue.h \
+    simpleplaylist.h \
+    helper.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui
