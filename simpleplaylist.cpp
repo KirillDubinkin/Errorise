@@ -1,9 +1,12 @@
 #include "simpleplaylist.h"
 #include "paths.h"
+//#include "helper.h"
+
 #include <QHeaderView>
 #include <QLabel>
 #include <QSettings>
 #include <QTextCodec>
+#include <QBrush>
 
 #include <QDebug>
 
@@ -18,7 +21,7 @@ Prefs::Prefs()
     load();
 }
 
-Prefs::reset()
+void Prefs::reset()
 {
     qDebug("SimplePlaylist->Prefs::reset");
 
@@ -26,10 +29,27 @@ Prefs::reset()
     groups_text_color = "ffffff";
     groups_text_aligment = Qt::AlignLeft;
     groups_back_color = "13363b";
+    groups_stylesheet = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
     group_height = 20;
+
+    //! Columns
+    columns_names << "Cover" << "#" << "Length" << "Track Name" << "Bitrate" << "Format";
+    columns_sizes << 200 << 23 << 75 << 200 << 75 << 50;
+    columns_aligment << 4 << 4 << 4 << 4 << 4 << 4;
+    columns_stylesheet << "" << "" << "" << "" << "" << "";
+
+    //! Colors
+    color_column_text << "" << "527482" << "43606b" << "" << "43606b" << "527482";
+    color_column_back << "" << "" << "" << "" << "" << "";
+
+    //! Other
+    art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
+    row_height = 14;
+    alternate_colors = true;
+
 }
 
-Prefs::save()
+void Prefs::save()
 {
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
@@ -39,6 +59,7 @@ Prefs::save()
     set.setValue("groups_text_color", groups_text_color);
     set.setValue("groups_back_color", groups_back_color);
     set.setValue("groups_text_aligment", groups_text_aligment);
+    set.setValue("groups_stylesheet", groups_stylesheet);
     set.setValue("group_height", group_height);
     set.endGroup();
 
@@ -46,8 +67,25 @@ Prefs::save()
     //! Columns
     set.beginGroup("Columns");
     set.setValue("columns_names", columns_names);
-    set.setValue("columns_sizes", columns_sizes);
 
+    s_col_size.clear();
+    for (int i = 0; i < columns_sizes.size(); i++)
+        s_col_size << QString().number(columns_sizes.at(i));
+    set.setValue("columns_sizes", s_col_size);
+
+    s_col_align.clear();
+    for (int i = 0; i < columns_aligment.size(); i++)
+        s_col_align << QString().number(columns_aligment.at(i));
+    set.setValue("columns_aligment", s_col_align);
+
+    set.setValue("columns_stylesheet", columns_stylesheet);
+    set.endGroup();
+
+
+    //! Colors
+    set.beginGroup("Colors");
+    set.setValue("color_column_text", color_column_text);
+    set.setValue("color_column_back", color_column_back);
     set.endGroup();
 
 
@@ -55,13 +93,14 @@ Prefs::save()
     set.beginGroup("Other");
     set.setValue("art_search_pattern", art_search_pattern);
     set.setValue("row_height", row_height);
+    set.setValue("alternate_colors", alternate_colors);
     set.endGroup();
 
 
     set.sync();
 }
 
-Prefs::load()
+void Prefs::load()
 {
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
@@ -71,6 +110,7 @@ Prefs::load()
     groups_text_color = set.value("groups_text_color", groups_text_color).toString();
     groups_back_color = set.value("groups_back_color", groups_back_color).toString();
     groups_text_aligment = set.value("groups_text_aligment", groups_text_aligment).toInt();
+    groups_stylesheet = set.value("groups_stylesheet", groups_stylesheet).toString();
     group_height = set.value("group_height", group_height).toInt();
     set.endGroup();
 
@@ -78,14 +118,38 @@ Prefs::load()
     //! Columns
     set.beginGroup("Columns");
     columns_names = set.value("columns_names", columns_names).toStringList();
-    columns_sizes = set.value("columns_sizes", columns_sizes).toList();
+
+    s_col_size = set.value("columns_sizes", s_col_size).toStringList();
+    if (!s_col_size.isEmpty()) {
+        columns_sizes.clear();
+        for (int i = 0; i < s_col_size.size(); i++)
+            columns_sizes << QString(s_col_size.at(i)).toInt();
+    }
+
+    s_col_align = set.value("columns_aligment", s_col_align).toStringList();
+    if (!s_col_align.isEmpty()) {
+        columns_aligment.clear();
+        for (int i = 0; i < s_col_align.size(); i++)
+            columns_aligment << QString(s_col_align.at(i)).toInt();
+    }
+
+    columns_stylesheet = set.value("columns_stylesheet", columns_stylesheet).toStringList();
+    set.endGroup();
+
+
+    //! Colors
+    set.beginGroup("Colors");
+    color_column_text = set.value("color_column_text", color_column_text).toStringList();
+    color_column_back = set.value("color_column_back", color_column_back).toStringList();
     set.endGroup();
 
 
     //! Other
     set.beginGroup("Other");
-    art_search_pattern = set.value("art_search_pattern", art_search_pattern).toString();
-    row_height = set.value("row_height", row_height);
+    art_search_pattern = set.value("art_search_pattern", art_search_pattern).toStringList();
+    row_height = set.value("row_height", row_height).toInt();
+    alternate_colors = set.value("alternate_colors", alternate_colors).toBool();
+    set.endGroup();
 }
 
 
@@ -138,26 +202,30 @@ void SimplePlaylist::setColumns(const QStringList &names, const QStringList &siz
 void SimplePlaylist::setTracks(const QStringList &text, const int &num, bool useLabels)
 {
     this->setRowCount(num);
-    int row = -1;
+   // int row = -1;
 
-    //! Meybe It's need to replase with this->ColumnCount - 1;
-    int colCount = text[num].size();
+    int colCount = this->columnCount() - 1;
 
     if (!useLabels){
+            //! In this function row == idx, so
         for (int idx = 0; idx < num; idx++){
+            this->setRowHeight(idx, prefs->row_height);
+
             QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
-            this->setItem(++row, 0, index);
+            this->setItem(idx, 0, index);
 
             for (int col = 0; col < colCount; col++)
-                this->addRowItem(idx, row, col);
+                this->addRowItem(idx, col, text.at(idx * colCount + col));
         }
     } else {
         for (int idx = 0; idx < num; idx++){
+            this->setRowHeight(idx, prefs->row_height);
+
             QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
-            this->setItem(++row, 0, index);
+            this->setItem(idx, 0, index);
 
             for (int col = 0; col < colCount; col++)
-                this->addRowLabel(idx, row, col);
+                this->addRowLabel(idx, col, text.at(idx * colCount + col));
         }
     }
 }
@@ -168,9 +236,9 @@ void SimplePlaylist::setTracksWithGroups(const QStringList &text, const int &num
                                         const QStringList &groupPath,
                                         bool useLabels, bool useGroupLabels)
 {
-    // Clear
+    //! Clear. We don't know how many rows will be.
     this->setRowCount(0);
-    int groupID = 0, row = 0, colCount = text[num].size();
+    int groupID = 0, row = 0, colCount = this->columnCount() - 1;
 
     if (!useLabels){
         for (int idx = 0; idx < num; idx++){
@@ -186,12 +254,13 @@ void SimplePlaylist::setTracksWithGroups(const QStringList &text, const int &num
             }
 
             this->insertRow(++row);
+            this->setRowHeight(row, prefs->row_height);
             QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
             this->setItem(row, 0, index);
 
             for (int col = 0; col < colCount; col++)
                 if (this->CoverColumn-1 != col)
-                    this->addRowItem(idx, row, col);
+                    this->addRowItem(row, col, text.at(idx * colCount + col));
         }
     }
 
@@ -209,12 +278,13 @@ void SimplePlaylist::setTracksWithGroups(const QStringList &text, const int &num
             }
 
             this->insertRow(++row);
+            this->setRowHeight(row, prefs->row_height);
             QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
             this->setItem(row, 0, index);
 
             for (int col = 0; col < colCount; col++)
                 if (this->CoverColumn-1 != col)
-                    this->addRowLabel(idx, row, col);
+                    this->addRowLabel(row, col, text.at(idx * colCount + col));
         }
     }
 }
@@ -222,6 +292,7 @@ void SimplePlaylist::setTracksWithGroups(const QStringList &text, const int &num
 
 int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
 {
+    const QBrush &brush = this->palette().brush(QPalette::Base);
 
     if (!prefs->art_search_pattern.isEmpty())
     {
@@ -246,6 +317,8 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
             float factor = (float) prefs->columns_sizes.at(this->CoverColumn-1) / pic.width();
             int curGroupSize = prefs->row_height * (spanRow+2);
 
+
+
             QLabel *art = new QLabel;
             art->setScaledContents(true);
             art->setPixmap(pic);
@@ -258,7 +331,7 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
                 QTableWidgetItem *index = new QTableWidgetItem(COVER);
                 this->setItem(newRow, 0, index);
 
-                const QBrush &brush = this->palette().brush(QPalette::Base);
+
 
                 //! Set span in new row. Even if cover column not in the side of table
                 if (this->CoverColumn == 1) {
@@ -344,3 +417,70 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
     QTableWidgetItem *index = new QTableWidgetItem(GROUP);
     this->setItem(row, 0, index);
 }
+
+void SimplePlaylist::addGroupLabel(int row, const QString &text)
+{
+    this->insertRow(row);
+    this->setSpan(row, 1, 1, this->columnCount()-1);
+
+    QLabel *group = new QLabel(text);
+
+    switch (prefs->groups_text_aligment){
+    case 1: group->setAlignment(Qt::AlignLeft | Qt::AlignVCenter); break;
+    case 2: group->setAlignment(Qt::AlignRight | Qt::AlignVCenter); break;
+    case 4: group->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter); break;
+    case 8: group->setAlignment(Qt::AlignJustify | Qt::AlignVCenter); break;
+    }
+
+    if (!prefs->groups_stylesheet.isEmpty())
+        group->setStyleSheet("QLabel { " + prefs->groups_stylesheet + " }");
+
+    this->setRowHeight(row, prefs->group_height);
+    this->setCellWidget(row, 1, group);
+
+    QTableWidgetItem *index = new QTableWidgetItem(GROUP);
+    this->setItem(row, 0, index);
+}
+
+
+void SimplePlaylist::addRowItem(int row, int col, const QString &text)
+{
+    bool ok;
+
+    QTableWidgetItem *item = new QTableWidgetItem(text);
+    item->setTextAlignment(prefs->columns_aligment.at(col));
+    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    if (prefs->color_column_text.at(col) != "")
+        item->setTextColor( QColor(QString(prefs->color_column_text.at(col)).toInt(&ok, 16)) );
+
+    if (!prefs->alternate_colors)
+    {
+        if (prefs->color_column_back.at(col) != "")
+            item->setBackgroundColor( QColor(QString(prefs->color_column_back.at(col)).toInt(&ok, 16)) );
+        else
+            item->setBackground(this->palette().brush(QPalette::Base));
+    }
+
+    this->setItem(row, col+1, item);
+}
+
+void SimplePlaylist::addRowLabel(int row, int col, const QString &text)
+{
+    QLabel *label = new QLabel(text);
+
+    switch (prefs->columns_aligment.at(col)) {
+    case 1: label->setAlignment(Qt::AlignLeft); break;
+    case 2: label->setAlignment(Qt::AlignRight); break;
+    case 4: label->setAlignment(Qt::AlignHCenter); break;
+    case 8: label->setAlignment(Qt::AlignJustify); break;
+    }
+
+    if (prefs->columns_stylesheet.at(col) != "")
+        label->setStyleSheet("QLabel { " + prefs->columns_stylesheet.at(col) + " }");
+
+    this->setCellWidget(row, col+1, label);
+}
+
+
+

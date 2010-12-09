@@ -20,9 +20,6 @@
 #include "global.h"
 #include "paths.h"
 #include "mediasettings.h"
-#include "recents.h"
-#include "urlhistory.h"
-#include "filters.h"
 
 #include <QSettings>
 #include <QFileInfo>
@@ -35,9 +32,6 @@
 using namespace Global;
 
 Preferences::Preferences() {
-	history_recents = new Recents;
-	history_urls = new URLHistory;
-	filters = new Filters;
 
 	reset();
 
@@ -54,9 +48,6 @@ Preferences::~Preferences() {
 	save();
 #endif
 
-	delete history_recents;
-	delete history_urls;
-	delete filters;
 }
 
 
@@ -485,19 +476,7 @@ void Preferences::reset() {
 #endif
 
 
-    /* *******
-       History
-       ******* */
 
-	history_recents->clear();
-	history_urls->clear();
-
-
-    /* *******
-       Filters
-       ******* */
-
-	filters->init();
 }
 
 #ifndef NO_USE_INI_FILES
@@ -846,25 +825,6 @@ void Preferences::save() {
 	set->setValue("bypass_window_manager", bypass_window_manager);
 #endif
 	set->endGroup(); // floating_control
-
-
-    /* *******
-       History
-       ******* */
-
-	set->beginGroup("history");
-	set->setValue("recents", history_recents->toStringList());
-	set->setValue("recents/max_items", history_recents->maxItems());
-	set->setValue("urls", history_urls->toStringList());
-	set->setValue("urls/max_items", history_urls->maxItems());
-	set->endGroup(); // history
-
-
-    /* *******
-       Filters
-       ******* */
-
-	filters->save(set);
 
 
 	set->sync();
@@ -1216,27 +1176,6 @@ void Preferences::load() {
 #endif
 	set->endGroup(); // floating_control
 
-
-    /* *******
-       History
-       ******* */
-
-	set->beginGroup("history");
-
-	history_recents->setMaxItems( set->value("recents/max_items", history_recents->maxItems()).toInt() );
-	history_recents->fromStringList( set->value("recents", history_recents->toStringList()).toStringList() );
-
-	history_urls->setMaxItems( set->value("urls/max_items", history_urls->maxItems()).toInt() );
-	history_urls->fromStringList( set->value("urls", history_urls->toStringList()).toStringList() );
-
-	set->endGroup(); // history
-
-
-    /* *******
-       Filters
-       ******* */
-
-	filters->load(set);
 }
 
 #endif // NO_USE_INI_FILES

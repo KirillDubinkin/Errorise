@@ -9,7 +9,7 @@
 #include "mediadata.h"
 #include "preferences.h"
 #include "global.h"
-#include "filters.h"
+
 
 using namespace Global;
 
@@ -272,7 +272,7 @@ void Core::startMplayer(QString file) {
                 proc->addArgument( QString::number( mset.audio_use_channels ) );
         }
 
-        // Audio filters
+/*        // Audio filters
         QString af="";
         if (mset.karaoke_filter) {
                 af="karaoke";
@@ -297,12 +297,12 @@ void Core::startMplayer(QString file) {
         }
 
 
-/*        // Audio equalizer
+        // Audio equalizer
         if (pref->use_audio_equalizer) {
                 if (!af.isEmpty()) af += ",";
                 af += "equalizer=" + Helper::equalizerListToString(mset.audio_equalizer);
         }
-*/
+
 
         // Additional audio filters, supplied by user
         // File
@@ -325,6 +325,7 @@ void Core::startMplayer(QString file) {
                         proc->addArgument( af );
                 }
         }
+ */
 
         if (pref->use_soft_vol) {
                 proc->addArgument("-softvol");

@@ -21,21 +21,32 @@ public:
     QString groups_text_color;
     int groups_text_aligment;
     QString groups_back_color;
+    QString groups_stylesheet;
     int group_height;
 
-    QString art_search_pattern;
 
     //! Columns
     QStringList columns_names;
     QList<int> columns_sizes;
+    QList<int> columns_aligment;
+    QStringList columns_stylesheet;
 
-    //! Rows
+
+    //! Colors
+    QStringList color_column_text;
+    QStringList color_column_back;
+
+
+    //! Other
     int row_height;
-
+    QStringList art_search_pattern;
+    bool alternate_colors;
 
 
 private:
     QString filename;
+    QStringList s_col_size;
+    QStringList s_col_align;
 };
 
 
@@ -67,8 +78,8 @@ private:
     QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,
                               const QString &text = "");
 
-    void addRowItem(int idx, int row, int col);
-    void addRowLabel(int idx, int row, int col);
+    void addRowItem(int row, int col, const QString &text);
+    void addRowLabel(int row, int col, const QString &text);
 
     void addGroupItem(int row, const QString &text);
     void addGroupLabel(int row, const QString &text);
