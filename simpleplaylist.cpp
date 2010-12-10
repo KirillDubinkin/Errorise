@@ -1,6 +1,5 @@
 #include "simpleplaylist.h"
 #include "paths.h"
-//#include "helper.h"
 
 #include <QHeaderView>
 #include <QLabel>
@@ -26,17 +25,26 @@ void Prefs::reset()
     qDebug("SimplePlaylist->Prefs::reset");
 
     //! Groups
+    groups_format = "%album_artist% - [%date%] %album%";
     groups_text_color = "ffffff";
     groups_text_aligment = Qt::AlignLeft;
     groups_back_color = "13363b";
     groups_stylesheet = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
     group_height = 20;
+    group_labels = true;
 
     //! Columns
     columns_names << "Cover" << "#" << "Length" << "Track Name" << "Bitrate" << "Format";
     columns_sizes << 200 << 23 << 75 << 200 << 75 << 50;
     columns_aligment << 4 << 4 << 4 << 4 << 4 << 4;
     columns_stylesheet << "" << "" << "" << "" << "" << "";
+
+    //! Rows
+    rows_format << "%art%" << "%tracknumber%" << "%length%" << "%title%" << "%bitrate%" << "%codec%";
+    rows_stylesheet << "" << "" << "" << "" << "" << "";
+    rows_playback_format << "%art%" << "%tracknumber%" << "%length%" << "%title%" << "%bitrate%" << "%codec%";
+    rows_playback_stylesheet << "" << "" << "" << "" << "" << "";
+    labels = false;
 
     //! Colors
     color_column_text << "" << "527482" << "43606b" << "" << "43606b" << "527482";
@@ -46,6 +54,8 @@ void Prefs::reset()
     art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
     row_height = 14;
     alternate_colors = true;
+    show_header = false;
+
 
 }
 
@@ -56,11 +66,13 @@ void Prefs::save()
 
     //! Groups
     set.beginGroup("Groups");
+    set.setValue("groups_format", groups_format);
     set.setValue("groups_text_color", groups_text_color);
     set.setValue("groups_back_color", groups_back_color);
     set.setValue("groups_text_aligment", groups_text_aligment);
     set.setValue("groups_stylesheet", groups_stylesheet);
     set.setValue("group_height", group_height);
+    set.setValue("group_labels", group_labels);
     set.endGroup();
 
 
@@ -82,6 +94,16 @@ void Prefs::save()
     set.endGroup();
 
 
+    //! Rows
+    set.beginGroup("Rows");
+    set.setValue("rows_format", rows_format);
+    set.setValue("rows_stylesheet", rows_stylesheet);
+    set.setValue("rows_playback_format", rows_playback_format);
+    set.setValue("rows_playback_stylesheet", rows_playback_stylesheet);
+    set.setValue("labels", labels);
+    set.endGroup();
+
+
     //! Colors
     set.beginGroup("Colors");
     set.setValue("color_column_text", color_column_text);
@@ -94,6 +116,8 @@ void Prefs::save()
     set.setValue("art_search_pattern", art_search_pattern);
     set.setValue("row_height", row_height);
     set.setValue("alternate_colors", alternate_colors);
+    set.setValue("show_header", show_header);
+
     set.endGroup();
 
 
@@ -107,11 +131,13 @@ void Prefs::load()
 
     //! Groups
     set.beginGroup("Groups");
+    groups_format = set.value("groups_format", groups_format).toString();
     groups_text_color = set.value("groups_text_color", groups_text_color).toString();
     groups_back_color = set.value("groups_back_color", groups_back_color).toString();
     groups_text_aligment = set.value("groups_text_aligment", groups_text_aligment).toInt();
     groups_stylesheet = set.value("groups_stylesheet", groups_stylesheet).toString();
     group_height = set.value("group_height", group_height).toInt();
+    group_labels = set.value("group_labels", group_labels).toBool();
     set.endGroup();
 
 
@@ -137,6 +163,16 @@ void Prefs::load()
     set.endGroup();
 
 
+    //! Rows
+    set.beginGroup("Rows");
+    rows_format = set.value("rows_format", rows_format).toStringList();
+    rows_stylesheet = set.value("rows_stylesheet", rows_stylesheet).toStringList();
+    rows_playback_format = set.value("rows_playback_format", rows_playback_format).toStringList();
+    rows_playback_stylesheet = set.value("rows_playback_stylesheet", rows_playback_stylesheet).toStringList();
+    labels = set.value("labels", labels).toBool();
+    set.endGroup();
+
+
     //! Colors
     set.beginGroup("Colors");
     color_column_text = set.value("color_column_text", color_column_text).toStringList();
@@ -149,6 +185,7 @@ void Prefs::load()
     art_search_pattern = set.value("art_search_pattern", art_search_pattern).toStringList();
     row_height = set.value("row_height", row_height).toInt();
     alternate_colors = set.value("alternate_colors", alternate_colors).toBool();
+    show_header = set.value("show_header", show_header).toBool();
     set.endGroup();
 }
 
@@ -156,12 +193,13 @@ void Prefs::load()
 
 
 
-SimplePlaylist::SimplePlaylist(bool showColumnsNames, QWidget *parent) :
+SimplePlaylist::SimplePlaylist(QWidget *parent) :
     QTableWidget(parent)
 {
     prefs = new Prefs();
+    helper = new Helper();
 
-    this->horizontalHeader()->setVisible(showColumnsNames);
+    this->horizontalHeader()->setVisible(prefs->show_header);
     this->hideColumn(0);
     CoverColumn  = -1;
     LengthColumn = -1;
@@ -177,7 +215,7 @@ int SimplePlaylist::lengthColumn()
     return LengthColumn;
 }
 
-void SimplePlaylist::setColumns(const QStringList &names, const QStringList &sizes, const QStringList &rowsFormat)
+void SimplePlaylist::setColumns()
 {
     // first column contains index of track. it's hidden column;
     this->setColumnCount(1);
@@ -185,108 +223,131 @@ void SimplePlaylist::setColumns(const QStringList &names, const QStringList &siz
 
     this->CoverColumn = -1;
 
-    for (int i = 0; i < names.size(); i++)
+    for (int i = 0; i < prefs->columns_names.size(); i++)
     {
-        if (QString(rowsFormat.at(i)).contains("%art%"))
+        if (QString(prefs->rows_format.at(i)).contains("%art%"))
             this->CoverColumn = col;
 
         this->insertColumn(col);
-        QTableWidgetItem *item = new QTableWidgetItem(names.at(i));
+        QTableWidgetItem *item = new QTableWidgetItem(prefs->columns_names.at(i));
 
         this->setHorizontalHeaderItem(col, item);
-        this->setColumnWidth(col++, QString(sizes.at(i)).toInt());
+        this->setColumnWidth(col++, QString(prefs->columns_sizes.at(i)).toInt());
     }
 }
 
 
-void SimplePlaylist::setTracks(const QStringList &text, const int &num, bool useLabels)
+void SimplePlaylist::setTracks(const QList<int> &GUID)
 {
-    this->setRowCount(num);
+    this->setRowCount(GUID.size());
    // int row = -1;
 
     int colCount = this->columnCount() - 1;
 
-    if (!useLabels){
+    if (!prefs->labels){
             //! In this function row == idx, so
-        for (int idx = 0; idx < num; idx++){
+        for (int idx = 0; idx < GUID.size(); idx++){
             this->setRowHeight(idx, prefs->row_height);
 
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
             this->setItem(idx, 0, index);
 
             for (int col = 0; col < colCount; col++)
-                this->addRowItem(idx, col, text.at(idx * colCount + col));
+                this->addRowItem(idx, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
         }
     } else {
-        for (int idx = 0; idx < num; idx++){
+        for (int idx = 0; idx < GUID.size(); idx++){
             this->setRowHeight(idx, prefs->row_height);
 
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
             this->setItem(idx, 0, index);
 
             for (int col = 0; col < colCount; col++)
-                this->addRowLabel(idx, col, text.at(idx * colCount + col));
+                this->addRowLabel(idx, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
         }
     }
 }
 
 
-void SimplePlaylist::setTracksWithGroups(const QStringList &text, const int &num,
-                                        const QStringList &group, const QList<int> &groupIndex,
-                                        const QStringList &groupPath,
-                                        bool useLabels, bool useGroupLabels)
+void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
 {
-    //! Clear. We don't know how many rows will be.
+    //! Exit, if files not found, or somethink, to avoid empty group creation
+    if (GUID.isEmpty())
+        return;
+
+    //! Clear. We don't know how many rows will be
     this->setRowCount(0);
-    int groupID = 0, row = 0, colCount = this->columnCount() - 1;
+    int groupRow = 0, row = 0, colCount = this->columnCount() - 1;
 
-    if (!useLabels){
-        for (int idx = 0; idx < num; idx++){
-            if (idx == groupIndex.at(groupID)){
+    //! Insert first group
+    QString prev = helper->parseLine(GUID.at(0), prefs->groups_format), current;
+    if (!prefs->group_labels)
+        this->addGroupItem(row++, prev);
+    else
+        this->addGroupLabel(row++, prev);
+
+    if (!prefs->labels) {
+        for (int idx = 0; idx < GUID.size(); idx++)
+        {
+            current = helper->parseLine(GUID.at(idx), prefs->groups_format);
+
+            if (prev != current)
+            { //! Insert cover to current group, and begin a new group
                 if (this->CoverColumn > -1)
-                   row = this->addCover(groupIndex.at(groupID)+1, row - groupIndex.at(groupID), groupPath.at(groupID));
-            //! We search for groups and covers in Main Program, and send it here.
+                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(GUID.at(idx-1)));
 
-                if (!useGroupLabels)
-                    this->addGroupItem(++row, group.at(++groupID));
+                if (!prefs->group_labels)
+                    this->addGroupItem(++row, current);
                 else
-                    this->addGroupLabel(++row, group.at(++groupID));
+                    this->addGroupLabel(++row, current);
             }
 
             this->insertRow(++row);
             this->setRowHeight(row, prefs->row_height);
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
             this->setItem(row, 0, index);
 
             for (int col = 0; col < colCount; col++)
                 if (this->CoverColumn-1 != col)
-                    this->addRowItem(row, col, text.at(idx * colCount + col));
+                    this->addRowItem(row, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
+
+            prev = current;
         }
     }
 
-
+    //! Do the same, except this->addRowLabel;
+    //! The whole algorithm is written twice, because otherwise this test will be called (columnCount * GUID.size()) times
     else {
-        for (int idx = 0; idx < num; idx++){
-            if (idx == groupIndex.at(groupID)){
-                if (this->CoverColumn > -1)
-                   row = this->addCover(groupIndex.at(groupID)+1, row - groupIndex.at(groupID), groupPath.at(groupID));
+        for (int idx = 0; idx < GUID.size(); idx++)
+        {
+            current = helper->parseLine(GUID.at(idx), prefs->groups_format);
 
-                if (!useGroupLabels)
-                    this->addGroupItem(++row, group.at(++groupID));
+            if (prev != current)
+            { //! Insert cover to current group, and begin a new group
+                if (this->CoverColumn > -1)
+                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(GUID.at(idx-1)));
+
+                if (!prefs->group_labels)
+                    this->addGroupItem(++row, current);
                 else
-                    this->addGroupLabel(++row, group.at(++groupID));
+                    this->addGroupLabel(++row, current);
             }
 
             this->insertRow(++row);
             this->setRowHeight(row, prefs->row_height);
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(idx));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
             this->setItem(row, 0, index);
 
             for (int col = 0; col < colCount; col++)
                 if (this->CoverColumn-1 != col)
-                    this->addRowLabel(row, col, text.at(idx * colCount + col));
+                    this->addRowItem(row, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
+
+            prev = current;
         }
     }
+
+    if (this->CoverColumn > -1)
+        row = this->addCover(groupRow+1, row - groupRow, helper->filePath(GUID.last()));
 }
 
 
@@ -483,4 +544,12 @@ void SimplePlaylist::addRowLabel(int row, int col, const QString &text)
 }
 
 
+void SimplePlaylist::highlightCurrentTrack()
+{
 
+}
+
+void SimplePlaylist::defPlhighlight()
+{
+
+}

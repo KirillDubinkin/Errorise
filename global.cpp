@@ -19,12 +19,11 @@
 
 #include "global.h"
 #include "preferences.h"
-//#include "mediainfo.h"
+#include "mediainfo.h"
 #include "queue.h"
 
 #ifndef MINILIB
 
-#include "constants.h"
 #include <QSettings>
 #include "translator.h"
 #include "paths.h"
@@ -36,7 +35,7 @@ QSettings * Global::settings = 0;
 Preferences * Global::pref = 0;
 Translator * Global::translator = 0;
 Queue * Global::queue = 0;
-//MediaInfo * Global::mediaInfo =  0;
+MediaInfo * Global::mediainfo =  0;
 
 using namespace Global;
 
@@ -53,7 +52,7 @@ void Global::global_init(const QString & config_path) {
 
 	if (Paths::iniPath().isEmpty()) {
 		settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-    	                         QString(COMPANY), QString(PROGRAM) );
+                                 mycompany(), myplayerName().toLower());
 	} else {
                 QString filename = Paths::iniPath() + "/" + myplayerName().toLower() + ".ini";
 		settings = new QSettings( filename, QSettings::IniFormat );
@@ -63,7 +62,7 @@ void Global::global_init(const QString & config_path) {
 
 	// Preferences
         pref = new Preferences();
-     //   mediaInfo = new MediaInfo();
+        mediainfo = new MediaInfo();
 
         queue = new Queue();
 
@@ -73,8 +72,9 @@ void Global::global_end() {
 	qDebug("global_end");
 
         // delete
-     //   delete mediaInfo;
+
         delete queue;
+        delete mediainfo;
 	delete pref;
 	pref = 0;
 

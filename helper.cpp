@@ -1,23 +1,46 @@
 #include "helper.h"
+#include "global.h"
+#include <QFileInfo>
 
-QString Helper::parseLine(MediaData *data, QString pattern)
+using namespace Global;
+
+QString Helper::parseLine(const int GUID, QString pattern) const
 {
-    pattern.replace("%title%", data->clip_name);
-    pattern.replace("%artist%", data->clip_artist);
-    pattern.replace("%album_artist%", data->album_artist);
-    pattern.replace("%album%", data->clip_album);
-    pattern.replace("%date%", data->clip_date);
-    pattern.replace("%genre%", data->clip_genre);
-    pattern.replace("%tracknumber%", data->clip_track);
-    pattern.replace("%codec%", data->audio_codec);
-    pattern.replace("%format%", data->audio_format);
-    pattern.replace("%bitrate%", data->bitrate);
-    pattern.replace("%samplerate%", data->samplerate);
-    pattern.replace("%channels%", data->channels);
-    pattern.replace("%length%", MediaData::formatTime(data->duration));
+    pattern.replace("%title%", mediainfo->track[GUID].clip_name);
+    pattern.replace("%artist%", mediainfo->track[GUID].clip_artist);
+    pattern.replace("%album_artist%", mediainfo->track[GUID].album_artist);
+    pattern.replace("%album%", mediainfo->track[GUID].clip_album);
+    pattern.replace("%date%", mediainfo->track[GUID].clip_date);
+    pattern.replace("%genre%", mediainfo->track[GUID].clip_genre);
+    pattern.replace("%tracknumber%", mediainfo->track[GUID].clip_track);
+    pattern.replace("%codec%", mediainfo->track[GUID].audio_codec);
+    pattern.replace("%format%", mediainfo->track[GUID].audio_format);
+    pattern.replace("%bitrate%", mediainfo->track[GUID].bitrate);
+    pattern.replace("%samplerate%", mediainfo->track[GUID].samplerate);
+    pattern.replace("%channels%", mediainfo->track[GUID].channels);
+    pattern.replace("%length%", formatTime(mediainfo->track[GUID].duration));
 
 //    pattern.replace("%playback_time%", MediaData::formatTime(core->mset.current_sec));
 
     return pattern;
 }
 
+QString Helper::formatTime(int sec) const
+{
+    int hours = (int) sec / 3600;
+    sec -= hours*3600;
+    int minutes = (int) sec / 60;
+    sec -= minutes*60;
+    int seconds = sec;
+
+    QString tf;
+    return tf.sprintf("%02d:%02d:%02d",hours,minutes,seconds);
+}
+
+QString Helper::filePath(const int GUID) const
+{
+    if (mediainfo->numParsedFiles >= GUID)
+        return QFileInfo(mediainfo->track[GUID].filename).absolutePath();
+
+    return NULL;
+}

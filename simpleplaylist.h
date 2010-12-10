@@ -7,6 +7,8 @@
 #include <QStringList>
 #include <QList>
 
+#include "helper.h"
+
 class Prefs
 {
 public:
@@ -18,11 +20,13 @@ public:
     void save();
 
     //! Groups
+    QString groups_format;
     QString groups_text_color;
     int groups_text_aligment;
     QString groups_back_color;
     QString groups_stylesheet;
     int group_height;
+    bool group_labels;
 
 
     //! Columns
@@ -32,15 +36,25 @@ public:
     QStringList columns_stylesheet;
 
 
+    //! Rows
+    QStringList rows_format;
+    QStringList rows_stylesheet;
+    QStringList rows_playback_format;
+    QStringList rows_playback_stylesheet;
+    bool labels;
+
     //! Colors
     QStringList color_column_text;
     QStringList color_column_back;
+    QStringList color_playback_text;
+    QStringList color_playback_back;
 
 
     //! Other
     int row_height;
     QStringList art_search_pattern;
     bool alternate_colors;
+    bool show_header;
 
 
 private:
@@ -54,7 +68,7 @@ class SimplePlaylist : public QTableWidget
 {
     Q_OBJECT
 public:
-    explicit SimplePlaylist(bool showColumnsNames = false, QWidget *parent = 0);
+    explicit SimplePlaylist(QWidget *parent = 0);
 
     int coverColumn();
     int lengthColumn();
@@ -62,12 +76,9 @@ public:
 signals:
 
 public slots:    
-    void setColumns(const QStringList &names, const QStringList &sizes, const QStringList &rowsFormat);
-    void setTracks(const QStringList &text, const int &num, bool useLabels = false);
-    void setTracksWithGroups(const QStringList &text, const int &num,
-                             const QStringList &group, const QList<int> &groupIndex,
-                             const QStringList &cover,
-                             bool useLabels = false, bool useGroupLabels = false);
+    void setColumns();
+    void setTracks(const QList<int> &GUID);
+    void setTracksWithGroups(const QList<int> &GUID);
 
 
     void highlightCurrentTrack();
@@ -75,6 +86,7 @@ public slots:
 
 private:
     Prefs * prefs;
+    Helper * helper;
     QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,
                               const QString &text = "");
 

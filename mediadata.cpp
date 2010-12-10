@@ -29,16 +29,17 @@ MediaData::~MediaData() {
 }
 
 void MediaData::reset() {
-	filename="";
-	type = TYPE_UNKNOWN;
-	duration=0;
 
-	audios.clear();
+    filename = "";
 
-	initialized=false;
+    type = TYPE_UNKNOWN;
+    duration=0;
+
+    audios.clear();
+    initialized=false;
 
 	// Clip info;
-	clip_name = "";
+    clip_name = "";
     clip_artist = "";
     clip_author = "";
     clip_album = "";
@@ -75,7 +76,7 @@ QString MediaData::displayName() {
 
 
 QString MediaData::formatTime(int secs) {
-        int t = secs;
+    int t = secs;
     int hours = (int) t / 3600;
     t -= hours*3600;
     int minutes = (int) t / 60;

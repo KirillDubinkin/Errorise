@@ -2,13 +2,15 @@
 #define HELPER_H
 
 #include <QString>
-#include "mediadata.h"
+//#include "mediadata.h"
 
 
 class Helper
 {
 public:
-    QString parseLine(MediaData *data, QString pattern);
+    virtual QString parseLine(const int GUID, QString pattern) const;
+    virtual QString formatTime(int sec) const;
+    virtual QString filePath(const int GUID) const;
 
 };
 

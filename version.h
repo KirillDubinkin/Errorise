@@ -23,6 +23,7 @@
 
 QString myplayerVersion();
 QString myplayerName();
+QString mycompany();
 
 #endif
 

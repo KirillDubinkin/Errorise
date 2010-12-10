@@ -35,7 +35,7 @@ class QSettings;
 class Preferences;
 class Translator;
 class Queue;
-//class MediaInfo;
+class MediaInfo;
 
 namespace Global {
 
@@ -51,7 +51,7 @@ namespace Global {
         //! Playback Queue
         extern Queue * queue;
 
-        //extern MediaInfo * mediaInfo;
+        extern MediaInfo * mediainfo;
 
 
 	void global_init(const QString & config_path);
