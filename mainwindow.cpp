@@ -836,9 +836,10 @@ void MainWindow::playNext()
     }
 
     if (core->mset.current_id > -1){
-        if (core->mset.current_id+1 < ui->AlbumPL->rowCount())
+        if (core->mset.current_id+2 < ui->AlbumPL->rowCount())
         {
             ui->AlbumPL->setCurrentCell( core->mset.current_id+1, 0);
+            qDebug() << ui->AlbumPL->currentRow();
             play();
         }
     } else {
