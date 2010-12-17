@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include "mainwindow.h"
+#include "simplegui.h"
 
 class AMPlayer : public QObject
 {
@@ -19,6 +20,7 @@ public:
 //        ExitCode processArgs(QStringList args);
 
         MainWindow * gui();
+        SimpleGUI * sgui();
 
         void start();
 
@@ -29,6 +31,7 @@ private:
         void showInfo();
 
         MainWindow * main_window;
+        SimpleGUI * s_gui;
 
         QStringList files_to_play;
         QString actions_list; //!< Actions to be run on startup

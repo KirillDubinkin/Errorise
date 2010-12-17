@@ -14,6 +14,7 @@ AMPlayer::AMPlayer(const QString & config_path, QObject * parent ) :
     QObject(parent)
 {
     main_window = 0;
+    s_gui = 0;
     //gui_to_use = "DefaultGui";
 
     close_at_end = -1; // Not set
@@ -87,10 +88,20 @@ MainWindow * AMPlayer::gui() {
 }
 
 
+SimpleGUI * AMPlayer::sgui()
+{
+    if (s_gui == 0){
+        s_gui = new SimpleGUI(0);
+    }
+    return s_gui;
+}
 
 void AMPlayer::start() {
         //if (!gui()->startHidden() || !files_to_play.isEmpty() ) gui()->show();
-        gui()->show();
+        //gui()->show();
+        sgui()->show();
+
+
         /*if (!files_to_play.isEmpty()) {
                 if (!subtitle_file.isEmpty()) gui()->setInitialSubtitle(subtitle_file);
                 gui()->openFiles(files_to_play);
