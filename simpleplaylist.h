@@ -69,6 +69,7 @@ class SimplePlaylist : public QTableWidget
     Q_OBJECT
 public:
     explicit SimplePlaylist(QWidget *parent = 0);
+    ~SimplePlaylist();
 
     int coverColumn();
     int lengthColumn();

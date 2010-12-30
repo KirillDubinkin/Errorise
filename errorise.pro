@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     queue.cpp \
     simpleplaylist.cpp \
     helper.cpp \
-    simplegui.cpp
+    simplegui.cpp \
+    simpletoolbar.cpp
 
 HEADERS  += mainwindow.h \
     myprocess.h \
@@ -58,7 +59,8 @@ HEADERS  += mainwindow.h \
     queue.h \
     simpleplaylist.h \
     helper.h \
-    simplegui.h
+    simplegui.h \
+    simpletoolbar.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui

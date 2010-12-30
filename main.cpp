@@ -143,7 +143,7 @@ int main( int argc, char ** argv )
                 return c;
         }
 */
-        mainwindow_instance = amplayer->gui();
+       // mainwindow_instance = amplayer->sgui();
         //a.connect(amplayer->gui(), SIGNAL(quitSolicited()), &a, SLOT(quit()));
         amplayer->start();
 

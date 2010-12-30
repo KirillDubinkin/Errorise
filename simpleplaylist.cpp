@@ -23,13 +23,19 @@
 Prefs::Prefs()
 {
     filename = Paths::iniPath() + "/" + PLUG_NAME + ".ini";
+    qDebug() << "SimplePlaylist->Prefs::path" << filename;
     reset();
     load();
 }
 
+Prefs::~Prefs()
+{
+    save();
+}
+
 void Prefs::reset()
 {
-    qDebug("SimplePlaylist->Prefs::reset");
+    qDebug("SimplePlaylist->Prefs::reset()");
 
     //! Groups
     groups_format = "%album_artist% - [%date%] %album%";
@@ -68,6 +74,8 @@ void Prefs::reset()
 
 void Prefs::save()
 {
+    qDebug("SimplePlaylist->Prefs::save()");
+
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
 
@@ -133,6 +141,8 @@ void Prefs::save()
 
 void Prefs::load()
 {
+    qDebug("SimplePlaylist->Prefs::load()");
+
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
 
@@ -210,6 +220,12 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     this->hideColumn(0);
     CoverColumn  = -1;
     LengthColumn = -1;
+}
+
+SimplePlaylist::~SimplePlaylist()
+{
+    delete prefs;
+
 }
 
 int SimplePlaylist::coverColumn()

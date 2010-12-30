@@ -36,7 +36,8 @@ AMPlayer::AMPlayer(const QString & config_path, QObject * parent ) :
 
 AMPlayer::~AMPlayer()
 {
-    if (main_window != 0) delete main_window;
+    //if (main_window != 0) delete main_window;
+    if (s_gui != 0) delete s_gui;
     global_end();
 }
 
