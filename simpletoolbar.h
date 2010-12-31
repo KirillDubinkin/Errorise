@@ -18,18 +18,34 @@ public:
     void save();
 
     //! Buttons
+    int btnHeight;
+
     QString btnPlayIcon;
     QString btnPlayText;
+    int btnPlayWidth;
 
     QString btnStopIcon;
     QString btnStopText;
+    int btnStopWidth;
 
     QString btnNextIcon;
     QString btnNextText;
+    int btnNextWidth;
 
     QString btnPrevIcon;
     QString btnPrevText;
+    int btnPrevWidth;
 
+    QString btnPauseIcon;
+    QString btnPauseText;
+    int btnPauseWidth;
+
+    QString btnPlayPauseIcon;
+    QString btnPlayPauseText;
+    int btnPlayPauseWidth;
+
+    //! Other
+    QString style;
 
 private:
     QString filename;
@@ -49,7 +65,7 @@ public:
     QHBoxLayout *L;
     MySlider *progress, *vol;
     QWidget *btns;
-    QPushButton *btnPlay, *btnNext, *btnPrev, *btnStop;
+    QPushButton *btnPlay, *btnNext, *btnPrev, *btnStop, *btnPause, *btnPlayPause;
 
 private:
     void createButtons();

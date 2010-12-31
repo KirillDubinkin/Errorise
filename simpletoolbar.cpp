@@ -23,17 +23,35 @@ void ToolbarPrefs::reset()
     qDebug("SimpleToolbar->Prefs::reset()");
 
     //! Buttons
+    btnHeight = 21;
+
     btnPlayIcon = "";
     btnPlayText = "[|>]";
+    btnPlayWidth = 34;
 
     btnStopIcon = "";
     btnStopText = "[#]";
+    btnStopWidth = 34;
 
     btnNextIcon = "";
     btnNextText = "[>>|]";
+    btnNextWidth = 34;
 
     btnPrevIcon = "";
     btnPrevText = "[|<<]";
+    btnPrevWidth = 34;
+
+    btnPauseIcon = "";
+    btnPauseText = "[||]";
+    btnPauseWidth = 34;
+
+    btnPlayPauseIcon = "";
+    btnPlayPauseText = "[|> | ||]";
+    btnPlayPauseWidth = 50;
+
+
+    //! Other
+    style = "";
 }
 
 void ToolbarPrefs::save()
@@ -45,14 +63,38 @@ void ToolbarPrefs::save()
 
     //! Buttons
     set.beginGroup("Buttons");
+    set.setValue("btnHeight", btnHeight);
+
     set.setValue("btnPlayIcon", btnPlayIcon);
     set.setValue("btnPlayText", btnPlayText);
+    set.setValue("btnPlayWidth", btnPlayWidth);
+
     set.setValue("btnStopIcon", btnStopIcon);
     set.setValue("btnStopText", btnStopText);
+    set.setValue("btnStopWidth", btnStopWidth);
+
     set.setValue("btnNextIcon", btnNextIcon);
     set.setValue("btnNextText", btnNextText);
+    set.setValue("btnNextWidth", btnNextWidth);
+
     set.setValue("btnPrevIcon", btnPrevIcon);
     set.setValue("btnPrevText", btnPrevText);
+    set.setValue("btnPrevWidth", btnPrevWidth);
+
+    set.setValue("btnPauseIcon", btnPauseIcon);
+    set.setValue("btnPauseText", btnPauseText);
+    set.setValue("btnPauseWidth", btnPauseWidth);
+
+    set.setValue("btnPlayPauseIcon", btnPlayPauseIcon);
+    set.setValue("btnPlayPauseText", btnPlayPauseText);
+    set.setValue("btnPlayPauseWidth", btnPlayPauseWidth);
+
+    set.endGroup();
+
+
+    //! Other
+    set.beginGroup("Other");
+    set.setValue("style", style);
     set.endGroup();
 
     set.sync();
@@ -67,14 +109,38 @@ void ToolbarPrefs::load()
 
     //! Buttons
     set.beginGroup("Buttons");
+    btnHeight = set.value("btnHeight", btnHeight).toInt();
+
     btnPlayIcon = set.value("btnPlayIcon", btnPlayIcon).toString();
     btnPlayText = set.value("btnPlayText", btnPlayText).toString();
+    btnPlayWidth = set.value("btnPlayWidth", btnPlayWidth).toInt();
+
     btnStopIcon = set.value("btnStopIcon", btnStopIcon).toString();
     btnStopText = set.value("btnStopText", btnStopText).toString();
+    btnStopWidth = set.value("btnStopWidth", btnStopWidth).toInt();
+
     btnNextIcon = set.value("btnNextIcon", btnNextIcon).toString();
     btnNextText = set.value("btnNextText", btnNextText).toString();
+    btnNextWidth = set.value("btnNextWidth", btnNextWidth).toInt();
+
     btnPrevIcon = set.value("btnPrevIcon", btnPrevIcon).toString();
     btnPrevText = set.value("btnPrevText", btnPrevText).toString();
+    btnPrevWidth = set.value("btnPrevWidth", btnPrevWidth).toInt();
+
+    btnPauseIcon = set.value("btnPauseIcon", btnPauseIcon).toString();
+    btnPauseText = set.value("btnPauseText", btnPauseText).toString();
+    btnPauseWidth = set.value("btnPauseWidth", btnPauseWidth).toInt();
+
+    btnPlayPauseIcon = set.value("btnPlayPauseIcon", btnPlayPauseIcon).toString();
+    btnPlayPauseText = set.value("btnPlayPauseText", btnPlayPauseText).toString();
+    btnPlayPauseWidth = set.value("btnPlayPauseWidth", btnPlayPauseWidth).toInt();
+
+    set.endGroup();
+
+
+    //! Other
+    set.beginGroup("Other");
+    style = set.value("style", style).toString();
     set.endGroup();
 }
 
@@ -84,15 +150,23 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
 {
     prefs = new ToolbarPrefs();
 
+    this->setStyleSheet(prefs->style);
+
     progress = new MySlider();
 
     vol = new MySlider();
     vol->setMinimum(0);
     vol->setMaximum(100);
 
+    this->createButtons();
+
+
     L = new QHBoxLayout;
+    L->addWidget(btns);
     L->addWidget(progress, 100);
     L->addWidget(vol);
+
+    this->setLayout(L);
 
 }
 
@@ -105,20 +179,29 @@ void SimpleToolbar::createButtons()
 {
     btns = new QWidget;
 
-    if (!prefs->btnPlayIcon.isEmpty())
-        this->btnPlay = new QPushButton(QIcon(prefs->btnPlayIcon), prefs->btnPlayText);
-    else
-        this->btnPlay = new QPushButton(prefs->btnPlayText);
+    btnPlay = new QPushButton(QIcon(prefs->btnPlayIcon), prefs->btnPlayText);
+    btnPlay->setMaximumSize(prefs->btnPlayWidth, prefs->btnHeight);
+    btnPlay->setMinimumSize(btnPlay->maximumSize());
 
-    if (!prefs->btnStopIcon.isEmpty())
-        this->btnStop = new QPushButton(QIcon(prefs->btnStopIcon), prefs->btnStopText);
-    else
-        this->btnStop = new QPushButton(prefs->btnStopText);
+    btnStop = new QPushButton(QIcon(prefs->btnStopIcon), prefs->btnStopText);
+    btnStop->setMaximumSize(prefs->btnStopWidth, prefs->btnHeight);
+    btnStop->setMinimumSize(btnStop->maximumSize());
 
-    if (!prefs->btnNextIcon.isEmpty())
-        this->btnNext = new QPushButton(QIcon(prefs->btnNextIcon), prefs->btnNextText);
-    else
-        this->btnNext = new QPushButton(prefs->btnNextText);
+    btnNext = new QPushButton(QIcon(prefs->btnNextIcon), prefs->btnNextText);
+    btnNext->setMaximumSize(prefs->btnNextWidth, prefs->btnHeight);
+    btnNext->setMinimumSize(btnNext->maximumSize());
+
+    btnPrev = new QPushButton(QIcon(prefs->btnPrevIcon), prefs->btnPrevText);
+    btnPrev->setMaximumSize(prefs->btnPrevWidth, prefs->btnHeight);
+    btnPrev->setMinimumSize(btnPrev->maximumSize());
+
+    btnPause = new QPushButton(QIcon(prefs->btnPauseIcon), prefs->btnPauseText);
+    btnPause->setMaximumSize(prefs->btnPauseWidth, prefs->btnHeight);
+    btnPause->setMinimumSize(btnPause->maximumSize());
+
+    btnPlayPause = new QPushButton(QIcon(prefs->btnPlayPauseText), prefs->btnPlayPauseText);
+    btnPlayPause->setMaximumSize(prefs->btnPlayPauseWidth, prefs->btnHeight);
+    btnPlayPause->setMinimumSize(btnPlayPause->maximumSize());
 
 
     //! Энамерик с названием кнопок в настройках, чтобы определить последовательность
@@ -128,6 +211,16 @@ void SimpleToolbar::createButtons()
 
 
     QHBoxLayout *l = new QHBoxLayout;
+    l->addWidget(this->btnStop);
 
+
+    l->addWidget(this->btnPlayPause);
+    l->addWidget(this->btnPause);
+    l->addWidget(this->btnPlay);
+    l->addWidget(this->btnPrev);
+    l->addWidget(this->btnNext);
+
+
+    btns->setLayout(l);
 
 }

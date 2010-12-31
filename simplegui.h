@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include "global.h"
 #include "simpleplaylist.h"
+#include "simpletoolbar.h"
 #include "myslider.h"
 
 using namespace Global;
@@ -30,8 +31,8 @@ private:
     QMenu *mainMenu;
     QWidget *toolBar;
     SimplePlaylist *pl;
+    SimpleToolbar *toolbar;
 
-    void createToolBar();
 
 };
 
