@@ -6,10 +6,14 @@
 #include <QPushButton>
 #include <QString>
 #include <QStringList>
+#include <QMenu>
 #include "myslider.h"
 
-enum btnsLine{ Play = 1001, Pause = 1002,  PlayPause = 1003, Stop = 1004,
-           Prev = 1005, Next = 1006 };
+enum btns { Play = 1000, Pause = 1010,  PlayPause = 1020, Stop = 1030,
+           Prev = 1040, Next = 1050 };
+
+enum tools { Buttons = 5000, Seekbar = 5010, Volume = 5020,
+             SmallMenu = 5030, FullMenu = 5040, PlaybackOrder = 5050 };
 
 class ToolbarPrefs
 {
@@ -21,10 +25,14 @@ public:
     void load();
     void save();
 
+
+    //! General
+    QString style;
+    QStringList toolList;
+
+
     //! Buttons
     int btnHeight;
-    QStringList btnsList;
-
 
     QString btnPlayIcon;
     QString btnPlayText;
@@ -50,8 +58,7 @@ public:
     QString btnPlayPauseText;
     int btnPlayPauseWidth;
 
-    //! Other
-    QString style;
+
 
 private:
     QString filename;
@@ -66,15 +73,25 @@ public:
     explicit SimpleToolbar(QWidget *parent = 0);
     ~SimpleToolbar();
 
-    ToolbarPrefs *prefs;
+    MySlider *seekbar();
+    MySlider *vol();
 
-    QHBoxLayout *L;
-    MySlider *progress, *vol;
-    QWidget *btns;
-    QPushButton *btnPlay, *btnNext, *btnPrev, *btnStop, *btnPause, *btnPlayPause;
+    QPushButton *btnPlay();
+    QPushButton *btnNext();
+    QPushButton *btnPrev();
+    QPushButton *btnStop();
+    QPushButton *btnPause();
+    QPushButton *btnPlayPause();
 
 private:
-    void createButtons();
+    void initComponents();
+
+    QHBoxLayout *L;
+    ToolbarPrefs *prefs;
+
+    MySlider *seek_bar, *volume;
+    QMenu *small_menu, *full_menu, *playback_order;
+    QPushButton *btn_play, *btn_next, *btn_prev, *btn_stop, *btn_pause, *btn_play_pause;
 
 signals:
 

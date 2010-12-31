@@ -25,7 +25,6 @@ void ToolbarPrefs::reset()
 
     //! Buttons
     btnHeight = 21;
-    btnsList << "1004" << "1003" << "1005" << "1006";
 
     btnPlayIcon = "";
     btnPlayText = "[|>]";
@@ -54,6 +53,9 @@ void ToolbarPrefs::reset()
 
     //! Other
     style = "";
+    toolList << QString::number(Stop) << QString::number(PlayPause) << QString::number(Prev)
+            << QString::number(Next) << QString::number(Seekbar) << QString::number(Volume);
+
 }
 
 void ToolbarPrefs::save()
@@ -63,10 +65,17 @@ void ToolbarPrefs::save()
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
 
+
+    //! General
+    set.beginGroup("General");
+    set.setValue("style", style);
+    set.setValue("toolList", toolList);
+    set.endGroup();
+
+
     //! Buttons
     set.beginGroup("Buttons");
     set.setValue("btnHeight", btnHeight);
-    set.setValue("btnsList", btnsList);
 
     set.setValue("btnPlayIcon", btnPlayIcon);
     set.setValue("btnPlayText", btnPlayText);
@@ -95,11 +104,6 @@ void ToolbarPrefs::save()
     set.endGroup();
 
 
-    //! Other
-    set.beginGroup("Other");
-    set.setValue("style", style);
-    set.endGroup();
-
     set.sync();
 }
 
@@ -110,10 +114,17 @@ void ToolbarPrefs::load()
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
 
+
+    //! General
+    set.beginGroup("General");
+    style = set.value("style", style).toString();
+    toolList = set.value("toolList", toolList).toStringList();
+    set.endGroup();
+
+
     //! Buttons
     set.beginGroup("Buttons");
     btnHeight = set.value("btnHeight", btnHeight).toInt();
-    btnsList = set.value("btnsList", btnsList).toStringList();
 
     btnPlayIcon = set.value("btnPlayIcon", btnPlayIcon).toString();
     btnPlayText = set.value("btnPlayText", btnPlayText).toString();
@@ -140,38 +151,41 @@ void ToolbarPrefs::load()
     btnPlayPauseWidth = set.value("btnPlayPauseWidth", btnPlayPauseWidth).toInt();
 
     set.endGroup();
-
-
-    //! Other
-    set.beginGroup("Other");
-    style = set.value("style", style).toString();
-    set.endGroup();
 }
+
+
+
 
 
 SimpleToolbar::SimpleToolbar(QWidget *parent) :
     QWidget(parent)
 {
     prefs = new ToolbarPrefs();
+    L = new QHBoxLayout;
 
     this->setStyleSheet(prefs->style);
-
-    progress = new MySlider();
-
-    vol = new MySlider();
-    vol->setMinimum(0);
-    vol->setMaximum(100);
-
-    this->createButtons();
+    this->initComponents();
 
 
-    L = new QHBoxLayout;
-    L->addWidget(btns);
-    L->addWidget(progress, 100);
-    L->addWidget(vol);
+    for (int i = 0; i < prefs->toolList.size(); i++)
+    {
+        switch (QString(prefs->toolList.at(i)).toInt())
+        {
+        case Seekbar: L->addWidget(this->seekbar(), 100); break;
+        case Volume: L->addWidget(this->vol()); break;
+        case Play: L->addWidget(this->btnPlay()); break;
+        case Pause: L->addWidget(this->btnPause()); break;
+        case PlayPause: L->addWidget(this->btnPlayPause()); break;
+        case Stop: L->addWidget(this->btnStop()); break;
+        case Prev: L->addWidget(this->btnPrev()); break;
+        case Next: L->addWidget(this->btnNext()); break;
+
+        default: L->addSpacing(QString(prefs->toolList.at(i)).toInt());
+        }
+
+    }
 
     this->setLayout(L);
-
 }
 
 SimpleToolbar::~SimpleToolbar()
@@ -179,51 +193,104 @@ SimpleToolbar::~SimpleToolbar()
     delete prefs;
 }
 
-void SimpleToolbar::createButtons()
+void SimpleToolbar::initComponents()
 {
-    btns = new QWidget;
+    seek_bar = 0;
+    volume = 0;
+    small_menu = 0;
+    full_menu = 0;
+    playback_order = 0;
 
-    btnPlay = new QPushButton(QIcon(prefs->btnPlayIcon), prefs->btnPlayText);
-    btnPlay->setMaximumSize(prefs->btnPlayWidth, prefs->btnHeight);
-    btnPlay->setMinimumSize(btnPlay->maximumSize());
+    btn_next = 0;
+    btn_pause = 0;
+    btn_play = 0;
+    btn_play_pause = 0;
+    btn_prev = 0;
+    btn_stop = 0;
+}
 
-    btnStop = new QPushButton(QIcon(prefs->btnStopIcon), prefs->btnStopText);
-    btnStop->setMaximumSize(prefs->btnStopWidth, prefs->btnHeight);
-    btnStop->setMinimumSize(btnStop->maximumSize());
+MySlider * SimpleToolbar::seekbar()
+{
+    if (seek_bar == 0)
+        seek_bar = new MySlider();
 
-    btnNext = new QPushButton(QIcon(prefs->btnNextIcon), prefs->btnNextText);
-    btnNext->setMaximumSize(prefs->btnNextWidth, prefs->btnHeight);
-    btnNext->setMinimumSize(btnNext->maximumSize());
+    return seek_bar;
+}
 
-    btnPrev = new QPushButton(QIcon(prefs->btnPrevIcon), prefs->btnPrevText);
-    btnPrev->setMaximumSize(prefs->btnPrevWidth, prefs->btnHeight);
-    btnPrev->setMinimumSize(btnPrev->maximumSize());
-
-    btnPause = new QPushButton(QIcon(prefs->btnPauseIcon), prefs->btnPauseText);
-    btnPause->setMaximumSize(prefs->btnPauseWidth, prefs->btnHeight);
-    btnPause->setMinimumSize(btnPause->maximumSize());
-
-    btnPlayPause = new QPushButton(QIcon(prefs->btnPlayPauseText), prefs->btnPlayPauseText);
-    btnPlayPause->setMaximumSize(prefs->btnPlayPauseWidth, prefs->btnHeight);
-    btnPlayPause->setMinimumSize(btnPlayPause->maximumSize());
-
-
-
-    QHBoxLayout *l = new QHBoxLayout;
-    for (int i = 0; i < prefs->btnsList.size(); i++)
-    {
-        switch (QString(prefs->btnsList.at(i)).toInt())
-        {
-            case Play: l->addWidget(this->btnPlay); break;
-            case Pause: l->addWidget(this->btnPause); break;
-            case PlayPause: l->addWidget(this->btnPlayPause); break;
-            case Stop: l->addWidget(this->btnStop); break;
-            case Prev: l->addWidget(this->btnPrev); break;
-            case Next: l->addWidget(this->btnNext); break;
-            default: l->addSpacing(QString(prefs->btnsList.at(i)).toInt());
-        }
+MySlider * SimpleToolbar::vol()
+{
+    if (volume == 0){
+        volume = new MySlider();
+        volume->setMinimum(0);
+        volume->setMaximum(100);
     }
 
-    btns->setLayout(l);
-
+    return volume;
 }
+
+QPushButton * SimpleToolbar::btnNext()
+{
+    if (btn_next == 0){
+        btn_next = new QPushButton(QIcon(prefs->btnNextIcon), prefs->btnNextText);
+        btn_next->setMaximumSize(prefs->btnNextWidth, prefs->btnHeight);
+        btn_next->setMinimumSize(btn_next->maximumSize());
+    }
+
+    return btn_next;
+}
+
+QPushButton * SimpleToolbar::btnPause()
+{
+    if (btn_pause == 0){
+        btn_pause = new QPushButton(QIcon(prefs->btnPauseIcon), prefs->btnPauseText);
+        btn_pause->setMaximumSize(prefs->btnPauseWidth, prefs->btnHeight);
+        btn_pause->setMinimumSize(btn_pause->maximumSize());
+    }
+
+    return btn_pause;
+}
+
+QPushButton * SimpleToolbar::btnPlay()
+{
+    if (btn_play == 0){
+        btn_play = new QPushButton(QIcon(prefs->btnPlayIcon), prefs->btnPlayText);
+        btn_play->setMaximumSize(prefs->btnPlayWidth, prefs->btnHeight);
+        btn_play->setMinimumSize(btn_play->maximumSize());
+    }
+
+    return btn_play;
+}
+
+QPushButton * SimpleToolbar::btnPlayPause()
+{
+    if (btn_play_pause == 0){
+        btn_play_pause = new QPushButton(QIcon(prefs->btnPlayPauseText), prefs->btnPlayPauseText);
+        btn_play_pause->setMaximumSize(prefs->btnPlayPauseWidth, prefs->btnHeight);
+        btn_play_pause->setMinimumSize(btn_play_pause->maximumSize());
+    }
+
+    return btn_play_pause;
+}
+
+QPushButton * SimpleToolbar::btnPrev()
+{
+    if (btn_prev == 0){
+        btn_prev = new QPushButton(QIcon(prefs->btnPrevIcon), prefs->btnPrevText);
+        btn_prev->setMaximumSize(prefs->btnPrevWidth, prefs->btnHeight);
+        btn_prev->setMinimumSize(btn_prev->maximumSize());
+    }
+
+    return btn_prev;
+}
+
+QPushButton * SimpleToolbar::btnStop()
+{
+    if (btn_stop == 0){
+        btn_stop = new QPushButton(QIcon(prefs->btnStopIcon), prefs->btnStopText);
+        btn_stop->setMaximumSize(prefs->btnStopWidth, prefs->btnHeight);
+        btn_stop->setMinimumSize(btn_stop->maximumSize());
+    }
+
+    return btn_stop;
+}
+
