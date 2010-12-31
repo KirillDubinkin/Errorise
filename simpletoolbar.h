@@ -4,8 +4,12 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QString>
+#include <QStringList>
 #include "myslider.h"
 
+enum btnsLine{ Play = 1001, Pause = 1002,  PlayPause = 1003, Stop = 1004,
+           Prev = 1005, Next = 1006 };
 
 class ToolbarPrefs
 {
@@ -19,6 +23,8 @@ public:
 
     //! Buttons
     int btnHeight;
+    QStringList btnsList;
+
 
     QString btnPlayIcon;
     QString btnPlayText;

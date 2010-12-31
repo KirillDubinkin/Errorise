@@ -2,6 +2,7 @@
 #include "paths.h"
 #include <QSettings>
 #include <QTextCodec>
+#include <QDebug>
 
 #define PLUG_NAME "SimpleToolbar"
 
@@ -24,6 +25,7 @@ void ToolbarPrefs::reset()
 
     //! Buttons
     btnHeight = 21;
+    btnsList << "1004" << "1003" << "1005" << "1006";
 
     btnPlayIcon = "";
     btnPlayText = "[|>]";
@@ -64,6 +66,7 @@ void ToolbarPrefs::save()
     //! Buttons
     set.beginGroup("Buttons");
     set.setValue("btnHeight", btnHeight);
+    set.setValue("btnsList", btnsList);
 
     set.setValue("btnPlayIcon", btnPlayIcon);
     set.setValue("btnPlayText", btnPlayText);
@@ -110,6 +113,7 @@ void ToolbarPrefs::load()
     //! Buttons
     set.beginGroup("Buttons");
     btnHeight = set.value("btnHeight", btnHeight).toInt();
+    btnsList = set.value("btnsList", btnsList).toStringList();
 
     btnPlayIcon = set.value("btnPlayIcon", btnPlayIcon).toString();
     btnPlayText = set.value("btnPlayText", btnPlayText).toString();
@@ -204,22 +208,21 @@ void SimpleToolbar::createButtons()
     btnPlayPause->setMinimumSize(btnPlayPause->maximumSize());
 
 
-    //! Энамерик с названием кнопок в настройках, чтобы определить последовательность
-    //! создавать все кнопки, но показывть лишь определённые в настройках
-    //! или не создавать, но инициализировать указатели нулем, дабы избежать ексепшенов...
-    //! добавить к настройкам каждой кнопки расстояние слева/справа
-
 
     QHBoxLayout *l = new QHBoxLayout;
-    l->addWidget(this->btnStop);
-
-
-    l->addWidget(this->btnPlayPause);
-    l->addWidget(this->btnPause);
-    l->addWidget(this->btnPlay);
-    l->addWidget(this->btnPrev);
-    l->addWidget(this->btnNext);
-
+    for (int i = 0; i < prefs->btnsList.size(); i++)
+    {
+        switch (QString(prefs->btnsList.at(i)).toInt())
+        {
+            case Play: l->addWidget(this->btnPlay); break;
+            case Pause: l->addWidget(this->btnPause); break;
+            case PlayPause: l->addWidget(this->btnPlayPause); break;
+            case Stop: l->addWidget(this->btnStop); break;
+            case Prev: l->addWidget(this->btnPrev); break;
+            case Next: l->addWidget(this->btnNext); break;
+            default: l->addSpacing(QString(prefs->btnsList.at(i)).toInt());
+        }
+    }
 
     btns->setLayout(l);
 
