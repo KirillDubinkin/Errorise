@@ -2,6 +2,7 @@
 #include "paths.h"
 #include <QSettings>
 #include <QTextCodec>
+#include <QAction>
 #include <QDebug>
 
 #define PLUG_NAME "SimpleToolbar"
@@ -166,7 +167,6 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
     this->setStyleSheet(prefs->style);
     this->initComponents();
 
-
     for (int i = 0; i < prefs->toolList.size(); i++)
     {
         switch (QString(prefs->toolList.at(i)).toInt())
@@ -182,7 +182,6 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
 
         default: L->addSpacing(QString(prefs->toolList.at(i)).toInt());
         }
-
     }
 
     this->setLayout(L);
@@ -211,10 +210,24 @@ void SimpleToolbar::initComponents()
 
 MySlider * SimpleToolbar::seekbar()
 {
-    if (seek_bar == 0)
+    if (seek_bar == 0) {
         seek_bar = new MySlider();
+        seek_bar->setAttribute(Qt::WA_DeleteOnClose);
+        seek_bar->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+        QAction *act;
+        seek_bar->addAction(act = new QAction(tr("Remove from Toolbar"), seek_bar));
+        connect(act, SIGNAL(triggered()), this, SLOT(hideSeekbar()));
+    }
 
     return seek_bar;
+}
+
+void SimpleToolbar::hideSeekbar()
+{
+    if (prefs->toolList.removeOne(QString::number(Seekbar))) {
+        this->seekbar()->close();
+    }
 }
 
 MySlider * SimpleToolbar::vol()
@@ -223,9 +236,24 @@ MySlider * SimpleToolbar::vol()
         volume = new MySlider();
         volume->setMinimum(0);
         volume->setMaximum(100);
+        volume->setContextMenuPolicy(Qt::ActionsContextMenu);
+        volume->setAttribute(Qt::WA_DeleteOnClose);
+
+        QAction *act;
+        volume->addAction(act = new QAction(tr("Remove from toolbar"), volume));
+        connect(act, SIGNAL(triggered()), this, SLOT(hideVol()));
+
     }
 
     return volume;
+}
+
+void SimpleToolbar::hideVol()
+{
+    if (prefs->toolList.removeOne(QString::number(Volume))) {
+       // L->removeWidget(this->vol());
+        this->vol()->close();
+    }
 }
 
 QPushButton * SimpleToolbar::btnNext()

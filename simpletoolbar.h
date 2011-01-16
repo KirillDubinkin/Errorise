@@ -96,6 +96,8 @@ private:
 signals:
 
 public slots:
+    void hideVol();
+    void hideSeekbar();
 
 };
 
