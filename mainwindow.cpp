@@ -19,7 +19,7 @@
 #include <QPixmap>
 #include <QPalette>
 #include <QDesktopWidget>
-
+#include <QDockWidget>
 
 #ifdef Q_OS_WIN
 extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
@@ -42,6 +42,24 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *act;
     ui->AlbumPL->addAction(act = new QAction("Add to Playback Queue", ui->AlbumPL));
     connect(act, SIGNAL(triggered()), this, SLOT(addToQueue()));
+
+
+    /*QDockWidget *dock = new QDockWidget(tr("Albumlist"));
+    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
+    ui->treeView->setMaximumWidth(2435354);
+    ui->treeView->setParent(dock);
+    dock->setWidget(ui->treeView);
+    this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+
+    dock = new QDockWidget(tr("Playlist"));
+    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
+    ui->AlbumPL->setParent(dock);
+    dock->setWidget(ui->AlbumPL);
+    this->addDockWidget(Qt::RightDockWidgetArea, dock);
+*/
+
+
+
 
     defWindowTitle();
 
