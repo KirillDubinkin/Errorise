@@ -351,7 +351,8 @@ void MainWindow::tryFindCurrentTrack()
         if (ui->AlbumPL->item(i, 0)->text() != "span")
         {
             if (core->mdat.filename == mediaInfo->track[ui->AlbumPL->item(i, 0)->text().toInt()].filename){
-                id = i;
+                core->mset.current_id = i;
+                return;
             }
         }
     }
