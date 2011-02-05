@@ -537,9 +537,9 @@ void MainWindow::setPlGroupRows()
         {
             if (this->coverColumn > -1){
 
-                this->addCover(prevGroupRow+1, row-prevGroupRow, QFileInfo(mediaInfo->track[idx-1].filename).dir());
+                row = this->addCover(prevGroupRow+1, row-prevGroupRow, QFileInfo(mediaInfo->track[idx-1].filename).absolutePath());
 
-                row++;
+                //row++;
             }
 
 
@@ -568,13 +568,106 @@ void MainWindow::setPlGroupRows()
     }
 
     if (this->coverColumn > -1)
-        this->addCover(prevGroupRow+1, row-prevGroupRow, QFileInfo(mediaInfo->track[num-1].filename).dir());
+        row = this->addCover(prevGroupRow+1, row-prevGroupRow, QFileInfo(mediaInfo->track[num-1].filename).absolutePath());
 
     this->readyToPlay = true;
 
    // if (!pref->pl_use_html)
    //     ui->AlbumPL->setStyleSheet("QTableWidget { " + back.at(1) + " }");
 
+}
+
+
+int MainWindow::addCover(int row, int spanRow, const QString &searchPath)
+{
+    const QBrush &brush = this->palette().brush(QPalette::Base);
+
+    if (!pref->pl_art_search_pattern.isEmpty())
+    {
+
+
+#ifdef Q_OS_WIN
+        qt_ntfs_permission_lookup++;
+
+#endif
+
+        QDir path(searchPath);
+        QStringList files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+
+        if (!files.isEmpty())
+        {
+
+            QPixmap pic(path.absoluteFilePath(files.at(0)));
+
+#ifdef Q_OS_WIN
+            qt_ntfs_permission_lookup--;
+#endif
+            float factor = (float) QString(pref->pl_columns_sizes.at(this->coverColumn-1)).toInt() / pic.width();
+            int curGroupSize = pref->pl_row_height * (spanRow+2);
+
+
+
+            QLabel *art = new QLabel;
+            art->setScaledContents(true);
+            art->setPixmap(pic);
+
+            if (curGroupSize < (pic.height() * factor))
+            {
+                //! Insert row under the group, to perform image resize without resize track height
+                int newRow = row + spanRow;
+                ui->AlbumPL->insertRow(newRow);
+                QTableWidgetItem *index = new QTableWidgetItem("art");
+                ui->AlbumPL->setItem(newRow, 0, index);
+
+
+
+                //! Set span in new row. Even if cover column not in the side of table
+                if (this->coverColumn == 1) {
+                    ui->AlbumPL->setSpan(newRow, 2, 1, ui->AlbumPL->columnCount() - 1);
+                    ui->AlbumPL->setItem(newRow, 2, this->newItem(brush, Qt::NoItemFlags));
+                }
+                else if (this->coverColumn == ui->AlbumPL->columnCount()) {
+                    ui->AlbumPL->setSpan(newRow, 1, 1, ui->AlbumPL->columnCount() - 1);
+                    ui->AlbumPL->setItem(newRow, 1, this->newItem(brush, Qt::NoItemFlags));
+                }
+                else {
+                    if (this->coverColumn+1 < ui->AlbumPL->columnCount())
+                        ui->AlbumPL->setSpan(newRow, this->coverColumn+1, 1, ui->AlbumPL->columnCount() - this->coverColumn);
+
+                    ui->AlbumPL->setItem(newRow, this->coverColumn+1, this->newItem(brush, Qt::NoItemFlags));
+
+                    if (this->coverColumn > 2)
+                        ui->AlbumPL->setSpan(newRow, 1, 1, this->coverColumn-1);
+
+                    ui->AlbumPL->setItem(newRow, 1, this->newItem(brush, Qt::NoItemFlags));
+                }
+
+
+                ui->AlbumPL->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
+
+                //! Set span for cover cell and add him item, to set cover cell background colors
+                ui->AlbumPL->setSpan(row, this->coverColumn, spanRow+1, 1);
+                ui->AlbumPL->setItem(row, this->coverColumn, this->newItem(brush, Qt::NoItemFlags));
+                ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
+
+                return newRow;
+            }
+
+            ui->AlbumPL->setSpan(row, this->coverColumn, spanRow, 1);
+            ui->AlbumPL->setItem(row, this->coverColumn, this->newItem(brush, Qt::NoItemFlags));
+
+            art->setMaximumHeight(pic.height() * factor);
+            ui->AlbumPL->setCellWidget(row, this->coverColumn, art);
+
+            return row + spanRow - 1;
+        }
+    }
+
+    //! Set span for cover cell, if images not found, or pattern is empty.
+    ui->AlbumPL->setSpan(row, this->coverColumn, spanRow, 1);
+    ui->AlbumPL->setItem(row, this->coverColumn, this->newItem(brush, Qt::NoItemFlags));
+
+    return row + spanRow - 1;
 }
 
 

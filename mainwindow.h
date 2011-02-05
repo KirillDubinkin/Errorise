@@ -99,6 +99,9 @@ private:
     void addGroupItem(int row, const QString &text);
     void addGroupLabel(int row, const QString &text);
 
+  //  QTableWidgetItem * newItem(const QBrush &background, Qt::ItemFlags flags, const QString &text);
+
+    int addCover(int row, int spanRow, const QString &searchPath);
     void addCover(int row, int spanRow, const QDir &path);
 
     void recursiveDirectory(const QString &sDir);
