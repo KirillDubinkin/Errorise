@@ -9,6 +9,7 @@
 #include "global.h"
 #include "simpleplaylist.h"
 #include "simpletoolbar.h"
+#include "simplealbumlist.h"
 #include "myslider.h"
 
 using namespace Global;
@@ -32,6 +33,7 @@ private:
     QWidget *toolBar;
     SimplePlaylist *pl;
     SimpleToolbar *toolbar;
+    SimpleAlbumlist *alist;
 
 
 };
