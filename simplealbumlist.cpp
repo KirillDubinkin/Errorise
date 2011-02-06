@@ -1,5 +1,6 @@
 #include "simplealbumlist.h"
 #include <QDebug>
+#include <QHeaderView>
 
 SimpleAlbumlist::SimpleAlbumlist(QWidget *parent) :
     QTreeView(parent)
@@ -12,6 +13,7 @@ SimpleAlbumlist::SimpleAlbumlist(QWidget *parent) :
     this->hideColumn(1);
     this->hideColumn(2);
     this->hideColumn(3);
+    this->header()->setVisible(false);
 
     setPath();
 
