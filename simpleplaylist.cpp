@@ -217,15 +217,21 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     helper = new Helper();
 
     this->horizontalHeader()->setVisible(prefs->show_header);
-    this->hideColumn(0);
+    this->verticalHeader()->setVisible(false);
     CoverColumn  = -1;
     LengthColumn = -1;
+
+    this->setColumns();
+    this->hideColumn(0);
+
+    connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
+            this, SLOT(setTracksWithGroups(QList<int>)));
 }
 
 SimplePlaylist::~SimplePlaylist()
 {
     delete prefs;
-
+    delete helper;
 }
 
 int SimplePlaylist::coverColumn()
@@ -255,13 +261,21 @@ void SimplePlaylist::setColumns()
         QTableWidgetItem *item = new QTableWidgetItem(prefs->columns_names.at(i));
 
         this->setHorizontalHeaderItem(col, item);
-        this->setColumnWidth(col++, QString(prefs->columns_sizes.at(i)).toInt());
+        this->setColumnWidth(col++, prefs->columns_sizes.at(i));
+
+     //   qDebug() << "PL:" << prefs->columns_names.at(i) << "size =" << prefs->columns_sizes.at(i);
     }
+
+   // qDebug() << "PL:ColumnCount" << this->columnCount();
+   // qDebug() << "PL:CoverColumn" << this->CoverColumn;
 }
 
 
 void SimplePlaylist::setTracks(const QList<int> &GUID)
 {
+    qDebug() << "PL:GUID.size" << GUID.size();
+    qDebug() << "ID's :" << GUID;
+
     this->setRowCount(GUID.size());
    // int row = -1;
 
@@ -305,9 +319,9 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
     //! Insert first group
     QString prev = helper->parseLine(GUID.at(0), prefs->groups_format), current;
     if (!prefs->group_labels)
-        this->addGroupItem(row++, prev);
+        this->addGroupItem(row, prev);
     else
-        this->addGroupLabel(row++, prev);
+        this->addGroupLabel(row, prev);
 
     if (!prefs->labels) {
         for (int idx = 0; idx < GUID.size(); idx++)
@@ -323,6 +337,8 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
                     this->addGroupItem(++row, current);
                 else
                     this->addGroupLabel(++row, current);
+
+                groupRow = row;
             }
 
             this->insertRow(++row);
@@ -354,6 +370,8 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
                     this->addGroupItem(++row, current);
                 else
                     this->addGroupLabel(++row, current);
+
+                groupRow = row;
             }
 
             this->insertRow(++row);

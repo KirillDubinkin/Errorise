@@ -5,6 +5,7 @@
 #include <QRegExp>
 #include <QTime>
 #include <QFileInfo>
+#include <QDir>
 
 using namespace Global;
 
@@ -24,20 +25,53 @@ MediaInfo::~MediaInfo(){
 }
 
 
-void MediaInfo::start(QString file)
+void MediaInfo::recursiveDirs(const QString &sDir)
 {
-        if (minfo->isOpen()){
-            minfo->waitForFinished();
+    QDir dir(sDir);
+    QFileInfoList list = dir.entryInfoList(pref->files_filter.split(";"), QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot);
+    for (int iList=0;iList<list.count();iList++)
+    {
+        QFileInfo info = list[iList];
+
+        QString sFilePath = info.filePath();
+        if (info.isDir())
+        {
+            // recursive
+            recursiveDirs(sFilePath);
         }
-
-
-        minfo->start(pref->mediainfo_cli, QStringList() << file);
-        minfo->waitForReadyRead();
-        //qDebug() << minfo->readAllStandardOutput();
-        out = QString(minfo->readAllStandardOutput()).split("\n");
-        //qDebug() << out;
+        else
+        {
+            files << sFilePath;
+        }
+    }
 }
 
+
+
+void MediaInfo::scanDir(const QString &path)
+{
+    files.clear();
+
+#ifdef Q_OS_WIN
+    qt_ntfs_permission_lookup++;
+#endif
+
+    if (pref->recursive_dirs)
+        recursiveDirs(path);
+    else
+        files = QDir(path).entryList(pref->files_filter.split(";"),
+                                            QDir::Files);
+    if (files.isEmpty())
+        return;
+
+    this->parseDir();
+
+    guid.clear();
+    for (int i = 0; i < numParsedFiles; i++)
+        guid.append(i);
+
+    emit newTracksReceived(guid);
+}
 
 
 static QRegExp rx_audio("^Audio");
@@ -56,7 +90,7 @@ static QRegExp rx_tracknumber("^Track name/Position .*: (.*)");
 static QRegExp rx_album_artist("^ALBUM ARTIST .*: (.*)");
 
 #ifdef Q_OS_WIN
-void MediaInfo::parseDir(const QStringList &files)
+void MediaInfo::parseDir()
 {
     if (!files.isEmpty()){
         numParsedFiles = files.size();
@@ -80,7 +114,7 @@ void MediaInfo::parseDir(const QStringList &files)
 #else
 
 
-void MediaInfo::parseDir(const QStringList &files)
+void MediaInfo::parseDir()
 {
     numParsedFiles = files.size();
     //minfo->setWorkingDirectory(dir);

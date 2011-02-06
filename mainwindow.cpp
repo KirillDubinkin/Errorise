@@ -783,7 +783,7 @@ void MainWindow::plFilter()
     if (files.isEmpty())
         return;
 
-    mediaInfo->parseDir(files);
+    //mediaInfo->parseDir(files);
 
 #ifdef Q_OS_WIN
     qt_ntfs_permission_lookup++;

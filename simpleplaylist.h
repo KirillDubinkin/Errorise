@@ -8,6 +8,9 @@
 #include <QList>
 
 #include "helper.h"
+#include "global.h"
+
+using namespace Global;
 
 class Prefs
 {

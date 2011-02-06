@@ -1,6 +1,7 @@
 #include "helper.h"
 #include "global.h"
 #include <QFileInfo>
+#include <QDebug>
 
 using namespace Global;
 
@@ -21,6 +22,8 @@ QString Helper::parseLine(const int GUID, QString pattern) const
     pattern.replace("%length%", formatTime(mediainfo->track[GUID].duration));
 
 //    pattern.replace("%playback_time%", MediaData::formatTime(core->mset.current_sec));
+
+ //   qDebug() << pattern;
 
     return pattern;
 }

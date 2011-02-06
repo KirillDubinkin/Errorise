@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QProcess>
+#include <QString>
+#include <QStringList>
+#include <QList>
 #include "mediadata.h"
 
 class MediaInfo : public QObject
@@ -14,31 +17,34 @@ public:
 
     static int timeToSec(QString time);
 
-    //MediaData *track;
     MediaData *track;
 
-    QString format;
-    QString duration;
-    QString bitrate;
+  //  QString format;
+  //  QString duration;
+  //  QString bitrate;
 
-    QString title;
+  //  QString title;
 
     int numParsedFiles;
 
 signals:
+    void newTracksReceived(const QList<int> &GUID);
 
 public slots:
-    void start(QString file);
-    void parseDir(const QStringList &files);
-    void parse(const QStringList &out, const QStringList &files);
+    void scanDir(const QString &path);
 
 private:
-    QStringList out;
-    QString line;
-
-protected:
     QProcess *minfo;
 
+    QStringList out;
+    QString line;
+    QStringList files;
+
+    QList<int> guid;
+
+    void recursiveDirs(const QString &sDir);
+    void parseDir();
+    void parse(const QStringList &out, const QStringList &files);
 
 };
 
