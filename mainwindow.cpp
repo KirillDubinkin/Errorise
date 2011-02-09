@@ -130,6 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setPlColumns();
     ui->AlbumPL->hideColumn(0);
+    ui->AlbumPL->horizontalHeader()->setVisible(false);
 
     ui->statusBar->setHidden(!pref->status_bar);
 
@@ -594,6 +595,43 @@ int MainWindow::addCover(int row, int spanRow, const QString &searchPath)
 
         QDir path(searchPath);
         QStringList files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+
+        if (files.isEmpty()){
+            if (path.exists(searchPath + "/art"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/Art"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/Scans"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/scans"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/Covers"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/covers"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else
+                path.cdUp();
+
+            files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+        }
+
+
+        if (files.isEmpty()){
+            if (path.exists(searchPath + "/art"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/Art"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/Scans"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/scans"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/Covers"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+            else if (path.exists(searchPath + "/covers"))
+                files = path.entryList(pref->pl_art_search_pattern, QDir::Files);
+        }
+
+
 
         if (!files.isEmpty())
         {
