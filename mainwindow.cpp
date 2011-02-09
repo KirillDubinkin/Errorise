@@ -978,7 +978,7 @@ void MainWindow::recursiveDirectory(const QString &sDir)
 
 void MainWindow::playNext()
 {
-    qDebug() << queue->size();
+    //qDebug() << queue->size();
     if (queue->size() > 0){
         this->playQueue(queue->currentIdx());
         queue->setCurrent(queue->currentIdx()+1);
@@ -986,7 +986,7 @@ void MainWindow::playNext()
     }
 
     if (core->mset.current_id > -1){
-        if (core->mset.current_id+2 < ui->AlbumPL->rowCount())
+        if (core->mset.current_id+1 < ui->AlbumPL->rowCount())
         {
             ui->AlbumPL->setCurrentCell( core->mset.current_id+1, 0);
             qDebug() << ui->AlbumPL->currentRow();
