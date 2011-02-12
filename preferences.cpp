@@ -354,14 +354,14 @@ void Preferences::reset() {
         pl_columns_playing_format << "%art%" << "%tracknumber%" << "%length%" << "%title%" << "%bitrate%" << "%codec%";
         pl_columns_playng_back << "" << "" << "" << "" << "" << "";
 
-        pl_columns_sizes << "200" << "23" << "75" << "200" << "75" << "50";
+        pl_columns_sizes << "300" << "30" << "75" << "230" << "80" << "50";
         pl_columns_aligment << "4" << "4" << "4" << "4" << "4" << "4";
 
-        pl_art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
+        pl_art_search_pattern << "*folder.*" << "*front.*" << "*cover.*" << "*label*.jpg" << "*label*.png";
 
 
 
-        pl_color_text << "" << "527482" << "43606b" << "" << "43606b" << "527482";
+        pl_color_text << "" << "5b8391" << "334951" << "" << "334951" << "5b8391";
         pl_color_back << "" << "" << "" << "" << "" << "";
 
         pl_color_play_text << "" << "" << "" << "" << "" << "";
@@ -370,11 +370,11 @@ void Preferences::reset() {
 
 
 
-        pl_groups_labels = true;
-        pl_groups_format = "[%date%] %album%";
+        pl_groups_labels = false;
+        pl_groups_format = "%album_artist% [%date%] %album%";
         pl_groups_stylesheet = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
         pl_groups_text_color = "ffffff";
-        pl_groups_back_color = "13363b";
+        pl_groups_back_color = "122847";
         pl_groups_aligment = 0x1;
         pl_group_height = 20;
 
@@ -388,11 +388,11 @@ void Preferences::reset() {
         pl_auto_scroll = true;
 
 
-        res_main_width = 972;
-        res_main_height = 720;
+        res_main_width = 1124;
+        res_main_height = 580;
 
-        res_pref_width = 802;
-        res_pref_height = 586;
+        res_pref_width = 726;
+        res_pref_height = 510;
 
         res_tree_width = 300;
 
@@ -428,7 +428,7 @@ void Preferences::reset() {
        *********** */
 
         music_library_path = QDir::homePath();
-        files_filter = QString("*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
+        files_filter = QString("*.mp3;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma;*.wv");
 
 //	last_dvd_directory="";
 
