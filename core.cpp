@@ -83,6 +83,8 @@ void Core::goToSec( int sec ) {
 
 void Core::processFinished()
 {
+    this->playing = false;
+
     emit finished();
     if ((!restarting) & (!pref->play_only_this)){
         emit playnext();

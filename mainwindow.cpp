@@ -110,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this->core, SIGNAL(finished()), status, SLOT(clear()));
     connect(this->core, SIGNAL(finished()), this, SLOT(defWindowTitle()));
+    connect(this->core, SIGNAL(finished()), this, SLOT(defPlhighlight()));
     connect(this->core, SIGNAL(playnext()), this, SLOT(defPlhighlight()));
     connect(this->core, SIGNAL(playnext()), this, SLOT(playNext()));
 
@@ -256,7 +257,7 @@ void MainWindow::highlightCurrentTrack()
     if (core->mset.current_id == -1) // try to find
         tryFindCurrentTrack();
 
-    if (core->mset.current_id > -1)
+    if ((core->mset.current_id > -1) && (core->playing))
     {
         int row = core->mset.current_id;
         int idx = ui->AlbumPL->item(core->mset.current_id, 0)->text().toInt();
