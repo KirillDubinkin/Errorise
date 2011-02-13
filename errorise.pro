@@ -9,7 +9,7 @@ QT       += core gui
 
 #CONFIG  += static
 
-TARGET = errorise
+TARGET = errorise-0.0.9
 TEMPLATE = app
 
 
