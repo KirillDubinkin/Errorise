@@ -14,7 +14,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     myprocess.cpp \
     tracks.cpp \
     mediadata.cpp \
@@ -31,14 +30,14 @@ SOURCES += main.cpp\
     mediainfo.cpp \
     preferenceswindow.cpp \
     version.cpp \
-    queue.cpp \
     simpleplaylist.cpp \
     helper.cpp \
     simplegui.cpp \
     simpletoolbar.cpp \
-    simplealbumlist.cpp
+    simplealbumlist.cpp \
+    interfaces/queueinterface.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     myprocess.h \
     tracks.h \
     mediadata.h \
@@ -57,12 +56,13 @@ HEADERS  += mainwindow.h \
     mediainfo.h \
     preferenceswindow.h \
     myslider.h \
-    queue.h \
     simpleplaylist.h \
     helper.h \
     simplegui.h \
     simpletoolbar.h \
-    simplealbumlist.h
+    simplealbumlist.h \
+    interfaces/queueinterface.h \
+    interfaces/playerinterface.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui
