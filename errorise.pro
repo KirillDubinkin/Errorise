@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     simplegui.cpp \
     simpletoolbar.cpp \
     simplealbumlist.cpp \
-    interfaces/queueinterface.cpp
+    interfaces/queueinterface.cpp \
+    mplayer.cpp
 
 HEADERS  += \
     myprocess.h \
@@ -62,7 +63,8 @@ HEADERS  += \
     simpletoolbar.h \
     simplealbumlist.h \
     interfaces/queueinterface.h \
-    interfaces/playerinterface.h
+    interfaces/playerinterface.h \
+    mplayer.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui
