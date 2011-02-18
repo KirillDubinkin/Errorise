@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
 using namespace Global;
 
-MainWindow * mainwindow_instance = 0;
+//MainWindow * mainwindow_instance = 0;
 QFile output_log;
 
 void myMessageOutput( QtMsgType type, const char *msg ) {
@@ -149,7 +149,7 @@ int main( int argc, char ** argv )
 
         int r = a.exec();
 
-        mainwindow_instance = 0;
+        //mainwindow_instance = 0;
         delete amplayer;
 
         if (output_log.isOpen()) output_log.close();

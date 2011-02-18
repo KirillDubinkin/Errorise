@@ -13,7 +13,7 @@ using namespace Global;
 AMPlayer::AMPlayer(const QString & config_path, QObject * parent ) :
     QObject(parent)
 {
-    main_window = 0;
+    //main_window = 0;
     s_gui = 0;
     //gui_to_use = "DefaultGui";
 
@@ -56,37 +56,7 @@ void AMPlayer::createConfigDirectory() {
 
 
 
-MainWindow * AMPlayer::gui() {
-        if (main_window == 0) {
-                // Changes to app path, so smplayer can find a relative mplayer path
-                QDir::setCurrent(Paths::appPath());
-                qDebug("%s::gui: changed working directory to app path", myplayerName().toUtf8().data());
-                qDebug("%s::gui: current directory: %s", myplayerName().toUtf8().data(), QDir::currentPath().toUtf8().data());
 
-                /*if (gui_to_use.toLower() == "minigui")
-                        main_window = new MiniGui(0);
-                else
-                if (gui_to_use.toLower() == "mpcgui")
-                        main_window = new MpcGui(0);
-                else
-                        main_window = new DefaultGui(0);
-*/
-                main_window = new MainWindow(0);
-
-                if (move_gui) {
-                        qDebug("%s::gui: moving main window to %d %d", myplayerName().toUtf8().data(), gui_position.x(), gui_position.y());
-                        main_window->move(gui_position);
-                }
-                if (resize_gui) {
-                        qDebug("%s::gui: resizing main window to %dx%d", myplayerName().toUtf8().data(), gui_size.width(), gui_size.height());
-                        main_window->resize(gui_size);
-                }
-
-                //main_window->setForceCloseOnFinish(close_at_end);
-        }
-
-        return main_window;
-}
 
 
 SimpleGUI * AMPlayer::sgui()

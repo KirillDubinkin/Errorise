@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include "simplegui.h"
 
 class AMPlayer : public QObject
@@ -19,7 +19,7 @@ public:
         //! Process arguments. If ExitCode != NoExit the application must be exited.
 //        ExitCode processArgs(QStringList args);
 
-        MainWindow * gui();
+        //MainWindow * gui();
         SimpleGUI * sgui();
 
         void start();
@@ -30,7 +30,7 @@ private:
 #endif
         void showInfo();
 
-        MainWindow * main_window;
+        //MainWindow * main_window;
         SimpleGUI * s_gui;
 
         QStringList files_to_play;

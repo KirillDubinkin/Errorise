@@ -24,7 +24,7 @@
 #include "preferences.h"
 #include "mediainfo.h"
 
-#include "queue.h"
+//#include "queue.h"
 
 // Some global objects
 
@@ -34,7 +34,7 @@
 class QSettings;
 class Preferences;
 class Translator;
-class Queue;
+//class Queue;
 class MediaInfo;
 
 namespace Global {
@@ -49,7 +49,7 @@ namespace Global {
 	extern Translator * translator;
 
         //! Playback Queue
-        extern Queue * queue;
+
 
         extern MediaInfo * mediainfo;
 
