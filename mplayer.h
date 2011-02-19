@@ -8,7 +8,7 @@ class Mplayer : public PlayerInterface
 {
     Q_OBJECT
 public:
-    explicit Mplayer(QueueInterface *queue, QObject *parent = 0);
+    explicit Mplayer(QueueInterface *q = 0, QObject *parent = 0);
 
 signals:
 

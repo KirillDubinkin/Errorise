@@ -10,7 +10,9 @@ class PlayerInterface : public QObject
 {
     Q_OBJECT
 public:
-    explicit PlayerInterface(QueueInterface * queue = 0, QObject *parent = 0);
+    inline explicit PlayerInterface(QueueInterface * q = 0, QObject *parent = 0)
+        : QObject(parent)
+    { queue = q; }
 
 signals:
     void state_changed(playerState state);
@@ -35,6 +37,10 @@ public:
     virtual bool isPaused() = 0;
     virtual int currentTrack() const = 0;  //! return guid
     virtual playerState currentState() = 0;
+
+private:
+    QueueInterface *queue;
+
 
 };
 
