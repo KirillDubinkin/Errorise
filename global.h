@@ -24,7 +24,7 @@
 #include "preferences.h"
 #include "mediainfo.h"
 #include "interfaces/queueinterface.h"
-#include "mplayer.h"
+#include "mplayer/mplayer.h"
 
 
 // Some global objects

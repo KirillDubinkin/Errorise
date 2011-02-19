@@ -1,4 +1,4 @@
-#include "mplayer.h"
+#include "mplayer/mplayer.h"
 #include "helper.h"
 #include <QDebug>
 

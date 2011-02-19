@@ -3,6 +3,7 @@
 
 #include "interfaces/playerinterface.h"
 #include "mplayerprocess.h"
+#include "mplayer/mplayerpreferences.h"
 
 #include "core.h" //! just for developing stage...
 

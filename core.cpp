@@ -3,9 +3,7 @@
 #include <QFileInfo>
 #include <QDebug>
 
-#include "mplayerprocess.h"
-#include "mplayerversion.h"
-#include "mediasettings.h"
+
 #include "mediadata.h"
 #include "preferences.h"
 #include "global.h"

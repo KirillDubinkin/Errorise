@@ -19,7 +19,7 @@
 #include "preferences.h"
 #include "global.h"
 #include "paths.h"
-#include "mediasettings.h"
+#include "mplayer/mediasettings.h"
 
 #include <QSettings>
 #include <QFileInfo>

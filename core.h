@@ -2,8 +2,8 @@
 #define CORE_H
 
 #include <QObject>
-#include "mediasettings.h"
-#include "mplayerprocess.h"
+#include "mplayer/mediasettings.h"
+#include "mplayer/mplayerprocess.h"
 #include "mediadata.h"
 
 

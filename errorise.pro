@@ -14,17 +14,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    myprocess.cpp \
     tracks.cpp \
     mediadata.cpp \
-    mplayerprocess.cpp \
     global.cpp \
     colorutils.cpp \
-    mplayerversion.cpp \
     translator.cpp \
     paths.cpp \
     preferences.cpp \
-    mediasettings.cpp \
     amplayer.cpp \
     core.cpp \
     mediainfo.cpp \
@@ -36,21 +32,23 @@ SOURCES += main.cpp\
     simpletoolbar.cpp \
     simplealbumlist.cpp \
     interfaces/queueinterface.cpp \
-    mplayer.cpp
+    mplayer/mplayerpreferences.cpp \
+    mplayer/mplayer.cpp \
+    mplayer/mplayerwindow.cpp \
+    mplayer/mplayerversion.cpp \
+    mplayer/mplayerprocess.cpp \
+    mplayer/myprocess.cpp \
+    mplayer/mediasettings.cpp
 
 HEADERS  += \
-    myprocess.h \
     tracks.h \
     mediadata.h \
     config.h \
-    mplayerprocess.h \
     global.h \
     preferences.h \
     colorutils.h \
-    mplayerversion.h \
     translator.h \
     paths.h \
-    mediasettings.h \
     amplayer.h \
     version.h \
     core.h \
@@ -64,7 +62,13 @@ HEADERS  += \
     simplealbumlist.h \
     interfaces/queueinterface.h \
     interfaces/playerinterface.h \
-    mplayer.h
+    mplayer/mplayerpreferences.h \
+    mplayer/mplayer.h \
+    mplayer/mplayerwindow.h \
+    mplayer/mplayerversion.h \
+    mplayer/mplayerprocess.h \
+    mplayer/myprocess.h \
+    mplayer/mediasettings.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui
