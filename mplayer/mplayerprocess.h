@@ -24,8 +24,7 @@
 #include "mediadata.h"
 #include "config.h"
 
-//#define NOTIFY_SUB_CHANGES 1
-#define NOTIFY_AUDIO_CHANGES 1
+//#define NOTIFY_AUDIO_CHANGES 1
 
 class QStringList;
 
@@ -40,7 +39,7 @@ public:
 	bool start();
 	void writeToStdin(QString text);
 
-        MediaData mediaData() { return md; }
+      //  MediaData mediaData() { return md; }
 
 signals:
 	void processExited();
@@ -50,9 +49,7 @@ signals:
         void receivedCSec(int csec);
 	void receivedCurrentFrame(int frame);
 	void receivedPause();
-//	void receivedWindowResolution(int,int);
         void receivedNoVideo();
-//	void receivedVO(QString);
 	void receivedAO(QString);
 	void receivedEndOfFile();
 	void mplayerFullyLoaded();
@@ -62,33 +59,15 @@ signals:
 	void receivedCreatingIndex(QString);
 	void receivedConnectingToMessage(QString);
 	void receivedResolvingMessage(QString);
-//	void receivedScreenshot(QString);
-//	void receivedUpdatingFontCache();
-//	void receivedScanningFont(QString);
-
 	void receivedStreamTitle(QString);
 	void receivedStreamTitleAndUrl(QString,QString);
 
 	void failedToParseMplayerVersion(QString line_with_mplayer_version);
 
-/* #if NOTIFY_SUB_CHANGES
-	//! Emitted if a new subtitle has been added or an old one changed
-	void subtitleInfoChanged(const SubTracks &);
-
-	//! Emitted when subtitle info has been received but there wasn't anything new
-	void subtitleInfoReceivedAgain(const SubTracks &);
-#endif */
 #if NOTIFY_AUDIO_CHANGES
 	//! Emitted if a new audio track been added or an old one changed
     void audioInfoChanged(const Tracks &);
 #endif
-
-/* #if DVDNAV_SUPPORT
-	void receivedDVDTitle(int);
-	void receivedDuration(double);
-	void receivedTitleIsMenu();
-	void receivedTitleIsMovie();
-#endif */
 
 protected slots:
 	void parseLine(QByteArray ba);
@@ -99,27 +78,15 @@ private:
 	bool notified_mplayer_is_running;
 	bool received_end_of_file;
 
-	MediaData md;
-
-//	int last_sub_id;
+        //MediaData md;
 
 	int mplayer_svn;
-
-/*#if NOTIFY_SUB_CHANGES
-	SubTracks subs;
-
-	bool subtitle_info_received;
-	bool subtitle_info_changed;
-#endif */
 
 #if NOTIFY_AUDIO_CHANGES
 	Tracks audios;
 	bool audio_info_changed;
 #endif
 
-/*#if GENERIC_CHAPTER_SUPPORT
-	int dvd_current_title;
-#endif */
 };
 
 

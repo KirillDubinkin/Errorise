@@ -30,6 +30,7 @@
 
 using namespace Global;
 
+
 MplayerProcess::MplayerProcess(QObject * parent) : MyProcess(parent) 
 {
 
@@ -55,7 +56,7 @@ MplayerProcess::~MplayerProcess() {
 }
 
 bool MplayerProcess::start() {
-	md.reset();
+        //md.reset();
 	notified_mplayer_is_running = false;
 	mplayer_svn = -1; // Not found yet
 	received_end_of_file = false;
@@ -78,13 +79,19 @@ void MplayerProcess::writeToStdin(QString text) {
 	}
 }
 
+
+
+
 static QRegExp rx_av("^[AV]: *([0-9,:.-]+)");
 
 static QRegExp rx_frame("^[AV]:.* (\\d+)\\/.\\d+");// [0-9,.]+");
 static QRegExp rx("^(.*)=(.*)");
+
+
 #if !NOTIFY_AUDIO_CHANGES
 static QRegExp rx_audio_mat("^ID_AID_(\\d+)_(LANG|NAME)=(.*)");
 #endif
+
 
 static QRegExp rx_ao("^AO: \\[(.*)\\]");
 static QRegExp rx_paused("^ID_PAUSED");
@@ -106,30 +113,14 @@ static QRegExp rx_cdda("^ID_CDDA_TRACK_(\\d+)_MSF=(.*)");
 
 
 // Audio
+
 #if NOTIFY_AUDIO_CHANGES
 static QRegExp rx_audio("^ID_AUDIO_ID=(\\d+)");
 static QRegExp rx_audio_info("^ID_AID_(\\d+)_(LANG|NAME)=(.*)");
 #endif
 
 
-//Clip info
-static QRegExp rx_clip_name("^ (name|title): (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_artist("^ artist: (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_author("^ author: (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_album("^ album: (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_genre("^ genre: (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_date("^ (creation date|year): (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_track("^ track: (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_copyright("^ copyright: (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_comment("^ comment: (.*)", Qt::CaseInsensitive);
-static QRegExp rx_clip_software("^ software: (.*)", Qt::CaseInsensitive);
-
-static QRegExp rx_stream_title("^.* StreamTitle='(.*)';");
-static QRegExp rx_stream_title_and_url("^.* StreamTitle='(.*)';StreamUrl='(.*)';");
-
-
 void MplayerProcess::parseLine(QByteArray ba) {
-	//qDebug("MplayerProcess::parseLine: '%s'", ba.data() );
 
 	QString tag;
 	QString value;
@@ -150,6 +141,7 @@ void MplayerProcess::parseLine(QByteArray ba) {
 
 		//qDebug("cap(1): '%s'", rx_av.cap(1).toUtf8().data() );
 		//qDebug("sec: %f", sec);
+
 
 #if NOTIFY_AUDIO_CHANGES
 		if (notified_mplayer_is_running) {
@@ -209,24 +201,6 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		// Pause
 		if (rx_paused.indexIn(line) > -1) {
 			emit receivedPause();
-		}
-
-		// Stream title
-		if (rx_stream_title_and_url.indexIn(line) > -1) {
-			QString s = rx_stream_title_and_url.cap(1);
-			QString url = rx_stream_title_and_url.cap(2);
-			qDebug("MplayerProcess::parseLine: stream_title: '%s'", s.toUtf8().data());
-			qDebug("MplayerProcess::parseLine: stream_url: '%s'", url.toUtf8().data());
-			md.stream_title = s;
-			md.stream_url = url;
-			emit receivedStreamTitleAndUrl( s, url );
-		}
-		else
-		if (rx_stream_title.indexIn(line) > -1) {
-			QString s = rx_stream_title.cap(1);
-			qDebug("MplayerProcess::parseLine: stream_title: '%s'", s.toUtf8().data());
-			md.stream_title = s;
-			emit receivedStreamTitle( s );
 		}
 
 
@@ -302,11 +276,11 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			qDebug("MplayerProcess::parseLine: Audio: ID: %d, Lang: '%s' Type: '%s'", 
                     ID, lang.toUtf8().data(), t.toUtf8().data());
 
-			if ( t == "NAME" ) 
+/*			if ( t == "NAME" )
 				md.audios.addName(ID, lang);
 			else
-				md.audios.addLang(ID, lang);
-		}
+                                md.audios.addLang(ID, lang);
+*/		}
 		else
 #endif
 
@@ -357,93 +331,6 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		else
 
 
-		// Clip info
-
-		//QString::trimmed() is used for removing leading and trailing whitespaces
-		//Some .mp3 files contain tags with starting and ending whitespaces
-		//Unfortunately MPlayer gives us leading and trailing whitespaces, Winamp for example doesn't show them
-
-		// Name
-		if (rx_clip_name.indexIn(line) > -1) {
-			QString s = rx_clip_name.cap(2).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_name: '%s'", s.toUtf8().data());
-			md.clip_name = s;
-		}
-		else
-
-		// Artist
-		if (rx_clip_artist.indexIn(line) > -1) {
-			QString s = rx_clip_artist.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_artist: '%s'", s.toUtf8().data());
-			md.clip_artist = s;
-		}
-		else
-
-		// Author
-		if (rx_clip_author.indexIn(line) > -1) {
-			QString s = rx_clip_author.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_author: '%s'", s.toUtf8().data());
-			md.clip_author = s;
-		}
-		else
-
-		// Album
-		if (rx_clip_album.indexIn(line) > -1) {
-			QString s = rx_clip_album.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_album: '%s'", s.toUtf8().data());
-			md.clip_album = s;
-		}
-		else
-
-		// Genre
-		if (rx_clip_genre.indexIn(line) > -1) {
-			QString s = rx_clip_genre.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_genre: '%s'", s.toUtf8().data());
-			md.clip_genre = s;
-		}
-		else
-
-		// Date
-		if (rx_clip_date.indexIn(line) > -1) {
-			QString s = rx_clip_date.cap(2).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_date: '%s'", s.toUtf8().data());
-			md.clip_date = s;
-		}
-		else
-
-		// Track
-		if (rx_clip_track.indexIn(line) > -1) {
-			QString s = rx_clip_track.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_track: '%s'", s.toUtf8().data());
-			md.clip_track = s;
-		}
-		else
-
-		// Copyright
-		if (rx_clip_copyright.indexIn(line) > -1) {
-			QString s = rx_clip_copyright.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_copyright: '%s'", s.toUtf8().data());
-			md.clip_copyright = s;
-		}
-		else
-
-		// Comment
-		if (rx_clip_comment.indexIn(line) > -1) {
-			QString s = rx_clip_comment.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_comment: '%s'", s.toUtf8().data());
-			md.clip_comment = s;
-		}
-		else
-
-		// Software
-		if (rx_clip_software.indexIn(line) > -1) {
-			QString s = rx_clip_software.cap(1).trimmed();
-			qDebug("MplayerProcess::parseLine: clip_software: '%s'", s.toUtf8().data());
-			md.clip_software = s;
-		}
-		else
-
-
 		// Catch starting message
 		/*
 		pos = rx_play.indexIn(line);
@@ -458,55 +345,6 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			value = rx.cap(2);
 			//qDebug("MplayerProcess::parseLine: tag: %s, value: %s", tag.toUtf8().data(), value.toUtf8().data());
 
-#if !NOTIFY_AUDIO_CHANGES
-			// Generic audio
-			if (tag == "ID_AUDIO_ID") {
-				int ID = value.toInt();
-				qDebug("MplayerProcess::parseLine: ID_AUDIO_ID: %d", ID);
-				md.audios.addID( ID );
-			}
-			else
-#endif
-
-			if (tag == "ID_LENGTH") {
-				md.duration = value.toDouble();
-				qDebug("MplayerProcess::parseLine: md.duration set to %f", md.duration);
-                        }
-			else
-			if (tag == "ID_DEMUXER") {
-				md.demuxer = value;
-                        }
-			else
-			if (tag == "ID_AUDIO_FORMAT") {
-				md.audio_format = value;
-                        }
-			else
-			if (tag == "ID_AUDIO_BITRATE") {
-				md.audio_bitrate = value.toInt();
-			}
-			else
-			if (tag == "ID_AUDIO_RATE") {
-				md.audio_rate = value.toInt();
-			}
-			else
-			if (tag == "ID_AUDIO_NCH") {
-				md.audio_nch = value.toInt();
-                        }
-			else
-			if (tag == "ID_AUDIO_CODEC") {
-				md.audio_codec = value;
-			}
-                        /*
-#if GENERIC_CHAPTER_SUPPORT
-			else
-			if (tag == "ID_CHAPTERS") {
-				md.chapters = value.toInt();
-			}
-			else
-			if (tag == "ID_DVD_CURRENT_TITLE") {
-				dvd_current_title = value.toInt();
-			}
-#endif */
                 }
 	}
 }
@@ -522,7 +360,7 @@ void MplayerProcess::processFinished(int exitCode, QProcess::ExitStatus exitStat
 }
 
 void MplayerProcess::gotError(QProcess::ProcessError error) {
-	qDebug("MplayerProcess::gotError: %d", (int) error);
+        qWarning("MplayerProcess::gotError: %d", (int) error);
 }
 
 #include "moc_mplayerprocess.cpp"
