@@ -24,8 +24,6 @@
 #include "mediadata.h"
 #include "config.h"
 
-//#define NOTIFY_AUDIO_CHANGES 1
-
 class QStringList;
 
 class MplayerProcess : public MyProcess 
@@ -38,8 +36,6 @@ public:
 
 	bool start();
 	void writeToStdin(QString text);
-
-      //  MediaData mediaData() { return md; }
 
 signals:
 	void processExited();
@@ -64,11 +60,6 @@ signals:
 
 	void failedToParseMplayerVersion(QString line_with_mplayer_version);
 
-#if NOTIFY_AUDIO_CHANGES
-	//! Emitted if a new audio track been added or an old one changed
-    void audioInfoChanged(const Tracks &);
-#endif
-
 protected slots:
 	void parseLine(QByteArray ba);
 	void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
@@ -78,14 +69,7 @@ private:
 	bool notified_mplayer_is_running;
 	bool received_end_of_file;
 
-        //MediaData md;
-
 	int mplayer_svn;
-
-#if NOTIFY_AUDIO_CHANGES
-	Tracks audios;
-	bool audio_info_changed;
-#endif
 
 };
 

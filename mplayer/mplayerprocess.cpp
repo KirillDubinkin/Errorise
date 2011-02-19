@@ -34,10 +34,6 @@ using namespace Global;
 MplayerProcess::MplayerProcess(QObject * parent) : MyProcess(parent) 
 {
 
-#if NOTIFY_AUDIO_CHANGES
-	qRegisterMetaType<Tracks>("Tracks");
-#endif
-
 	connect( this, SIGNAL(lineAvailable(QByteArray)),
 			 this, SLOT(parseLine(QByteArray)) );
 
@@ -60,11 +56,6 @@ bool MplayerProcess::start() {
 	notified_mplayer_is_running = false;
 	mplayer_svn = -1; // Not found yet
 	received_end_of_file = false;
-
-#if NOTIFY_AUDIO_CHANGES
-	audios.clear();
-	audio_info_changed = false;
-#endif
 
 	MyProcess::start();
 	return waitForStarted();
@@ -112,13 +103,6 @@ static QRegExp rx_mkvchapters("\\[mkv\\] Chapter (\\d+) from");
 static QRegExp rx_cdda("^ID_CDDA_TRACK_(\\d+)_MSF=(.*)");
 
 
-// Audio
-
-#if NOTIFY_AUDIO_CHANGES
-static QRegExp rx_audio("^ID_AUDIO_ID=(\\d+)");
-static QRegExp rx_audio_info("^ID_AID_(\\d+)_(LANG|NAME)=(.*)");
-#endif
-
 
 void MplayerProcess::parseLine(QByteArray ba) {
 
@@ -143,23 +127,13 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		//qDebug("sec: %f", sec);
 
 
-#if NOTIFY_AUDIO_CHANGES
-		if (notified_mplayer_is_running) {
-			if (audio_info_changed) {
-				qDebug("MplayerProcess::parseLine: audio_info_changed");
-				audio_info_changed = false;
-				emit audioInfoChanged(audios);
-			}
-		}
-#endif
-
 		if (!notified_mplayer_is_running) {
-			qDebug("MplayerProcess::parseLine: starting sec: %f", sec);
+                        //qDebug("MplayerProcess::parseLine: starting sec: %f", sec);
 
 			emit receivedStartingTime(sec);
 			emit mplayerFullyLoaded();
 
-			emit receivedCurrentFrame(0); // Ugly hack: set the frame counter to 0
+                        //emit receivedCurrentFrame(0); // Ugly hack: set the frame counter to 0
 
 			notified_mplayer_is_running = true;
 		}
@@ -204,46 +178,6 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		}
 
 
-#if NOTIFY_AUDIO_CHANGES
-		// Audio
-		if (rx_audio.indexIn(line) > -1) {
-			int ID = rx_audio.cap(1).toInt();
-			qDebug("MplayerProcess::parseLine: ID_AUDIO_ID: %d", ID);
-			if (audios.find(ID) == -1) audio_info_changed = true;
-			audios.addID( ID );
-		}
-
-		if (rx_audio_info.indexIn(line) > -1) {
-			int ID = rx_audio_info.cap(1).toInt();
-			QString lang = rx_audio_info.cap(3);
-			QString t = rx_audio_info.cap(2);
-			qDebug("MplayerProcess::parseLine: Audio: ID: %d, Lang: '%s' Type: '%s'", 
-                    ID, lang.toUtf8().data(), t.toUtf8().data());
-
-			int idx = audios.find(ID);
-			if (idx == -1) {
-				qDebug("MplayerProcess::parseLine: audio %d doesn't exist, adding it", ID);
-
-				audio_info_changed = true;
-				if ( t == "NAME" ) 
-					audios.addName(ID, lang);
-//				else
-//					audios.addLang(ID, lang);
-			} else {
-				qDebug("MplayerProcess::parseLine: audio %d exists, modifing it", ID);
-
-				if (t == "NAME") {
-					//qDebug("MplayerProcess::parseLine: name of audio %d: %s", ID, audios.itemAt(idx).name().toUtf8().constData());
-					if (audios.itemAt(idx).name() != lang) {
-						audio_info_changed = true;
-						audios.addName(ID, lang);
-					}
-                                }
-			}
-		}
-#endif
-
-
 		// The following things are not sent when the file has started to play
 		// (or if sent, smplayer will ignore anyway...)
 		// So not process anymore, if video is playing to save some time
@@ -267,24 +201,6 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		}
 		else
 
-#if !NOTIFY_AUDIO_CHANGES
-		// Matroska audio
-		if (rx_audio_mat.indexIn(line) > -1) {
-			int ID = rx_audio_mat.cap(1).toInt();
-			QString lang = rx_audio_mat.cap(3);
-			QString t = rx_audio_mat.cap(2);
-			qDebug("MplayerProcess::parseLine: Audio: ID: %d, Lang: '%s' Type: '%s'", 
-                    ID, lang.toUtf8().data(), t.toUtf8().data());
-
-/*			if ( t == "NAME" )
-				md.audios.addName(ID, lang);
-			else
-                                md.audios.addLang(ID, lang);
-*/		}
-		else
-#endif
-
-
 
                 // Audio CD titles
 		if (rx_cdda.indexIn(line) > -1 ) {
@@ -296,12 +212,7 @@ void MplayerProcess::parseLine(QByteArray ba) {
 				duration = r.cap(1).toInt() * 60;
 				duration += r.cap(2).toInt();
 			}
-//                        md.titles.addID( ID );
 
-                        //QString name = QString::number(ID) + " (" + length + ")";
-                        //md.titles.addName( ID, name );
-
-//                        md.titles.addDuration( ID, duration );
                 }
 		else
 
