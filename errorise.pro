@@ -34,7 +34,6 @@ SOURCES += main.cpp\
     interfaces/queueinterface.cpp \
     mplayer/mplayerpreferences.cpp \
     mplayer/mplayer.cpp \
-    mplayer/mplayerwindow.cpp \
     mplayer/mplayerversion.cpp \
     mplayer/mplayerprocess.cpp \
     mplayer/myprocess.cpp \
@@ -64,7 +63,6 @@ HEADERS  += \
     interfaces/playerinterface.h \
     mplayer/mplayerpreferences.h \
     mplayer/mplayer.h \
-    mplayer/mplayerwindow.h \
     mplayer/mplayerversion.h \
     mplayer/mplayerprocess.h \
     mplayer/myprocess.h \
