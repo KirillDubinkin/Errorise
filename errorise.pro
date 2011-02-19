@@ -66,5 +66,5 @@ HEADERS  += \
     mplayer/mplayerprocess.h \
     mplayer/myprocess.h
 
-FORMS    += mainwindow.ui \
+FORMS    += \
     preferenceswindow.ui

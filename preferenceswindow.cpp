@@ -1,7 +1,7 @@
 #include "preferenceswindow.h"
 #include "ui_preferenceswindow.h"
 #include "global.h"
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include <version.h>
 
 #include <QDebug>
