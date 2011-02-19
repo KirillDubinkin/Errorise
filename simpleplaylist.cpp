@@ -226,6 +226,10 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 
     connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
             this, SLOT(setTracksWithGroups(QList<int>)));
+
+    player = Global::mplayer;
+    connect(this, SIGNAL(cellDoubleClicked(int,int)), player, SLOT(play(int)));
+
 }
 
 SimplePlaylist::~SimplePlaylist()

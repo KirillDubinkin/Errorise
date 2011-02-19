@@ -1,5 +1,6 @@
 #include "mplayer.h"
 #include "helper.h"
+#include <QDebug>
 
 Mplayer::Mplayer(QueueInterface *q, QObject *parent) :
     PlayerInterface(q, parent)
@@ -16,6 +17,7 @@ Mplayer::Mplayer(QueueInterface *q, QObject *parent) :
 
 bool Mplayer::play(int guid, int seek)
 {
+    qDebug("Mplayer::play guid == %d", guid);
     if (guid == -1)
     {
         if (isPaused())
@@ -27,14 +29,15 @@ bool Mplayer::play(int guid, int seek)
         return 0;
     }
 
-    openNewFile(guid, seek);
+    return openNewFile(guid, seek);
 }
 
 
 
 bool Mplayer::openNewFile(int guid, int seek)
 {
-    core->openFile(Helper().filePath(guid), seek);
+    Helper helper;
+    core->openFile(helper.filePath(guid), seek);
 
     state = playerPlaying;
     return 1;

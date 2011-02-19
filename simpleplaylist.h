@@ -9,6 +9,8 @@
 
 #include "helper.h"
 #include "global.h"
+#include "interfaces/playerinterface.h"
+#include "interfaces/queueinterface.h"
 
 using namespace Global;
 
@@ -104,6 +106,9 @@ private:
 
     int CoverColumn;
     int LengthColumn;
+
+
+    PlayerInterface *player;
 };
 
 #endif // SIMPLEPLAYLIST_H

@@ -10,7 +10,7 @@ class Helper
 public:
     virtual QString parseLine(const int GUID, QString pattern) const;
     virtual QString formatTime(int sec) const;
-    virtual QString filePath(const int GUID) const;
+    virtual QString filePath(const int GUID);
 
 };
 

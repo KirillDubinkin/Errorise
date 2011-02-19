@@ -40,10 +40,10 @@ QString Helper::formatTime(int sec) const
     return tf.sprintf("%02d:%02d:%02d",hours,minutes,seconds);
 }
 
-QString Helper::filePath(const int GUID) const
+QString Helper::filePath(const int GUID)
 {
-    if (mediainfo->numParsedFiles >= GUID)
-        return QFileInfo(mediainfo->track[GUID].filename).absolutePath();
+//    if (mediainfo->numParsedFiles >= GUID)
+        return mediainfo->track[GUID].filename;
 
-    return NULL;
+    //return NULL;
 }
