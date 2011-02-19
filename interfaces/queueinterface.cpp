@@ -148,6 +148,7 @@ bool QueueInterface::isEmpty()
     return list.isEmpty();
 }
 
+
 int QueueInterface::duration()
 {
     return 0;

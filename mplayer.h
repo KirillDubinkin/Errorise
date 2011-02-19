@@ -4,6 +4,8 @@
 #include "interfaces/playerinterface.h"
 #include "mplayerprocess.h"
 
+#include "core.h" //! just for developing stage...
+
 class Mplayer : public PlayerInterface
 {
     Q_OBJECT
@@ -13,6 +15,19 @@ public:
 signals:
 
 public slots:
+    bool play(int guid = -1, int seek = -1);
+    bool pause();
+    bool playNext();
+    bool playPrev();    //! Need to work
+    bool stop();
+    bool seek(int sec);
+
+    bool restart();     //! And here too
+
+
+private:
+    Core *core;
+    bool openNewFile(int guid, int seek);
 
 };
 

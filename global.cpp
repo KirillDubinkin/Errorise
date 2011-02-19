@@ -68,7 +68,7 @@ void Global::global_init(const QString & config_path) {
         mediainfo = new MediaInfo();
 
         queue   = new QueueInterface();
-        mplayer = new Mplayer(0, queue);
+        mplayer = new Mplayer(queue);
 
 
 }

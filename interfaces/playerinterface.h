@@ -4,7 +4,7 @@
 #include <QObject>
 #include "queueinterface.h"
 
-enum playerState { playerStoped = 0x1, playerPlayed = 0x2, playerPaused = 0x4 };
+enum playerState { playerStoped = 0x1, playerPlaying = 0x2, playerPaused = 0x4 };
 
 class PlayerInterface : public QObject
 {
@@ -33,13 +33,15 @@ public slots:
     virtual bool restart() = 0;
 
 public:
-    virtual bool isPlaying() = 0;
-    virtual bool isPaused() = 0;
-    virtual int currentTrack() const = 0;  //! return guid
-    virtual playerState currentState() = 0;
+    inline  bool isPlaying()            { return (state != playerStoped); }
+    inline  bool isPaused()             { return (state == playerPaused); }
+    inline  playerState currentState()  { return state; }
+    inline  int currentTrack() const    { return curTrack; }  //! return guid
 
-private:
+protected:
     QueueInterface *queue;
+    playerState state;
+    int curTrack;
 
 
 };
