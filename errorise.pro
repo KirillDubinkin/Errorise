@@ -36,8 +36,7 @@ SOURCES += main.cpp\
     mplayer/mplayer.cpp \
     mplayer/mplayerversion.cpp \
     mplayer/mplayerprocess.cpp \
-    mplayer/myprocess.cpp \
-    mplayer/mediasettings.cpp
+    mplayer/myprocess.cpp
 
 HEADERS  += \
     tracks.h \
@@ -65,8 +64,7 @@ HEADERS  += \
     mplayer/mplayer.h \
     mplayer/mplayerversion.h \
     mplayer/mplayerprocess.h \
-    mplayer/myprocess.h \
-    mplayer/mediasettings.h
+    mplayer/myprocess.h
 
 FORMS    += mainwindow.ui \
     preferenceswindow.ui

@@ -15,7 +15,6 @@ Core::Core(QObject *parent) :
     QObject(parent)
 {
     proc = new MplayerProcess(this);
-    mset.reset();
     playing = false;
     restarting = false;
 
@@ -93,8 +92,6 @@ void Core::changeCurrentSec(int sec)
     if (tsec != sec){
         tsec = sec;
 
-        mset.current_sec = sec;
-
         emit showTime();
 
       //  qDebug() << sec;
@@ -149,9 +146,6 @@ void Core::initPlaying(int seek)
         if (proc->isRunning()) {
                 stopMplayer();
         }
-
-        int start_sec = mset.current_sec;
-        if (seek > -1) start_sec = seek;
 
         startMplayer( mdat.filename );
 
@@ -208,10 +202,7 @@ void Core::startMplayer(QString file) {
                 proc->addArgument("-demuxer");
                 proc->addArgument(mset.forced_demuxer);
         }
-*/	if (!mset.forced_audio_codec.isEmpty()) {
-                proc->addArgument("-ac");
-                proc->addArgument(mset.forced_audio_codec);
-        }
+*/
 
         if (pref->use_hwac3) {
                 proc->addArgument("-afm");
@@ -268,10 +259,10 @@ void Core::startMplayer(QString file) {
 */
 
         // Audio channels
-        if (mset.audio_use_channels != 0) {
+  //      if (mset.audio_use_channels != 0) {
                 proc->addArgument("-channels");
-                proc->addArgument( QString::number( mset.audio_use_channels ) );
-        }
+                proc->addArgument( QString::number( 6 ) );
+  //      }
 
 /*        // Audio filters
         QString af="";
@@ -338,14 +329,7 @@ void Core::startMplayer(QString file) {
 
         // Additional options supplied by the user
         // File
-        if (!mset.mplayer_additional_options.isEmpty()) {
-                QStringList args = MyProcess::splitArguments(mset.mplayer_additional_options);
-        QStringList::Iterator it = args.begin();
-        while( it != args.end() ) {
-                        proc->addArgument( (*it) );
-                        ++it;
-                }
-        }
+
         // Global
         if (!pref->mplayer_additional_options.isEmpty()) {
                 QStringList args = MyProcess::splitArguments(pref->mplayer_additional_options);
@@ -371,10 +355,6 @@ void Core::startMplayer(QString file) {
 
 
         // It seems the loop option must be after the filename
-        if (mset.loop) {
-                proc->addArgument("-loop");
-                proc->addArgument("0");
-        }
 
 //        emit aboutToStartPlaying();
 

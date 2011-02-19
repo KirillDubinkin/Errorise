@@ -150,7 +150,7 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		emit lineAvailable(line);
 
 		// Parse other things
-		qDebug("MplayerProcess::parseLine: '%s'", line.toUtf8().data() );
+                //qDebug("MplayerProcess::parseLine: '%s'", line.toUtf8().data() );
 
 		// End of file
 		if (rx_endoffile.indexIn(line) > -1)  {

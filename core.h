@@ -2,7 +2,7 @@
 #define CORE_H
 
 #include <QObject>
-#include "mplayer/mediasettings.h"
+//#include "mplayer/mediasettings.h"
 #include "mplayer/mplayerprocess.h"
 #include "mediadata.h"
 
@@ -20,7 +20,7 @@ public:
      ~Core();
 
     MediaData mdat;
-    MediaSettings mset;
+ //   MediaSettings mset;
 
     bool playing;
     bool restarting;

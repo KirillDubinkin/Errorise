@@ -19,7 +19,6 @@
 #include "preferences.h"
 #include "global.h"
 #include "paths.h"
-#include "mplayer/mediasettings.h"
 
 #include <QSettings>
 #include <QFileInfo>
@@ -433,9 +432,6 @@ void Preferences::reset() {
 //	initial_audio_equalizer << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0;
 
         initial_volnorm = false;
-
-	initial_audio_channels = MediaSettings::ChDefault;
-	initial_stereo_mode = MediaSettings::Stereo;
 
 	initial_audio_track = 1;
 
