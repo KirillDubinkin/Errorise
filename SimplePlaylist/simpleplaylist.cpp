@@ -55,6 +55,7 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 
     connect(player, SIGNAL(aboutToFinish()), this, SLOT(addNextTrack()));
     connect(player, SIGNAL(finished()), this, SLOT(finished()));
+    connect(player, SIGNAL(needNext()), this, SLOT(playNext()));
 
 }
 
@@ -508,11 +509,14 @@ void SimplePlaylist::play(int row)
 }
 
 
-void SimplePlaylist::addNextTrack()
+bool SimplePlaylist::addNextTrack()
 {
-    if (this->currentTrackRow > -1)
-        if (this->currentTrackRow+1 < this->rowCount())
-            player->enqueue(item(currentTrackRow+1, 0)->text().toInt());
+    if ( (currentTrackRow > -1) && (currentTrackRow+1 < rowCount()) )
+    {
+        player->enqueue(item(currentTrackRow+1, 0)->text().toInt());
+        return 1;
+    }
+    return 0;
 }
 
 
@@ -520,4 +524,14 @@ void SimplePlaylist::finished()
 {
     this->defPlhighlight();
     this->currentTrackRow = -1;
+}
+
+
+void SimplePlaylist::playNext()
+{
+    if (addNextTrack())
+    {
+        player->stop();
+        player->play();
+    }
 }

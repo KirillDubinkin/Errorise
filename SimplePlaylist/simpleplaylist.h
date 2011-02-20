@@ -62,8 +62,10 @@ private:
 
 private slots:
     void play(int row);
-    void addNextTrack();
+    void playNext();
+    bool addNextTrack();
     void finished();
+
 
     //PlayerInterface *player;
 };

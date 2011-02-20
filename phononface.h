@@ -28,6 +28,8 @@ signals:
     void finished();
     void tick(qint64 tick);
     void trackChanged(QString filename, int guid);
+    void needNext();
+
 
 public slots:
     void play(int guid = -1);

@@ -129,6 +129,5 @@ void PhononFace::next()
         return mobject->play();
     }
 
-    emit aboutToFinish();
-    next();
+    emit needNext();
 }
