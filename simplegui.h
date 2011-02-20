@@ -10,7 +10,6 @@
 #include "SimplePlaylist/simpleplaylist.h"
 #include "simpletoolbar.h"
 #include "simplealbumlist.h"
-#include "myslider.h"
 
 using namespace Global;
 
@@ -22,7 +21,6 @@ public:
     ~SimpleGUI();
 
     QVBoxLayout *mainLayout;
-    MySlider *progress, *vol;
 
 signals:
 

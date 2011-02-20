@@ -34,6 +34,7 @@ public slots:
     void pause();
     void stop();
     void seek(int sec);   //! If need a seek with slider, use Phonon::SeekSlider widget
+    void next();
 
     void enqueue(int guid);
     void enqueue(QList<int> guids);

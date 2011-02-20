@@ -7,7 +7,6 @@
 #include <QString>
 #include <QStringList>
 #include <QMenu>
-#include "myslider.h"
 
 #include <Phonon/VolumeSlider>
 #include <Phonon/SeekSlider>

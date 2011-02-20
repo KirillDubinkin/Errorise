@@ -267,6 +267,8 @@ QPushButton * SimpleToolbar::btnNext()
         btn_next = new QPushButton(QIcon(prefs->btnNextIcon), prefs->btnNextText);
         btn_next->setMaximumSize(prefs->btnNextWidth, prefs->btnHeight);
         btn_next->setMinimumSize(btn_next->maximumSize());
+
+        connect(btn_next, SIGNAL(clicked()), player, SLOT(next()));
     }
 
     return btn_next;
@@ -278,6 +280,7 @@ QPushButton * SimpleToolbar::btnPause()
         btn_pause = new QPushButton(QIcon(prefs->btnPauseIcon), prefs->btnPauseText);
         btn_pause->setMaximumSize(prefs->btnPauseWidth, prefs->btnHeight);
         btn_pause->setMinimumSize(btn_pause->maximumSize());
+        connect(btn_pause, SIGNAL(clicked()), player, SLOT(pause()));
     }
 
     return btn_pause;
@@ -289,6 +292,7 @@ QPushButton * SimpleToolbar::btnPlay()
         btn_play = new QPushButton(QIcon(prefs->btnPlayIcon), prefs->btnPlayText);
         btn_play->setMaximumSize(prefs->btnPlayWidth, prefs->btnHeight);
         btn_play->setMinimumSize(btn_play->maximumSize());
+        connect(btn_play, SIGNAL(clicked()), player, SLOT(play()));
     }
 
     return btn_play;
@@ -297,9 +301,10 @@ QPushButton * SimpleToolbar::btnPlay()
 QPushButton * SimpleToolbar::btnPlayPause()
 {
     if (btn_play_pause == 0){
-        btn_play_pause = new QPushButton(QIcon(prefs->btnPlayPauseText), prefs->btnPlayPauseText);
+        btn_play_pause = new QPushButton(QIcon(prefs->btnPlayPauseIcon), prefs->btnPlayPauseText);
         btn_play_pause->setMaximumSize(prefs->btnPlayPauseWidth, prefs->btnHeight);
         btn_play_pause->setMinimumSize(btn_play_pause->maximumSize());
+        connect(btn_play_pause, SIGNAL(clicked()), player, SLOT(play()));
     }
 
     return btn_play_pause;
@@ -322,6 +327,7 @@ QPushButton * SimpleToolbar::btnStop()
         btn_stop = new QPushButton(QIcon(prefs->btnStopIcon), prefs->btnStopText);
         btn_stop->setMaximumSize(prefs->btnStopWidth, prefs->btnHeight);
         btn_stop->setMinimumSize(btn_stop->maximumSize());
+        connect(btn_stop, SIGNAL(clicked()), player, SLOT(stop()));
     }
 
     return btn_stop;

@@ -3,6 +3,8 @@
 
 #include "QTime"
 
+using namespace Phonon;
+
 PhononFace::PhononFace(QObject *parent) :
     QObject(parent)
 {
@@ -26,10 +28,21 @@ PhononFace::PhononFace(QObject *parent) :
 
 void PhononFace::play(int guid)
 {
-    if ( (mobject->state() == Phonon::PausedState)
-         && (guid == -1)
-       )
-        return mobject->play();
+    if (guid == -1)
+    {
+        if (mobject->state() == Phonon::PausedState)
+            return mobject->play();
+
+
+        if (!mobject->queue().isEmpty())
+        {
+            qDebug("queue: %s", mobject->queue().first().fileName().toUtf8().data());
+            mobject->setCurrentSource(mobject->queue().takeFirst());
+            mobject->play();
+        }
+
+        return;
+    }
 
     mobject->stop();
     mobject->clearQueue();
@@ -74,6 +87,7 @@ void PhononFace::printTick(qint64 tick)
 void PhononFace::stop()
 {
     mobject->stop();
+    emit finished();
 }
 
 
@@ -105,3 +119,16 @@ void PhononFace::sourceChange(Phonon::MediaSource source)
     emit trackChanged(source.fileName(), Helper().guidOf(source.fileName()));
 }
 
+
+void PhononFace::next()
+{
+    if (!mobject->queue().isEmpty())
+    {
+        mobject->stop();
+        mobject->setCurrentSource(mobject->queue().takeFirst());
+        return mobject->play();
+    }
+
+    emit aboutToFinish();
+    next();
+}

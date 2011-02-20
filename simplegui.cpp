@@ -4,7 +4,6 @@
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include "myslider.h"
 
 
 SimpleGUI::SimpleGUI(QWidget *parent) :
