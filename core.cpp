@@ -16,6 +16,7 @@ Core::Core(QObject *parent) :
 {
     proc = new MplayerProcess(this);
     playing = false;
+
     restarting = false;
 
     connect(proc, SIGNAL(receivedCSec(int)), this, SLOT(changeCurrentSec(int)));

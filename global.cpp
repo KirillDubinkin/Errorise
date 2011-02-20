@@ -38,7 +38,9 @@ Translator      * Global::translator = 0;
 MediaInfo       * Global::mediainfo  = 0;
 
 QueueInterface  * Global::queue      = 0;
-Mplayer         * Global::mplayer     = 0;
+Mplayer         * Global::mplayer    = 0;
+
+PhononFace      * Global::player     = 0;
 
 using namespace Global;
 
@@ -71,12 +73,17 @@ void Global::global_init(const QString & config_path) {
         mplayer = new Mplayer(queue);
 
 
+        player  = new PhononFace();
+
+
 }
 
 void Global::global_end() {
 	qDebug("global_end");
 
         // delete
+
+        delete player;
 
         delete queue;
         delete mplayer;

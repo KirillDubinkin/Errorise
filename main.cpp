@@ -117,6 +117,7 @@ int main( int argc, char ** argv )
 {
         QApplication a( argc, argv );
         a.setQuitOnLastWindowClosed(true);
+        a.setApplicationName("Errorise");
         //a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
 
         // Sets the config path

@@ -108,7 +108,7 @@ private:
     int LengthColumn;
 
 
-    PlayerInterface *player;
+    //PlayerInterface *player;
 };
 
 #endif // SIMPLEPLAYLIST_H

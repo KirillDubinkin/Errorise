@@ -3,7 +3,7 @@
 # Project created by QtCreator 2010-09-17T18:51:22
 #
 #-------------------------------------------------
-#QT       += phonon
+QT       += phonon
 
 QT       += core gui
 
@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     mplayer/mplayer.cpp \
     mplayer/mplayerversion.cpp \
     mplayer/mplayerprocess.cpp \
-    mplayer/myprocess.cpp
+    mplayer/myprocess.cpp \
+    phononface.cpp
 
 HEADERS  += \
     tracks.h \
@@ -64,7 +65,9 @@ HEADERS  += \
     mplayer/mplayer.h \
     mplayer/mplayerversion.h \
     mplayer/mplayerprocess.h \
-    mplayer/myprocess.h
+    mplayer/myprocess.h \
+    phonon/phononface.h \
+    phononface.h
 
 FORMS    += \
     preferenceswindow.ui

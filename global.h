@@ -27,6 +27,8 @@
 #include "mplayer/mplayer.h"
 
 
+#include "phononface.h"
+
 // Some global objects
 
 
@@ -38,6 +40,9 @@ class Translator;
 class MediaInfo;
 class QueueInterface;
 class Mplayer;
+
+
+class PhononFace;
 
 namespace Global {
 
@@ -59,6 +64,9 @@ namespace Global {
 
 
         extern MediaInfo * mediainfo;
+
+
+        extern PhononFace * player;
 
 
 	void global_init(const QString & config_path);

@@ -47,3 +47,15 @@ QString Helper::filePath(const int GUID)
 
     //return NULL;
 }
+
+
+int Helper::guidOf(const QString &filename)
+{
+    for(int i = 0; i >= mediainfo->numParsedFiles; i++)
+    {
+        if (mediainfo->track[i].filename == filename)
+            return i;
+    }
+
+    return -1;
+}

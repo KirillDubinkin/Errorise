@@ -11,6 +11,7 @@ public:
     virtual QString parseLine(const int GUID, QString pattern) const;
     virtual QString formatTime(int sec) const;
     virtual QString filePath(const int GUID);
+    virtual int guidOf(const QString &filename);
 
 };
 
