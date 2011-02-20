@@ -7,7 +7,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include "global.h"
-#include "simpleplaylist.h"
+#include "SimplePlaylist/simpleplaylist.h"
 #include "simpletoolbar.h"
 #include "simplealbumlist.h"
 #include "myslider.h"

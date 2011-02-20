@@ -26,7 +26,6 @@ SOURCES += main.cpp\
     mediainfo.cpp \
     preferenceswindow.cpp \
     version.cpp \
-    simpleplaylist.cpp \
     helper.cpp \
     simplegui.cpp \
     simpletoolbar.cpp \
@@ -37,7 +36,9 @@ SOURCES += main.cpp\
     mplayer/mplayerversion.cpp \
     mplayer/mplayerprocess.cpp \
     mplayer/myprocess.cpp \
-    phononface.cpp
+    phononface.cpp \
+    SimplePlaylist/simpleplaylist.cpp \
+    SimplePlaylist/simpleplprefs.cpp
 
 HEADERS  += \
     tracks.h \
@@ -54,7 +55,6 @@ HEADERS  += \
     mediainfo.h \
     preferenceswindow.h \
     myslider.h \
-    simpleplaylist.h \
     helper.h \
     simplegui.h \
     simpletoolbar.h \
@@ -67,7 +67,10 @@ HEADERS  += \
     mplayer/mplayerprocess.h \
     mplayer/myprocess.h \
     phonon/phononface.h \
-    phononface.h
+    phononface.h \
+    SimplePlaylist/simpleplaylist.h \
+    SimplePlaylist/simpleplaylistpreferences.h \
+    SimplePlaylist/simpleplprefs.h
 
 FORMS    += \
     preferenceswindow.ui
