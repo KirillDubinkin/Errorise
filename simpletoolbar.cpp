@@ -5,8 +5,11 @@
 #include <QAction>
 #include <QDebug>
 
+#include "global.h"
+
 #define PLUG_NAME "SimpleToolbar"
 
+using namespace Global;
 
 ToolbarPrefs::ToolbarPrefs()
 {
@@ -208,10 +211,10 @@ void SimpleToolbar::initComponents()
     btn_stop = 0;
 }
 
-MySlider * SimpleToolbar::seekbar()
+Phonon::SeekSlider * SimpleToolbar::seekbar()
 {
     if (seek_bar == 0) {
-        seek_bar = new MySlider();
+        seek_bar = new Phonon::SeekSlider(player->mediaObject(), this);
         seek_bar->setAttribute(Qt::WA_DeleteOnClose);
         seek_bar->setContextMenuPolicy(Qt::ActionsContextMenu);
 
@@ -230,12 +233,14 @@ void SimpleToolbar::hideSeekbar()
     }
 }
 
-MySlider * SimpleToolbar::vol()
+Phonon::VolumeSlider * SimpleToolbar::vol()
 {
     if (volume == 0){
-        volume = new MySlider();
+        volume = new Phonon::VolumeSlider(player->audioOutput(), this);
+/*
         volume->setMinimum(0);
         volume->setMaximum(100);
+*/
         volume->setContextMenuPolicy(Qt::ActionsContextMenu);
         volume->setAttribute(Qt::WA_DeleteOnClose);
 

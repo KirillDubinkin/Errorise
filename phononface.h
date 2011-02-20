@@ -20,6 +20,9 @@ public:
     QString currentTrack();
     int     currentGuid();
 
+    inline Phonon::AudioOutput * audioOutput() { return output;  }
+    inline Phonon::MediaObject * mediaObject() { return mobject; }
+
 signals:
     void aboutToFinish();
     void finished();

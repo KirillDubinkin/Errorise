@@ -54,7 +54,6 @@ HEADERS  += \
     core.h \
     mediainfo.h \
     preferenceswindow.h \
-    myslider.h \
     helper.h \
     simplegui.h \
     simpletoolbar.h \

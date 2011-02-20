@@ -9,6 +9,9 @@
 #include <QMenu>
 #include "myslider.h"
 
+#include <Phonon/VolumeSlider>
+#include <Phonon/SeekSlider>
+
 enum btns { Play = 1000, Pause = 1010,  PlayPause = 1020, Stop = 1030,
            Prev = 1040, Next = 1050 };
 
@@ -73,8 +76,10 @@ public:
     explicit SimpleToolbar(QWidget *parent = 0);
     ~SimpleToolbar();
 
-    MySlider *seekbar();
-    MySlider *vol();
+//    MySlider *seekbar();
+
+    Phonon::VolumeSlider *vol();
+    Phonon::SeekSlider   *seekbar();
 
     QPushButton *btnPlay();
     QPushButton *btnNext();
@@ -89,7 +94,13 @@ private:
     QHBoxLayout *L;
     ToolbarPrefs *prefs;
 
-    MySlider *seek_bar, *volume;
+   // MySlider *seek_bar, *volume;
+
+
+
+    Phonon::VolumeSlider *volume;
+    Phonon::SeekSlider   *seek_bar;
+
     QMenu *small_menu, *full_menu, *playback_order;
     QPushButton *btn_play, *btn_next, *btn_prev, *btn_stop, *btn_pause, *btn_play_pause;
 

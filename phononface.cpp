@@ -20,7 +20,7 @@ PhononFace::PhononFace(QObject *parent) :
             this, SLOT(sourceChange(Phonon::MediaSource)));
 
 
-//!    connect(mobject, SIGNAL(tick(qint64)), this, SLOT(printTick(qint64)));
+    connect(mobject, SIGNAL(tick(qint64)), this, SLOT(printTick(qint64)));
 
 }
 
@@ -63,7 +63,11 @@ void PhononFace::pause()
 
 void PhononFace::printTick(qint64 tick)
 {
-    qDebug("Phonon::Tick: %s", QTime(0, 0).addMSecs(tick).toString("hh:mm:ss.z").toUtf8().data());
+    qDebug("Phonon::Tick: %s of %s",
+           QTime(0, 0).addMSecs(tick).toString("h:mm:ss").toUtf8().data(),
+           QTime(0, 0).addMSecs(mobject->totalTime()).toString("h:mm:ss").toUtf8().data()
+           );
+
 }
 
 
