@@ -16,6 +16,8 @@ PhononFace::PhononFace(QObject *parent) :
 
     connect(mobject, SIGNAL(aboutToFinish()), this, SIGNAL(aboutToFinish()));
     connect(mobject, SIGNAL(finished()), this, SIGNAL(finished()));
+    connect(mobject, SIGNAL(currentSourceChanged(Phonon::MediaSource)),
+            this, SLOT(sourceChange(Phonon::MediaSource)));
 
 
 //!    connect(mobject, SIGNAL(tick(qint64)), this, SLOT(printTick(qint64)));
@@ -92,3 +94,10 @@ int PhononFace::currentGuid()
 {
     return Helper().guidOf(mobject->currentSource().fileName());
 }
+
+
+void PhononFace::sourceChange(Phonon::MediaSource source)
+{
+    emit trackChanged(source.fileName(), Helper().guidOf(source.fileName()));
+}
+

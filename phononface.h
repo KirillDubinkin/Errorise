@@ -24,6 +24,7 @@ signals:
     void aboutToFinish();
     void finished();
     void tick(qint64 tick);
+    void trackChanged(QString filename, int guid);
 
 public slots:
     void play(int guid = -1);
@@ -41,6 +42,9 @@ private:
     Phonon::MediaObject *mobject;
     Phonon::AudioOutput *output;
     Phonon::Path        path;
+
+private slots:
+    void sourceChange(Phonon::MediaSource);
 
 };
 

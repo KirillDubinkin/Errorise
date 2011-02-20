@@ -11,8 +11,8 @@
 
 #include "helper.h"
 #include "global.h"
-#include "interfaces/playerinterface.h"
-#include "interfaces/queueinterface.h"
+//#include "interfaces/playerinterface.h"
+//#include "interfaces/queueinterface.h"
 
 using namespace Global;
 
@@ -34,7 +34,7 @@ public slots:
     void setTracksWithGroups(const QList<int> &GUID);
 
 
-    void highlightCurrentTrack();
+    void highlightCurrentTrack(QString filename, int guid);
     void defPlhighlight();
 
 private:
@@ -53,7 +53,17 @@ private:
 
     int CoverColumn;
     int LengthColumn;
+    int currentTrackRow;
 
+
+    bool findCurrentTrack(int guid);
+    bool findCurrentTrack(QString filename);
+
+
+private slots:
+    void play(int row);
+    void addNextTrack();
+    void finished();
 
     //PlayerInterface *player;
 };

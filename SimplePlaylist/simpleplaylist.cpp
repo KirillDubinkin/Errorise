@@ -29,8 +29,9 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 
     this->horizontalHeader()->setVisible(prefs->show_header);
     this->verticalHeader()->setVisible(false);
-    CoverColumn  = -1;
-    LengthColumn = -1;
+    CoverColumn     = -1;
+    LengthColumn    = -1;
+    currentTrackRow = -1;
 
     this->setColumns();
     this->hideColumn(0);
@@ -38,10 +39,22 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
             this, SLOT(setTracksWithGroups(QList<int>)));
 
+    // connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
+    //        this, SLOT(setTracks(QList<int>)));
+
+
     //player = Global::mplayer;
     //connect(this, SIGNAL(cellDoubleClicked(int,int)), player, SLOT(play(int)));
 
-    connect(this, SIGNAL(cellDoubleClicked(int,int)), player, SLOT(play(int)));
+    //connect(this, SIGNAL(cellDoubleClicked(int,int)), player, SLOT(play(int)));
+
+    connect(this, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(play(int)));
+
+    connect(player, SIGNAL(trackChanged(QString,int)),
+            this, SLOT(highlightCurrentTrack(QString,int)));
+
+    connect(player, SIGNAL(aboutToFinish()), this, SLOT(addNextTrack()));
+    connect(player, SIGNAL(finished()), this, SLOT(finished()));
 
 }
 
@@ -402,12 +415,109 @@ void SimplePlaylist::addRowLabel(int row, int col, const QString &text)
 }
 
 
-void SimplePlaylist::highlightCurrentTrack()
+void SimplePlaylist::highlightCurrentTrack(QString filename, int guid)
 {
+    if (this->currentTrackRow > -1)
+        this->defPlhighlight();   // clear previos highlighting
 
+
+    if (filename == helper->filePath(guid))
+        findCurrentTrack(guid);
+    else
+        findCurrentTrack(filename);
+
+    if (currentTrackRow > -1)
+        for (int j = 1; j < this->columnCount(); j++)
+        {
+            if (j != this->CoverColumn)
+            {
+                item(currentTrackRow, j)->setBackground(palette().highlight());
+                item(currentTrackRow, j)->setTextColor(palette().highlightedText().color());
+            }
+        }
+
+    else
+        qDebug("PL-HIGHLIGHT: Current track not found");
+}
+
+
+bool SimplePlaylist::findCurrentTrack(int guid)
+{
+    for (int i = 0; i < rowCount(); i++)
+    {
+        if (item(i, 0)->text() == QString::number(guid))
+        {
+            this->currentTrackRow = i;
+
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+bool SimplePlaylist::findCurrentTrack(QString filename)
+{
+    bool ok;
+    int guid;
+
+    for (int i = 0; i < rowCount(); i++)
+    {
+        guid = item(i, 0)->text().toInt(&ok);
+        if (ok)
+        {
+            if (helper->filePath(guid) == filename)
+            {
+                this->currentTrackRow = i;
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
 
 void SimplePlaylist::defPlhighlight()
 {
+    if (currentTrackRow > -1)
+    {
+        for (int i = 0; i < columnCount(); i++)
+        {
+            if (i != CoverColumn)
+            {
+                item(currentTrackRow, i)->setBackground(palette().base());
+                item(currentTrackRow, i)->setTextColor(palette().text().color());
+            }
+        }
+    }
+}
 
+
+void SimplePlaylist::play(int row)
+{
+    bool ok = 0;
+
+    if (item(row, 0)->text() == GROUP)
+        row++;
+    int guid = this->item(row, 0)->text().toInt(&ok);
+
+    if (ok)
+        return player->play(guid);
+
+    qWarning("Playlist: row %d, guid %d", row, guid);
+}
+
+
+void SimplePlaylist::addNextTrack()
+{
+    if (this->currentTrackRow > -1)
+        if (this->currentTrackRow+1 < this->rowCount())
+            player->enqueue(item(currentTrackRow+1, 0)->text().toInt());
+}
+
+
+void SimplePlaylist::finished()
+{
+    this->defPlhighlight();
+    this->currentTrackRow = -1;
 }

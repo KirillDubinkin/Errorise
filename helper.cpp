@@ -42,16 +42,16 @@ QString Helper::formatTime(int sec) const
 
 QString Helper::filePath(const int GUID)
 {
-//    if (mediainfo->numParsedFiles >= GUID)
+    if (mediainfo->numParsedFiles >= GUID)
         return mediainfo->track[GUID].filename;
 
-    //return NULL;
+    return NULL;
 }
 
 
 int Helper::guidOf(const QString &filename)
 {
-    for(int i = 0; i >= mediainfo->numParsedFiles; i++)
+    for(int i = 0; i < mediainfo->numParsedFiles; i++)
     {
         if (mediainfo->track[i].filename == filename)
             return i;
