@@ -54,7 +54,7 @@ void PhononFace::play(int guid)
     mobject->stop();
     mobject->clearQueue();
 
-    mobject->setCurrentSource(Phonon::MediaSource(Helper().filePath(guid)));
+    mobject->setCurrentSource(Phonon::MediaSource(Helper().fileName(guid)));
 
     mobject->play();
 }
@@ -62,7 +62,7 @@ void PhononFace::play(int guid)
 
 void PhononFace::enqueue(int guid)
 {
-    mobject->enqueue(Phonon::MediaSource(Helper().filePath(guid)));
+    mobject->enqueue(Phonon::MediaSource(Helper().fileName(guid)));
 }
 
 

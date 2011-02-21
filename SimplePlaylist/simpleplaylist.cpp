@@ -227,6 +227,8 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
 {
     const QBrush &brush = this->palette().brush(QPalette::Base);
 
+    qDebug() << searchPath;
+
     if (!prefs->art_search_pattern.isEmpty())
     {
 
@@ -422,7 +424,7 @@ void SimplePlaylist::highlightCurrentTrack(QString filename, int guid)
         this->defPlhighlight();   // clear previos highlighting
 
 
-    if (filename == helper->filePath(guid))
+    if (filename == helper->fileName(guid))
         findCurrentTrack(guid);
     else
         findCurrentTrack(filename);
@@ -467,7 +469,7 @@ bool SimplePlaylist::findCurrentTrack(QString filename)
         guid = item(i, 0)->text().toInt(&ok);
         if (ok)
         {
-            if (helper->filePath(guid) == filename)
+            if (filename == helper->fileName(guid))
             {
                 this->currentTrackRow = i;
                 return 1;
