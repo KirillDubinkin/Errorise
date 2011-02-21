@@ -23,9 +23,6 @@
 #include <QString>
 #include "preferences.h"
 #include "mediainfo.h"
-#include "interfaces/queueinterface.h"
-#include "mplayer/mplayer.h"
-
 
 #include "phononface.h"
 
@@ -38,8 +35,6 @@ class QSettings;
 class Preferences;
 class Translator;
 class MediaInfo;
-class QueueInterface;
-class Mplayer;
 
 
 class PhononFace;
@@ -54,13 +49,6 @@ namespace Global {
 
 	//! Translator (for changing language)
 	extern Translator * translator;
-
-        //! Playback Queue
-        extern QueueInterface *queue;
-
-
-        //! Yeaaas
-        extern Mplayer *mplayer;
 
 
         extern MediaInfo * mediainfo;

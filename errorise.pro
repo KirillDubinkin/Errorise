@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     paths.cpp \
     preferences.cpp \
     amplayer.cpp \
-    core.cpp \
     mediainfo.cpp \
     preferenceswindow.cpp \
     version.cpp \
@@ -30,12 +29,6 @@ SOURCES += main.cpp\
     simplegui.cpp \
     simpletoolbar.cpp \
     simplealbumlist.cpp \
-    interfaces/queueinterface.cpp \
-    mplayer/mplayerpreferences.cpp \
-    mplayer/mplayer.cpp \
-    mplayer/mplayerversion.cpp \
-    mplayer/mplayerprocess.cpp \
-    mplayer/myprocess.cpp \
     phononface.cpp \
     SimplePlaylist/simpleplaylist.cpp \
     SimplePlaylist/simpleplprefs.cpp
@@ -51,20 +44,12 @@ HEADERS  += \
     paths.h \
     amplayer.h \
     version.h \
-    core.h \
     mediainfo.h \
     preferenceswindow.h \
     helper.h \
     simplegui.h \
     simpletoolbar.h \
     simplealbumlist.h \
-    interfaces/queueinterface.h \
-    interfaces/playerinterface.h \
-    mplayer/mplayerpreferences.h \
-    mplayer/mplayer.h \
-    mplayer/mplayerversion.h \
-    mplayer/mplayerprocess.h \
-    mplayer/myprocess.h \
     phonon/phononface.h \
     phononface.h \
     SimplePlaylist/simpleplaylist.h \

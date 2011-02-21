@@ -2,7 +2,6 @@
 #define PHONONFACE_H
 
 #include <QObject>
-#include "interfaces/playerinterface.h"
 
 #include <Phonon/MediaObject>
 #include <Phonon/MediaSource>
