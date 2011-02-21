@@ -41,7 +41,7 @@ class PhononFace;
 
 namespace Global {
 
-        //! Read and store application setings
+        //! Read and store application settings
 	extern QSettings * settings;
 
 	//! Prefences
