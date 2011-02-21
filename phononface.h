@@ -8,6 +8,8 @@
 #include <Phonon/MediaSource>
 #include <Phonon/AudioOutput>
 #include <Phonon/Path>
+#include <Phonon/VolumeSlider>
+#include <Phonon/SeekSlider>
 
 
 class PhononFace : public QObject
@@ -20,8 +22,11 @@ public:
     QString currentTrack();
     int     currentGuid();
 
-    inline Phonon::AudioOutput * audioOutput() { return output;  }
-    inline Phonon::MediaObject * mediaObject() { return mobject; }
+    Phonon::VolumeSlider * volumeSlider(QWidget *parent = 0);
+    Phonon::SeekSlider   * seekSlider(QWidget *parent = 0);
+
+    //inline Phonon::AudioOutput * audioOutput() { return output;  }
+    //inline Phonon::MediaObject * mediaObject() { return mobject; }
 
 signals:
     void aboutToFinish();
@@ -53,9 +58,10 @@ private:
     bool isPreviousPlaying;
 
     Phonon::MediaSource        currentSource;
-        //! It's changes on trackChanged() signal,
+        //! It's changes before trackChanged() signal,
         //! that emited in sourceChange() function.
-        //! So, it can be used in sourceChange(), like 100% previous source.
+        //! So, it really current, and
+        //! it can be used in sourceChange(), like 100% previous source.
 
 
 private slots:

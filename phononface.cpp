@@ -11,6 +11,9 @@ PhononFace::PhononFace(QObject *parent) :
 {
     isPreviousPlaying = false;
 
+    //volSlider = 0;
+    //seekbarSlider = 0;
+
     output  = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     mobject = new Phonon::MediaObject(this);
 
@@ -178,3 +181,16 @@ void PhononFace::prev()
             mobject->enqueue(temp.takeFirst());
     }
 }
+
+
+Phonon::VolumeSlider * PhononFace::volumeSlider(QWidget *parent)
+{
+    return new Phonon::VolumeSlider(output, parent);
+}
+
+
+Phonon::SeekSlider * PhononFace::seekSlider(QWidget *parent)
+{
+    return new Phonon::SeekSlider(mobject, parent);
+}
+

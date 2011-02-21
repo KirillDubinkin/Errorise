@@ -214,7 +214,8 @@ void SimpleToolbar::initComponents()
 Phonon::SeekSlider * SimpleToolbar::seekbar()
 {
     if (seek_bar == 0) {
-        seek_bar = new Phonon::SeekSlider(player->mediaObject(), this);
+        //seek_bar = new Phonon::SeekSlider(player->mediaObject(), this);
+        seek_bar = player->seekSlider(this);
         seek_bar->setAttribute(Qt::WA_DeleteOnClose);
         seek_bar->setContextMenuPolicy(Qt::ActionsContextMenu);
 
@@ -236,7 +237,8 @@ void SimpleToolbar::hideSeekbar()
 Phonon::VolumeSlider * SimpleToolbar::vol()
 {
     if (volume == 0){
-        volume = new Phonon::VolumeSlider(player->audioOutput(), this);
+        //volume = new Phonon::VolumeSlider(player->audioOutput(), this);
+        volume = player->volumeSlider(this);
 /*
         volume->setMinimum(0);
         volume->setMaximum(100);
