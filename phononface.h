@@ -37,17 +37,26 @@ public slots:
     void stop();
     void seek(int sec);   //! If need a seek with slider, use Phonon::SeekSlider widget
     void next();
+    void prev();
 
     void enqueue(int guid);
     void enqueue(QList<int> guids);
-
 
     void printTick(qint64 tick);
 
 private:
     Phonon::MediaObject *mobject;
     Phonon::AudioOutput *output;
-    Phonon::Path        path;
+    Phonon::Path         path;
+
+    QList<Phonon::MediaSource> prevTracks;
+    bool isPreviousPlaying;
+
+    Phonon::MediaSource        currentSource;
+        //! It's changes on trackChanged() signal,
+        //! that emited in sourceChange() function.
+        //! So, it can be used in sourceChange(), like 100% previous source.
+
 
 private slots:
     void sourceChange(Phonon::MediaSource);

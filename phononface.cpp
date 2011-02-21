@@ -2,13 +2,15 @@
 #include "helper.h"
 
 #include "QTime"
+#include <QDebug>
 
 using namespace Phonon;
 
 PhononFace::PhononFace(QObject *parent) :
     QObject(parent)
 {
-    //source = 0;
+    isPreviousPlaying = false;
+
     output  = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     mobject = new Phonon::MediaObject(this);
 
@@ -17,6 +19,7 @@ PhononFace::PhononFace(QObject *parent) :
     mobject->setTickInterval(1000);
 
     connect(mobject, SIGNAL(aboutToFinish()), this, SIGNAL(aboutToFinish()));
+    connect(mobject, SIGNAL(aboutToFinish()), this, SLOT(addPreviosTrack()));
     connect(mobject, SIGNAL(finished()), this, SIGNAL(finished()));
     connect(mobject, SIGNAL(currentSourceChanged(Phonon::MediaSource)),
             this, SLOT(sourceChange(Phonon::MediaSource)));
@@ -36,7 +39,8 @@ void PhononFace::play(int guid)
 
         if (!mobject->queue().isEmpty())
         {
-            qDebug("queue: %s", mobject->queue().first().fileName().toUtf8().data());
+            //qDebug("queue: %s", mobject->queue().first().fileName().toUtf8().data());
+            //qDebug() << mobject->queue().first().fileName();
             mobject->setCurrentSource(mobject->queue().takeFirst());
             mobject->play();
         }
@@ -116,6 +120,19 @@ int PhononFace::currentGuid()
 
 void PhononFace::sourceChange(Phonon::MediaSource source)
 {
+    if (currentSource.type() != Phonon::MediaSource::Empty)
+    {
+            // In here, this->currentSource still contain previos track
+        if (!isPreviousPlaying)
+        {
+            prevTracks.append(currentSource);
+            qDebug() << "Added previous track:" << prevTracks.last().fileName();
+        }
+        isPreviousPlaying = false;
+    }
+
+    currentSource = source;
+
     emit trackChanged(source.fileName(), Helper().guidOf(source.fileName()));
 }
 
@@ -130,4 +147,34 @@ void PhononFace::next()
     }
 
     emit needNext();
+      //! We tells everyone, that we want
+      //! And maybe someone, like playlist, help us
+}
+
+
+void PhononFace::prev()
+{
+    if (!prevTracks.isEmpty())
+    {
+        mobject->stop();
+
+        QList<Phonon::MediaSource> temp;
+        temp.append(mobject->currentSource());
+            //! We add current, and all queue tracks to new queue
+
+        for (int i = 0; i < mobject->queue().size(); i++)
+            temp.append(mobject->queue().at(i));
+
+        mobject->clearQueue();
+
+        isPreviousPlaying = true;
+            //! It's changes to false on CurrentSourceChanged() signal
+            //! It's easy way, to avoid adding current-previos track to prevTracks
+
+        mobject->setCurrentSource(Phonon::MediaSource(prevTracks.takeLast().fileName()));
+        mobject->play();
+
+        while (!temp.isEmpty())
+            mobject->enqueue(temp.takeFirst());
+    }
 }

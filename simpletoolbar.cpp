@@ -316,6 +316,8 @@ QPushButton * SimpleToolbar::btnPrev()
         btn_prev = new QPushButton(QIcon(prefs->btnPrevIcon), prefs->btnPrevText);
         btn_prev->setMaximumSize(prefs->btnPrevWidth, prefs->btnHeight);
         btn_prev->setMinimumSize(btn_prev->maximumSize());
+
+        connect(btn_prev, SIGNAL(clicked()), player, SLOT(prev()));
     }
 
     return btn_prev;
