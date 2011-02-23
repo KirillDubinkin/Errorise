@@ -8,6 +8,7 @@
 #include <QList>
 
 #include "SimplePlaylist/simpleplprefs.h"
+#include "SimplePlaylist/simpleplaylistprefswindow.h"
 
 #include "helper.h"
 #include "global.h"
@@ -41,6 +42,8 @@ public slots:
 private:
     SimplePLPrefs * prefs;
     Helper * helper;
+    SimplePlaylistPrefsWindow  *prefsWindow;
+
     QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,
                               const QString &text = "");
 
@@ -61,11 +64,16 @@ private:
     bool findCurrentTrack(QString filename);
 
 
+    void createActions();
+
+
 private slots:
     void play(int row);
     void playNext();
     bool addNextTrack();
     void finished();
+
+    void showPreferences();
 
 
     //PlayerInterface *player;

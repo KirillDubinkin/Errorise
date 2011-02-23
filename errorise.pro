@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     simplealbumlist.cpp \
     phononface.cpp \
     SimplePlaylist/simpleplaylist.cpp \
-    SimplePlaylist/simpleplprefs.cpp
+    SimplePlaylist/simpleplprefs.cpp \
+    SimplePlaylist/simpleplaylistprefswindow.cpp
 
 HEADERS  += \
     tracks.h \
@@ -54,7 +55,8 @@ HEADERS  += \
     phononface.h \
     SimplePlaylist/simpleplaylist.h \
     SimplePlaylist/simpleplaylistpreferences.h \
-    SimplePlaylist/simpleplprefs.h
+    SimplePlaylist/simpleplprefs.h \
+    SimplePlaylist/simpleplaylistprefswindow.h
 
 FORMS    += \
     preferenceswindow.ui

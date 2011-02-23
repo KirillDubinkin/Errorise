@@ -7,6 +7,7 @@
 #include <QTextCodec>
 #include <QBrush>
 #include <QTimer>
+#include <QAction>
 
 #include <QDebug>
 
@@ -27,9 +28,11 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 {
     prefs = new SimplePLPrefs();
     helper = new Helper();
+    prefsWindow = 0;  // init only on show;
 
     this->horizontalHeader()->setVisible(prefs->show_header);
     this->verticalHeader()->setVisible(false);
+
     CoverColumn     = -1;
     LengthColumn    = -1;
     currentTrackRow = -1;
@@ -37,17 +40,12 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     this->setColumns();
     this->hideColumn(0);
 
+    this->createActions();
+
+
+
     connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
             this, SLOT(setTracksWithGroups(QList<int>)));
-
-    // connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
-    //        this, SLOT(setTracks(QList<int>)));
-
-
-    //player = Global::mplayer;
-    //connect(this, SIGNAL(cellDoubleClicked(int,int)), player, SLOT(play(int)));
-
-    //connect(this, SIGNAL(cellDoubleClicked(int,int)), player, SLOT(play(int)));
 
     connect(this, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(play(int)));
 
@@ -65,6 +63,28 @@ SimplePlaylist::~SimplePlaylist()
     delete prefs;
     delete helper;
 }
+
+
+void SimplePlaylist::createActions()
+{
+
+    QAction *act = new QAction(tr("Preferences..."), this);
+    //this->addAction(act);
+
+    connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
+
+
+}
+
+
+void SimplePlaylist::showPreferences()
+{
+    if (!prefsWindow)
+        prefsWindow = new SimplePlaylistPrefsWindow(this);
+
+    prefsWindow->show();
+}
+
 
 int SimplePlaylist::coverColumn()
 {
