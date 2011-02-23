@@ -129,7 +129,7 @@ void PhononFace::sourceChange(Phonon::MediaSource source)
         if (!isPreviousPlaying)
         {
             prevTracks.append(currentSource);
-            qDebug() << "Added previous track:" << prevTracks.last().fileName();
+            qDebug() << "PhononFace: Added previous track:" << prevTracks.last().fileName();
         }
         isPreviousPlaying = false;
     }

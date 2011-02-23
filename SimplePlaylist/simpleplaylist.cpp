@@ -233,8 +233,6 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
 {
     const QBrush &brush = this->palette().brush(QPalette::Base);
 
-    qDebug() << searchPath;
-
     if (!prefs->art_search_pattern.isEmpty())
     {
 
