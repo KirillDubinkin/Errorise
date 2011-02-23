@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <QTextCodec>
 #include <QBrush>
+#include <QTimer>
 
 #include <QDebug>
 
@@ -143,6 +144,8 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
     if (GUID.isEmpty())
         return;
 
+    this->currentTrackRow = -1;
+
     //! Clear. We don't know how many rows will be
     this->setRowCount(0);
     int groupRow = 0, row = 0, colCount = this->columnCount() - 1;
@@ -220,6 +223,9 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
 
     if (this->CoverColumn > -1)
         row = this->addCover(groupRow+1, row - groupRow, helper->filePath(GUID.last()));
+
+
+    QTimer::singleShot(0, this, SLOT(highlightCurrentTrack()));
 }
 
 
@@ -417,6 +423,16 @@ void SimplePlaylist::addRowLabel(int row, int col, const QString &text)
     this->setCellWidget(row, col+1, label);
 }
 
+
+void SimplePlaylist::highlightCurrentTrack()
+{
+    int guid = player->currentGuid();
+
+    if (guid == -1)
+        return;
+
+    this->highlightCurrentTrack(player->currentTrack(), guid);
+}
 
 void SimplePlaylist::highlightCurrentTrack(QString filename, int guid)
 {

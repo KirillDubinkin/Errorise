@@ -35,6 +35,7 @@ public slots:
 
 
     void highlightCurrentTrack(QString filename, int guid);
+    void highlightCurrentTrack();
     void defPlhighlight();
 
 private:
