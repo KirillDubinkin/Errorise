@@ -8,6 +8,8 @@
 #include <QBrush>
 #include <QTimer>
 #include <QAction>
+#include <QDialog>
+#include <QGridLayout>
 
 #include <QDebug>
 
@@ -67,22 +69,24 @@ SimplePlaylist::~SimplePlaylist()
 
 void SimplePlaylist::createActions()
 {
+    setContextMenuPolicy(Qt::ActionsContextMenu);
 
     QAction *act = new QAction(tr("Preferences..."), this);
-    //this->addAction(act);
-
+    addAction(act);
     connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
-
-
 }
 
 
 void SimplePlaylist::showPreferences()
 {
     if (!prefsWindow)
-        prefsWindow = new SimplePlaylistPrefsWindow(this);
+        prefsWindow = new SimplePlaylistPrefsWindow(prefs, this);
 
-    prefsWindow->show();
+    QDialog *dialog = new QDialog(this);
+    QGridLayout *l  = new QGridLayout(this);
+    l->addWidget(prefsWindow);
+    dialog->setLayout(l);
+    dialog->show();
 }
 
 

@@ -2,16 +2,35 @@
 #define SIMPLEPLAYLISTPREFSWINDOW_H
 
 #include <QWidget>
+#include <QTabWidget>
+#include <QLayout>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QListWidget>
+#include <QTextEdit>
+#include "SimplePlaylist/simpleplprefs.h"
 
-class SimplePlaylistPrefsWindow : public QWidget
+class SimplePlaylistPrefsWindow : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit SimplePlaylistPrefsWindow(QWidget *parent = 0);
+    explicit SimplePlaylistPrefsWindow(SimplePLPrefs *preferences, QWidget *parent = 0);
 
 signals:
 
 public slots:
+
+private:
+    SimplePLPrefs *prefs;
+
+    void createGeneral();
+    QCheckBox   *showHeader;
+    QCheckBox   *alternateColors;
+    QListWidget *artPatterns;
+    QListWidget *artFolders;
+    QTextEdit   *styleEdit;
+
+
 
 };
 

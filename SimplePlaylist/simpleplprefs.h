@@ -50,6 +50,7 @@ public:
     //! Other
     int row_height;
     QStringList art_search_pattern;
+    QString stylesheet;
     bool alternate_colors;
     bool show_header;
 
