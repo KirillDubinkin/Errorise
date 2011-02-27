@@ -9,6 +9,7 @@
 #include <QListWidget>
 #include <QTextEdit>
 #include "SimplePlaylist/simpleplprefs.h"
+#include <QFont>
 
 class SimplePlaylistPrefsWindow : public QTabWidget
 {
@@ -22,6 +23,8 @@ public slots:
 
 private:
     SimplePLPrefs *prefs;
+    QFont titleFont;
+
 
     void createGeneral();
     QCheckBox   *showHeader;
