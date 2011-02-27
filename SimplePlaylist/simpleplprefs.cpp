@@ -53,6 +53,7 @@ void SimplePLPrefs::reset()
 
     //! Other
     art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
+    art_search_folders << "art" << "artwork" << "covers";
     row_height = 14;
     alternate_colors = true;
     show_header = false;
@@ -118,6 +119,7 @@ void SimplePLPrefs::save()
     //! Other
     set.beginGroup("Other");
     set.setValue("art_search_pattern", art_search_pattern);
+    set.setValue("art_search_folders", art_search_folders);
     set.setValue("row_height", row_height);
     set.setValue("alternate_colors", alternate_colors);
     set.setValue("show_header", show_header);
@@ -190,6 +192,7 @@ void SimplePLPrefs::load()
     //! Other
     set.beginGroup("Other");
     art_search_pattern = set.value("art_search_pattern", art_search_pattern).toStringList();
+    art_search_folders = set.value("art_search_folders", art_search_folders).toStringList();
     row_height = set.value("row_height", row_height).toInt();
     alternate_colors = set.value("alternate_colors", alternate_colors).toBool();
     show_header = set.value("show_header", show_header).toBool();
