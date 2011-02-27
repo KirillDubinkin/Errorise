@@ -75,6 +75,9 @@ private slots:
 
     void showPreferences();
 
+    inline void setAlternatingRowColors(bool enable)
+        { QTableWidget::setAlternatingRowColors(enable); }
+
 
     //PlayerInterface *player;
 };

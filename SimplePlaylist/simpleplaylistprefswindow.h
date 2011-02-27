@@ -18,8 +18,12 @@ public:
     explicit SimplePlaylistPrefsWindow(SimplePLPrefs *preferences, QWidget *parent = 0);
 
 signals:
+    void showHeaderChanged(bool);
+    void useAlternateColorsChanged(bool);
 
-public slots:
+private slots:
+    void setShowHeader(bool show);
+    void setAlternateColors(bool b);
 
 private:
     SimplePLPrefs *prefs;
@@ -32,7 +36,6 @@ private:
     QListWidget *artPatterns;
     QListWidget *artFolders;
     QTextEdit   *styleEdit;
-
 
 
 };

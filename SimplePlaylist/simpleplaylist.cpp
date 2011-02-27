@@ -46,9 +46,12 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 
 
 
+//! MediaInfo
     connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
             this, SLOT(setTracksWithGroups(QList<int>)));
 
+
+//!  Player
     connect(this, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(play(int)));
 
     connect(player, SIGNAL(trackChanged(QString,int)),
@@ -57,6 +60,8 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     connect(player, SIGNAL(aboutToFinish()), this, SLOT(addNextTrack()));
     connect(player, SIGNAL(finished()), this, SLOT(finished()));
     connect(player, SIGNAL(needNext()), this, SLOT(playNext()));
+//! //////////////////////////////////////////////////////////////////////////
+
 
 }
 
@@ -80,7 +85,14 @@ void SimplePlaylist::createActions()
 void SimplePlaylist::showPreferences()
 {
     if (!prefsWindow)
+    {
         prefsWindow = new SimplePlaylistPrefsWindow(prefs, this);
+
+        connect(prefsWindow, SIGNAL(showHeaderChanged(bool)),
+                this->horizontalHeader(), SLOT(setVisible(bool)));
+        connect(prefsWindow, SIGNAL(useAlternateColorsChanged(bool)),
+                this, SLOT(setAlternateRowColors(bool)));
+    }
 
     QDialog *dialog = new QDialog(this);
     QGridLayout *l  = new QGridLayout(this);

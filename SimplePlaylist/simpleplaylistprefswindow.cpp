@@ -3,6 +3,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QHeaderView>
+#include <QDebug>
 
 SimplePlaylistPrefsWindow::SimplePlaylistPrefsWindow(SimplePLPrefs *preferences, QWidget *parent) :
     QTabWidget(parent)
@@ -23,9 +25,11 @@ void SimplePlaylistPrefsWindow::createGeneral()
 
     showHeader = new QCheckBox(tr("Show Header"));
     showHeader->setChecked(prefs->show_header);
+    connect(showHeader, SIGNAL(toggled(bool)), this, SLOT(setShowHeader(bool)));
 
     alternateColors = new QCheckBox(tr("Alternate Colors"));
     alternateColors->setChecked(prefs->alternate_colors);
+    connect(alternateColors, SIGNAL(toggled(bool)), this, SLOT(setAlternateColors(bool)));
 
     checkboxLayout->addWidget(showHeader, 0, 0);
     checkboxLayout->addWidget(alternateColors, 0, 1);
@@ -81,3 +85,15 @@ void SimplePlaylistPrefsWindow::createGeneral()
 }
 
 
+
+void SimplePlaylistPrefsWindow::setShowHeader(bool show)
+{
+    prefs->show_header = show;
+    emit showHeaderChanged(show);
+}
+
+void SimplePlaylistPrefsWindow::setAlternateColors(bool b)
+{
+    prefs->alternate_colors = b;
+    emit useAlternateColorsChanged(b);
+}
