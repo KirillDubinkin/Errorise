@@ -32,18 +32,15 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     helper = new Helper();
     prefsWindow = 0;  // init only on show;
 
-    this->horizontalHeader()->setVisible(prefs->show_header);
-    this->verticalHeader()->setVisible(false);
-
     CoverColumn     = -1;
     LengthColumn    = -1;
     currentTrackRow = -1;
 
-    this->setColumns();
-    this->hideColumn(0);
+    createActions();
+    loadSettings();
 
-    this->createActions();
-
+    setColumns();
+    hideColumn(0);
 
 
 //! MediaInfo
@@ -72,6 +69,14 @@ SimplePlaylist::~SimplePlaylist()
 }
 
 
+void SimplePlaylist::loadSettings()
+{
+    this->horizontalHeader()->setVisible(prefs->show_header);
+    this->verticalHeader()->setVisible(false);
+    this->setAlternatingRowColors(prefs->alternate_colors);
+    this->setStyleSheet(prefs->stylesheet);
+}
+
 void SimplePlaylist::createActions()
 {
     setContextMenuPolicy(Qt::ActionsContextMenu);
@@ -92,6 +97,8 @@ void SimplePlaylist::showPreferences()
                 this->horizontalHeader(), SLOT(setVisible(bool)));
         connect(prefsWindow, SIGNAL(useAlternateColorsChanged(bool)),
                 this, SLOT(setAlternateRowColors(bool)));
+        connect(prefsWindow, SIGNAL(styleEdited(QString)),
+                this, SLOT(setStyleSheet(QString)));
     }
 
     QDialog *dialog = new QDialog(this);

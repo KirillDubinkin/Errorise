@@ -20,10 +20,12 @@ public:
 signals:
     void showHeaderChanged(bool);
     void useAlternateColorsChanged(bool);
+    void styleEdited(const QString);
 
 private slots:
     void setShowHeader(bool show);
     void setAlternateColors(bool b);
+    void setPlStyleheet();
 
 private:
     SimplePLPrefs *prefs;

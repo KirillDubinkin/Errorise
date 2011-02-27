@@ -44,6 +44,8 @@ private:
     Helper * helper;
     SimplePlaylistPrefsWindow  *prefsWindow;
 
+    void loadSettings();
+
     QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,
                               const QString &text = "");
 
@@ -77,6 +79,7 @@ private slots:
 
     inline void setAlternatingRowColors(bool enable)
         { QTableWidget::setAlternatingRowColors(enable); }
+
 
 
     //PlayerInterface *player;

@@ -62,6 +62,7 @@ void SimplePlaylistPrefsWindow::createGeneral()
     styleLbl->setFont(titleFont);
 
     styleEdit = new QTextEdit(prefs->stylesheet);
+    connect(styleEdit, SIGNAL(textChanged()), this, SLOT(setPlStyleheet()));
 
     QVBoxLayout *styleLayout = new QVBoxLayout();
     styleLayout->addWidget(styleLbl);
@@ -96,4 +97,10 @@ void SimplePlaylistPrefsWindow::setAlternateColors(bool b)
 {
     prefs->alternate_colors = b;
     emit useAlternateColorsChanged(b);
+}
+
+void SimplePlaylistPrefsWindow::setPlStyleheet()
+{
+    prefs->stylesheet = styleEdit->toPlainText();
+    emit styleEdited(prefs->stylesheet);
 }
