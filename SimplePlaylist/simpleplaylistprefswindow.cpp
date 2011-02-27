@@ -40,16 +40,27 @@ void SimplePlaylistPrefsWindow::createGeneral()
 
 //!  Artwork
     artFolders = new QListWidget();
-    artFolders->addItems(prefs->art_search_folders);
+    artFolders->setEditTriggers(QAbstractItemView::DoubleClicked);
+    fillList(artFolders, prefs->art_search_folders, Qt::ItemIsEditable);
+
+    connect(artFolders, SIGNAL(itemChanged(QListWidgetItem*)),
+            this, SLOT(artFoldersChange(QListWidgetItem*)));
+
+
 
     artPatterns = new QListWidget();
-    artPatterns->addItems(prefs->art_search_pattern);
+    artPatterns->setEditTriggers(QAbstractItemView::DoubleClicked);
+    fillList(artPatterns, prefs->art_search_pattern, Qt::ItemIsEditable);
 
-    QLabel *artLable = new QLabel(tr("Artwork Search"));
-    artLable->setFont(titleFont);
+    connect(artPatterns, SIGNAL(itemChanged(QListWidgetItem*)),
+            this, SLOT(artPatternsChange(QListWidgetItem*)));
+
+
+    QLabel *artLabel = new QLabel(tr("Artwork Search"));
+    artLabel->setFont(titleFont);
 
     QGridLayout *artLayout = new QGridLayout();
-    artLayout->addWidget(artLable, 0, 0, 1, 2);
+    artLayout->addWidget(artLabel, 0, 0, 1, 2);
     artLayout->addWidget(artFolders, 1, 0);
     artLayout->addWidget(artPatterns, 1, 1);
 //! //////////////////////////////////////////////////////////
@@ -103,4 +114,26 @@ void SimplePlaylistPrefsWindow::setPlStyleheet()
 {
     prefs->stylesheet = styleEdit->toPlainText();
     emit styleEdited(prefs->stylesheet);
+}
+
+void SimplePlaylistPrefsWindow::artFoldersChange(QListWidgetItem *item)
+{
+    prefs->art_search_folders.replace(artFolders->row(item), item->text());
+    emit artSearchChanged();
+}
+
+void SimplePlaylistPrefsWindow::artPatternsChange(QListWidgetItem *item)
+{
+    prefs->art_search_pattern.replace(artPatterns->row(item), item->text());
+    emit artSearchChanged();
+}
+
+void SimplePlaylistPrefsWindow::fillList(QListWidget *list, const QStringList &strlist,
+                                         Qt::ItemFlags flags)
+{
+    foreach(QString str, strlist)
+    {
+        QListWidgetItem *item = new QListWidgetItem(str, list);
+        item->setFlags(item->flags() | flags);
+    }
 }

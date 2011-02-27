@@ -10,6 +10,7 @@
 #include <QTextEdit>
 #include "SimplePlaylist/simpleplprefs.h"
 #include <QFont>
+#include <QListWidgetItem>
 
 class SimplePlaylistPrefsWindow : public QTabWidget
 {
@@ -21,11 +22,14 @@ signals:
     void showHeaderChanged(bool);
     void useAlternateColorsChanged(bool);
     void styleEdited(const QString);
+    void artSearchChanged();
 
 private slots:
     void setShowHeader(bool show);
     void setAlternateColors(bool b);
     void setPlStyleheet();
+    void artFoldersChange(QListWidgetItem *item);
+    void artPatternsChange(QListWidgetItem *item);
 
 private:
     SimplePLPrefs *prefs;
@@ -38,6 +42,8 @@ private:
     QListWidget *artPatterns;
     QListWidget *artFolders;
     QTextEdit   *styleEdit;
+    void fillList(QListWidget *list, const QStringList &strlist,
+                  Qt::ItemFlags flags);
 
 
 };
