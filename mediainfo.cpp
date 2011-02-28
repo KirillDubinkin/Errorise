@@ -15,6 +15,9 @@ MediaInfo::MediaInfo(QObject *parent):
 {
     track = 0;
     minfo = new QProcess(this);
+    restarting = false;
+
+    connect(this, SIGNAL(filesGetted()), this, SLOT(startScan()));
 
     connect(minfo, SIGNAL(finished(int,QProcess::ExitStatus)),
             this, SLOT(readStdOut(int,QProcess::ExitStatus)));
@@ -29,6 +32,17 @@ MediaInfo::~MediaInfo(){
 
     if (track)
         delete [] track;
+}
+
+
+void MediaInfo::getFiles()
+{
+    recursiveDirs(path);
+
+    if (files.isEmpty())
+        return;
+
+    emit filesGetted();
 }
 
 
@@ -55,25 +69,40 @@ void MediaInfo::recursiveDirs(const QString &sDir)
 
 
 
-void MediaInfo::scanDir(const QString &path)
+void MediaInfo::scanDir(const QString &spath)
 {
     files.clear();
+    path = spath;
 
 #ifdef Q_OS_WIN
     qt_ntfs_permission_lookup++;
 #endif
 
     if (pref->recursive_dirs)
-        recursiveDirs(path);
+        QTimer::singleShot(0, this, SLOT(getFiles()));
     else
+    {
         files = QDir(path).entryList(pref->files_filter.split(";"),
                                             QDir::Files);
-    if (files.isEmpty())
-        return;
+        if (files.isEmpty())
+            return;
 
+        emit filesGetted();
+    }
+}
+
+
+void MediaInfo::startScan()
+{
+    if (minfo->isOpen())
+    {
+        restarting = true;
+        minfo->close();
+    }
 #ifdef Q_OS_WIN
     out.clear();
 
+    restarting = false;
     for (int i = 0; i < files.size(); i++)
     {
         minfo->start(pref->mediainfo_cli, files);
@@ -83,11 +112,10 @@ void MediaInfo::scanDir(const QString &path)
 
 #else
     minfo->start(pref->mediainfo_cli, files);
+    restarting = false;
         //! And we waiting 'closed' signal...
 #endif
-
 }
-
 
 
 #ifdef Q_OS_WIN
@@ -104,7 +132,8 @@ void MediaInfo::readStdOut(int, QProcess::ExitStatus exitStatus)
         QTimer::singleShot(0, this, SLOT(parceStdOut()));
     }
 
-    qWarning() << "MediaInfo crashed:\n" << minfo->errorString();
+    if (!restarting)
+        qWarning() << "MediaInfo crashed:\n" << exitStatus << endl;
 }
 #else
 
@@ -121,10 +150,11 @@ void MediaInfo::readStdOut(int, QProcess::ExitStatus exitStatus)
 
         out = QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
 
-        QTimer::singleShot(0, this, SLOT(parceStdOut()));
+        return QTimer::singleShot(0, this, SLOT(parceStdOut()));
     }
 
-    qWarning() << "MediaInfo crashed:\n" << minfo->errorString();
+    if (!restarting)
+        qWarning() << "MediaInfo crashed:\n" << exitStatus << endl;
 }
 #endif
 

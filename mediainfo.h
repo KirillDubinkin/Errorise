@@ -24,17 +24,23 @@ public:
 signals:
     void newTracksReceived(const QList<int> &GUID);
     void stdoutParsed();
+    void filesGetted();
 
 public slots:
-    void scanDir(const QString &path);
+    void scanDir(const QString &spath);
 
 private slots:
+    void getFiles();
+    void startScan();
     void readStdOut(int, QProcess::ExitStatus exitStatus);
     void parceStdOut();
     void takeGuids();
 
 private:
     QProcess *minfo;
+    QString path;
+
+    void recursiveDirs(const QString &sDir);
 
     QStringList out; //! stdout
     QString line;
@@ -42,9 +48,9 @@ private:
 
     QList<int> guid;  //! it allways contain a list of currently-used guids
 
-    void recursiveDirs(const QString &sDir);
     void parseDir();
     void parse(const QStringList &out, const QStringList &files);
+    bool restarting;
 
 };
 
