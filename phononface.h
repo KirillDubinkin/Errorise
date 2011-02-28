@@ -38,6 +38,7 @@ signals:
 public slots:
     void play(int guid = -1);
     void pause();
+    void playOrPause();
     void stop();
     void seek(int sec);   //! If need a seek with slider, use Phonon::SeekSlider widget
     void next();

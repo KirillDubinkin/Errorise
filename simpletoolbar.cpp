@@ -306,7 +306,7 @@ QPushButton * SimpleToolbar::btnPlayPause()
         btn_play_pause = new QPushButton(QIcon(prefs->btnPlayPauseIcon), prefs->btnPlayPauseText);
         btn_play_pause->setMaximumSize(prefs->btnPlayPauseWidth, prefs->btnHeight);
         btn_play_pause->setMinimumSize(btn_play_pause->maximumSize());
-        connect(btn_play_pause, SIGNAL(clicked()), player, SLOT(play()));
+        connect(btn_play_pause, SIGNAL(clicked()), player, SLOT(playOrPause()));
     }
 
     return btn_play_pause;

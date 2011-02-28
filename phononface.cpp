@@ -42,8 +42,6 @@ void PhononFace::play(int guid)
 
         if (!mobject->queue().isEmpty())
         {
-            //qDebug("queue: %s", mobject->queue().first().fileName().toUtf8().data());
-            //qDebug() << mobject->queue().first().fileName();
             mobject->setCurrentSource(mobject->queue().takeFirst());
             mobject->play();
         }
@@ -78,6 +76,15 @@ void PhononFace::pause()
     if (mobject->state() == Phonon::PausedState)
         return mobject->play();
     mobject->pause();
+}
+
+
+void PhononFace::playOrPause()
+{
+    if (mobject->state() == Phonon::PlayingState)
+        return mobject->pause();
+
+    this->play();
 }
 
 
