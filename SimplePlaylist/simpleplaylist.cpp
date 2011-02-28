@@ -42,6 +42,8 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     setColumns();
     hideColumn(0);
 
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+
 
 //! MediaInfo
     connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
