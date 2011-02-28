@@ -96,7 +96,7 @@ void SimplePlaylist::showPreferences()
         connect(prefsWindow, SIGNAL(showHeaderChanged(bool)),
                 this->horizontalHeader(), SLOT(setVisible(bool)));
         connect(prefsWindow, SIGNAL(useAlternateColorsChanged(bool)),
-                this, SLOT(setAlternateRowColors(bool)));
+                this, SLOT(setAlternatingRowColors(bool)));
         connect(prefsWindow, SIGNAL(styleEdited(QString)),
                 this, SLOT(setStyleSheet(QString)));
     }
