@@ -17,30 +17,30 @@ public:
 
     static int timeToSec(QString time);
 
-    MediaData *track;
-
-  //  QString format;
-  //  QString duration;
-  //  QString bitrate;
-
-  //  QString title;
+    MediaData *track;  //! Like a DataBase
 
     int numParsedFiles;
 
 signals:
     void newTracksReceived(const QList<int> &GUID);
+    void stdoutParsed();
 
 public slots:
     void scanDir(const QString &path);
 
+private slots:
+    void readStdOut(int, QProcess::ExitStatus exitStatus);
+    void parceStdOut();
+    void takeGuids();
+
 private:
     QProcess *minfo;
 
-    QStringList out;
+    QStringList out; //! stdout
     QString line;
     QStringList files;
 
-    QList<int> guid;
+    QList<int> guid;  //! it allways contain a list of currently-used guids
 
     void recursiveDirs(const QString &sDir);
     void parseDir();

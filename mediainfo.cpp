@@ -6,22 +6,29 @@
 #include <QTime>
 #include <QFileInfo>
 #include <QDir>
+#include <QTimer>
 
 using namespace Global;
 
 MediaInfo::MediaInfo(QObject *parent):
     QObject(parent)
 {
-    minfo = new QProcess;
-    track = new MediaData[1];
+    track = 0;
+    minfo = new QProcess(this);
+
+    connect(minfo, SIGNAL(finished(int,QProcess::ExitStatus)),
+            this, SLOT(readStdOut(int,QProcess::ExitStatus)));
+
+    connect(this, SIGNAL(stdoutParsed()), this, SLOT(takeGuids()));
 }
 
 
 MediaInfo::~MediaInfo(){
     if (minfo->isOpen())
         minfo->terminate();
-    delete minfo;
-    delete [] track;
+
+    if (track)
+        delete [] track;
 }
 
 
@@ -64,76 +71,78 @@ void MediaInfo::scanDir(const QString &path)
     if (files.isEmpty())
         return;
 
-    this->parseDir();
+#ifdef Q_OS_WIN
+    out.clear();
 
-    guid.clear();
-    for (int i = 0; i < numParsedFiles; i++)
-        guid.append(i);
+    for (int i = 0; i < files.size(); i++)
+    {
+        minfo->start(pref->mediainfo_cli, files);
+        minfo->waitForFinished();
+        out += QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
+    }
 
-    emit newTracksReceived(guid);
+#else
+    minfo->start(pref->mediainfo_cli, files);
+        //! And we waiting 'closed' signal...
+#endif
+
 }
 
 
-static QRegExp rx_audio("^Audio");
-static QRegExp rx_general("^General");
-static QRegExp rx_format("^Format  .*: (.*)");
-static QRegExp rx_duration("^Duration  .*: (.*)");
-static QRegExp rx_bit_rate("^Overall bit rate  .*: (.*)");
-static QRegExp rx_track_name("^Track name  .*: (.*)");
-static QRegExp rx_sample_rate("^Sampling rate .*: (.*)");
-static QRegExp rx_channels("^Channel.*: (.*) channels");
-static QRegExp rx_artist("^Performer .*: (.*)");
-static QRegExp rx_album("^Album .*: (.*)");
-static QRegExp rx_date("^Recorded date .*: (.*)");
-static QRegExp rx_genre("^Genre .*: (.*)");
-static QRegExp rx_tracknumber("^Track name/Position .*: (.*)");
-static QRegExp rx_album_artist("^ALBUM ARTIST .*: (.*)");
 
 #ifdef Q_OS_WIN
-void MediaInfo::parseDir()
+void MediaInfo::readStdOut(int, QProcess::ExitStatus exitStatus)
 {
-    if (!files.isEmpty()){
+    if (exitStatus == QProcess::NormalExit)
+    {
         numParsedFiles = files.size();
 
-        out.clear();
-
-        for (int i = 0; i < files.size(); i++)
-        {
-            minfo->start(pref->mediainfo_cli, QStringList() << files.at(i));
-            minfo->waitForFinished();
-            out += QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
-        }
-
-        delete [] track;
+        if (track)
+            delete [] track;
         track = new MediaData[numParsedFiles];
 
-        parse(out, files);
-
+        QTimer::singleShot(0, this, SLOT(parceStdOut()));
     }
+
+    qWarning() << "MediaInfo crashed:\n" << minfo->errorString();
 }
 #else
 
 
-void MediaInfo::parseDir()
+void MediaInfo::readStdOut(int, QProcess::ExitStatus exitStatus)
 {
-    numParsedFiles = files.size();
-    //minfo->setWorkingDirectory(dir);
-    minfo->start(pref->mediainfo_cli, files);
+    if (exitStatus == QProcess::NormalExit)
+    {
+        numParsedFiles = files.size();
 
-    delete [] track;
-    track = new MediaData[numParsedFiles];
+        if (track)
+            delete [] track;
+        track = new MediaData[numParsedFiles];
 
-    //minfo->waitForReadyRead();
+        out = QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
 
-    minfo->waitForFinished();
+        QTimer::singleShot(0, this, SLOT(parceStdOut()));
+    }
 
-    out = QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
+    qWarning() << "MediaInfo crashed:\n" << minfo->errorString();
+}
+#endif
 
-    //qDebug() << out.join("\n");
-    parse(out, files);
+
+void MediaInfo::takeGuids()
+{
+    guid.clear();
+
+    for (int i = 0; i < numParsedFiles; i++)
+        guid.append(i);
+
+    emit newTracksReceived(guid);
+
+#ifdef Q_OS_WIN
+    qt_ntfs_permission_lookup++;
+#endif
 }
 
-#endif
 
 int MediaInfo::timeToSec(QString time)
 {
@@ -153,7 +162,24 @@ int MediaInfo::timeToSec(QString time)
 }
 
 
-void MediaInfo::parse(const QStringList &out, const QStringList &files)
+
+static QRegExp rx_audio("^Audio");
+static QRegExp rx_general("^General");
+static QRegExp rx_format("^Format  .*: (.*)");
+static QRegExp rx_duration("^Duration  .*: (.*)");
+static QRegExp rx_bit_rate("^Overall bit rate  .*: (.*)");
+static QRegExp rx_track_name("^Track name  .*: (.*)");
+static QRegExp rx_sample_rate("^Sampling rate .*: (.*)");
+static QRegExp rx_channels("^Channel.*: (.*) channels");
+static QRegExp rx_artist("^Performer .*: (.*)");
+static QRegExp rx_album("^Album .*: (.*)");
+static QRegExp rx_date("^Recorded date .*: (.*)");
+static QRegExp rx_genre("^Genre .*: (.*)");
+static QRegExp rx_tracknumber("^Track name/Position .*: (.*)");
+static QRegExp rx_album_artist("^ALBUM ARTIST .*: (.*)");
+
+
+void MediaInfo::parceStdOut()
 {
     QString line;
     int id=-1;
@@ -297,4 +323,6 @@ void MediaInfo::parse(const QStringList &out, const QStringList &files)
 #endif
         }
     }
+
+    emit stdoutParsed();
 }
