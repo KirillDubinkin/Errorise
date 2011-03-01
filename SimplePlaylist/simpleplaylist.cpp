@@ -572,11 +572,31 @@ void SimplePlaylist::play(int row)
 
 bool SimplePlaylist::addNextTrack()
 {
-    if ( (currentTrackRow > -1) && (currentTrackRow+1 < rowCount()) )
+    int nextTrackRow = currentTrackRow + 1;
+
+
+    if ( (currentTrackRow > -1) && (nextTrackRow < rowCount()) ) //! If ok
     {
-        player->enqueue(item(currentTrackRow+1, 0)->text().toInt());
+        if (item(nextTrackRow, 0)->text() == GROUP)
+        {
+            player->enqueue(item(++nextTrackRow, 0)->text().toInt());
+            return 1;
+        }
+
+        if (item(nextTrackRow, 0)->text() == COVER)
+        {
+            if (++nextTrackRow < rowCount())       //! After cover may be only group
+                {                                      //! so, play group+1 row
+                    player->enqueue(item(++nextTrackRow, 0)->text().toInt());
+                    return 1;
+                }
+            return 0;
+        }
+
+        player->enqueue(item(nextTrackRow, 0)->text().toInt());
         return 1;
     }
+
     return 0;
 }
 
