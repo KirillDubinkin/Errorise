@@ -54,6 +54,7 @@ private:
 
 //! ------- Columns -----------------
     void createColumsTab();
+    QListWidget *colList;
 
 
 };
