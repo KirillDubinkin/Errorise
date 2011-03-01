@@ -13,11 +13,11 @@ SimplePlaylistPrefsWindow::SimplePlaylistPrefsWindow(SimplePLPrefs *preferences,
 
     titleFont.setBold(true);
 
-    this->createGeneral();
+    this->createGeneralTab();
 }
 
 
-void SimplePlaylistPrefsWindow::createGeneral()
+void SimplePlaylistPrefsWindow::createGeneralTab()
 {
 
 //!  Checkboxes
@@ -96,6 +96,11 @@ void SimplePlaylistPrefsWindow::createGeneral()
     this->addTab(widget, tr("General"));
 }
 
+
+void SimplePlaylistPrefsWindow::createColumsTab()
+{
+
+}
 
 
 void SimplePlaylistPrefsWindow::setShowHeader(bool show)

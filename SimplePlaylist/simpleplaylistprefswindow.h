@@ -43,7 +43,7 @@ private:
 
 
 //! ------- General -----------------
-    void createGeneral();
+    void createGeneralTab();
     QCheckBox   *showHeader;
     QCheckBox   *alternateColors;
     QListWidget *artPatterns;
@@ -53,6 +53,7 @@ private:
 
 
 //! ------- Columns -----------------
+    void createColumsTab();
 
 
 };
