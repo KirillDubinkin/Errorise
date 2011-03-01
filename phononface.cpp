@@ -22,7 +22,6 @@ PhononFace::PhononFace(QObject *parent) :
     mobject->setTickInterval(1000);
 
     connect(mobject, SIGNAL(aboutToFinish()), this, SIGNAL(aboutToFinish()));
-    connect(mobject, SIGNAL(aboutToFinish()), this, SLOT(addPreviosTrack()));
     connect(mobject, SIGNAL(finished()), this, SIGNAL(finished()));
     connect(mobject, SIGNAL(currentSourceChanged(Phonon::MediaSource)),
             this, SLOT(sourceChange(Phonon::MediaSource)));
