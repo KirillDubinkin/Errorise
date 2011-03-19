@@ -7,6 +7,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QMultiMap>
 
 class PMediaInfo : public QObject
 {
@@ -21,6 +22,7 @@ public:
 
 signals:
     void fileScaned();
+    void allFilesScanned(QMultiMap<QString, QMultiMap<QString, QString> > metaData);
 
 public slots:
 
@@ -33,6 +35,8 @@ private:
     Phonon::MediaObject *object;
     QStringList filenames;
     QString sourcePath;
+    QMultiMap<QString, QMultiMap<QString, QString> > meta;
+          //! filename, (TAG, Value);
 
 };
 

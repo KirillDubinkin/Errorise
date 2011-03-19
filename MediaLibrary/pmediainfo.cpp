@@ -9,8 +9,12 @@ PMediaInfo::PMediaInfo(QObject *parent) :
     QObject(parent)
 {
     object = new Phonon::MediaObject(this);
-    connect(object, SIGNAL(metaDataChanged()), this, SLOT(pringTags()));
+
+//    connect(object, SIGNAL(metaDataChanged()), this, SLOT(pringTags()));
+    connect(object, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
+            this, SLOT(pringTags()));
     connect(this, SIGNAL(fileScaned()), this, SLOT(scanNextFile()));
+
 }
 
 void PMediaInfo::scanFile(QString filename)
@@ -21,6 +25,7 @@ void PMediaInfo::scanFile(QString filename)
 void PMediaInfo::scanFiles(QStringList files)
 {
     filenames = files;
+    meta.clear();
     scanNextFile();
 }
 
@@ -55,8 +60,21 @@ void PMediaInfo::recursiveDirs(QString from)
 
 void PMediaInfo::pringTags()
 {
-    qDebug() << object->metaData("TRACKNUMBER") << object->metaData("TITLE");
-    emit fileScaned();
+    if ((object->state() == Phonon::StoppedState)
+        | (object->state() == Phonon::ErrorState))
+    {
+      //  qDebug() << object->metaData();
+
+        QMultiMap<QString, QString> temp = object->metaData();
+        QStringList format = object->currentSource().fileName().split(".");
+
+        temp.insert("DURATION", QString::number(object->totalTime()));
+        temp.insert("FORMAT", QString(format.last()).toUpper());
+
+        meta.insert(object->currentSource().fileName(), temp);
+
+        emit fileScaned();
+    }
 }
 
 
@@ -64,4 +82,6 @@ void PMediaInfo::scanNextFile()
 {
     if (filenames.size())
         scanFile(filenames.takeFirst());
+    else
+        emit allFilesScanned(meta);
 }

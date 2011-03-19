@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 QT       += phonon
-
+QT       += sql
 QT       += core gui
 
 #CONFIG  += static
@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     SimplePlaylist/simpleplaylist.cpp \
     SimplePlaylist/simpleplprefs.cpp \
     SimplePlaylist/simpleplaylistprefswindow.cpp \
-    MediaLibrary/pmediainfo.cpp
+    MediaLibrary/pmediainfo.cpp \
+    MediaLibrary/musiclibrary.cpp
 
 HEADERS  += \
     tracks.h \
@@ -58,7 +59,8 @@ HEADERS  += \
     SimplePlaylist/simpleplaylistpreferences.h \
     SimplePlaylist/simpleplprefs.h \
     SimplePlaylist/simpleplaylistprefswindow.h \
-    MediaLibrary/pmediainfo.h
+    MediaLibrary/pmediainfo.h \
+    MediaLibrary/musiclibrary.h
 
 FORMS    += \
     preferenceswindow.ui

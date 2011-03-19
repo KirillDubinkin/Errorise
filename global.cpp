@@ -35,6 +35,7 @@ Preferences     * Global::pref       = 0;
 Translator      * Global::translator = 0;
 MediaInfo       * Global::mediainfo  = 0;
 
+MusicLibrary    * Global::mlib       = 0;
 PhononFace      * Global::player     = 0;
 
 using namespace Global;
@@ -61,10 +62,12 @@ void Global::global_init(const QString & config_path) {
 	}
 
 	// Preferences
-        pref = new Preferences();
+        pref      = new Preferences();
         mediainfo = new MediaInfo();
 
-        player  = new PhononFace();
+        player    = new PhononFace();
+        mlib      = new MusicLibrary(pref->music_library_path,
+                                     pref->files_filter);
 
 
 }
@@ -75,6 +78,7 @@ void Global::global_end() {
         // delete
 
         delete player;
+        delete mlib;
 
         delete mediainfo;
 	delete pref;

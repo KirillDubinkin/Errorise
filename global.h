@@ -25,6 +25,7 @@
 #include "mediainfo.h"
 
 #include "phononface.h"
+#include "MediaLibrary/musiclibrary.h"
 
 // Some global objects
 
@@ -38,6 +39,7 @@ class MediaInfo;
 
 
 class PhononFace;
+class MusicLibrary;
 
 namespace Global {
 
@@ -53,8 +55,8 @@ namespace Global {
 
         extern MediaInfo * mediainfo;
 
-
-        extern PhononFace * player;
+        extern MusicLibrary *mlib;
+        extern PhononFace   *player;
 
 
 	void global_init(const QString & config_path);
