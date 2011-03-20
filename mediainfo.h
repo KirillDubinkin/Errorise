@@ -52,6 +52,7 @@ private:
     void parse(const QStringList &out, const QStringList &files);
     bool restarting;
 
+
 };
 
 #endif // MEDIAINFO_H

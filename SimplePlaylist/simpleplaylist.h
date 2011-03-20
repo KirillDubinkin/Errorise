@@ -29,7 +29,7 @@ signals:
 
 public slots:    
     void setColumns();
-    void setTracks(const QList<int> &GUID);
+    void setTracks();
     void setTracksWithGroups(const QList<int> &GUID);
 
 
@@ -41,6 +41,7 @@ private:
     SimplePLPrefs * prefs;
     Helper * helper;
     SimplePlaylistPrefsWindow  *prefsWindow;
+    QList<int> trackGuids;
 
     void loadSettings();
 
@@ -77,6 +78,8 @@ private slots:
 
     inline void setAlternatingRowColors(bool enable)
         { QTableWidget::setAlternatingRowColors(enable); }
+
+    void getNewTracks(QString tag, QString value);
 
 
 

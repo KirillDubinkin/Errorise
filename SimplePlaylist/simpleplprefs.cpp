@@ -41,9 +41,9 @@ void SimplePLPrefs::reset()
     columns_stylesheet << "" << "" << "" << "" << "" << "";
 
     //! Rows
-    rows_format << "%art%" << "%tracknumber%" << "%length%" << "%title%" << "%bitrate%" << "%codec%";
+    rows_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%bitrate%" << "%format%";
     rows_stylesheet << "" << "" << "" << "" << "" << "";
-    rows_playback_format << "%art%" << "%tracknumber%" << "%length%" << "%title%" << "%bitrate%" << "%codec%";
+    rows_playback_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%bitrate%" << "%format%";
     rows_playback_stylesheet << "" << "" << "" << "" << "" << "";
     labels = false;
 

@@ -10,6 +10,9 @@
 #include <QAction>
 #include <QDialog>
 #include <QGridLayout>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
+#include <QTimer>
 
 #include <QDebug>
 
@@ -49,6 +52,8 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
             this, SLOT(setTracksWithGroups(QList<int>)));
 
+    connect(mlib, SIGNAL(tracksSelectedBy(QString,QString)),
+            this, SLOT(getNewTracks(QString,QString)));
 
 //!  Player
     connect(this, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(play(int)));
@@ -148,36 +153,36 @@ void SimplePlaylist::setColumns()
 }
 
 
-void SimplePlaylist::setTracks(const QList<int> &GUID)
+void SimplePlaylist::setTracks()
 {
-    qDebug() << "PL:GUID.size" << GUID.size();
-    qDebug() << "ID's :" << GUID;
+    //qDebug() << "PL:GUID.size" << GUID.size();
+    //qDebug() << "ID's :" << GUID;
 
-    this->setRowCount(GUID.size());
+    this->setRowCount(trackGuids.size());
    // int row = -1;
 
     int colCount = this->columnCount() - 1;
 
     if (!prefs->labels){
             //! In this function row == idx, so
-        for (int idx = 0; idx < GUID.size(); idx++){
+        for (int idx = 0; idx < trackGuids.size(); idx++){
             this->setRowHeight(idx, prefs->row_height);
 
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
             this->setItem(idx, 0, index);
 
             for (int col = 0; col < colCount; col++)
-                this->addRowItem(idx, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
+                this->addRowItem(idx, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
         }
     } else {
-        for (int idx = 0; idx < GUID.size(); idx++){
+        for (int idx = 0; idx < trackGuids.size(); idx++){
             this->setRowHeight(idx, prefs->row_height);
 
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
             this->setItem(idx, 0, index);
 
             for (int col = 0; col < colCount; col++)
-                this->addRowLabel(idx, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
+                this->addRowLabel(idx, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
         }
     }
 }
@@ -614,5 +619,33 @@ void SimplePlaylist::playNext()
     {
         player->stop();
         player->play();
+    }
+}
+
+
+void SimplePlaylist::getNewTracks(QString tag, QString value)
+{
+    //QList<QMap<QMap<QString
+
+    QSqlQuery query(mlib->db);
+
+    if (query.exec("SELECT id FROM tracks "
+                   "WHERE " + tag + " LIKE '" + value + "%'"
+                   "ORDER BY filepath, filename"))
+    {
+        trackGuids.clear();
+
+        while (query.next())
+        {
+            trackGuids.append(query.value(0).toInt());
+            //qDebug() << query.value(0).toInt();
+        }
+
+        //QTimer::singleShot(0, this, SLOT(setTracks()));
+
+        this->setTracksWithGroups(trackGuids);
+
+    } else {
+        qWarning() << query.lastError();
     }
 }

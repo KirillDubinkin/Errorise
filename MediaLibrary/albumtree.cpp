@@ -107,7 +107,7 @@ void AlbumTree::mkFsTree(const QMap<QString, int> &map)
     {
         i.next();
         QString s = i.key();
-        qDebug() << s;
+        //qDebug() << s;
 
         if (list.size())
         {
@@ -158,7 +158,7 @@ QMap<QString, int> AlbumTree::firstNode()
     QString tag = ptrn.mid(0, ptrn.indexOf("/")).remove("%");
 
     QStringList tags = getTags(ptrn);
-    qDebug() << tags;
+    //qDebug() << tags;
 
     QSqlQuery query(mlib->db);
 
