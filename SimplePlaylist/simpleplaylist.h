@@ -30,7 +30,7 @@ signals:
 public slots:    
     void setColumns();
     void setTracks();
-    void setTracksWithGroups(const QList<int> &GUID);
+    void setTracksWithGroups();
 
 
     void highlightCurrentTrack(QString filename, int guid);

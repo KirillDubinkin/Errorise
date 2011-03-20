@@ -188,10 +188,10 @@ void SimplePlaylist::setTracks()
 }
 
 
-void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
+void SimplePlaylist::setTracksWithGroups()
 {
     //! Exit, if files not found, or somethink, to avoid empty group creation
-    if (GUID.isEmpty())
+    if (trackGuids.isEmpty())
         return;
 
     this->currentTrackRow = -1;
@@ -201,21 +201,21 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
     int groupRow = 0, row = 0, colCount = this->columnCount() - 1;
 
     //! Insert first group
-    QString prev = helper->parseLine(GUID.at(0), prefs->groups_format), current;
+    QString prev = helper->parseLine(trackGuids.at(0), prefs->groups_format), current;
     if (!prefs->group_labels)
         this->addGroupItem(row, prev);
     else
         this->addGroupLabel(row, prev);
 
     if (!prefs->labels) {
-        for (int idx = 0; idx < GUID.size(); idx++)
+        for (int idx = 0; idx < trackGuids.size(); idx++)
         {
-            current = helper->parseLine(GUID.at(idx), prefs->groups_format);
+            current = helper->parseLine(trackGuids.at(idx), prefs->groups_format);
 
             if (prev != current)
             { //! Insert cover to current group, and begin a new group
                 if (this->CoverColumn > -1)
-                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(GUID.at(idx-1)));
+                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.at(idx-1)));
 
                 if (!prefs->group_labels)
                     this->addGroupItem(++row, current);
@@ -227,28 +227,28 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
 
             this->insertRow(++row);
             this->setRowHeight(row, prefs->row_height);
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
             this->setItem(row, 0, index);
 
             for (int col = 0; col < colCount; col++)
                 if (this->CoverColumn-1 != col)
-                    this->addRowItem(row, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
+                    this->addRowItem(row, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
 
             prev = current;
         }
     }
 
     //! Do the same, except this->addRowLabel;
-    //! The whole algorithm is written twice, because otherwise this test will be called (columnCount * GUID.size()) times
+    //! The whole algorithm is written twice, because otherwise this test will be called (columnCount * trackGuids.size()) times
     else {
-        for (int idx = 0; idx < GUID.size(); idx++)
+        for (int idx = 0; idx < trackGuids.size(); idx++)
         {
-            current = helper->parseLine(GUID.at(idx), prefs->groups_format);
+            current = helper->parseLine(trackGuids.at(idx), prefs->groups_format);
 
             if (prev != current)
             { //! Insert cover to current group, and begin a new group
                 if (this->CoverColumn > -1)
-                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(GUID.at(idx-1)));
+                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.at(idx-1)));
 
                 if (!prefs->group_labels)
                     this->addGroupItem(++row, current);
@@ -260,19 +260,19 @@ void SimplePlaylist::setTracksWithGroups(const QList<int> &GUID)
 
             this->insertRow(++row);
             this->setRowHeight(row, prefs->row_height);
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(GUID.at(idx)));
+            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
             this->setItem(row, 0, index);
 
             for (int col = 0; col < colCount; col++)
                 if (this->CoverColumn-1 != col)
-                    this->addRowItem(row, col, helper->parseLine(GUID.at(idx), prefs->rows_format.at(col)));
+                    this->addRowItem(row, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
 
             prev = current;
         }
     }
 
     if (this->CoverColumn > -1)
-        row = this->addCover(groupRow+1, row - groupRow, helper->filePath(GUID.last()));
+        row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.last()));
 
 
     QTimer::singleShot(0, this, SLOT(highlightCurrentTrack()));
@@ -641,9 +641,9 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
             //qDebug() << query.value(0).toInt();
         }
 
-        //QTimer::singleShot(0, this, SLOT(setTracks()));
+        QTimer::singleShot(0, this, SLOT(setTracksWithGroups()));
 
-        this->setTracksWithGroups(trackGuids);
+        //this->setTracksWithGroups(trackGuids);
 
     } else {
         qWarning() << query.lastError();
