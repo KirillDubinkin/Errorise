@@ -22,10 +22,14 @@ public:
     QString       libraryPath();
     QSqlDatabase  db;
 
+    void selectTracksBy(QString tag, QString value);
+
 signals:
     void readyToWork();
+    void tracksSelectedBy(QString tag, QString value);
 
 public slots:
+
 
 
 private slots:

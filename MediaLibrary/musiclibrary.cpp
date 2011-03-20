@@ -171,3 +171,9 @@ bool MusicLibrary::isReady()
 {
     return ready;
 }
+
+
+void MusicLibrary::selectTracksBy(QString tag, QString value)
+{
+    emit tracksSelectedBy(tag, value);
+}

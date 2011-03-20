@@ -31,7 +31,17 @@ static QRegExp rx_tag("%([a-z]*)%");
 
 void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
 {
-    emit this->selectedTracksChanged(getTags(ptrn).at(0), cur->text(0));
+    QStringList list;
+    list.append(cur->text(0));
+    while (cur->parent())
+    {
+        cur = cur->parent();
+        list.insert(0, cur->text(0));
+    }
+    QString s = list.join(QDir::separator());
+    s.insert(0, mlib->libraryPath());
+
+    mlib->selectTracksBy(getTags(ptrn).at(0), s);
 }
 
 

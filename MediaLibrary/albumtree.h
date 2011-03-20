@@ -17,7 +17,7 @@ public:
     explicit AlbumTree(QWidget *parent = 0);
 
 signals:
-    void selectedTracksChanged(QString tag, QString value);
+   // void selectedTracksChanged(QString tag, QString value);
 
 public slots:
 
