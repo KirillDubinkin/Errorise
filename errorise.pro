@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     SimplePlaylist/simpleplprefs.cpp \
     SimplePlaylist/simpleplaylistprefswindow.cpp \
     MediaLibrary/pmediainfo.cpp \
-    MediaLibrary/musiclibrary.cpp
+    MediaLibrary/musiclibrary.cpp \
+    MediaLibrary/albumtree.cpp
 
 HEADERS  += \
     tracks.h \
@@ -60,7 +61,8 @@ HEADERS  += \
     SimplePlaylist/simpleplprefs.h \
     SimplePlaylist/simpleplaylistprefswindow.h \
     MediaLibrary/pmediainfo.h \
-    MediaLibrary/musiclibrary.h
+    MediaLibrary/musiclibrary.h \
+    MediaLibrary/albumtree.h
 
 FORMS    += \
     preferenceswindow.ui

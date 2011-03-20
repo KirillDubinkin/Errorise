@@ -10,6 +10,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
                            QObject *parent) :
     QObject(parent)
 {
+    ready = false;
     sumFiles = 0;
 
     if (openDb())
@@ -32,6 +33,9 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
                 db.transaction();
                 fillDb(libPath);
             }
+        } else {
+            ready = true;
+            emit readyToWork();
         }
     }
 }
@@ -54,6 +58,7 @@ bool MusicLibrary::createTagsTable()
 {
     QString s("CREATE TABLE tracks(");
     s.append("id INTEGER PRIMARY KEY AUTOINCREMENT,");
+    s.append("filepath TEXT,");
     s.append("filename TEXT,");
     s.append("artist TEXT,");
     s.append("album TEXT,");
@@ -75,7 +80,7 @@ bool MusicLibrary::createTagsTable()
 
 void MusicLibrary::fillDb(QString fromPath)
 {
-   // qDebug() << "MusLib::fillDb() fromPath:" << fromPath;
+    //qDebug() << "MusLib::fillDb() fromPath:" << fromPath;
 
     QDir dir(fromPath);
     QFileInfoList list = dir.entryInfoList(fileFilters.split(";"),
@@ -120,6 +125,9 @@ void MusicLibrary::insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString
                 << "time: " << timer.elapsed() << "msec\n";
         bool ok = db.commit();
         qDebug() << "Commit:" << ok << "\tTime:" << timer.elapsed() << "msec";
+
+        ready = true;
+        emit readyToWork();
     }
 
 }
@@ -128,11 +136,16 @@ void MusicLibrary::insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString
 void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tags)
 {
     QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("INSERT INTO tracks (filename, artist, album, albumartist,"
+    query->prepare("INSERT INTO tracks (filepath, filename, artist, album, albumartist,"
                    "title, date, tracknumber, genre, duration, format,"
                    "description, other)"
-                   "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    query->addBindValue(filename);
+                   "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    QStringList path = filename.split(QDir::separator());
+    path.removeLast();
+    query->addBindValue(path.join(QDir::separator()));
+
+    query->addBindValue(filename.remove(path.join(QDir::separator())));
     query->addBindValue(tags.value("ARTIST"));
     query->addBindValue(tags.value("ALBUM"));
     query->addBindValue(tags.value("ALBUMARTIST"));
@@ -146,4 +159,15 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
     query->addBindValue(tags.value("OTHER"));
 
     query->exec();
+}
+
+
+QString MusicLibrary::libraryPath()
+{
+    return libPath;
+}
+
+bool MusicLibrary::isReady()
+{
+    return ready;
 }

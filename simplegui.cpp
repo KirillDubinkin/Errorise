@@ -13,11 +13,13 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
     toolbar = new SimpleToolbar(this);
     pl = new SimplePlaylist(this);
-    alist = new SimpleAlbumlist(this);
+//    alist = new SimpleAlbumlist(this);
+    tree = new AlbumTree(this);
 
 
     QHBoxLayout *hl = new QHBoxLayout(this);
-    hl->addWidget(alist, 30);
+    //hl->addWidget(alist, 30);
+    hl->addWidget(tree, 34);
     hl->addWidget(pl, 70);
 
     this->mainLayout->setMenuBar(toolbar);
@@ -27,7 +29,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     this->setGeometry(pref->x, pref->y, pref->res_main_width, pref->res_main_height);
 
 
-    connect(alist, SIGNAL(directoryChanged(QString)), mediainfo, SLOT(scanDir(QString)));
+    //connect(alist, SIGNAL(directoryChanged(QString)), mediainfo, SLOT(scanDir(QString)));
 }
 
 SimpleGUI::~SimpleGUI()

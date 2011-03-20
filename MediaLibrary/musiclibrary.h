@@ -17,7 +17,13 @@ public:
     explicit MusicLibrary(const QString &libPath = "",
                           const QString &filters = "", QObject *parent = 0);
 
+    bool isReady();
+
+    QString       libraryPath();
+    QSqlDatabase  db;
+
 signals:
+    void readyToWork();
 
 public slots:
 
@@ -26,12 +32,13 @@ private slots:
     void insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString> > meta);
 
 private:
-    QSqlDatabase     db;
     PMediaInfo       *minfo;
     QString          fileFilters;
     QString          libPath;
     QQueue<QString>  dirs;
     QStringList      files;
+
+    bool ready;
 
     int sumFiles;
     QTime timer;

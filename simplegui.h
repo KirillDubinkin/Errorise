@@ -11,6 +11,8 @@
 #include "simpletoolbar.h"
 #include "simplealbumlist.h"
 
+#include "MediaLibrary/albumtree.h"
+
 using namespace Global;
 
 class SimpleGUI : public QDialog
@@ -33,7 +35,7 @@ private:
     SimpleToolbar *toolbar;
     SimpleAlbumlist *alist;
 
-
+    AlbumTree *tree;
 };
 
 #endif // SIMPLEGUI_H
