@@ -57,9 +57,9 @@ QString Helper::parseLine(const int GUID, QString pattern)
         }
         s.remove("%");
 
-    }/* else {
+    } else {
         qWarning() << query.lastError();
-    }*/
+    }
 
     return s;
 }
@@ -159,6 +159,8 @@ QString Helper::filePath(const int GUID)
 
 int Helper::guidOf(QString filename)
 {
+    filename.replace("'", "''");
+
     QStringList path = filename.split(QDir::separator());
     path.removeLast();
 

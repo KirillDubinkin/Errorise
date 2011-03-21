@@ -629,6 +629,8 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
 
     QSqlQuery query(mlib->db);
 
+    value.replace("'", "''");
+
     if (query.exec("SELECT id FROM tracks "
                    "WHERE " + tag + " LIKE '" + value + "%'"
                    "ORDER BY filepath, filename"))
