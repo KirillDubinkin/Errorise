@@ -13,6 +13,7 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QTimer>
+#include <QTableWidgetSelectionRange>
 
 #include <QDebug>
 
@@ -88,9 +89,35 @@ void SimplePlaylist::createActions()
 {
     setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    QAction *act = new QAction(tr("Preferences..."), this);
+    QAction *act;
+
+    act = new QAction(tr("Add to playback queue"), this);
+    addAction(act);
+    connect(act, SIGNAL(triggered()), this, SLOT(addToQueue()));
+
+    act = new QAction(this);
+    act->setSeparator(true);
+    addAction(act);
+
+    act = new QAction(tr("Preferences..."), this);
     addAction(act);
     connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
+}
+
+
+void SimplePlaylist::addToQueue()
+{
+    QList<QTableWidgetSelectionRange> ranges = selectedRanges();
+
+    foreach(QTableWidgetSelectionRange range, ranges)
+    {
+        for (int row = range.topRow(); row <= range.bottomRow(); row++)
+        {
+            QString s = item(row, 0)->text();
+            if ((s != GROUP) && (s != COVER))
+                player->enqueue(item(row, 0)->text().toInt());
+        }
+    }
 }
 
 
