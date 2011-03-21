@@ -26,7 +26,7 @@
 #include <QStringList>
 #include <QSize>
 #include <QPalette>
-#include "config.h"
+//#include "config.h"
 //#include "audioequalizerlist.h"
 //#include "assstyles.h"
 

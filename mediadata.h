@@ -24,7 +24,7 @@
 //#include "tracks.h"
 //  #include "subtracks.h"
 //  #include "titletracks.h"
-#include "config.h"
+//#include "config.h"
 
 #include <QString>
 #include <QSettings>
