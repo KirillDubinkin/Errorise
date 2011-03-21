@@ -28,9 +28,7 @@ private slots:
 private:
     QStringList getTags(QString pattern);
     QMap<QString, int> firstNode();
-    void mkFsTree(const QMap<QString, int> &map);
-
-    void addNode(QList<QStringList> list);
+    void mkTree(const QMap<QString, int> &map);
 
 private:
     QString ptrn;

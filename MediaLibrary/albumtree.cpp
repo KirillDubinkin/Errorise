@@ -14,7 +14,7 @@ AlbumTree::AlbumTree(QWidget *parent) :
     QTreeWidget(parent)
 {
     this->header()->setVisible(false);
-    //ptrn = "%filepath%/%artist%/[%date%] %album%";
+    //ptrn = "%genre%/%artist%/[%date%] %album%";
     ptrn = "%filepath%";
 
     if (mlib->isReady())
@@ -39,7 +39,7 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
         list.insert(0, cur->text(0));
     }
     QString s = list.join(QDir::separator());
-    s.insert(0, mlib->libraryPath());
+    s.insert(0, mlib->libraryPath() + QDir::separator());
 
     mlib->selectTracksBy(getTags(ptrn).at(0), s);
 }
@@ -49,108 +49,80 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
 void AlbumTree::fillTree()
 {
     QMap<QString, int> map = firstNode();
-
-   // if (ptrn.contains("filepath"))
-   // {
-        mkFsTree(map);
-   // }
-
-}
-
-/*
-void AlbumTree::addNode(QList<QStringList> list)
-{
-    for (int i = 0; i < list.size(); i++)
-    {
-        QStringList srt  = list.at(i);
-        QStringList prev = list.at(i-1);
-
-        for (int j = 0; j < prev.size(); j++)
-        {
-
-        }
-    }
+    this->mkTree(map);
 }
 
 
-void AlbumTree::addNode(QList<QStringList> list)
-{
-    QList<QStringList> treeList;
-    int iTree = 1;
 
-    treeList.append(list.first());
-
-    for (int l = 1; l < list.size(); l++)
-    {
-        QStringList str = list.at(l);
-        QStringList prev = list.at(l-1);
-
-        for (int i = 0; i < str.size(); i++)
-        {
-            if (i < prev.size())
-            {
-                if (str.at(i) != prev.at(i))
-
-            }
-        }
-    }
-}
-*/
-
-void AlbumTree::mkFsTree(const QMap<QString, int> &map)
+void AlbumTree::mkTree(const QMap<QString, int> &map)
 {
     QMapIterator<QString, int> i(map);
-
     QList<QTreeWidgetItem *> list;
+
+    QTreeWidgetItem *item;
+
+    i.next();
+    QString key = i.key();
+
+    item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf(QDir::separator()))));
+    list.append(item);
+    key.remove(0, item->text(0).size() + 1);
+
+    while (!key.isEmpty())
+    {
+        QString temp = key.mid(0, key.indexOf(QDir::separator()));
+        QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
+        item->addChild(itm);
+        item = itm;
+        key.remove(0, temp.size() + 1);
+    }
+
 
     while (i.hasNext())
     {
         i.next();
-        QString s = i.key();
-        //qDebug() << s;
+        key = i.key();
+        item = list.at(list.size() - 1);
 
-        if (list.size())
+        if (key.mid(0, key.indexOf(QDir::separator())).contains(item->text(0)))
         {
-            QTreeWidgetItem *item = list.at(list.size()-1);
-
-            while (s.contains(item->text(0)))
+            while (key.mid(0, key.indexOf(QDir::separator())).contains(item->text(0)))
             {
-                s.remove(item->text(0));
-                if (s.at(0) == QDir::separator())
-                    s.remove(0, 1);
+              //  key.remove(0, item->text(0).size() + 1);
+                key.remove(0, item->text(0).size());
+                if (key.at(0) == QDir::separator())
+                    key.remove(0, 1);
+
                 if (item->childCount())
-                    item = item->child(item->childCount()-1);
+                    item = item->child(item->childCount() - 1);
                 else
                     break;
             }
 
-
             if (item->parent())
                 item = item->parent();
-
-
-            while (!s.isEmpty())
-            {
-                QString t = s.mid(0, s.indexOf(QDir::separator()));
-                QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(t));
-                item->addChild(itm);
-                item = itm;
-                s.remove(0, t.size()+1);
-            }
-
         }
         else
         {
-            QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(s.mid(0, s.indexOf(QDir::separator()))));
+            item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf(QDir::separator()))));
             list.append(item);
-            s.remove(item->text(0) + QDir::separator());
+            key.remove(0, item->text(0).size() + 1);
+        }
+
+
+        while (!key.isEmpty())
+        {
+            QString temp = key.mid(0, key.indexOf(QDir::separator()));
+            QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
+            item->addChild(itm);
+            item = itm;
+            key.remove(0, temp.size() + 1);
         }
     }
+
     this->invisibleRootItem()->addChildren(list);
-
-
-//    this->addTopLevelItems(list);
 }
+
 
 
 QMap<QString, int> AlbumTree::firstNode()
@@ -162,7 +134,8 @@ QMap<QString, int> AlbumTree::firstNode()
 
     QSqlQuery query(mlib->db);
 
-    if (query.exec("SELECT " + tags.join(", ") + " FROM tracks"))
+    if (query.exec("SELECT " + tags.join(", ") + " FROM tracks "
+                   "ORDER BY " + tags.join(", ")))
     {
         QMap<QString, int> map;
 
@@ -172,7 +145,7 @@ QMap<QString, int> AlbumTree::firstNode()
 
             while (query.next())
                 map.insert(query.value(0).toString().remove(s) + QDir::separator(), 0);
-            map.remove(mlib->libraryPath());
+            map.remove(mlib->libraryPath() + QDir::separator());
         }
         else
         {
@@ -182,7 +155,10 @@ QMap<QString, int> AlbumTree::firstNode()
 
                 for (int i = 0; i < tags.size(); i++)
                 {
-                    s.replace(tags.at(i), query.value(i).toString());
+                    if (!query.value(i).toString().isEmpty())
+                        s.replace(tags.at(i), query.value(i).toString());
+                    else
+                        s.replace(tags.at(i), tr(QString("Unknown " + tags.at(i)).toUtf8().data()));
                 }
                 s.remove("%");
                 s.append(QDir::separator());
@@ -194,6 +170,9 @@ QMap<QString, int> AlbumTree::firstNode()
         return map;
     }
     qWarning() << query.lastError();
+
+    QMap<QString, int> map;
+    return map;
 }
 
 
