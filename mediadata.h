@@ -21,7 +21,7 @@
 
 /* Here we store some volatile info about the file we need to remember */
 
-#include "tracks.h"
+//#include "tracks.h"
 //  #include "subtracks.h"
 //  #include "titletracks.h"
 #include "config.h"
@@ -58,7 +58,7 @@ public:
 
 	void list();
 
-        Tracks audios;
+       // Tracks audios;
 
 	// Clip info
         QString album_artist;

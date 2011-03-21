@@ -35,7 +35,6 @@ void MediaData::reset() {
     type = TYPE_UNKNOWN;
     duration=0;
 
-    audios.clear();
     initialized=false;
 
 	// Clip info;
@@ -101,7 +100,6 @@ void MediaData::list() {
 
         qDebug("  Videos:");
 	qDebug("  Audios:");
-	audios.list();
 
         qDebug("  Titles:");
 

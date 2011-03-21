@@ -14,10 +14,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    tracks.cpp \
     mediadata.cpp \
     global.cpp \
-    colorutils.cpp \
     translator.cpp \
     paths.cpp \
     preferences.cpp \
@@ -38,12 +36,9 @@ SOURCES += main.cpp\
     MediaLibrary/albumtree.cpp
 
 HEADERS  += \
-    tracks.h \
     mediadata.h \
-    config.h \
     global.h \
     preferences.h \
-    colorutils.h \
     translator.h \
     paths.h \
     amplayer.h \
