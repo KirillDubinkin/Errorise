@@ -127,7 +127,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
 
 QMap<QString, int> AlbumTree::firstNode()
 {
-    QString tag = ptrn.mid(0, ptrn.indexOf("/")).remove("%");
+    QString tag = ptrn;
 
     QStringList tags = getTags(ptrn);
     //qDebug() << tags;
