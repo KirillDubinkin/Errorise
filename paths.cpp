@@ -32,25 +32,16 @@
 QString Paths::app_path;
 QString Paths::config_path;
 
+
 void Paths::setAppPath(QString path) {
 	app_path = path;
 }
+
 
 QString Paths::appPath() {
 	return app_path;
 }
 
-QString Paths::dataPath() {
-#ifdef DATA_PATH
-	QString path = QString(DATA_PATH);
-	if (!path.isEmpty())
-		return path;
-	else
-		return appPath();
-#else
-	return appPath();
-#endif
-}
 
 QString Paths::translationPath() {
 #ifdef TRANSLATION_PATH
@@ -64,69 +55,17 @@ QString Paths::translationPath() {
 #endif
 }
 
-QString Paths::docPath() {
-#ifdef DOC_PATH
-	QString path = QString(DOC_PATH);
-	if (!path.isEmpty())
-		return path;
-	else
-		return appPath() + "/docs";
-#else
-	return appPath() + "/docs";
-#endif
-}
-
-QString Paths::themesPath() {
-#ifdef THEMES_PATH
-	QString path = QString(THEMES_PATH);
-	if (!path.isEmpty())
-		return path;
-	else
-		return appPath() + "/themes";
-#else
-	return appPath() + "/themes";
-#endif
-}
-
-QString Paths::shortcutsPath() {
-#ifdef SHORTCUTS_PATH
-	QString path = QString(SHORTCUTS_PATH);
-	if (!path.isEmpty())
-		return path;
-	else
-		return appPath() + "/shortcuts";
-#else
-	return appPath() + "/shortcuts";
-#endif
-}
 
 QString Paths::qtTranslationPath() {
 	return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 }
 
-QString Paths::doc(QString file, QString locale) {
-	if (locale.isEmpty()) {
-		locale = QLocale::system().name();
-	}
 
-	QString f = docPath() + "/" + locale + "/" + file;
-	qDebug("Helper:doc: checking '%s'", f.toUtf8().data());
-	if (QFile::exists(f)) return f;
-
-	if (locale.indexOf(QRegExp("_[A-Z]+")) != -1) {
-		locale.replace(QRegExp("_[A-Z]+"), "");
-		f = docPath() + "/" + locale + "/" + file;
-		qDebug("Helper:doc: checking '%s'", f.toUtf8().data());
-		if (QFile::exists(f)) return f;
-	}
-
-	f = docPath() + "/en/" + file;
-	return f;
-}
 
 void Paths::setConfigPath(QString path) {
 	config_path = path;
 }
+
 
 QString Paths::configPath() {
 	if (!config_path.isEmpty()) {
@@ -150,6 +89,7 @@ QString Paths::configPath() {
 #endif
 	}
 }
+
 
 QString Paths::iniPath() {
 	return configPath();
