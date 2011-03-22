@@ -7,7 +7,7 @@
 
 
 SimpleGUI::SimpleGUI(QWidget *parent) :
-    QDialog(parent)
+    QWidget(parent)
 {
     mainLayout = new QVBoxLayout();
     mainLayout->setMargin(0);
@@ -27,7 +27,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
     this->setLayout(this->mainLayout);
     this->setGeometry(pref->x, pref->y, pref->res_main_width, pref->res_main_height);
-
+    this->setWindowFlags(Qt::Window);
 }
 
 SimpleGUI::~SimpleGUI()

@@ -1,7 +1,7 @@
 #ifndef SIMPLEGUI_H
 #define SIMPLEGUI_H
 
-#include <QDialog>
+#include <QWidget>
 #include <QMenu>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -13,7 +13,7 @@
 
 using namespace Global;
 
-class SimpleGUI : public QDialog
+class SimpleGUI : public QWidget
 {
     Q_OBJECT
 public:
