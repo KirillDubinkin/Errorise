@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     MediaLibrary/pmediainfo.cpp \
     MediaLibrary/musiclibrary.cpp \
     MediaLibrary/albumtree.cpp \
-    SimpleToolbar/simpletoolbar.cpp
+    SimpleToolbar/simpletoolbar.cpp \
+    SimpleToolbar/simpletoolbarprefs.cpp
 
 HEADERS  += \
     mediadata.h \
@@ -56,7 +57,8 @@ HEADERS  += \
     MediaLibrary/pmediainfo.h \
     MediaLibrary/musiclibrary.h \
     MediaLibrary/albumtree.h \
-    SimpleToolbar/simpletoolbar.h
+    SimpleToolbar/simpletoolbar.h \
+    SimpleToolbar/simpletoolbarprefs.h
 
 FORMS    += \
     preferenceswindow.ui
