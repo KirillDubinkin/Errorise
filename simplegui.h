@@ -1,7 +1,6 @@
 #ifndef SIMPLEGUI_H
 #define SIMPLEGUI_H
 
-//#include <QMainWindow>
 #include <QDialog>
 #include <QMenu>
 #include <QWidget>

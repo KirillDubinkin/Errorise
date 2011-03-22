@@ -1,5 +1,3 @@
-//#include <QtGui/QApplication>
-
 #include <QApplication>
 #include <QFile>
 #include <QTime>
