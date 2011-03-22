@@ -15,7 +15,8 @@ public:
     virtual QString fileName(const int GUID);
     virtual int guidOf(QString filename);
 
-    QStringList getTags(QString pattern);
+    virtual QStringList getTags(QString pattern);
+    virtual QString     getHexColors(int r, int g, int b);
 
 };
 

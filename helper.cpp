@@ -129,3 +129,17 @@ int Helper::guidOf(QString filename)
     qWarning() << query.lastError();
     return -1;
 }
+
+
+QString Helper::getHexColors(int r, int g, int b)
+{
+    QString str = "";
+    if (r < 16) str = "0";
+    str.append(QString::number(r,16));
+    if (g < 16) str.append("0");
+    str.append(QString().number(g,16));
+    if (b < 16) str.append("0");
+    str.append(QString().number(b,16));
+
+    return str;
+}

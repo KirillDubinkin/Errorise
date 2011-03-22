@@ -32,35 +32,6 @@ Preferences::~Preferences() {
 }
 
 
-void Preferences::setPalette()
-{
-    bool ok;
-
-    if (!color_text.isEmpty())
-        palette.setColor(QPalette::Text, QColor(color_text.toInt(&ok, 16)));
-
-    if (!color_base.isEmpty())
-        palette.setColor(QPalette::Base, QColor(color_base.toInt(&ok, 16)));
-
-    if (!color_window.isEmpty())
-        palette.setColor(QPalette::Window, QColor(color_window.toInt(&ok, 16)));
-}
-
-
-QString Preferences::getHex(int r, int g, int b)
-{
-    QString str = "";
-    if (r < 16) str = "0";
-    str += QString().number(r,16);
-    if (g < 16) str += "0";
-    str += QString().number(g,16);
-    if (b < 16) str += "0";
-    str += QString().number(b,16);
-
-    return str;
-}
-
-
 void Preferences::reset() {
 
     qDebug("Prefences::reset");

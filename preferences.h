@@ -24,8 +24,6 @@ public:
 	void save();
 	void load();
 #endif
-        void setPalette();
-        QString getHex(int r, int g, int b);
 
 
     /* *******
