@@ -49,14 +49,16 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     setSelectionBehavior(QAbstractItemView::SelectRows);
 
 
-//! MediaInfo
+/*//! MediaInfo
     connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
             this, SLOT(setTracksWithGroups(QList<int>)));
-
+*/
+//!  MusicLibrary
     connect(mlib, SIGNAL(tracksSelectedBy(QString,QString)),
             this, SLOT(getNewTracks(QString,QString)));
 
-//!  Player
+
+//!  Player (PhononFace)
     connect(this, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(play(int)));
 
     connect(player, SIGNAL(trackChanged(QString,int)),
