@@ -15,6 +15,7 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
 {
     prefs = new SimpleToolbarPrefs();
     L = new QHBoxLayout;
+    L->setMargin(0);
 
     this->setStyleSheet(prefs->style);
     this->initComponents();

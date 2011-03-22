@@ -31,33 +31,33 @@ void SimpleToolbarPrefs::reset()
 
     btnPlayIcon = "";
     btnPlayText = "[|>]";
-    btnPlayWidth = 34;
+    btnPlayWidth = 42;
 
     btnStopIcon = "";
     btnStopText = "[#]";
-    btnStopWidth = 34;
+    btnStopWidth = 42;
 
     btnNextIcon = "";
     btnNextText = "[>>|]";
-    btnNextWidth = 34;
+    btnNextWidth = 42;
 
     btnPrevIcon = "";
     btnPrevText = "[|<<]";
-    btnPrevWidth = 34;
+    btnPrevWidth = 42;
 
     btnPauseIcon = "";
     btnPauseText = "[||]";
-    btnPauseWidth = 34;
+    btnPauseWidth = 42;
 
     btnPlayPauseIcon = "";
     btnPlayPauseText = "[|> | ||]";
-    btnPlayPauseWidth = 50;
+    btnPlayPauseWidth = 60;
 
 
     //! Other
     style = "";
-    toolList << QString::number(Stop) << QString::number(PlayPause) << QString::number(Prev)
-            << QString::number(Next) << QString::number(Seekbar) << QString::number(Volume);
+    toolList << "6" << QString::number(Stop) << QString::number(PlayPause) << QString::number(Prev)
+            << QString::number(Next) << QString::number(Seekbar) << QString::number(Volume) << "6";
 
 }
 
