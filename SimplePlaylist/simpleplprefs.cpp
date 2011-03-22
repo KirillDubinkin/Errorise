@@ -23,7 +23,7 @@ SimplePLPrefs::~SimplePLPrefs()
 
 void SimplePLPrefs::reset()
 {
-    qDebug("SimplePlaylist->Prefs::reset()");
+    //qDebug("SimplePlaylist->Prefs::reset()");
 
     //! Groups
     groups_format = "%album_artist% - [%date%] %album%";
@@ -65,7 +65,7 @@ void SimplePLPrefs::reset()
 
 void SimplePLPrefs::save()
 {
-    qDebug("SimplePlaylist->Prefs::save()");
+    //qDebug("SimplePlaylist->Prefs::save()");
 
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
@@ -135,7 +135,7 @@ void SimplePLPrefs::save()
 
 void SimplePLPrefs::load()
 {
-    qDebug("SimplePlaylist->Prefs::load()");
+    //qDebug("SimplePlaylist->Prefs::load()");
 
     QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());

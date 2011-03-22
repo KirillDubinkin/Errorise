@@ -126,12 +126,6 @@ void AMPlayer::showInfo() {
         qDebug("Compiled with Qt v. %s, using %s", QT_VERSION_STR, qVersion());
 
         qDebug(" * application path: '%s'", Paths::appPath().toUtf8().data());
-  //      qDebug(" * data path: '%s'", Paths::dataPath().toUtf8().data());
-  //      qDebug(" * translation path: '%s'", Paths::translationPath().toUtf8().data());
-  //      qDebug(" * doc path: '%s'", Paths::docPath().toUtf8().data());
-  //      qDebug(" * themes path: '%s'", Paths::themesPath().toUtf8().data());
-  //      qDebug(" * shortcuts path: '%s'", Paths::shortcutsPath().toUtf8().data());
         qDebug(" * config path: '%s'", Paths::configPath().toUtf8().data());
-        qDebug(" * ini path: '%s'", Paths::iniPath().toUtf8().data());
         qDebug(" * current path: '%s'", QDir::currentPath().toUtf8().data());
 }

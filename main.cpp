@@ -3,36 +3,25 @@
 #include <QApplication>
 #include <QFile>
 #include <QTime>
+#include <QDir>
 
 #include "amplayer.h"
 #include "version.h"
 #include "global.h"
-//#include "helper.h"
 #include "paths.h"
-//#include "preferences.h"
 
 #include <stdio.h>
 
 // #define NO_DEBUG_ON_CONSOLE
 
-/*
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
-}
-*/
 
 using namespace Global;
 
 //MainWindow * mainwindow_instance = 0;
 QFile output_log;
 
-void myMessageOutput( QtMsgType type, const char *msg ) {
-        static QStringList saved_lines;
+void myMessageOutput( QtMsgType type, const char *msg )
+{
         static QString orig_line;
         static QString line2;
         static QRegExp rx_log;
@@ -59,19 +48,19 @@ void myMessageOutput( QtMsgType type, const char *msg ) {
                         break;
                 case QtWarningMsg:
                         #ifndef NO_DEBUG_ON_CONSOLE
-                        fprintf( stderr, "Warning: %s\n", orig_line.toLocal8Bit().data() );
+                        fprintf( stderr, "WARNING: %s\n", orig_line.toLocal8Bit().data() );
                         #endif
                         line2 = "WARNING: " + orig_line;
                         break;
                 case QtFatalMsg:
                         #ifndef NO_DEBUG_ON_CONSOLE
-                        fprintf( stderr, "Fatal: %s\n", orig_line.toLocal8Bit().data() );
+                        fprintf( stderr, "FATAL: %s\n", orig_line.toLocal8Bit().data() );
                         #endif
                         line2 = "FATAL: " + orig_line;
                         abort();                    // deliberately core dump
                 case QtCriticalMsg:
                         #ifndef NO_DEBUG_ON_CONSOLE
-                        fprintf( stderr, "Critical: %s\n", orig_line.toLocal8Bit().data() );
+                        fprintf( stderr, "CRITICAL: %s\n", orig_line.toLocal8Bit().data() );
                         #endif
                         line2 = "CRITICAL: " + orig_line;
                         break;
@@ -81,26 +70,12 @@ void myMessageOutput( QtMsgType type, const char *msg ) {
 
         line2 = "["+ QTime::currentTime().toString("hh:mm:ss:zzz") +"] "+ line2;
 
-        /*if (mainwindow_instance) {
-                if (!saved_lines.isEmpty()) {
-                        // Send saved lines first
-                        for (int n=0; n < saved_lines.count(); n++) {
-                                mainwindow_instance->recordSmplayerLog(saved_lines[n]);
-                        }
-                        saved_lines.clear();
-                }
-                mainwindow_instance->recordSmplayerLog(line2);
-        } else {
-                // GUI is not created yet, save lines for later
-                saved_lines.append(line2);
-        }*/
 
         if (pref) {
                 if (pref->save_amplayer_log) {
                         // Save log to file
                         if (!output_log.isOpen()) {
-                                // FIXME: the config path may not be initialized if USE_LOCKS is not defined
-                                output_log.setFileName( Paths::configPath() + "/" + myplayerName().toLower() + "_log.txt" );
+                            output_log.setFileName( Paths::configPath() + QDir::separator() + myplayerName().toLower() + "_log.txt" );
                                 output_log.open(QIODevice::WriteOnly);
                         }
                         if (output_log.isOpen()) {
@@ -111,6 +86,7 @@ void myMessageOutput( QtMsgType type, const char *msg ) {
                 }
         }
 }
+
 
 
 int main( int argc, char ** argv )
@@ -128,13 +104,13 @@ int main( int argc, char ** argv )
 #else
         // If a myplayerName.ini exists in the app path, will use that path
         // for the config file by default
-        if (QFile::exists( a.applicationDirPath() + "/" + myplayerName().toLower() + ".ini" ) ) {
+        if (QFile::exists( a.applicationDirPath() + QDir::separator() + myplayerName().toLower() + ".ini" ) ) {
                 config_path = a.applicationDirPath();
-                qDebug("main: using existing %s", QString(config_path + "/" + myplayerName().toLower() + ".ini").toUtf8().data());
+                qDebug("main: using existing %s", QString(config_path + QDir::separator() + myplayerName().toLower() + ".ini").toUtf8().data());
         }
 #endif
 
-        QStringList args = a.arguments();
+        //QStringList args = a.arguments();
 
         qInstallMsgHandler( myMessageOutput );
 
