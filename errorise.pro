@@ -21,7 +21,6 @@ SOURCES += main.cpp\
     preferences.cpp \
     amplayer.cpp \
     mediainfo.cpp \
-    preferenceswindow.cpp \
     helper.cpp \
     simplegui.cpp \
     phononface.cpp \
@@ -43,7 +42,6 @@ HEADERS  += \
     amplayer.h \
     version.h \
     mediainfo.h \
-    preferenceswindow.h \
     helper.h \
     simplegui.h \
     phonon/phononface.h \
@@ -58,5 +56,4 @@ HEADERS  += \
     SimpleToolbar/simpletoolbar.h \
     SimpleToolbar/simpletoolbarprefs.h
 
-FORMS    += \
-    preferenceswindow.ui
+FORMS    +=
