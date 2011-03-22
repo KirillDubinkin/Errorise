@@ -8,7 +8,7 @@
 #include <QVBoxLayout>
 #include "global.h"
 #include "SimplePlaylist/simpleplaylist.h"
-#include "simpletoolbar.h"
+#include "SimpleToolbar/simpletoolbar.h"
 #include "simplealbumlist.h"
 
 #include "MediaLibrary/albumtree.h"

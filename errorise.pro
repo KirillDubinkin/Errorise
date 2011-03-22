@@ -25,7 +25,6 @@ SOURCES += main.cpp\
     version.cpp \
     helper.cpp \
     simplegui.cpp \
-    simpletoolbar.cpp \
     simplealbumlist.cpp \
     phononface.cpp \
     SimplePlaylist/simpleplaylist.cpp \
@@ -33,7 +32,8 @@ SOURCES += main.cpp\
     SimplePlaylist/simpleplaylistprefswindow.cpp \
     MediaLibrary/pmediainfo.cpp \
     MediaLibrary/musiclibrary.cpp \
-    MediaLibrary/albumtree.cpp
+    MediaLibrary/albumtree.cpp \
+    SimpleToolbar/simpletoolbar.cpp
 
 HEADERS  += \
     mediadata.h \
@@ -57,7 +57,8 @@ HEADERS  += \
     SimplePlaylist/simpleplaylistprefswindow.h \
     MediaLibrary/pmediainfo.h \
     MediaLibrary/musiclibrary.h \
-    MediaLibrary/albumtree.h
+    MediaLibrary/albumtree.h \
+    SimpleToolbar/simpletoolbar.h
 
 FORMS    += \
     preferenceswindow.ui
