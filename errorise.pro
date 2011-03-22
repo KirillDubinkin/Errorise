@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     amplayer.cpp \
     mediainfo.cpp \
     preferenceswindow.cpp \
-    version.cpp \
     helper.cpp \
     simplegui.cpp \
     phononface.cpp \
