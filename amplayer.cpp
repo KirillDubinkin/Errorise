@@ -56,9 +56,6 @@ void AMPlayer::createConfigDirectory() {
 
 
 
-
-
-
 SimpleGUI * AMPlayer::sgui()
 {
     if (s_gui == 0){
@@ -68,23 +65,7 @@ SimpleGUI * AMPlayer::sgui()
 }
 
 void AMPlayer::start() {
-        //if (!gui()->startHidden() || !files_to_play.isEmpty() ) gui()->show();
-        //gui()->show();
         sgui()->show();
-
-
-        /*if (!files_to_play.isEmpty()) {
-                if (!subtitle_file.isEmpty()) gui()->setInitialSubtitle(subtitle_file);
-                gui()->openFiles(files_to_play);
-        }
-
-        if (!actions_list.isEmpty()) {
-                if (files_to_play.isEmpty()) {
-                        gui()->runActions(actions_list);
-                } else {
-                        gui()->runActionsLater(actions_list);
-                }
-        }*/
 }
 
 
