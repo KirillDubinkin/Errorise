@@ -46,7 +46,6 @@ HEADERS  += \
     preferenceswindow.h \
     helper.h \
     simplegui.h \
-    simpletoolbar.h \
     phonon/phononface.h \
     phononface.h \
     SimplePlaylist/simpleplaylist.h \
