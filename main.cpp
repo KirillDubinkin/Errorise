@@ -25,7 +25,7 @@ void myMessageOutput( QtMsgType type, const char *msg )
         static QRegExp rx_log;
 
         if (pref) {
-                if (!pref->log_amplayer) return;
+                if (!pref->log) return;
                 rx_log.setPattern(pref->log_filter);
         } else {
                 rx_log.setPattern(".*");
@@ -70,7 +70,7 @@ void myMessageOutput( QtMsgType type, const char *msg )
 
 
         if (pref) {
-                if (pref->save_amplayer_log) {
+                if (pref->save_log) {
                         // Save log to file
                         if (!output_log.isOpen()) {
                             output_log.setFileName( Paths::configPath() + QDir::separator() + myplayerName().toLower() + "_log.txt" );

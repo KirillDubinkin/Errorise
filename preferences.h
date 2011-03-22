@@ -32,43 +32,17 @@ public:
         QString ao; // audio output
         QString log_filter;
 
-//	bool dont_remember_media_settings; 	// Will not remember anything
-//	bool dont_remember_time_pos;		// Will not remember time pos
-
-
-
-	// Global volume options
 	int volume;
 	bool mute;
-
-        bool play_only_this;
-
-
-
-    /* ***********
-       Performance
-       *********** */
 
 	int priority;
 
 	int cache_for_files;
 	int cache_for_streams;
 
+        bool log;
+        bool save_log;
 
-    /* ********
-       Advanced
-       ******** */
-
-        bool log_amplayer;
-        bool save_amplayer_log;
-
-	//! Preferred connection method: ipv4 or ipv6
-	bool prefer_ipv4;
-
-
-	/* *********
-	   GUI stuff
-	   ********* */
 
         bool stay_on_top;
 
@@ -77,20 +51,14 @@ public:
 
 	bool close_on_finish;
 
-	QString default_font;
-
-
 	bool auto_add_to_playlist; //!< Add files to open to playlist
 	bool add_to_playlist_consecutive_files;
 
 
-        // Formating displayed information
-        bool status_bar;
-        QString status_bar_format;
-        QString window_title_format;
+        bool status;
+        QString status_text;
+        QString window_title;
 
-
-        // Stylesheet
         QString main_stylesheet;
 
 
@@ -103,33 +71,8 @@ public:
 
         int x, y;
 
-
-    /* *********
-        Colors
-       ********* */
-
-        QPalette palette;
-
-        QString color_text;
-        QString color_base;
-        QString color_window;
-
-
-
-    /* ***********
-       Directories
-       *********** */
-
         QString music_library_path;
         QString files_filter;
-
-
-    /* **************
-       Initial values
-       ************** */
-	int initial_volume;
-	int initial_audio_track;
-
 
 };
 
