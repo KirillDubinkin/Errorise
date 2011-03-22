@@ -3,7 +3,6 @@
 
 #include <QString>
 #include "preferences.h"
-#include "mediainfo.h"
 
 #include "phononface.h"
 #include "MediaLibrary/musiclibrary.h"
@@ -16,7 +15,6 @@
 class QSettings;
 class Preferences;
 class Translator;
-class MediaInfo;
 
 
 class PhononFace;
@@ -33,8 +31,6 @@ namespace Global {
 	//! Translator (for changing language)
 	extern Translator * translator;
 
-
-        extern MediaInfo * mediainfo;
 
         extern MusicLibrary *mlib;
         extern PhononFace   *player;

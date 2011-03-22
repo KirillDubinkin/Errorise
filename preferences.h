@@ -34,8 +34,6 @@ public:
         QString ao; // audio output
         QString log_filter;
 
-        QString mediainfo_cli;
-        bool recursive_dirs;
 //	bool dont_remember_media_settings; 	// Will not remember anything
 //	bool dont_remember_time_pos;		// Will not remember time pos
 

@@ -1,6 +1,5 @@
 #include "global.h"
 #include "preferences.h"
-#include "mediainfo.h"
 
 #ifndef MINILIB
 
@@ -14,7 +13,6 @@
 QSettings       * Global::settings   = 0;
 Preferences     * Global::pref       = 0;
 Translator      * Global::translator = 0;
-MediaInfo       * Global::mediainfo  = 0;
 
 MusicLibrary    * Global::mlib       = 0;
 PhononFace      * Global::player     = 0;
@@ -44,7 +42,6 @@ void Global::global_init(const QString & config_path) {
 
 	// Preferences
         pref      = new Preferences();
-        mediainfo = new MediaInfo();
 
         player    = new PhononFace();
         mlib      = new MusicLibrary(pref->music_library_path,
@@ -61,7 +58,6 @@ void Global::global_end() {
         delete player;
         delete mlib;
 
-        delete mediainfo;
 	delete pref;
 	pref = 0;
 
