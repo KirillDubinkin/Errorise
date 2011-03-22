@@ -25,7 +25,6 @@ SOURCES += main.cpp\
     version.cpp \
     helper.cpp \
     simplegui.cpp \
-    simplealbumlist.cpp \
     phononface.cpp \
     SimplePlaylist/simpleplaylist.cpp \
     SimplePlaylist/simpleplprefs.cpp \
@@ -48,7 +47,6 @@ HEADERS  += \
     helper.h \
     simplegui.h \
     simpletoolbar.h \
-    simplealbumlist.h \
     phonon/phononface.h \
     phononface.h \
     SimplePlaylist/simpleplaylist.h \

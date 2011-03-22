@@ -9,7 +9,6 @@
 #include "global.h"
 #include "SimplePlaylist/simpleplaylist.h"
 #include "SimpleToolbar/simpletoolbar.h"
-#include "simplealbumlist.h"
 
 #include "MediaLibrary/albumtree.h"
 
@@ -33,7 +32,6 @@ private:
     QWidget *toolBar;
     SimplePlaylist *pl;
     SimpleToolbar *toolbar;
-    SimpleAlbumlist *alist;
 
     AlbumTree *tree;
 };
