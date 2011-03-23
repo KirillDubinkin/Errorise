@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QTime>
 #include <QChar>
+#include <QObject>
 
 using namespace Global;
 
@@ -219,8 +220,9 @@ QMap<int, QString> Helper::getQuotes(const QString &line)
             {
                 quotes.insert(pos, line.mid(pos + 1, close - pos - 1));
                 pos = close;
-            } else
-                return quotes;
+            }
+            else
+                qWarning() << QObject::tr("Lonely quote in " + line.toUtf8());
         }
     }
 
