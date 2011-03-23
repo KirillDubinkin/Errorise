@@ -1,8 +1,6 @@
 #include "global.h"
 #include "preferences.h"
 
-#ifndef MINILIB
-
 #include <QSettings>
 #include "translator.h"
 #include "paths.h"
@@ -65,26 +63,4 @@ void Global::global_end() {
 	delete translator;
 }
 
-#else
-
-Preferences * Global::pref = 0;
-
-using namespace Global;
-
-void Global::global_init() {
-	qDebug("global_init");
-
-	// Preferences
-	pref = new Preferences();
-}
-
-void Global::global_end() {
-	qDebug("global_end");
-
-	// delete
-	delete pref;
-	pref = 0;
-}
-
-#endif // MINILIB
 

@@ -10,8 +10,6 @@
 // Some global objects
 
 
-#ifndef MINILIB
-
 class QSettings;
 class Preferences;
 class Translator;
@@ -40,21 +38,6 @@ namespace Global {
 	void global_end();
 
 };
-
-#else
-
-class Preferences;
-
-namespace Global {
-	//! Prefences
-	extern Preferences * pref;
-
-	void global_init();
-	void global_end();
-
-};
-
-#endif // MINILIB
 
 #endif
 
