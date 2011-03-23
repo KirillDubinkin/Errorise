@@ -7,6 +7,7 @@
 #include <QtSql/QSqlError>
 #include <QDir>
 #include <QTime>
+#include <QChar>
 
 using namespace Global;
 
@@ -56,7 +57,7 @@ QStringList Helper::getTags(QString pattern)
 }
 
 
-QString Helper::formatTime(int sec) const
+QString Helper::formatTime(int sec)
 {
     int hours = (int) sec / 3600;
     sec -= hours*3600;
@@ -142,4 +143,86 @@ QString Helper::getHexColors(int r, int g, int b)
     str.append(QString().number(b,16));
 
     return str;
+}
+
+
+QString Helper::processContainer(const QString &line, int guid)
+{
+    QStringList tags = getTags(line);
+
+    QSqlQuery query(mlib->db);
+    if (query.exec("SELECT " + tags.join(", ") + " FROM tracks "
+                   "WHERE id = '" + QString::number(guid) + "'"))
+    {
+        QString newLine = line;
+
+        query.next();
+
+        QStringList values;
+        for (int i = 0; i < tags.size(); i++)
+            values.append(query.value(i).toString());
+
+
+        QMap<int, QString> quotes = getQuotes(line);
+        QMapIterator<int, QString> it(quotes);
+
+
+        while (it.hasNext())
+        {
+            it.next();
+            newLine.replace("'" + it.value() + "'", it.value());
+        }
+
+
+        int ok = 0;
+
+        for (int i = 0; i < tags.size(); i++)
+        {
+            if (!QString(values.at(i)).isEmpty())
+            {
+                newLine.replace("%" + tags.at(i) + "%", values.at(i));
+                ok++;
+            } else
+                newLine.remove("%" + tags.at(i) + "%");
+        }
+
+        if (ok)
+        {
+            newLine.remove(0, 1);
+            newLine.remove(newLine.size() - 1, 1);
+            return newLine;
+        }
+
+        return QString::null;
+
+    } else {
+        qWarning() << query.lastError();
+    }
+
+    return QString::null;
+}
+
+
+QMap<int, QString> Helper::getQuotes(const QString &line)
+{
+    QMap<int, QString> quotes;
+
+    for (int pos = 0; pos < line.size(); pos++)
+    {
+        QChar chr = line.at(pos);
+
+        if (chr == '\'')
+        {
+            int close = line.indexOf("'", pos + 1);
+
+            if (close > -1)
+            {
+                quotes.insert(pos, line.mid(pos + 1, close - pos - 1));
+                pos = close;
+            } else
+                return quotes;
+        }
+    }
+
+    return quotes;
 }

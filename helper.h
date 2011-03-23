@@ -9,14 +9,17 @@
 class Helper
 {
 public:
-    virtual QString parseLine(const int GUID, QString pattern);
-    virtual QString formatTime(int sec) const;
-    virtual QString filePath(const int GUID);
-    virtual QString fileName(const int GUID);
-    virtual int guidOf(QString filename);
+    static QString parseLine(const int GUID, QString pattern);
+    static QString formatTime(int sec);
+    static QString filePath(const int GUID);
+    static QString fileName(const int GUID);
+    static int guidOf(QString filename);
 
-    virtual QStringList getTags(QString pattern);
-    virtual QString     getHexColors(int r, int g, int b);
+    static QStringList getTags(QString pattern);
+    static QString     getHexColors(int r, int g, int b);
+
+    static QString processContainer(const QString &line, int guid);
+    static QMap<int, QString> getQuotes(const QString &line);
 
 };
 
