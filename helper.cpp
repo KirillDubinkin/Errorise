@@ -133,6 +133,9 @@ QString Helper::filePath(const int id)
 
 int Helper::guidOf(QString filename)
 {
+    if (filename.isEmpty())
+        return -1;
+
     filename.replace("'", "''");
 
     QStringList path = filename.split(QDir::separator());
