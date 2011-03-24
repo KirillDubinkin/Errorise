@@ -17,6 +17,8 @@ AlbumTree::AlbumTree(QWidget *parent) :
     //ptrn = "%genre%/%artist%/[%date%] %album%";
     ptrn = "%filepath%";
 
+    connect(mlib, SIGNAL(readyToWork()), this, SLOT(fillTree()));
+
     if (mlib->isReady())
         fillTree();
 
