@@ -233,3 +233,18 @@ QString Helper::processQuotes(QString line)
     return line;
 }
 
+
+QString Helper::processTags(QString line, const int id)
+{
+    QStringList tags = getTags(line);
+    line = processQuotes(line);
+
+    QStringList values = valueOfTrack(tags, id);
+
+    for (int i = 0; i < tags.size(); i++)
+        line.replace("%" + tags.at(i) + "%", values.at(i));
+
+    return line;
+}
+
+

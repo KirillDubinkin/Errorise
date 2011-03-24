@@ -27,6 +27,7 @@ public:
 
 
     static QString processQuotes(QString line);
+    static QString processTags(QString line, const int id);
     static QString processContainer(QString line, const int id);
 
 
