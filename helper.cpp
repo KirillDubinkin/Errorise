@@ -427,10 +427,21 @@ QString Helper::processContainers(QString line, const int id)
         {
             closed.enqueue(pos);
 
+            cloza = closed.size();
+            opa = open.size();
+
             if (open.size() == closed.size())
             {
                 int opn = open.takeLast();
                 int cls = closed.dequeue();
+
+                int i=1;
+
+                while (opn > cls)
+                {
+                    open.insert(open.size() - i, opn);
+                    opn = open.takeAt(open.size() - i++);
+                }
 
                 QString temp = processContainer(line.mid(opn, cls - opn + 1), id);
                 line.replace(opn, cls - opn + 1, temp);
