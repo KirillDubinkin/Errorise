@@ -19,9 +19,8 @@ public:
     static QString     getHexColors(int r, int g, int b);
 
     static QString processContainer(QString line, const int id);
-    static QMap<int, QString> getQuotes(const QString &line);
 
-
+    static QStringList getQuotes(const QString &line);
     static QStringList getTags(QString pattern);
     static QString     getTag(const QString &pattern);
 

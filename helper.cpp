@@ -174,14 +174,11 @@ QString Helper::processContainer(QString line, int id)
     QStringList tags   = getTags(line);
     QStringList values = valueOfTrack(tags, id);
 
-    QMap<int, QString> quotes = getQuotes(line);
-    QMapIterator<int, QString> it(quotes);
 
-    while (it.hasNext())
-    {
-        it.next();
-        line.replace("'" + it.value() + "'", it.value());
-    }
+    QStringList quotes = getQuotes(line);
+    foreach (QString quote, quotes)
+        line.replace("'" + quote + "'", quote);
+
 
     int ok = 0;
 
@@ -206,9 +203,9 @@ QString Helper::processContainer(QString line, int id)
 }
 
 
-QMap<int, QString> Helper::getQuotes(const QString &line)
+QStringList Helper::getQuotes(const QString &line)
 {
-    QMap<int, QString> quotes;
+    QStringList quotes;
 
     for (int pos = 0; pos < line.size(); pos++)
     {
@@ -220,7 +217,7 @@ QMap<int, QString> Helper::getQuotes(const QString &line)
 
             if (close > -1)
             {
-                quotes.insert(pos, line.mid(pos + 1, close - pos - 1));
+                quotes.append(line.mid(pos + 1, close - pos - 1));
                 pos = close;
             }
             else
