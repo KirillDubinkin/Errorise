@@ -174,11 +174,7 @@ QString Helper::processContainer(QString line, int id)
     QStringList tags   = getTags(line);
     QStringList values = valueOfTrack(tags, id);
 
-
-    QStringList quotes = getQuotes(line);
-    foreach (QString quote, quotes)
-        line.replace("'" + quote + "'", quote);
-
+    line = processQuotes(line);
 
     int ok = 0;
 
@@ -227,3 +223,13 @@ QStringList Helper::getQuotes(const QString &line)
 
     return quotes;
 }
+
+
+QString Helper::processQuotes(QString line)
+{
+    foreach(QString quote, getQuotes(line))
+        line.replace("'" + quote + "'", quote);
+
+    return line;
+}
+
