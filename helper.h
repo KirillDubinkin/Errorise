@@ -24,6 +24,8 @@ public:
 
     static int  nextQuote(const QString &line, int from);
     static bool isContainer(const QString &line);
+    static int  funcEnd(const QString &line, const int from = 0);
+    static int  funcSize(const QString &line, const int from = 0);
 
     static QString     valueOfTrack(const QString &tag, const int id);
     static QStringList valueOfTrack(const QStringList &tags, const int id);

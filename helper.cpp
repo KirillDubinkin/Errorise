@@ -172,11 +172,26 @@ QString Helper::getHexColors(int r, int g, int b)
 
 QString Helper::processContainer(QString line, int id)
 {
-    //line = processFunctions(line, id);
+    bool emptyFunc = false;
+
+    int size = funcSize(line);
+    if (size)
+    {
+        int lineSize = line.size();
+        line = processFunctions(line, id);
+        lineSize -= line.size() + 1;
+
+        if (lineSize == size)
+            emptyFunc = true;
+    }
+
 
     QStringList tags   = getTags(line);
     if (tags.isEmpty())
     {
+        if (emptyFunc)
+            return QString::null;
+
         line.remove(0, 1);
         line.remove(line.size() - 1, 1);
         return line;
@@ -261,11 +276,13 @@ QString Helper::processTags(QString line, const int id)
 
 int Helper::nextQuote(const QString &line, int from)
 {
-    if (int next = line.indexOf("'", from + 1))
-        return next;
+    if (line.size() != from)
+    {
+        if (int next = line.indexOf("'", from + 1))
+            return next;
+    }
 
     qWarning() << QObject::tr("Lonely quote in " + line.toUtf8());
-
     return from;
 }
 
@@ -385,6 +402,9 @@ QString Helper::processContainers(QString line, const int id)
 
     for (int pos = 0; pos < line.size(); pos++)
     {
+        int opa = open.size();
+        int cloza = closed.size();
+
         QChar chr = line.at(pos);
 
         if (chr == '\'')
@@ -392,11 +412,12 @@ QString Helper::processContainers(QString line, const int id)
         else
         if (chr == '$')
         {
-            if (open.isEmpty())
+            /*if (open.isEmpty())
             {
                 line = processFunctions(line, id);
                 return processContainers(line, id);
-            }
+            }*/
+            pos = funcEnd(line, pos);
         }
         else
         if (chr == '[')
@@ -420,4 +441,67 @@ QString Helper::processContainers(QString line, const int id)
     }
 
     return line;
+}
+
+
+int Helper::funcEnd(const QString &line, const int from)
+{
+    int start = 0;
+    int end   = 0;
+    int body  = 0;
+
+    for (int pos = from; pos < line.size(); pos++)
+    {
+        QChar chr = line.at(pos);
+
+        if (chr == '\'')
+            pos = nextQuote(line, pos);
+        else
+        if (chr == '$')
+            start = pos;
+        else
+        if (chr == '(')
+            body = pos;
+        else
+        if (chr == ')') {
+            end = pos;
+            break;
+        }
+    }
+
+    if (body && end)
+        return end;
+
+    return from;
+}
+
+int Helper::funcSize(const QString &line, const int from)
+{
+    int start = 0;
+    int end   = 0;
+    int body  = 0;
+
+    for (int pos = from; pos < line.size(); pos++)
+    {
+        QChar chr = line.at(pos);
+
+        if (chr == '\'')
+            pos = nextQuote(line, pos);
+        else
+        if (chr == '$')
+            start = pos;
+        else
+        if (chr == '(')
+            body = pos;
+        else
+        if (chr == ')') {
+            end = pos;
+            break;
+        }
+    }
+
+    if (body && end)
+        return end - start;
+
+    return 0;
 }
