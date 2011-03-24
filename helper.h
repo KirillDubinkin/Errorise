@@ -22,7 +22,8 @@ public:
     static QStringList getTags(QString pattern);
     static QString     getTag(const QString &pattern);
 
-    static int nextQuote(const QString &line, int from);
+    static int  nextQuote(const QString &line, int from);
+    static bool isContainer(const QString &line);
 
     static QString     valueOfTrack(const QString &tag, const int id);
     static QStringList valueOfTrack(const QStringList &tags, const int id);
@@ -32,6 +33,7 @@ public:
     static QString processTags(QString line, const int id);
     static QString processContainer(QString line, const int id);
 
+    static QString funcIF(QString line, const int id);
 
 
 };
