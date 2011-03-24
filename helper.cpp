@@ -311,3 +311,55 @@ bool Helper::isContainer(const QString &line)
 
     return false;
 }
+
+
+QString Helper::doFunc(const QString &func, QString line, const int id)
+{
+    if (func == "if")
+        return funcIF(line, id);
+    /*else if (func == ...) */
+
+    qWarning() << QObject::tr("I'm not familiar with function \"$" + func.toUtf8());
+    return QString::null;
+}
+
+
+QString Helper::processFunctions(QString line, const int id)
+{
+    QString func;
+    int start = 0;
+    int end   = 0;
+    int body  = 0;
+
+    for (int pos = 0; pos < line.size(); pos++)
+    {
+        QChar chr = line.at(pos);
+
+        if (chr == '\'')
+            pos = nextQuote(line, pos);
+        else
+        if (chr == '$')
+            start = pos;
+        else
+        if (chr == '(') {
+            body = pos;
+            func = line.mid(start + 1, body - start - 1);
+        }
+        else
+        if (chr == ')') {
+            end = pos;
+            break;
+        }
+    }
+
+
+    if (body && (!func.isEmpty()) && end)
+    {
+        func = doFunc(func, line.mid(body + 1, end - body - 1), id);
+        line.replace(start, end - start + 1, func);
+
+        return processFunctions(line, id);
+    }
+
+    return line;
+}
