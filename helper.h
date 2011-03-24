@@ -32,6 +32,7 @@ public:
     static QString processQuotes(QString line);
     static QString processTags(QString line, const int id);
     static QString processContainer(QString line, const int id);
+    static QString processContainers(QString line, const int id);
     static QString processFunctions(QString line, const int id);
 
     static QString doFunc(const QString &func, QString line, const int id);

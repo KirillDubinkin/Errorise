@@ -9,6 +9,7 @@
 #include <QTime>
 #include <QChar>
 #include <QObject>
+#include <QQueue>
 
 using namespace Global;
 
@@ -171,7 +172,16 @@ QString Helper::getHexColors(int r, int g, int b)
 
 QString Helper::processContainer(QString line, int id)
 {
+    //line = processFunctions(line, id);
+
     QStringList tags   = getTags(line);
+    if (tags.isEmpty())
+    {
+        line.remove(0, 1);
+        line.remove(line.size() - 1, 1);
+        return line;
+    }
+
     QStringList values = valueOfTrack(tags, id);
 
     line = processQuotes(line);
@@ -237,10 +247,13 @@ QString Helper::processTags(QString line, const int id)
     QStringList tags = getTags(line);
     line = processQuotes(line);
 
-    QStringList values = valueOfTrack(tags, id);
+    if (!tags.isEmpty())
+    {
+        QStringList values = valueOfTrack(tags, id);
 
-    for (int i = 0; i < tags.size(); i++)
-        line.replace("%" + tags.at(i) + "%", values.at(i));
+        for (int i = 0; i < tags.size(); i++)
+            line.replace("%" + tags.at(i) + "%", values.at(i));
+    }
 
     return line;
 }
@@ -359,6 +372,51 @@ QString Helper::processFunctions(QString line, const int id)
         line.replace(start, end - start + 1, func);
 
         return processFunctions(line, id);
+    }
+
+    return line;
+}
+
+
+QString Helper::processContainers(QString line, const int id)
+{
+    QQueue<int> open;
+    QQueue<int> closed;
+
+    for (int pos = 0; pos < line.size(); pos++)
+    {
+        QChar chr = line.at(pos);
+
+        if (chr == '\'')
+            pos = nextQuote(line, pos);
+        else
+        if (chr == '$')
+        {
+            if (open.isEmpty())
+            {
+                line = processFunctions(line, id);
+                return processContainers(line, id);
+            }
+        }
+        else
+        if (chr == '[')
+            open.enqueue(pos);
+        else
+        if (chr == ']')
+        {
+            closed.enqueue(pos);
+
+            if (open.size() == closed.size())
+            {
+                int opn = open.takeLast();
+                int cls = closed.dequeue();
+
+                QString temp = processContainer(line.mid(opn, cls - opn + 1), id);
+                line.replace(opn, cls - opn + 1, temp);
+
+                return processContainers(line, id);
+            }
+        }
     }
 
     return line;
