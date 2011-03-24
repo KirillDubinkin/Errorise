@@ -15,7 +15,7 @@ using namespace Global;
 
 static QRegExp rx_tag("%([a-z]*)%");
 
-
+/*
 QString Helper::parseLine(const int GUID, QString pattern)
 {
     QString s = pattern;
@@ -42,7 +42,7 @@ QString Helper::parseLine(const int GUID, QString pattern)
 
     return s;
 }
-
+*/
 
 QStringList Helper::getTags(QString pattern)
 {
@@ -515,4 +515,14 @@ int Helper::funcSize(const QString &line, const int from)
         return end - start;
 
     return 0;
+}
+
+
+QString Helper::parseLine(const int id, QString line)
+{
+    line = processContainers(line, id);
+    line = processFunctions(line, id);
+    line = processTags(line, id);
+
+    return line;
 }

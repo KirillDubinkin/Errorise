@@ -9,7 +9,7 @@
 class Helper
 {
 public:
-    static QString parseLine(const int id, QString pattern);
+    //static QString parseLine(const int id, QString pattern);
     static QString formatTime(int sec);
     static QString filePath(const int id);
     static QString fileName(const int id);
@@ -30,7 +30,7 @@ public:
     static QString     valueOfTrack(const QString &tag, const int id);
     static QStringList valueOfTrack(const QStringList &tags, const int id);
 
-
+    static QString parseLine(const int id, QString line);
     static QString processQuotes(QString line);
     static QString processTags(QString line, const int id);
     static QString processContainer(QString line, const int id);
