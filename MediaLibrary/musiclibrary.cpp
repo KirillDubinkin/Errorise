@@ -144,8 +144,8 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
     QStringList path = filename.split(QDir::separator());
     path.removeLast();
     query->addBindValue(path.join(QDir::separator()));
+    query->addBindValue(filename.remove(path.join(QDir::separator())).remove(0, 1));
 
-    query->addBindValue(filename.remove(path.join(QDir::separator())));
     query->addBindValue(tags.value("ARTIST"));
     query->addBindValue(tags.value("ALBUM"));
     query->addBindValue(tags.value("ALBUMARTIST"));
