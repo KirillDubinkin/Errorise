@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QFileInfoList>
 #include <QTimer>
+#include <QTime>
 
 PMediaInfo::PMediaInfo(QObject *parent) :
     QObject(parent)
@@ -68,7 +69,7 @@ void PMediaInfo::pringTags()
         QMultiMap<QString, QString> temp = object->metaData();
         QStringList format = object->currentSource().fileName().split(".");
 
-        temp.insert("DURATION", QString::number(object->totalTime()));
+        temp.insert("DURATION", QTime(0, 0).addMSecs(object->totalTime()).toString("mm:ss"));
         temp.insert("FORMAT", QString(format.last()).toUpper());
 
         meta.insert(object->currentSource().fileName(), temp);
