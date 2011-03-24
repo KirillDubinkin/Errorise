@@ -58,6 +58,51 @@ QStringList Helper::getTags(QString pattern)
 }
 
 
+QString Helper::getTag(const QString &pattern)
+{
+    if (rx_tag.indexIn(pattern) != -1)
+        return rx_tag.cap(1);
+
+    return QString::null;
+}
+
+
+QString Helper::valueOfTrack(const QString &tag, int id)
+{
+    QSqlQuery query(mlib->db);
+
+    if (query.exec("SELECT " + tag + " FROM tracks "
+                   "WHERE id = '" + QString::number(id) + "'"))
+    {
+        query.next();
+        return query.value(0).toString();
+    }
+
+    qWarning() << "Helper::valueOfTrack" << query.lastError();
+    return QString::null;
+}
+
+
+QStringList Helper::valueOfTrack(const QStringList &tags, int id)
+{
+    QStringList list;
+    QSqlQuery query(mlib->db);
+
+    if (query.exec("SELECT " + tags.join(", ") + " FROM tracks "
+                   "WHERE id = '" + QString::number(id) + "'"))
+    {
+        query.next();
+
+        for (int i = 0; i < tags.size(); i++)
+            list.append(query.value(i).toString());
+    }
+    else
+        qWarning() << "Helper::valueOfTrack(QStringList)" << query.lastError();
+
+    return list;
+}
+
+
 QString Helper::formatTime(int sec)
 {
     int hours = (int) sec / 3600;
@@ -71,39 +116,16 @@ QString Helper::formatTime(int sec)
 }
 
 
-QString Helper::fileName(const int GUID)
+QString Helper::fileName(const int id)
 {
-    QString s;
-    QSqlQuery query(mlib->db);
-
-    if (query.exec("SELECT filepath, filename FROM tracks "
-                   "WHERE id = '" + QString::number(GUID) + "'"))
-    {
-        query.next();
-        s.append(query.value(0).toString());
-        s.append(query.value(1).toString());
-
-    } else {
-        qWarning() << query.lastError();
-    }
-
-    return s;
+    return valueOfTrack(QStringList() << "filepath" << "filename", id).join(QDir::separator());
 }
 
 
 
-QString Helper::filePath(const int GUID)
+QString Helper::filePath(const int id)
 {
-    QString s;
-
-    QSqlQuery query(mlib->db);
-    if (query.exec("SELECT filepath FROM tracks "
-                   "WHERE id = '" + QString::number(GUID) + "'"))
-    {
-        query.next();
-        s = query.value(0).toString();
-    }
-    return s;
+    return valueOfTrack("filepath", id);
 }
 
 
@@ -147,57 +169,37 @@ QString Helper::getHexColors(int r, int g, int b)
 }
 
 
-QString Helper::processContainer(const QString &line, int guid)
+QString Helper::processContainer(QString line, int id)
 {
-    QStringList tags = getTags(line);
+    QStringList tags   = getTags(line);
+    QStringList values = valueOfTrack(tags, id);
 
-    QSqlQuery query(mlib->db);
-    if (query.exec("SELECT " + tags.join(", ") + " FROM tracks "
-                   "WHERE id = '" + QString::number(guid) + "'"))
+    QMap<int, QString> quotes = getQuotes(line);
+    QMapIterator<int, QString> it(quotes);
+
+    while (it.hasNext())
     {
-        QString newLine = line;
+        it.next();
+        line.replace("'" + it.value() + "'", it.value());
+    }
 
-        query.next();
+    int ok = 0;
 
-        QStringList values;
-        for (int i = 0; i < tags.size(); i++)
-            values.append(query.value(i).toString());
-
-
-        QMap<int, QString> quotes = getQuotes(line);
-        QMapIterator<int, QString> it(quotes);
-
-
-        while (it.hasNext())
+    for (int i = 0; i < tags.size(); i++)
+    {
+        if (!QString(values.at(i)).isEmpty())
         {
-            it.next();
-            newLine.replace("'" + it.value() + "'", it.value());
-        }
+            line.replace("%" + tags.at(i) + "%", values.at(i));
+            ok++;
+        } else
+            line.remove("%" + tags.at(i) + "%");
+    }
 
-
-        int ok = 0;
-
-        for (int i = 0; i < tags.size(); i++)
-        {
-            if (!QString(values.at(i)).isEmpty())
-            {
-                newLine.replace("%" + tags.at(i) + "%", values.at(i));
-                ok++;
-            } else
-                newLine.remove("%" + tags.at(i) + "%");
-        }
-
-        if (ok)
-        {
-            newLine.remove(0, 1);
-            newLine.remove(newLine.size() - 1, 1);
-            return newLine;
-        }
-
-        return QString::null;
-
-    } else {
-        qWarning() << query.lastError();
+    if (ok)
+    {
+        line.remove(0, 1);
+        line.remove(line.size() - 1, 1);
+        return line;
     }
 
     return QString::null;
