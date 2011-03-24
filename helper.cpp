@@ -209,15 +209,13 @@ QStringList Helper::getQuotes(const QString &line)
 
         if (chr == '\'')
         {
-            int close = line.indexOf("'", pos + 1);
+            int next = nextQuote(line, pos);
 
-            if (close > -1)
+            if (next > pos)
             {
-                quotes.append(line.mid(pos + 1, close - pos - 1));
-                pos = close;
+                quotes.append(line.mid(pos + 1, next - pos - 1));
+                pos = next;
             }
-            else
-                qWarning() << QObject::tr("Lonely quote in " + line.toUtf8());
         }
     }
 
@@ -248,3 +246,12 @@ QString Helper::processTags(QString line, const int id)
 }
 
 
+int Helper::nextQuote(const QString &line, int from)
+{
+    if (int next = line.indexOf("'", from + 1))
+        return next;
+
+    qWarning() << QObject::tr("Lonely quote in " + line.toUtf8());
+
+    return from;
+}
