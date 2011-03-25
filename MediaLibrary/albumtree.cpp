@@ -10,12 +10,15 @@
 #include <QHeaderView>
 #include <QDir>
 
+#include "helper.h"
+
 AlbumTree::AlbumTree(QWidget *parent) :
     QTreeWidget(parent)
 {
-    this->header()->setVisible(false);
-    //ptrn = "%genre%/%artist%/[%date%] %album%";
-    ptrn = "%filepath%";
+    prefs = new AlbumTreePrefs();
+
+    setStyleSheet(prefs->stylesheet);
+    header()->setVisible(prefs->showHeader);
 
     connect(mlib, SIGNAL(readyToWork()), this, SLOT(fillTree()));
 
@@ -26,6 +29,11 @@ AlbumTree::AlbumTree(QWidget *parent) :
             this, SLOT(selectedNodeChange(QTreeWidgetItem*)));
 }
 
+
+AlbumTree::~AlbumTree()
+{
+    delete prefs;
+}
 
 static QRegExp rx_tag("%([a-z]*)%");
 
@@ -43,9 +51,8 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
     QString s = list.join(QDir::separator());
     s.insert(0, mlib->libraryPath() + QDir::separator());
 
-    mlib->selectTracksBy(getTags(ptrn).at(0), s);
+    mlib->selectTracksBy(Helper::getTags(prefs->pattern).at(0), s);
 }
-
 
 
 void AlbumTree::fillTree()
@@ -67,6 +74,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
     QString key = i.key();
 
     item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf(QDir::separator()))));
+    item->setIcon(0, QIcon(prefs->items_icon));
     list.append(item);
     key.remove(0, item->text(0).size() + 1);
 
@@ -74,6 +82,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
     {
         QString temp = key.mid(0, key.indexOf(QDir::separator()));
         QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
+        itm->setIcon(0, QIcon(prefs->items_icon));
         item->addChild(itm);
         item = itm;
         key.remove(0, temp.size() + 1);
@@ -107,6 +116,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
         else
         {
             item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf(QDir::separator()))));
+            item->setIcon(0, QIcon(prefs->items_icon));
             list.append(item);
             key.remove(0, item->text(0).size() + 1);
         }
@@ -116,6 +126,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
         {
             QString temp = key.mid(0, key.indexOf(QDir::separator()));
             QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
+            itm->setIcon(0, QIcon(prefs->items_icon));
             item->addChild(itm);
             item = itm;
             key.remove(0, temp.size() + 1);
@@ -129,9 +140,9 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
 
 QMap<QString, int> AlbumTree::firstNode()
 {
-    QString tag = ptrn;
+    QString tag = prefs->pattern;
 
-    QStringList tags = getTags(ptrn);
+    QStringList tags = Helper::getTags(prefs->pattern);
     //qDebug() << tags;
 
     QSqlQuery query(mlib->db);
@@ -153,7 +164,7 @@ QMap<QString, int> AlbumTree::firstNode()
         {
             while (query.next())
             {
-                QString s = ptrn;
+                QString s = prefs->pattern;
 
                 for (int i = 0; i < tags.size(); i++)
                 {
@@ -176,21 +187,4 @@ QMap<QString, int> AlbumTree::firstNode()
     QMap<QString, int> map;
     return map;
 }
-
-
-    //! Паттерн - это одна из заданных ветвей дерева
-QStringList AlbumTree::getTags(QString pattern)
-{
-    QStringList list;
-    int pos = 0;
-
-    while ((pos = rx_tag.indexIn(pattern, pos)) != -1)
-    {
-        list.append(rx_tag.cap(1));
-        pos += rx_tag.matchedLength();
-    }
-
-    return list; // тэги из паттерна одной ветви
-}
-
 

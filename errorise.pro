@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     MediaLibrary/musiclibrary.cpp \
     MediaLibrary/albumtree.cpp \
     SimpleToolbar/simpletoolbar.cpp \
-    SimpleToolbar/simpletoolbarprefs.cpp
+    SimpleToolbar/simpletoolbarprefs.cpp \
+    MediaLibrary/albumtreeprefs.cpp
 
 HEADERS  += \
     global.h \
@@ -50,6 +51,7 @@ HEADERS  += \
     MediaLibrary/musiclibrary.h \
     MediaLibrary/albumtree.h \
     SimpleToolbar/simpletoolbar.h \
-    SimpleToolbar/simpletoolbarprefs.h
+    SimpleToolbar/simpletoolbarprefs.h \
+    MediaLibrary/albumtreeprefs.h
 
 FORMS    +=

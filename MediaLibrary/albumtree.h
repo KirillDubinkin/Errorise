@@ -6,6 +6,7 @@
 #include <QMultiMap>
 #include <QModelIndex>
 
+#include "MediaLibrary/albumtreeprefs.h"
 #include "global.h"
 
 using namespace Global;
@@ -15,6 +16,7 @@ class AlbumTree : public QTreeWidget
     Q_OBJECT
 public:
     explicit AlbumTree(QWidget *parent = 0);
+    ~AlbumTree();
 
 signals:
    // void selectedTracksChanged(QString tag, QString value);
@@ -26,13 +28,13 @@ private slots:
     void selectedNodeChange(QTreeWidgetItem *cur);
 
 private:
-    QStringList getTags(QString pattern);
     QMap<QString, int> firstNode();
     void mkTree(const QMap<QString, int> &map);
 
 private:
     QString ptrn;
     QMultiMap<QString, int> tracks;
+    AlbumTreePrefs *prefs;
 
 
 };
