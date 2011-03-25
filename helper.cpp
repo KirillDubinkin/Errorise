@@ -202,7 +202,7 @@ QString Helper::processContainer(QString line, int id)
 
     QStringList values = valueOfTrack(tags, id);
 
-    line = processQuotes(line);
+ //   line = processQuotes(line);
 
     int ok = 0;
 
@@ -253,7 +253,7 @@ QStringList Helper::getQuotes(const QString &line)
 
 QString Helper::processQuotes(QString line)
 {
-    foreach(QString quote, getQuotes(line))
+   foreach(QString quote, getQuotes(line))
         line.replace("'" + quote + "'", quote);
 
     return line;
@@ -263,7 +263,7 @@ QString Helper::processQuotes(QString line)
 QString Helper::processTags(QString line, const int id)
 {
     QStringList tags = getTags(line);
-    line = processQuotes(line);
+//    line = processQuotes(line);
 
     if (!tags.isEmpty())
     {
@@ -526,6 +526,7 @@ QString Helper::parseLine(const int id, QString line)
     line = processContainers(line, id);
     line = processFunctions(line, id);
     line = processTags(line, id);
+    line = processQuotes(line);
 
     return line;
 }

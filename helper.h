@@ -5,6 +5,8 @@
 #include <QStringList>
 //#include "mediadata.h"
 
+// заменить процессКвотс на некстКвот
+// выполнять процессКвотс один раз в самом-самом конце
 
 class Helper
 {
