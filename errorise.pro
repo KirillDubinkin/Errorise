@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     MediaLibrary/albumtree.cpp \
     SimpleToolbar/simpletoolbar.cpp \
     SimpleToolbar/simpletoolbarprefs.cpp \
-    MediaLibrary/albumtreeprefs.cpp
+    MediaLibrary/albumtreeprefs.cpp \
+    MediaLibrary/albumtreeprefswidget.cpp
 
 HEADERS  += \
     global.h \
@@ -52,6 +53,8 @@ HEADERS  += \
     MediaLibrary/albumtree.h \
     SimpleToolbar/simpletoolbar.h \
     SimpleToolbar/simpletoolbarprefs.h \
-    MediaLibrary/albumtreeprefs.h
+    MediaLibrary/albumtreeprefs.h \
+    MediaLibrary/albumtreeprefswidget.h
 
-FORMS    +=
+FORMS    += \
+    MediaLibrary/albumtreeprefswidget.ui
