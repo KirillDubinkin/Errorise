@@ -9,23 +9,30 @@
 #include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <QDir>
+#include <QAction>
 
 #include "helper.h"
+
+static QRegExp rx_tag("%([a-z]*)%");
+
 
 AlbumTree::AlbumTree(QWidget *parent) :
     QTreeWidget(parent)
 {
+    prefsWidget = 0;
     prefs = new AlbumTreePrefs();
 
+    createMenu();
+
     setStyleSheet(prefs->stylesheet);
-    header()->setVisible(prefs->showHeader);
+    header()->setVisible(false);
 
     connect(mlib, SIGNAL(readyToWork()), this, SLOT(fillTree()));
 
     if (mlib->isReady())
         fillTree();
 
-    connect(this, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
+    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
             this, SLOT(selectedNodeChange(QTreeWidgetItem*)));
 }
 
@@ -35,8 +42,33 @@ AlbumTree::~AlbumTree()
     delete prefs;
 }
 
-static QRegExp rx_tag("%([a-z]*)%");
 
+
+void AlbumTree::createMenu()
+{
+    setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    QAction *act;
+
+    act = new QAction("Preferences...", this);
+    connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
+    addAction(act);
+}
+
+
+void AlbumTree::showPreferences()
+{
+    if (!prefsWidget)
+    {
+        prefsWidget = new AlbumTreePrefsWidget(prefs, this);
+        connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
+        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)), this, SLOT(setStyleSheet(QString)));
+        connect(prefsWidget, SIGNAL(iconChanged(QString)), this, SLOT(fillTree()));
+        connect(prefsWidget, SIGNAL(patternChanged(QString)), this, SLOT(fillTree()));
+
+        prefsWidget->show();
+    }
+}
 
 
 void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
@@ -58,13 +90,16 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
 void AlbumTree::fillTree()
 {
     QMap<QString, int> map = firstNode();
-    this->mkTree(map);
+    if (!map.isEmpty())
+        mkTree(map);
 }
 
 
 
 void AlbumTree::mkTree(const QMap<QString, int> &map)
 {
+    clear();
+
     QMapIterator<QString, int> i(map);
     QList<QTreeWidgetItem *> list;
 
@@ -182,7 +217,7 @@ QMap<QString, int> AlbumTree::firstNode()
 
         return map;
     }
-    qWarning() << query.lastError();
+    //qWarning() << query.lastError();
 
     QMap<QString, int> map;
     return map;

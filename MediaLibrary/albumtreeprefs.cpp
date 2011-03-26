@@ -29,9 +29,6 @@ void AlbumTreePrefs::reset()
     pattern    = "%filepath%";
     stylesheet = "";
     items_icon = "";
-
-    header     = PlugName;
-    showHeader = false;
 }
 
 
@@ -53,12 +50,6 @@ void AlbumTreePrefs::load()
     stylesheet = set.value("stylesheet", stylesheet).toString();
     items_icon = set.value("items_icon", items_icon).toString();
     set.endGroup();
-
-
-    set.beginGroup("Header");
-    header     = set.value("header", header).toString();
-    showHeader = set.value("showHeader", showHeader).toBool();
-    set.endGroup();
 }
 
 
@@ -77,13 +68,6 @@ void AlbumTreePrefs::save()
     set.setValue("stylesheet", stylesheet);
     set.setValue("items_icon", items_icon);
     set.endGroup();
-
-
-    set.beginGroup("Header");
-    set.setValue("header", header);
-    set.setValue("showHeader", showHeader);
-    set.endGroup();
-
 
     set.sync();
 }

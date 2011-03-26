@@ -9,7 +9,9 @@ AlbumTreePrefsWidget::AlbumTreePrefsWidget(AlbumTreePrefs *p, QWidget *parent) :
     ui(new Ui::AlbumTreePrefsWidget)
 {
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_DeleteOnClose, true);
     this->setWindowFlags(Qt::Window);
+    this->setGeometry(parent->x() - 100, parent->y() - 100, 640, 480);
 
     prefs = p;
     conct();
@@ -31,23 +33,16 @@ void AlbumTreePrefsWidget::load()
     ui->ItemIconLine->setText(prefs->items_icon);
     ui->TreePatternLine->setText(prefs->pattern);
     ui->StyleSheetEdit->setPlainText(prefs->stylesheet);
-
-
-        //! Header
-    ui->showHeaderCheck->setChecked(prefs->showHeader);
-    ui->HeaderLine->setText(prefs->header);
 }
 
 
 void AlbumTreePrefsWidget::conct()
 {
-    connect(ui->HeaderLine,      SIGNAL(textChanged(QString)), this, SLOT(setTreeHeader(QString)));
-    connect(ui->showHeaderCheck, SIGNAL(toggled(bool)),        this, SLOT(setTreeHeaderVisible(bool)));
     connect(ui->IconButtn,       SIGNAL(clicked()),            this, SLOT(getIcon()));
     connect(ui->ItemIconLine,    SIGNAL(textChanged(QString)), this, SLOT(setTreeItemIcon(QString)));
     connect(ui->TreePatternLine, SIGNAL(textEdited(QString)),  this, SLOT(setTreePattern(QString)));
     connect(ui->StyleSheetEdit,  SIGNAL(textChanged()),        this, SLOT(setTreeStyle()));
-    connect(&timer,               SIGNAL(timeout()),            this, SIGNAL(stylesheetChanged()));
+    connect(&timer,              SIGNAL(timeout()),            this, SLOT(emitStylesheetChange()));
 }
 
 

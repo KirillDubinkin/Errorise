@@ -7,6 +7,7 @@
 #include <QModelIndex>
 
 #include "MediaLibrary/albumtreeprefs.h"
+#include "MediaLibrary/albumtreeprefswidget.h"
 #include "global.h"
 
 using namespace Global;
@@ -26,15 +27,19 @@ public slots:
 private slots:
     void fillTree();
     void selectedNodeChange(QTreeWidgetItem *cur);
+    void showPreferences();
+    inline void deletePreferences() { prefsWidget = 0; }
 
 private:
+    void createMenu();
     QMap<QString, int> firstNode();
     void mkTree(const QMap<QString, int> &map);
 
 private:
     QString ptrn;
     QMultiMap<QString, int> tracks;
-    AlbumTreePrefs *prefs;
+    AlbumTreePrefs          *prefs;
+    AlbumTreePrefsWidget    *prefsWidget;
 
 
 };

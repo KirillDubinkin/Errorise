@@ -20,10 +20,9 @@ public:
     QTimer                   timer;
 
 signals:
-    void headerChanged(QString text);
     void patternChanged(QString pattern);
     void iconChanged(QString filename);
-    void stylesheetChanged();
+    void stylesheetChanged(QString style);
 
 private:
     void load();
@@ -34,9 +33,8 @@ private:
     AlbumTreePrefs           *prefs;
 
 private slots:
-    inline void setTreeHeader(QString text)  { prefs->header = text;       emit headerChanged(text); }
-    inline void setTreeHeaderVisible(bool b) { prefs->showHeader = b;      emit headerChanged(QString::null); }
     inline void setTreePattern(QString text) { prefs->pattern = text;      emit patternChanged(text); }
+    inline void emitStylesheetChange()       { emit stylesheetChanged(prefs->stylesheet); }
 
     void setTreeItemIcon(QString text);
     void setTreeStyle();

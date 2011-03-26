@@ -13,9 +13,6 @@ public:
     void load();
     void save();
 
-    QString header;
-    bool    showHeader;
-
     QString pattern;
     QString stylesheet;
     QString items_icon;
