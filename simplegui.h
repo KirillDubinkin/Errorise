@@ -26,6 +26,9 @@ signals:
 
 public slots:
 
+private slots:
+    void changeTitle();
+
 private:
     QMenu *mainMenu;
     QWidget *toolBar;

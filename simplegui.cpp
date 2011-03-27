@@ -4,6 +4,7 @@
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include "version.h"
 
 
 SimpleGUI::SimpleGUI(QWidget *parent) :
@@ -31,6 +32,9 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     this->setLayout(this->mainLayout);
     this->setGeometry(pref->x, pref->y, pref->res_main_width, pref->res_main_height);
     this->setWindowFlags(Qt::Window);
+    this->setWindowTitle(myplayerName() + " v." + myplayerVersion());
+
+    connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle()));
 }
 
 SimpleGUI::~SimpleGUI()
@@ -39,3 +43,7 @@ SimpleGUI::~SimpleGUI()
 }
 
 
+void SimpleGUI::changeTitle()
+{
+
+}
