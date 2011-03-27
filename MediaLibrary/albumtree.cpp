@@ -65,10 +65,10 @@ void AlbumTree::showPreferences()
         connect(prefsWidget, SIGNAL(stylesheetChanged(QString)), this, SLOT(setStyleSheet(QString)));
         connect(prefsWidget, SIGNAL(iconChanged(QString)), this, SLOT(fillTree()));
         connect(prefsWidget, SIGNAL(patternChanged(QString)), this, SLOT(fillTree()));
-
-        prefsWidget->show();
-        prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
     }
+
+    prefsWidget->show();
+    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
 }
 
 

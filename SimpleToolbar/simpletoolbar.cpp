@@ -198,6 +198,7 @@ void SimpleToolbar::showPreferences()
     }
 
     prefsWidget->show();
+    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
 }
 
 
