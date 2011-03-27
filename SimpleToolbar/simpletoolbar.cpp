@@ -17,8 +17,9 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
     L = new QHBoxLayout;
     L->setMargin(0);
 
-    this->setStyleSheet(prefs->style);
-    this->initComponents();
+    setStyleSheet(prefs->style);
+    initComponents();
+    createMenu();
 
     for (int i = 0; i < prefs->toolList.size(); i++)
     {
@@ -47,18 +48,17 @@ SimpleToolbar::~SimpleToolbar()
 
 void SimpleToolbar::initComponents()
 {
-    seek_bar = 0;
-    volume = 0;
-    small_menu = 0;
-    full_menu = 0;
-    playback_order = 0;
+    prefsWidget    = 0;
 
-    btn_next = 0;
-    btn_pause = 0;
-    btn_play = 0;
+    seek_bar       = 0;
+    volume         = 0;
+
+    btn_next       = 0;
+    btn_pause      = 0;
+    btn_play       = 0;
     btn_play_pause = 0;
-    btn_prev = 0;
-    btn_stop = 0;
+    btn_prev       = 0;
+    btn_stop       = 0;
 }
 
 Phonon::SeekSlider * SimpleToolbar::seekbar()
@@ -67,11 +67,12 @@ Phonon::SeekSlider * SimpleToolbar::seekbar()
         //seek_bar = new Phonon::SeekSlider(player->mediaObject(), this);
         seek_bar = player->seekSlider(this);
         seek_bar->setAttribute(Qt::WA_DeleteOnClose);
-        seek_bar->setContextMenuPolicy(Qt::ActionsContextMenu);
+        /*seek_bar->setContextMenuPolicy(Qt::ActionsContextMenu);
 
         QAction *act;
         seek_bar->addAction(act = new QAction(tr("Remove from Toolbar"), seek_bar));
         connect(act, SIGNAL(triggered()), this, SLOT(hideSeekbar()));
+    */
     }
 
     return seek_bar;
@@ -93,13 +94,13 @@ Phonon::VolumeSlider * SimpleToolbar::vol()
         volume->setMinimum(0);
         volume->setMaximum(100);
 */
-        volume->setContextMenuPolicy(Qt::ActionsContextMenu);
+    /*    volume->setContextMenuPolicy(Qt::ActionsContextMenu);
         volume->setAttribute(Qt::WA_DeleteOnClose);
 
         QAction *act;
         volume->addAction(act = new QAction(tr("Remove from toolbar"), volume));
         connect(act, SIGNAL(triggered()), this, SLOT(hideVol()));
-
+*/
     }
 
     return volume;
@@ -187,3 +188,28 @@ QPushButton * SimpleToolbar::btnStop()
     return btn_stop;
 }
 
+
+void SimpleToolbar::showPreferences()
+{
+    if (!prefsWidget)
+    {
+        prefsWidget = new SimpeToolbarPrefsWidget(prefs, this);
+        connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
+    }
+
+    prefsWidget->show();
+}
+
+
+void SimpleToolbar::createMenu()
+{
+    setContextMenuPolicy(Qt::ActionsContextMenu);
+
+
+    QAction *act;
+
+    act = new QAction("Preferences...", this);
+    connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
+    addAction(act);
+
+}

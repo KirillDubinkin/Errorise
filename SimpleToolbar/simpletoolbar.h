@@ -6,12 +6,12 @@
 #include <QPushButton>
 #include <QString>
 #include <QStringList>
-#include <QMenu>
 
 #include <Phonon/VolumeSlider>
 #include <Phonon/SeekSlider>
 
 #include <SimpleToolbar/simpletoolbarprefs.h>
+#include "SimpleToolbar/simpetoolbarprefswidget.h"
 
 class SimpleToolbar : public QWidget
 {
@@ -19,8 +19,6 @@ class SimpleToolbar : public QWidget
 public:
     explicit SimpleToolbar(QWidget *parent = 0);
     ~SimpleToolbar();
-
-//    MySlider *seekbar();
 
     Phonon::VolumeSlider *vol();
     Phonon::SeekSlider   *seekbar();
@@ -32,27 +30,36 @@ public:
     QPushButton *btnPause();
     QPushButton *btnPlayPause();
 
-private:
-    void initComponents();
-
-    QHBoxLayout *L;
-    SimpleToolbarPrefs *prefs;
-
-   // MySlider *seek_bar, *volume;
-
-
-
-    Phonon::VolumeSlider *volume;
-    Phonon::SeekSlider   *seek_bar;
-
-    QMenu *small_menu, *full_menu, *playback_order;
-    QPushButton *btn_play, *btn_next, *btn_prev, *btn_stop, *btn_pause, *btn_play_pause;
-
-signals:
 
 public slots:
     void hideVol();
     void hideSeekbar();
+
+
+private slots:
+    void showPreferences();
+    inline void deletePreferences() { prefsWidget = 0; }
+
+
+private:
+    void initComponents();
+    void createMenu();
+
+
+private:
+    QHBoxLayout *L;
+
+    SimpleToolbarPrefs      *prefs;
+    SimpeToolbarPrefsWidget *prefsWidget;
+
+    Phonon::VolumeSlider *volume;
+    Phonon::SeekSlider   *seek_bar;
+
+    QPushButton *btn_play, *btn_next, *btn_prev, *btn_stop, *btn_pause, *btn_play_pause;
+
+signals:
+
+
 
 };
 

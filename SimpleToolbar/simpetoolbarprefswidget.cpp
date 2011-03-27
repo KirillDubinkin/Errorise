@@ -12,6 +12,7 @@ SimpeToolbarPrefsWidget::SimpeToolbarPrefsWidget(SimpleToolbarPrefs *p, QWidget 
     load();
 
     this->setWindowFlags(Qt::Window);
+    this->setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 
