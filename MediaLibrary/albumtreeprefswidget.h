@@ -23,6 +23,7 @@ signals:
     void patternChanged(QString pattern);
     void iconChanged(QString filename);
     void stylesheetChanged(QString style);
+    void musicLibraryChanged();
 
 private:
     void load();
@@ -32,14 +33,20 @@ private:
     Ui::AlbumTreePrefsWidget *ui;
     AlbumTreePrefs           *prefs;
 
+    QString musicPath;
+    QString fileTypes;
+
 private slots:
     inline void setTreePattern(QString text) { prefs->pattern = text;      emit patternChanged(text); }
     inline void emitStylesheetChange()       { emit stylesheetChanged(prefs->stylesheet); }
+    inline void setMusicPath(QString text)   { musicPath = text; }
+    inline void setFileTypes(QString text)   { fileTypes = text; }
 
     void setTreeItemIcon(QString text);
     void setTreeStyle();
 
     void getIcon();
+    void getMusicPath();
 };
 
 #endif // ALBUMTREEPREFSWIDGET_H
