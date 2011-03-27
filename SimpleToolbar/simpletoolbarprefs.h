@@ -55,10 +55,6 @@ public:
     QString btnPlayPauseText;
     int btnPlayPauseWidth;
 
-
-
-private:
-    QString filename;
 };
 
 

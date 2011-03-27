@@ -11,8 +11,6 @@ const QString PlugName = "AlbumTree";
 
 AlbumTreePrefs::AlbumTreePrefs()
 {
-    filename = Paths::iniPath() + QDir::separator() + PlugName + ".ini";
-
     reset();
     load();
 }
@@ -41,9 +39,6 @@ void AlbumTreePrefs::load()
 #endif
 
     set.setIniCodec(QTextCodec::codecForLocale());
-
-    qDebug() << "name" << set.fileName();
-
 
     set.beginGroup("General");
     pattern    = set.value("pattern", pattern).toString();

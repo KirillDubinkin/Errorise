@@ -2,6 +2,7 @@
 
 #include <QSettings>
 #include <QTextCodec>
+#include <QApplication>
 
 #include "paths.h"
 
@@ -10,7 +11,6 @@ const QString PlugName = "SimpleToolbar";
 
 SimpleToolbarPrefs::SimpleToolbarPrefs()
 {
-    filename = Paths::iniPath() + "/" + PlugName + ".ini";
     reset();
     load();
 }
@@ -64,9 +64,13 @@ void SimpleToolbarPrefs::reset()
 
 void SimpleToolbarPrefs::save()
 {
-    //qDebug("SimpleToolbar->Prefs::save()");
+#ifdef Q_OS_LINUX
+    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+#else
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), PlugName);
+#endif
 
-    QSettings set(filename, QSettings::IniFormat);
+
     set.setIniCodec(QTextCodec::codecForLocale());
 
 
@@ -115,9 +119,12 @@ void SimpleToolbarPrefs::save()
 
 void SimpleToolbarPrefs::load()
 {
-    //qDebug("SimpleToolbar->Prefs::load()");
+#ifdef Q_OS_LINUX
+    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+#else
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), PlugName);
+#endif
 
-    QSettings set(filename, QSettings::IniFormat);
     set.setIniCodec(QTextCodec::codecForLocale());
 
 

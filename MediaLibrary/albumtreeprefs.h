@@ -16,9 +16,6 @@ public:
     QString pattern;
     QString stylesheet;
     QString items_icon;
-
-private:
-    QString filename;
 };
 
 #endif // ALBUMTREEPREFS_H
