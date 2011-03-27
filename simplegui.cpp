@@ -11,6 +11,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 {
     mainLayout = new QVBoxLayout();
     mainLayout->setMargin(0);
+    mainLayout->setSpacing(0);
 
     toolbar = new SimpleToolbar();
     pl      = new SimplePlaylist();
@@ -20,6 +21,8 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     QHBoxLayout *hl = new QHBoxLayout();
     hl->addWidget(tree, 34);
     hl->addWidget(pl, 70);
+    hl->setMargin(0);
+    hl->setSpacing(6);
 
 //    mainLayout->setMenuBar(toolbar);
     mainLayout->addWidget(toolbar, 0);
