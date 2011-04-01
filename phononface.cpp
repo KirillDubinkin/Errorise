@@ -123,7 +123,9 @@ QString PhononFace::currentTrack()
 
 int PhononFace::currentGuid()
 {
-    return Helper().guidOf(mobject->currentSource().fileName());
+    if ((mobject->state() == Phonon::PlayingState) || (mobject->state() == Phonon::PausedState))
+        return Helper().guidOf(mobject->currentSource().fileName());
+    return -1;
 }
 
 
