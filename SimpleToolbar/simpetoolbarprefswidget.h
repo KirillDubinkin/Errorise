@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QTimer>
 
 #include "SimpleToolbar/simpletoolbarprefs.h"
 
@@ -20,11 +21,23 @@ public:
     ~SimpeToolbarPrefsWidget();
 
 
+signals:
+    void needTimer();
+    void somethingChanged();
+
 private slots:
-    void itemChosen(QListWidgetItem *item);
+    void itemChosen();
+    void setToolWidth(QString text);
+    inline void setToolHeight(QString text) { if (!text.isEmpty()) prefs->btnHeight = text.toInt(); }
+    void setToolText(QString text);
+    void setToolIcon(QString filename);
+    void setToolStylesheet();
+    void getToolIcon();
+    void startTimerNow();
 
 private:
     void load();
+    void conct();
 
     void enableAll(bool enable);
     void enableIcons(bool enable);
@@ -36,6 +49,7 @@ private:
 private:
     Ui::SimpeToolbarPrefsWidget *ui;
     SimpleToolbarPrefs          *prefs;
+    QTimer                      timer;
 };
 
 #endif // SIMPETOOLBARPREFSWIDGET_H

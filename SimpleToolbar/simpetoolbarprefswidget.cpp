@@ -2,6 +2,7 @@
 #include "ui_simpetoolbarprefswidget.h"
 
 #include <QListWidgetItem>
+#include <QFileDialog>
 
 SimpeToolbarPrefsWidget::SimpeToolbarPrefsWidget(SimpleToolbarPrefs *p, QWidget *parent) :
     QWidget(parent),
@@ -9,7 +10,10 @@ SimpeToolbarPrefsWidget::SimpeToolbarPrefsWidget(SimpleToolbarPrefs *p, QWidget 
 {
     ui->setupUi(this);
     prefs = p;
+    timer.setSingleShot(true);
+
     load();
+    conct();
 
     this->setWindowFlags(Qt::Window);
     this->setAttribute(Qt::WA_DeleteOnClose, true);
@@ -41,11 +45,26 @@ void SimpeToolbarPrefsWidget::load()
         }
     }
 
-    connect(ui->toolList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(itemChosen(QListWidgetItem*)));
+    ui->stylesheetEdit->setPlainText(prefs->style);
+
+    connect(ui->toolList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(itemChosen()));
 }
 
 
-void SimpeToolbarPrefsWidget::itemChosen(QListWidgetItem *item)
+void SimpeToolbarPrefsWidget::conct()
+{
+    connect(ui->widthLine,      SIGNAL(textChanged(QString)), this, SLOT(setToolWidth(QString)));
+    connect(ui->heightLine,     SIGNAL(textChanged(QString)), this, SLOT(setToolHeight(QString)));
+    connect(ui->textLine,       SIGNAL(textChanged(QString)), this, SLOT(setToolText(QString)));
+    connect(ui->iconLine,       SIGNAL(textChanged(QString)), this, SLOT(setToolIcon(QString)));
+    connect(ui->stylesheetEdit, SIGNAL(textChanged()),        this, SLOT(setToolStylesheet()));
+
+    connect(this, SIGNAL(needTimer()), this, SLOT(startTimerNow()));
+    connect(&timer, SIGNAL(timeout()), this, SIGNAL(somethingChanged()));
+}
+
+
+void SimpeToolbarPrefsWidget::itemChosen()
 {
     int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
 
@@ -145,4 +164,99 @@ void SimpeToolbarPrefsWidget::clearFields()
     ui->heightLine->clear();
     ui->textLine->clear();
     ui->iconLine->clear();
+}
+
+
+void SimpeToolbarPrefsWidget::setToolWidth(QString text)
+{
+    int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
+
+    bool ok;
+    int width = text.toInt(&ok);
+
+    if (ok)
+        switch (tool)
+        {
+        case Seekbar:   break;
+        case Volume:    break;
+        case Play:      prefs->btnPlayWidth      = width; break;
+        case Pause:     prefs->btnPauseWidth     = width; break;
+        case PlayPause: prefs->btnPlayPauseWidth = width; break;
+        case Stop:      prefs->btnStopWidth      = width; break;
+        case Prev:      prefs->btnPrevWidth      = width; break;
+        case Next:      prefs->btnNextWidth      = width; break;
+
+        default:
+            prefs->toolList.replace(ui->toolList->currentRow(),
+                                                QString::number(width));
+            ui->toolList->item(ui->toolList->currentRow())->setText(
+                    tr("Spacing") + " (" + QString::number(width) + ")");
+            break;
+        }
+}
+
+
+void SimpeToolbarPrefsWidget::setToolText(QString text)
+{
+    int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
+
+    switch (tool)
+    {
+    case Seekbar:   break;
+    case Volume:    break;
+    case Play:      prefs->btnPlayText      = text; break;
+    case Pause:     prefs->btnPauseText     = text; break;
+    case PlayPause: prefs->btnPlayPauseText = text; break;
+    case Stop:      prefs->btnStopText      = text; break;
+    case Prev:      prefs->btnPrevText      = text; break;
+    case Next:      prefs->btnNextText      = text; break;
+
+    default:        break;
+    }
+}
+
+
+void SimpeToolbarPrefsWidget::setToolIcon(QString filename)
+{
+    int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
+
+    switch (tool)
+    {
+    case Seekbar:   break;
+    case Volume:    break;
+    case Play:      prefs->btnPlayIcon      = filename; break;
+    case Pause:     prefs->btnPauseIcon     = filename; break;
+    case PlayPause: prefs->btnPlayPauseIcon = filename; break;
+    case Stop:      prefs->btnStopIcon      = filename; break;
+    case Prev:      prefs->btnPrevIcon      = filename; break;
+    case Next:      prefs->btnNextIcon      = filename; break;
+
+    default:        break;
+    }
+}
+
+
+void SimpeToolbarPrefsWidget::getToolIcon()
+{
+    QString filename = QFileDialog::getOpenFileName(this,
+                tr("Select AlbumTree items icon..."), ui->iconLine->text(),
+                tr("Images (*.svg *.png *.gif *.xpm *.jpg *.bmp)"), 0,
+                QFileDialog::ReadOnly);
+
+    if (!filename.isEmpty())
+        ui->iconLine->setText(filename);
+}
+
+
+void SimpeToolbarPrefsWidget::setToolStylesheet()
+{
+    prefs->style = ui->stylesheetEdit->toPlainText();
+}
+
+
+void SimpeToolbarPrefsWidget::startTimerNow()
+{
+    timer.stop();
+
+    timer.start(1000);
 }
