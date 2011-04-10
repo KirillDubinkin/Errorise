@@ -576,16 +576,10 @@ bool SimplePlaylist::findCurrentTrack(QString filename)
 void SimplePlaylist::defPlhighlight()
 {
     if (currentTrackRow > -1)
-    {
-        for (int i = 0; i < columnCount(); i++)
-        {
-            if (i != CoverColumn)
-            {
-                item(currentTrackRow, i)->setBackground(palette().base());
-                item(currentTrackRow, i)->setTextColor(palette().text().color());
-            }
-        }
-    }
+        for (int col = 1; col < columnCount() - 1; col++)
+            if (col != CoverColumn - 1)
+                this->addRowItem(currentTrackRow, col,
+                                 helper->parseLine(this->item(currentTrackRow, 0)->text().toInt(), prefs->rows_format.at(col)));
 }
 
 
