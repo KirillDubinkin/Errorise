@@ -39,10 +39,11 @@ public slots:
 private slots:
     void showPreferences();
     inline void deletePreferences() { prefsWidget = 0; }
-
+    void buildToolbar();
 
 private:
     void initComponents();
+    void deleteComponents();
     void createMenu();
 
 

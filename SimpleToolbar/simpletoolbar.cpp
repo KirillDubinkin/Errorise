@@ -16,10 +16,24 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
     prefs = new SimpleToolbarPrefs();
     L = new QHBoxLayout;
     L->setMargin(0);
+    setLayout(L);
 
     setStyleSheet(prefs->style);
     initComponents();
+    buildToolbar();
     createMenu();
+}
+
+SimpleToolbar::~SimpleToolbar()
+{
+    delete prefs;
+}
+
+
+void SimpleToolbar::buildToolbar()
+{
+    deleteComponents();
+
 
     for (int i = 0; i < prefs->toolList.size(); i++)
     {
@@ -37,14 +51,26 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
         default: L->addSpacing(QString(prefs->toolList.at(i)).toInt());
         }
     }
-
-    this->setLayout(L);
 }
 
-SimpleToolbar::~SimpleToolbar()
+
+void SimpleToolbar::deleteComponents()
 {
-    delete prefs;
+    for (int i = 0; i < L->count(); i++)
+        L->removeItem(L->itemAt(i));
+
+    if (seek_bar)       delete seek_bar;
+    if (volume)         delete volume;
+    if (btn_next)       delete btn_next;
+    if (btn_pause)      delete btn_pause;
+    if (btn_play)       delete btn_play;
+    if (btn_play_pause) delete btn_play_pause;
+    if (btn_prev)       delete btn_prev;
+    if (btn_stop)       delete btn_stop;
+
+    initComponents();
 }
+
 
 void SimpleToolbar::initComponents()
 {
@@ -195,6 +221,7 @@ void SimpleToolbar::showPreferences()
     {
         prefsWidget = new SimpeToolbarPrefsWidget(prefs, this);
         connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
+        connect(prefsWidget, SIGNAL(somethingChanged()), this, SLOT(buildToolbar()));
     }
 
     prefsWidget->show();

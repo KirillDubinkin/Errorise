@@ -175,6 +175,7 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
     int width = text.toInt(&ok);
 
     if (ok)
+    {
         switch (tool)
         {
         case Seekbar:   break;
@@ -193,6 +194,9 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
                     tr("Spacing") + " (" + QString::number(width) + ")");
             break;
         }
+
+        emit needTimer();
+    }
 }
 
 
@@ -258,5 +262,5 @@ void SimpeToolbarPrefsWidget::startTimerNow()
 {
     timer.stop();
 
-    timer.start(1000);
+    timer.start(100);
 }
