@@ -71,7 +71,7 @@ void PMediaInfo::pringTags()
 
         temp.insert("DURATION", QTime(0, 0).addMSecs(object->totalTime()).toString("mm:ss"));
         temp.insert("FORMAT", QString(format.last()).toUpper());
-        temp.insert("MODIFIED", QFileInfo(format.join(".")).lastModified().toString());
+        temp.insert("MODIFIED", QString::number(QFileInfo(format.join(".")).lastModified().toMSecsSinceEpoch()));
 
         if (temp.value("TITLE").isEmpty())
         {
@@ -83,19 +83,26 @@ void PMediaInfo::pringTags()
                 bool ok;
                 int i=0;
 
-                QString(name.at(i)).toInt(&ok);
+                QString(name.at(0)).toInt(&ok);
                 while (ok)
                 {
                     i++;
                     QString(name.at(i)).toInt(&ok);
                 }
+
                 int num = name.mid(0, i).toInt(&ok);
 
                 if (ok)
                 {
                     name.remove(0, i);
-                    while ((name.at(0) == '.') || (name.at(0) == '-') || (name.at(0) == ' '))
+
+                    QChar chr = name.at(0);
+                    while ((chr == '.') || (chr == '-')
+                        || (chr == ' ') || (chr == '_'))
+                    {
                         name.remove(0, 1);
+                        chr = name.at(0);
+                    }
 
                     temp.replace("TRACKNUMBER", QString::number(num));
                 }
