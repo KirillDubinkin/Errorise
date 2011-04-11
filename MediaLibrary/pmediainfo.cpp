@@ -71,6 +71,37 @@ void PMediaInfo::pringTags()
 
         temp.insert("DURATION", QTime(0, 0).addMSecs(object->totalTime()).toString("mm:ss"));
         temp.insert("FORMAT", QString(format.last()).toUpper());
+        temp.insert("MODIFIED", QFileInfo(format.join(".")).lastModified().toString());
+
+        if (temp.value("TITLE").isEmpty())
+        {
+            QString name = format.join(".").remove(format.last());
+            name.remove(name.size() - 1, 1);
+            name = name.split(QDir::separator()).last();
+
+
+                bool ok;
+                int i=0;
+
+                QString(name.at(i)).toInt(&ok);
+                while (ok)
+                {
+                    i++;
+                    QString(name.at(i)).toInt(&ok);
+                }
+                int num = name.mid(0, i).toInt(&ok);
+
+                if (ok)
+                {
+                    name.remove(0, i);
+                    while ((name.at(0) == '.') || (name.at(0) == '-') || (name.at(0) == ' '))
+                        name.remove(0, 1);
+
+                    temp.replace("TRACKNUMBER", QString::number(num));
+                }
+
+            temp.replace("TITLE", name);
+        }
 
         meta.insert(object->currentSource().fileName(), temp);
 
