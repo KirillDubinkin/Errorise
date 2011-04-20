@@ -527,13 +527,14 @@ void SimplePlaylist::highlightCurrentTrack(QString filename, int guid)
         {
             if (j != this->CoverColumn)
             {
-                item(currentTrackRow, j)->setBackground(palette().highlight());
-                item(currentTrackRow, j)->setTextColor(palette().highlightedText().color());
+                item(currentTrackRow, j)->setBackground(palette().brush(QPalette::Active, QPalette::Highlight));
+                item(currentTrackRow, j)->setTextColor(palette().brush(QPalette::Active, QPalette::HighlightedText).color());
             }
         }
-
+/*
     else
         qDebug("PL-HIGHLIGHT: Current track not found");
+*/
 }
 
 
