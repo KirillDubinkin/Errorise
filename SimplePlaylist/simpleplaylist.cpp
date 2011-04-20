@@ -327,21 +327,23 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
         if (!files.isEmpty())
         {
 
-            QPixmap pic(path.absoluteFilePath(files.at(0)));
+            QPixmap dPic(path.absoluteFilePath(files.at(0)));
+            QPixmap pic = dPic.scaledToWidth(prefs->columns_sizes.at(this->CoverColumn-1),
+                                             Qt::SmoothTransformation);
 
 #ifdef Q_OS_WIN
             qt_ntfs_permission_lookup--;
 #endif
-            float factor = (float) prefs->columns_sizes.at(this->CoverColumn-1) / pic.width();
-            int curGroupSize = prefs->row_height * (spanRow+2);
+           // float factor = (float) prefs->columns_sizes.at(this->CoverColumn-1) / pic.width();
+            int curGroupSize = prefs->row_height * (spanRow);
 
 
 
             QLabel *art = new QLabel;
-            art->setScaledContents(true);
+            //art->setScaledContents(true);
             art->setPixmap(pic);
 
-            if (curGroupSize < (pic.height() * factor))
+            if (curGroupSize < pic.height())
             {
                 //! Insert row under the group, to perform image resize without resize track height
                 int newRow = row + spanRow;
@@ -373,7 +375,7 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
                 }
 
 
-                this->setRowHeight(newRow,  pic.height() * factor - curGroupSize);
+                this->setRowHeight(newRow,  pic.height() - curGroupSize);
 
                 //! Set span for cover cell and add him item, to set cover cell background colors
                 this->setSpan(row, this->CoverColumn, spanRow+1, 1);
@@ -386,7 +388,7 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
             this->setSpan(row, this->CoverColumn, spanRow, 1);
             this->setItem(row, this->CoverColumn, this->newItem(brush, Qt::NoItemFlags));
 
-            art->setMaximumHeight(pic.height() * factor);
+            art->setMaximumHeight(pic.height());
             this->setCellWidget(row, this->CoverColumn, art);
 
             return row + spanRow - 1;
