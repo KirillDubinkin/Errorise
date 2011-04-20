@@ -394,10 +394,15 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
     }
 
     //! Set span for cover cell, if images not found, or pattern is empty.
-    this->setSpan(row, this->CoverColumn, spanRow, 1);
-    this->setItem(row, this->CoverColumn, this->newItem(brush, Qt::NoItemFlags));
+    if (spanRow > 1)
+    {
+        this->setSpan(row, this->CoverColumn, spanRow, 1);
+        this->setItem(row, this->CoverColumn, this->newItem(brush, Qt::NoItemFlags));
 
-    return row + spanRow - 1;
+        return row + spanRow - 1;
+    }
+
+    return row;
 }
 
 
