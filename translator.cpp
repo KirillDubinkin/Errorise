@@ -1,8 +1,11 @@
 #include "translator.h"
-#include "paths.h"
 #include <QTranslator>
 #include <QLocale>
 #include <QApplication>
+#include <QLibraryInfo>
+#include "global.h"
+
+using namespace Global;
 
 Translator::Translator() {
 	qApp->installTranslator( &app_trans );
@@ -27,8 +30,8 @@ void Translator::load(QString locale) {
         locale = QLocale::system().name();
     }
 
-	QString trans_path = Paths::translationPath();
-	QString qt_trans_path = Paths::qtTranslationPath();
+        QString trans_path = pref->translations_path;
+        QString qt_trans_path = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 
 #ifdef Q_OS_WIN
 	// In windows try to load the qt translation from the app path, as
@@ -41,5 +44,5 @@ void Translator::load(QString locale) {
 		loadCatalog(qt_trans, "qt", locale, qt_trans_path);
 	}
 #endif
-	loadCatalog(app_trans, "smplayer", locale, trans_path);
+        loadCatalog(app_trans, "errorise", locale, trans_path);
 }

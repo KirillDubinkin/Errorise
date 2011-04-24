@@ -9,10 +9,10 @@
 class Preferences {
 
 private:
-        QString filename;
+        QString config_path;
 
 public:
-        Preferences(QString filename = QString::null);
+        Preferences();
 	virtual ~Preferences();
 
 	virtual void reset();
@@ -21,6 +21,10 @@ public:
 	void save();
 	void load();
 #endif
+
+
+        inline QString configPath() { return config_path; }
+
 
     /* *******
        General
@@ -51,6 +55,8 @@ public:
 
         QString music_library_path;
         QString files_filter;
+
+        QString translations_path;
 
 
 //////// -  It's goes to GUI preferences  - ///////

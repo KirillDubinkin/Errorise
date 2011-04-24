@@ -269,7 +269,7 @@ QString Helper::processTags(QString line, const int id)
     {
         QStringList values = valueOfTrack(tags, id);
 
-        for (int i = 0; i < tags.size(); i++)
+        for (int i = 0; i < values.size(); i++)
             line.replace("%" + tags.at(i) + "%", values.at(i));
     }
 

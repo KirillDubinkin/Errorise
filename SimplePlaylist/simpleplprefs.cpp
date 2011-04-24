@@ -1,16 +1,14 @@
 #include "simpleplprefs.h"
 
-#include "paths.h"
 #include <QSettings>
 #include <QTextCodec>
+#include <QApplication>
 
-
-#define PLUG_NAME "SimplePlayList"
-
+const QString PlugName = "SimplePlayList";
 
 SimplePLPrefs::SimplePLPrefs()
 {
-    filename = Paths::iniPath() + "/" + PLUG_NAME + ".ini";
+
     reset();
     load();
 }
@@ -26,7 +24,7 @@ void SimplePLPrefs::reset()
     //qDebug("SimplePlaylist->Prefs::reset()");
 
     //! Groups
-    groups_format = "%album_artist% - [%date%] %album%";
+    groups_format = "[%date%] %album%";
     groups_text_color = "ffffff";
     groups_text_aligment = Qt::AlignLeft;
     groups_back_color = "13363b";
@@ -35,27 +33,27 @@ void SimplePLPrefs::reset()
     group_labels = true;
 
     //! Columns
-    columns_names << "Cover" << "#" << "Length" << "Track Name" << "Bitrate" << "Format";
-    columns_sizes << 200 << 23 << 75 << 200 << 75 << 50;
-    columns_aligment << 4 << 4 << 4 << 4 << 4 << 4;
-    columns_stylesheet << "" << "" << "" << "" << "" << "";
+    columns_names << "Cover" << "#" << "Length" << "Track Name" << "Format";
+    columns_sizes << 300 << 40 << 80 << 200 << 80;
+    columns_aligment << 4 << 4 << 4 << 4 << 4;
+    columns_stylesheet << "" << "" << "" << "" << "";
 
     //! Rows
-    rows_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%bitrate%" << "%format%";
-    rows_stylesheet << "" << "" << "" << "" << "" << "";
-    rows_playback_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%bitrate%" << "%format%";
-    rows_playback_stylesheet << "" << "" << "" << "" << "" << "";
+    rows_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
+    rows_stylesheet << "" << "" << "" << "" << "";
+    rows_playback_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
+    rows_playback_stylesheet << "" << "" << "" << "" << "";
     labels = false;
 
     //! Colors
-    color_column_text << "" << "527482" << "43606b" << "" << "43606b" << "527482";
-    color_column_back << "" << "" << "" << "" << "" << "";
+    color_column_text << "" << "527482" << "43606b" << "" << "527482";
+    color_column_back << "" << "" << "" << "" << "";
 
     //! Other
     art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
     art_search_folders << "art" << "artwork" << "covers";
-    stylesheet = "";
-    row_height = 14;
+    stylesheet = "font: 9pt \"Ubuntu\"";
+    row_height = 16;
     alternate_colors = true;
     show_header = false;
 
@@ -67,7 +65,12 @@ void SimplePLPrefs::save()
 {
     //qDebug("SimplePlaylist->Prefs::save()");
 
-    QSettings set(filename, QSettings::IniFormat);
+#ifdef Q_OS_LINUX
+        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+#else
+        QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), PlugName);
+#endif
+
     set.setIniCodec(QTextCodec::codecForLocale());
 
     //! Groups
@@ -137,7 +140,12 @@ void SimplePLPrefs::load()
 {
     //qDebug("SimplePlaylist->Prefs::load()");
 
-    QSettings set(filename, QSettings::IniFormat);
+#ifdef Q_OS_LINUX
+        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+#else
+        QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), PlugName);
+#endif
+
     set.setIniCodec(QTextCodec::codecForLocale());
 
     //! Groups

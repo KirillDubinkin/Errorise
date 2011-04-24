@@ -16,7 +16,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
     global.cpp \
     translator.cpp \
-    paths.cpp \
     preferences.cpp \
     amplayer.cpp \
     helper.cpp \
@@ -38,7 +37,6 @@ HEADERS  += \
     global.h \
     preferences.h \
     translator.h \
-    paths.h \
     amplayer.h \
     version.h \
     helper.h \

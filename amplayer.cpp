@@ -1,5 +1,4 @@
 #include "amplayer.h"
-#include "paths.h"
 #include "version.h"
 #include "global.h"
 #include "translator.h"
@@ -10,7 +9,7 @@
 
 using namespace Global;
 
-AMPlayer::AMPlayer(const QString & config_path, QObject * parent ) :
+AMPlayer::AMPlayer(QObject * parent ) :
     QObject(parent)
 {
     //main_window = 0;
@@ -22,12 +21,7 @@ AMPlayer::AMPlayer(const QString & config_path, QObject * parent ) :
     move_gui = false;
     resize_gui = false;
 
-    Paths::setAppPath( qApp->applicationDirPath() );
-
-#ifndef PORTABLE_APP
-    if (config_path.isEmpty()) createConfigDirectory();
-#endif
-    global_init(config_path);
+    global_init();
 
     // Application translations
     translator->load( pref->language );
@@ -42,17 +36,6 @@ AMPlayer::~AMPlayer()
 }
 
 
-
-#ifndef PORTABLE_APP
-void AMPlayer::createConfigDirectory() {
-        if (!QFile::exists(Paths::configPath())) {
-                QDir d;
-                if (!d.mkdir(Paths::configPath())) {
-                        qWarning("%s::createConfigDirectory: can't create %s", myplayerName().toUtf8().data(), Paths::configPath().toUtf8().data());
-                }
-        }
-}
-#endif
 
 
 
@@ -106,7 +89,7 @@ void AMPlayer::showInfo() {
         qDebug("%s", s.toUtf8().data() );
         qDebug("Compiled with Qt v. %s, using %s", QT_VERSION_STR, qVersion());
 
-        qDebug(" * application path: '%s'", Paths::appPath().toUtf8().data());
-        qDebug(" * config path: '%s'", Paths::configPath().toUtf8().data());
+        qDebug(" * application path: '%s'", qApp->applicationDirPath().toUtf8().data());
+        qDebug(" * config path: '%s'", pref->configPath().toUtf8().data());
         qDebug(" * current path: '%s'", QDir::currentPath().toUtf8().data());
 }

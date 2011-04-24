@@ -1,10 +1,12 @@
 #include "musiclibrary.h"
-#include "paths.h"
+#include "global.h"
 #include <QDir>
 #include <QtSql/QSqlQuery>
 #include <QFileInfo>
 #include <QFileInfoList>
 #include <QMapIterator>
+
+using namespace Global;
 
 MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
                            QObject *parent) :
@@ -45,8 +47,9 @@ bool MusicLibrary::openDb()
 {
     db = QSqlDatabase::addDatabase("QSQLITE", "MusLibConnect");
 
-    QString path = Paths::iniPath().append(QDir::separator()).append("Music.library");
+    QString path = pref->configPath() + QDir::separator() + "Music.library";
     path = QDir::toNativeSeparators(path);
+
 
     db.setDatabaseName(path);
 

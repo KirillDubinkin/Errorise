@@ -12,7 +12,7 @@ class AMPlayer : public QObject
 public:
         enum ExitCode { ErrorArgument = -3, NoAction = -2, NoRunningInstance = -1, NoError = 0, NoExit = 1 };
 
-        AMPlayer(const QString & config_path = QString::null, QObject * parent = 0);
+        AMPlayer(QObject * parent = 0);
         ~AMPlayer();
 
         //! Process arguments. If ExitCode != NoExit the application must be exited.
@@ -24,9 +24,6 @@ public:
         void start();
 
 private:
-#ifndef PORTABLE_APP
-        void createConfigDirectory();
-#endif
         void showInfo();
 
         //MainWindow * main_window;

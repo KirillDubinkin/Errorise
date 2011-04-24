@@ -13,10 +13,8 @@
 
 using namespace Global;
 
-Preferences::Preferences(QString filename)
+Preferences::Preferences()
 {
-    this->filename = filename;
-
     reset();
     load();
 }
@@ -61,39 +59,36 @@ void Preferences::reset()
     music_library_path = QDir::homePath();
     files_filter = QString("*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
 
+    translations_path = config_path + QDir::separator() + "translations";
+
 }
 
 #ifndef NO_USE_INI_FILES
 void Preferences::save() {
-	qDebug("Preferences::save");
+        //qDebug("Preferences::save");
 
-        QSettings * set;
-
-        if (filename.isEmpty())
-        {
 #ifdef Q_OS_LINUX
-            set = new QSettings(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
 #else
-            set = new QSettings(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+        QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
 #endif
-        } else
-            set = new QSettings( filename, QSettings::NativeFormat );
+        config_path = QFileInfo(set.fileName()).absolutePath();
+        translations_path = config_path + QDir::separator() + "translations";
+        set.setIniCodec(QTextCodec::codecForLocale());
 
-
-        set->setIniCodec(QTextCodec::codecForLocale());
 
 
     /* *******
        General
        ******* */
 
-	set->beginGroup( "general");
+        set.beginGroup( "general");
 
-        set->setValue("driver/audio_output", ao);
-	set->setValue("volume", volume);
-	set->setValue("mute", mute);
+        set.setValue("driver/audio_output", ao);
+        set.setValue("volume", volume);
+        set.setValue("mute", mute);
 
-	set->endGroup(); // general
+        set.endGroup(); // general
 
 
 
@@ -101,84 +96,83 @@ void Preferences::save() {
        Advanced
        ******** */
 
-	set->beginGroup( "advanced");
+        set.beginGroup( "advanced");
 
-        set->setValue("log", log);
-	set->setValue("log_filter", log_filter);
-        set->setValue("save_log", save_log);
+        set.setValue("log", log);
+        set.setValue("log_filter", log_filter);
+        set.setValue("save_log", save_log);
 
-	set->endGroup(); // advanced
+        set.endGroup(); // advanced
 
 
     /* *********
        GUI stuff
        ********* */
 
-	set->beginGroup("gui");
+        set.beginGroup("gui");
 
-	set->setValue("stay_on_top", (int) stay_on_top);
-	set->setValue("language", language);
-	set->setValue("iconset", iconset);
+        set.setValue("stay_on_top", (int) stay_on_top);
+        set.setValue("language", language);
+        set.setValue("iconset", iconset);
 
-	set->setValue("close_on_finish", close_on_finish);
+        set.setValue("close_on_finish", close_on_finish);
 
-        set->setValue("auto_add_to_playlist", auto_add_to_playlist);
-        set->setValue("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files);
-
-
-        set->setValue("res_main_width", res_main_width);
-        set->setValue("res_main_height", res_main_height);
-
-        set->setValue("window_x", x);
-        set->setValue("window_y", y);
+        set.setValue("auto_add_to_playlist", auto_add_to_playlist);
+        set.setValue("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files);
 
 
-	set->endGroup(); // gui
+        set.setValue("res_main_width", res_main_width);
+        set.setValue("res_main_height", res_main_height);
+
+        set.setValue("window_x", x);
+        set.setValue("window_y", y);
+
+
+        set.endGroup(); // gui
 
 
     /* ***********
        Directories
        *********** */
 
-	set->beginGroup( "directories");
-        set->setValue("music_library_path", music_library_path);
-        set->setValue("files_filter", files_filter);
-	set->endGroup(); // directories
+        set.beginGroup( "directories");
+        set.setValue("music_library_path", music_library_path);
+        set.setValue("files_filter", files_filter);
+        set.setValue("translations_path", translations_path);
+        set.endGroup(); // directories
 
-	set->sync();
+        set.sync();
 }
 
 
 
 void Preferences::load() {
-        qDebug("Preferences::load");
+    //    qDebug("Preferences::load");
 
-        QSettings * set;
 
-        if (filename.isEmpty())
-        {
 #ifdef Q_OS_LINUX
-            set = new QSettings(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
 #else
-            set = new QSettings(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+        QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
 #endif
-        } else
-            set = new QSettings( filename, QSettings::NativeFormat );
 
-        set->setIniCodec(QTextCodec::codecForLocale());
+        config_path = QFileInfo(set.fileName()).absolutePath();
+        translations_path = config_path + QDir::separator() + "translations";
+        set.setIniCodec(QTextCodec::codecForLocale());
+
 
 
     /* *******
        General
        ******* */
 
-        set->beginGroup( "general");
+        set.beginGroup( "general");
 
-        ao = set->value("driver/audio_output", ao).toString();
-	volume = set->value("volume", volume).toInt();
-	mute = set->value("mute", mute).toBool();
+        ao = set.value("driver/audio_output", ao).toString();
+        volume = set.value("volume", volume).toInt();
+        mute = set.value("mute", mute).toBool();
 
-	set->endGroup(); // general
+        set.endGroup(); // general
 
 
 
@@ -186,49 +180,50 @@ void Preferences::load() {
        Advanced
        ******** */
 
-	set->beginGroup( "advanced");
+        set.beginGroup( "advanced");
 
-        log = set->value("log", log).toBool();
-	log_filter = set->value("log_filter", log_filter).toString();
-        save_log = set->value("save_log", save_log).toBool();
+        log = set.value("log", log).toBool();
+        log_filter = set.value("log_filter", log_filter).toString();
+        save_log = set.value("save_log", save_log).toBool();
 
-	set->endGroup(); // advanced
+        set.endGroup(); // advanced
 
 
     /* *********
        GUI stuff
        ********* */
 
-	set->beginGroup("gui");
+        set.beginGroup("gui");
 
-        stay_on_top = set->value("stay_on_top", stay_on_top).toBool();
+        stay_on_top = set.value("stay_on_top", stay_on_top).toBool();
 
-	language = set->value("language", language).toString();
-	iconset= set->value("iconset", iconset).toString();
+        language = set.value("language", language).toString();
+        iconset= set.value("iconset", iconset).toString();
 
-	close_on_finish = set->value("close_on_finish", close_on_finish).toBool();
+        close_on_finish = set.value("close_on_finish", close_on_finish).toBool();
 
-	auto_add_to_playlist = set->value("auto_add_to_playlist", auto_add_to_playlist).toBool();
-	add_to_playlist_consecutive_files = set->value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
+        auto_add_to_playlist = set.value("auto_add_to_playlist", auto_add_to_playlist).toBool();
+        add_to_playlist_consecutive_files = set.value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
 
-        res_main_width = set->value("res_main_width", res_main_width).toInt();
-        res_main_height = set->value("res_main_height", res_main_height).toInt();
+        res_main_width = set.value("res_main_width", res_main_width).toInt();
+        res_main_height = set.value("res_main_height", res_main_height).toInt();
 
-        x = set->value("window_x", x).toInt();
-        y = set->value("window_y", y).toInt();
+        x = set.value("window_x", x).toInt();
+        y = set.value("window_y", y).toInt();
 
-	set->endGroup(); // gui
+        set.endGroup(); // gui
 
 
     /* ***********
        Directories
        *********** */
 
-	set->beginGroup( "directories");
+        set.beginGroup( "directories");
 
-        music_library_path = set->value("music_library_path", music_library_path).toString();
-        files_filter = set->value("files_filter", files_filter).toString();
-        set->endGroup(); // directories
+        music_library_path = set.value("music_library_path", music_library_path).toString();
+        files_filter = set.value("files_filter", files_filter).toString();
+        translations_path = set.value("translations_path", translations_path).toString();
+        set.endGroup(); // directories
 
 }
 

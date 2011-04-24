@@ -28,7 +28,7 @@ namespace Global {
         extern PhononFace   *player;
 
 
-	void global_init(const QString & config_path);
+        void global_init();
 	void global_end();
 
 };

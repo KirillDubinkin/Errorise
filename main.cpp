@@ -73,7 +73,7 @@ void myMessageOutput( QtMsgType type, const char *msg )
                 if (pref->save_log) {
                         // Save log to file
                         if (!output_log.isOpen()) {
-                            output_log.setFileName( Paths::configPath() + QDir::separator() + myplayerName().toLower() + "_log.txt" );
+                            output_log.setFileName( pref->configPath() + QDir::separator() + myplayerName().toLower() + ".log" );
                                 output_log.open(QIODevice::WriteOnly);
                         }
                         if (output_log.isOpen()) {
@@ -94,25 +94,12 @@ int main( int argc, char ** argv )
         a.setApplicationName("Errorise");
         //a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
 
-        // Sets the config path
-        QString config_path;
-/*
-#ifdef PORTABLE_APP
-        config_path = a.applicationDirPath();
-#else
-        // If a myplayerName.ini exists in the app path, will use that path
-        // for the config file by default
-        if (QFile::exists( a.applicationDirPath() + QDir::separator() + myplayerName().toLower() + ".ini" ) ) {
-                config_path = a.applicationDirPath();
-                qDebug("main: using existing %s", QString(config_path + QDir::separator() + myplayerName().toLower() + ".ini").toUtf8().data());
-        }
-#endif
-*/
+
         //QStringList args = a.arguments();
 
         qInstallMsgHandler( myMessageOutput );
 
-        AMPlayer * amplayer = new AMPlayer(config_path);
+        AMPlayer * amplayer = new AMPlayer();
 /*        AMPlayer::ExitCode c = amplayer->processArgs( args );
         if (c != AMPlayer::NoExit) {
                 return c;

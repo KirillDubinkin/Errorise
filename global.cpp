@@ -15,20 +15,19 @@ PhononFace      * Global::player     = 0;
 
 using namespace Global;
 
-void Global::global_init(const QString & config_path) {
+void Global::global_init()
+{
 	qDebug("global_init");
 
-	// Translator
-	translator = new Translator();
-
 	// Preferences
-        pref      = new Preferences(config_path);
+        pref      = new Preferences();
+
+        // Translator
+        translator = new Translator();
 
         player    = new PhononFace();
         mlib      = new MusicLibrary(pref->music_library_path,
                                      pref->files_filter);
-
-
 }
 
 void Global::global_end() {
