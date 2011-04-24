@@ -9,11 +9,14 @@
 #include <QLocale>
 #include <QTextCodec>
 #include <QDebug>
+#include <QApplication>
 
 using namespace Global;
 
-Preferences::Preferences()
+Preferences::Preferences(QString filename)
 {
+    this->filename = filename;
+
     reset();
     load();
 }
@@ -64,7 +67,19 @@ void Preferences::reset()
 void Preferences::save() {
 	qDebug("Preferences::save");
 
-	QSettings * set = settings;
+        QSettings * set;
+
+        if (filename.isEmpty())
+        {
+#ifdef Q_OS_LINUX
+            set = new QSettings(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+#else
+            set = new QSettings(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+#endif
+        } else
+            set = new QSettings( filename, QSettings::NativeFormat );
+
+
         set->setIniCodec(QTextCodec::codecForLocale());
 
 
@@ -138,7 +153,18 @@ void Preferences::save() {
 void Preferences::load() {
         qDebug("Preferences::load");
 
-        QSettings * set = settings;
+        QSettings * set;
+
+        if (filename.isEmpty())
+        {
+#ifdef Q_OS_LINUX
+            set = new QSettings(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+#else
+            set = new QSettings(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+#endif
+        } else
+            set = new QSettings( filename, QSettings::NativeFormat );
+
         set->setIniCodec(QTextCodec::codecForLocale());
 
 

@@ -96,7 +96,7 @@ int main( int argc, char ** argv )
 
         // Sets the config path
         QString config_path;
-
+/*
 #ifdef PORTABLE_APP
         config_path = a.applicationDirPath();
 #else
@@ -107,7 +107,7 @@ int main( int argc, char ** argv )
                 qDebug("main: using existing %s", QString(config_path + QDir::separator() + myplayerName().toLower() + ".ini").toUtf8().data());
         }
 #endif
-
+*/
         //QStringList args = a.arguments();
 
         qInstallMsgHandler( myMessageOutput );

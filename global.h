@@ -9,19 +9,13 @@
 
 // Some global objects
 
-
-class QSettings;
 class Preferences;
 class Translator;
-
 
 class PhononFace;
 class MusicLibrary;
 
 namespace Global {
-
-        //! Read and store application settings
-	extern QSettings * settings;
 
 	//! Prefences
 	extern Preferences * pref;

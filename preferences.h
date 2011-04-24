@@ -8,8 +8,11 @@
 
 class Preferences {
 
+private:
+        QString filename;
+
 public:
-	Preferences();
+        Preferences(QString filename = QString::null);
 	virtual ~Preferences();
 
 	virtual void reset();
@@ -18,7 +21,6 @@ public:
 	void save();
 	void load();
 #endif
-
 
     /* *******
        General
