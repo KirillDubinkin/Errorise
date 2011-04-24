@@ -8,8 +8,8 @@
 #include "global.h"
 #include "SimplePlaylist/simpleplaylist.h"
 #include "SimpleToolbar/simpletoolbar.h"
-
 #include "MediaLibrary/albumtree.h"
+#include "simpleguiprefs.h"
 
 using namespace Global;
 
@@ -27,9 +27,12 @@ signals:
 public slots:
 
 private slots:
-    void changeTitle();
+    void changeTitle(QString, int guid);
+    void restoreTitle();
 
 private:
+    SimpleGUIPrefs *prefs;
+
     QMenu *mainMenu;
     QWidget *toolBar;
     SimplePlaylist *pl;

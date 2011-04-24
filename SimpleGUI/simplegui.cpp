@@ -1,15 +1,19 @@
 #include "simplegui.h"
+#include "helper.h"
 #include <QAction>
 #include <QToolBar>
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include "version.h"
+#include <QDebug>
 
 
 SimpleGUI::SimpleGUI(QWidget *parent) :
     QWidget(parent)
 {
+    prefs = new SimpleGUIPrefs();
+
     mainLayout = new QVBoxLayout();
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
@@ -20,7 +24,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
 
     QHBoxLayout *hl = new QHBoxLayout();
-    hl->addWidget(tree, 34);
+    hl->addWidget(tree, 30);
     hl->addWidget(pl, 70);
     hl->setMargin(0);
     hl->setSpacing(6);
@@ -30,20 +34,29 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     mainLayout->addLayout(hl, 100);
 
     this->setLayout(this->mainLayout);
-    this->setGeometry(pref->x, pref->y, pref->res_main_width, pref->res_main_height);
+    this->setGeometry(prefs->geometry);
     this->setWindowFlags(Qt::Window);
     this->setWindowTitle(myplayerName() + " v." + myplayerVersion());
 
-    connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle()));
+    connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle(QString,int)));
+    connect(player, SIGNAL(finished()), this, SLOT(restoreTitle()));
 }
 
 SimpleGUI::~SimpleGUI()
 {
-   // delete pl;
+    prefs->geometry = this->geometry();
+    delete prefs;
 }
 
 
-void SimpleGUI::changeTitle()
+void SimpleGUI::changeTitle(QString, int guid)
 {
+    this->setWindowTitle(Helper::parseLine(guid, prefs->title_format));
+    qDebug() << "GUID:" << guid;
+}
 
+
+void SimpleGUI::restoreTitle()
+{
+    this->setWindowTitle(myplayerName() + " v." + myplayerVersion());
 }

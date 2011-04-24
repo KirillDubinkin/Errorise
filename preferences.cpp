@@ -48,14 +48,6 @@ void Preferences::reset()
     auto_add_to_playlist = true;
     add_to_playlist_consecutive_files = false;
 
-
-    res_main_width = 1080;
-    res_main_height = 576;
-
-    x=100;
-    y=100;
-
-
     music_library_path = QDir::homePath();
     files_filter = QString("*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
 
@@ -119,14 +111,6 @@ void Preferences::save() {
 
         set.setValue("auto_add_to_playlist", auto_add_to_playlist);
         set.setValue("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files);
-
-
-        set.setValue("res_main_width", res_main_width);
-        set.setValue("res_main_height", res_main_height);
-
-        set.setValue("window_x", x);
-        set.setValue("window_y", y);
-
 
         set.endGroup(); // gui
 
@@ -204,12 +188,6 @@ void Preferences::load() {
 
         auto_add_to_playlist = set.value("auto_add_to_playlist", auto_add_to_playlist).toBool();
         add_to_playlist_consecutive_files = set.value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
-
-        res_main_width = set.value("res_main_width", res_main_width).toInt();
-        res_main_height = set.value("res_main_height", res_main_height).toInt();
-
-        x = set.value("window_x", x).toInt();
-        y = set.value("window_y", y).toInt();
 
         set.endGroup(); // gui
 

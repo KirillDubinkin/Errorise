@@ -58,15 +58,6 @@ public:
 
         QString translations_path;
 
-
-//////// -  It's goes to GUI preferences  - ///////
-        // Windows size
-        int res_main_width;
-        int res_main_height;
-
-        int x, y;
-/////////////////////////////////////////////////
-
 };
 
 #endif
