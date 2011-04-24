@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include "simplegui.h"
+#include "SimpleGUI/simplegui.h"
 
 class AMPlayer : public QObject
 {

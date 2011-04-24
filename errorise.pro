@@ -19,7 +19,7 @@ SOURCES += main.cpp\
     preferences.cpp \
     amplayer.cpp \
     helper.cpp \
-    simplegui.cpp \
+    SimpleGUI/simplegui.cpp \
     phononface.cpp \
     SimplePlaylist/simpleplaylist.cpp \
     SimplePlaylist/simpleplprefs.cpp \
@@ -40,8 +40,7 @@ HEADERS  += \
     amplayer.h \
     version.h \
     helper.h \
-    simplegui.h \
-    phonon/phononface.h \
+    SimpleGUI/simplegui.h \
     phononface.h \
     SimplePlaylist/simpleplaylist.h \
     SimplePlaylist/simpleplaylistpreferences.h \
