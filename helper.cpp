@@ -141,13 +141,13 @@ int Helper::guidOf(QString filename)
     QStringList path = filename.split(QDir::separator());
     path.removeLast();
 
-    QString f = filename.remove(path.join(QDir::separator()));
+    QString f = filename.remove(path.join(QDir::separator())).remove(0, 1);
 
     QSqlQuery query(mlib->db);
 
     if (query.exec("SELECT id FROM tracks "
-                   "WHERE (filename LIKE '" + path.join(QDir::separator()) + "') "
-                   "AND (filepath LIKE '" + f + "')"))
+                   "WHERE (filepath LIKE '" + path.join(QDir::separator()) + "') "
+                   "AND (filename LIKE '" + f + "')"))
     {
         query.next();
         return query.value(0).toInt();
