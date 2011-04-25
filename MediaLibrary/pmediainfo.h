@@ -1,6 +1,8 @@
 #ifndef PMEDIAINFO_H
 #define PMEDIAINFO_H
 
+#include "mediainfo.h"
+
 #include <QObject>
 #include <Phonon/MediaSource>
 #include <Phonon/MediaObject>
@@ -9,7 +11,7 @@
 #include <QStringList>
 #include <QMultiMap>
 
-class PMediaInfo : public QObject
+class PMediaInfo : public MediaInfo
 {
     Q_OBJECT
 public:
@@ -19,10 +21,11 @@ public:
     void scanFiles(QStringList files);
     void scanDir  (QString path);
 
+    inline void scanForChanges() {}
+
 
 signals:
     void fileScaned();
-    void allFilesScanned(QMultiMap<QString, QMultiMap<QString, QString> > metaData);
 
 public slots:
 

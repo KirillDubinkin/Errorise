@@ -1,5 +1,8 @@
 #include "musiclibrary.h"
+#include "pmediainfo.h"
 #include "global.h"
+
+
 #include <QDir>
 #include <QtSql/QSqlQuery>
 #include <QFileInfo>

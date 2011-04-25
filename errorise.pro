@@ -55,7 +55,8 @@ HEADERS  += \
     MediaLibrary/albumtreeprefs.h \
     MediaLibrary/albumtreeprefswidget.h \
     SimpleToolbar/simpetoolbarprefswidget.h \
-    SimpleGUI/simpleguiprefs.h
+    SimpleGUI/simpleguiprefs.h \
+    MediaLibrary/mediainfo.h
 
 FORMS    += \
     MediaLibrary/albumtreeprefswidget.ui \

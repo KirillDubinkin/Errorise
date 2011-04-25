@@ -7,7 +7,7 @@
 #include <QTime>
 
 PMediaInfo::PMediaInfo(QObject *parent) :
-    QObject(parent)
+    MediaInfo(parent)
 {
     object = new Phonon::MediaObject(this);
 

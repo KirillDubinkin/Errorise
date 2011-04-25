@@ -1,9 +1,10 @@
 #ifndef MUSICLIBRARY_H
 #define MUSICLIBRARY_H
 
+#include "mediainfo.h"
+
 #include <QObject>
 #include <QtSql/QSqlDatabase>
-#include "pmediainfo.h"
 #include <QQueue>
 #include <QMultiMap>
 #include <QString>
@@ -36,7 +37,7 @@ private slots:
     void insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString> > meta);
 
 private:
-    PMediaInfo       *minfo;
+    MediaInfo       *minfo;
     QString          fileFilters;
     QString          libPath;
     QQueue<QString>  dirs;
