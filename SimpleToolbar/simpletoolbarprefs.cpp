@@ -4,10 +4,7 @@
 #include <QTextCodec>
 #include <QApplication>
 
-#include "paths.h"
-
 const QString PlugName = "SimpleToolbar";
-
 
 SimpleToolbarPrefs::SimpleToolbarPrefs()
 {
@@ -67,7 +64,7 @@ void SimpleToolbarPrefs::save()
 #ifdef Q_OS_LINUX
     QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #else
-    QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), PlugName);
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #endif
 
 
@@ -122,7 +119,7 @@ void SimpleToolbarPrefs::load()
 #ifdef Q_OS_LINUX
     QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #else
-    QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), PlugName);
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #endif
 
     set.setIniCodec(QTextCodec::codecForLocale());

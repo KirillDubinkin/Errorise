@@ -6,7 +6,6 @@
 #include "amplayer.h"
 #include "version.h"
 #include "global.h"
-#include "paths.h"
 
 #include <stdio.h>
 

@@ -1,5 +1,4 @@
 #include "simpleplaylist.h"
-#include "paths.h"
 
 #include <QHeaderView>
 #include <QLabel>
@@ -315,12 +314,6 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
     if (!prefs->art_search_pattern.isEmpty())
     {
 
-
-#ifdef Q_OS_WIN
-        qt_ntfs_permission_lookup++;
-
-#endif
-
         QDir path(searchPath);
         QStringList files = path.entryList(prefs->art_search_pattern, QDir::Files);
 
@@ -331,12 +324,8 @@ int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
             QPixmap pic = dPic.scaledToWidth(prefs->columns_sizes.at(this->CoverColumn-1),
                                              Qt::SmoothTransformation);
 
-#ifdef Q_OS_WIN
-            qt_ntfs_permission_lookup--;
-#endif
            // float factor = (float) prefs->columns_sizes.at(this->CoverColumn-1) / pic.width();
             int curGroupSize = prefs->row_height * (spanRow);
-
 
 
             QLabel *art = new QLabel;

@@ -1,5 +1,4 @@
 #include "simpletoolbar.h"
-#include "paths.h"
 #include <QSettings>
 #include <QTextCodec>
 #include <QAction>

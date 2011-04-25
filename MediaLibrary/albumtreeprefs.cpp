@@ -1,6 +1,5 @@
 #include "albumtreeprefs.h"
 
-#include "paths.h"
 #include <QSettings>
 #include <QDir>
 #include <QApplication>
@@ -35,7 +34,7 @@ void AlbumTreePrefs::load()
 #ifdef Q_OS_LINUX
     QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #else
-    QSettings set(QSettings::IniFormat, QSettings::UserScope, "", QString(QApplication::applicationName()).toLower(), PlugName);
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #endif
 
     set.setIniCodec(QTextCodec::codecForLocale());

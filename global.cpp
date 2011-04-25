@@ -2,7 +2,6 @@
 #include "preferences.h"
 
 #include "translator.h"
-#include "paths.h"
 #include <QApplication>
 #include <QFile>
 #include "version.h"
