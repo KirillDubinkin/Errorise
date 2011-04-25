@@ -5,6 +5,7 @@
 
 #include <QDir>
 #include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
 #include <QFileInfo>
 #include <QFileInfoList>
 #include <QMapIterator>
@@ -16,32 +17,54 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     QObject(parent)
 {
     ready = false;
-    sumFiles = 0;
 
-    if (openDb())
+    if (!openDb())
     {
-        minfo = new PMediaInfo(this);
-        connect(minfo, SIGNAL(allFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
-                this, SLOT(insertNewTracks(QMultiMap<QString,QMultiMap<QString,QString> >)));
+        qWarning() << tr("Cannot open or create music library\nPath:") << db.databaseName()
+                   << "\n" << tr(db.lastError().text().toUtf8());
+        return;
+    }
 
-        fileFilters = filters;
-        this->libPath = libPath;
 
-        if (createTagsTable())
-        {
-            qDebug() << "MusicLib: table doesn't exist! Creating new table..";
+    minfo = new PMediaInfo(this);
 
-            timer.start();
+    connect(minfo, SIGNAL(allFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
+            this, SLOT(insertNewTracks(QMultiMap<QString,QMultiMap<QString,QString> >)));
 
-            if (!libPath.isEmpty())
-            {
-                db.transaction();
-                fillDb(libPath);
-            }
-        } else {
-            ready = true;
-            emit readyToWork();
-        }
+    fileFilters = filters;
+    this->libPath = libPath;
+
+
+    if (createTagsTable())       // it means, it's realy first run
+       return;
+
+
+    if (!QDir(libPath).exists()) // path - empty, until user does not change it manually
+       return;
+
+
+
+    QSqlQuery *query = new QSqlQuery(db);
+
+    if (!query->exec("SELECT COUNT(*) FROM tracks"))
+    {
+        qWarning() << "MusicLibrary()" << tr(query->lastError().text().toUtf8());
+        return;
+    }
+
+
+    query->next();
+
+    if (query->value(0).toInt()) // if db isn't empty
+    {
+        ready = true;
+        emit readyToWork();
+        minfo->scanForChanges();
+
+    } else {
+
+        db.transaction();
+        fillDb(libPath);
     }
 }
 
@@ -49,10 +72,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 bool MusicLibrary::openDb()
 {
     db = QSqlDatabase::addDatabase("QSQLITE", "MusLibConnect");
-
-    QString path = pref->configPath() + QDir::separator() + "Music.library";
-    path = QDir::toNativeSeparators(path);
-
+    QString path = QDir::toNativeSeparators(pref->configPath() + QDir::separator() + "Music.library");
 
     db.setDatabaseName(path);
 
@@ -116,8 +136,6 @@ void MusicLibrary::insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString
       //  qDebug() << i.key();
       //  qDebug() << i.value();
         appendTrack(i.key(), i.value());
-
-        sumFiles++;
     }
     //qDebug() << "#################################################################";
 
@@ -127,12 +145,7 @@ void MusicLibrary::insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString
         fillDb(dirs.dequeue());
     else
     {
-        qDebug() << "All diretctories was scanned\n"
-                << "There are" << sumFiles << "files\n"
-                << "time: " << timer.elapsed() << "msec\n";
-        bool ok = db.commit();
-        qDebug() << "Commit:" << ok << "\tTime:" << timer.elapsed() << "msec";
-
+        db.commit();
         ready = true;
         emit readyToWork();
     }

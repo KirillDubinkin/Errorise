@@ -6,6 +6,12 @@
 #include <QStringList>
 #include <QMultiMap>
 
+/*
+    Recursive folders scan realised in MusicLibrary
+    MusicLibrary will be send group of files to scanner
+    And will be wait 'allFilesScanned' signal
+*/
+
 class MediaInfo: public QObject
 {
     Q_OBJECT

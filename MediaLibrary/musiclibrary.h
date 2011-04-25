@@ -45,7 +45,6 @@ private:
 
     bool ready;
 
-    int sumFiles;
     QTime timer;
 
 private:

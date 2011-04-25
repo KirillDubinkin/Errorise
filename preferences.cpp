@@ -47,7 +47,7 @@ void Preferences::reset()
     auto_add_to_playlist = true;
     add_to_playlist_consecutive_files = false;
 
-    music_library_path = QDir::homePath();
+    music_library_path = "";
     files_filter = QString("*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
 
     translations_path = config_path + QDir::separator() + "translations";
