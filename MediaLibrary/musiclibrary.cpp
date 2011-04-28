@@ -72,7 +72,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 bool MusicLibrary::openDb()
 {
     db = QSqlDatabase::addDatabase("QSQLITE", "MusLibConnect");
-    QString path = QDir::toNativeSeparators(pref->configPath() + QDir::separator() + "Music.library");
+    QString path = QDir::toNativeSeparators(pref->configPath() + "/" + "Music.library");
 
     db.setDatabaseName(path);
 
@@ -161,10 +161,10 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
                    "description, other)"
                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    QStringList path = filename.split(QDir::separator());
+    QStringList path = filename.split("/");
     path.removeLast();
-    query->addBindValue(path.join(QDir::separator()));
-    query->addBindValue(filename.remove(path.join(QDir::separator())).remove(0, 1));
+    query->addBindValue(path.join("/"));
+    query->addBindValue(filename.remove(path.join("/")).remove(0, 1));
 
     query->addBindValue(tags.value("MODIFIED"));
     query->addBindValue(tags.value("ARTIST"));

@@ -15,10 +15,10 @@
 class MediaInfo: public QObject
 {
     Q_OBJECT
-
-public:
+protected:
     inline MediaInfo(QObject *parent = 0) : QObject(parent) { }
 
+public:
     virtual void scanFile (QString filename)  = 0;
     virtual void scanFiles(QStringList files) = 0;
     virtual void scanDir  (QString path)      = 0;

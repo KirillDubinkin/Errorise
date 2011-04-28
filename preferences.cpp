@@ -50,7 +50,7 @@ void Preferences::reset()
     music_library_path = "";
     files_filter = QString("*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma");
 
-    translations_path = config_path + QDir::separator() + "translations";
+    translations_path = config_path + "/" + "translations";
 
 }
 
@@ -64,7 +64,7 @@ void Preferences::save() {
         QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
 #endif
         config_path = QFileInfo(set.fileName()).absolutePath();
-        translations_path = config_path + QDir::separator() + "translations";
+        translations_path = config_path + "/" + "translations";
         set.setIniCodec(QTextCodec::codecForLocale());
 
 
@@ -140,7 +140,7 @@ void Preferences::load() {
 #endif
 
         config_path = QFileInfo(set.fileName()).absolutePath();
-        translations_path = config_path + QDir::separator() + "translations";
+        translations_path = config_path + "/" + "translations";
         set.setIniCodec(QTextCodec::codecForLocale());
 
 

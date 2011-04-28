@@ -15,7 +15,6 @@
 
 static QRegExp rx_tag("%([a-z]*)%");
 
-
 AlbumTree::AlbumTree(QWidget *parent) :
     QTreeWidget(parent)
 {
@@ -81,8 +80,8 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
         cur = cur->parent();
         list.insert(0, cur->text(0));
     }
-    QString s = list.join(QDir::separator());
-    s.insert(0, mlib->libraryPath() + QDir::separator());
+    QString s = list.join("/");
+    s.insert(0, mlib->libraryPath() + "/");
 
     mlib->selectTracksBy(Helper::getTags(prefs->pattern).at(0), s);
 }
@@ -109,14 +108,14 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
     i.next();
     QString key = i.key();
 
-    item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf(QDir::separator()))));
+    item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf("/"))));
     item->setIcon(0, QIcon(prefs->items_icon));
     list.append(item);
     key.remove(0, item->text(0).size() + 1);
 
     while (!key.isEmpty())
     {
-        QString temp = key.mid(0, key.indexOf(QDir::separator()));
+        QString temp = key.mid(0, key.indexOf("/"));
         QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
         itm->setIcon(0, QIcon(prefs->items_icon));
         item->addChild(itm);
@@ -131,13 +130,13 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
         key = i.key();
         item = list.at(list.size() - 1);
 
-        if (key.mid(0, key.indexOf(QDir::separator())).contains(item->text(0)))
+        if (key.mid(0, key.indexOf("/")).contains(item->text(0)))
         {
-            while (key.mid(0, key.indexOf(QDir::separator())).contains(item->text(0)))
+            while (key.mid(0, key.indexOf("/")).contains(item->text(0)))
             {
               //  key.remove(0, item->text(0).size() + 1);
                 key.remove(0, item->text(0).size());
-                if (key.at(0) == QDir::separator())
+                if (key.at(0) == '/')
                     key.remove(0, 1);
 
                 if (item->childCount())
@@ -151,7 +150,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
         }
         else
         {
-            item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf(QDir::separator()))));
+            item = new QTreeWidgetItem(QStringList(key.mid(0, key.indexOf("/"))));
             item->setIcon(0, QIcon(prefs->items_icon));
             list.append(item);
             key.remove(0, item->text(0).size() + 1);
@@ -160,7 +159,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
 
         while (!key.isEmpty())
         {
-            QString temp = key.mid(0, key.indexOf(QDir::separator()));
+            QString temp = key.mid(0, key.indexOf("/"));
             QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
             itm->setIcon(0, QIcon(prefs->items_icon));
             item->addChild(itm);
@@ -190,11 +189,11 @@ QMap<QString, int> AlbumTree::firstNode()
 
         if (tag.contains("filepath"))
         {
-            QString s = mlib->libraryPath() + QDir::separator();
+            QString s = mlib->libraryPath() + "/";
 
             while (query.next())
-                map.insert(query.value(0).toString().remove(s) + QDir::separator(), 0);
-            map.remove(mlib->libraryPath() + QDir::separator());
+                map.insert(query.value(0).toString().remove(s) + "/", 0);
+            map.remove(mlib->libraryPath() + "/");
         }
         else
         {
@@ -210,7 +209,7 @@ QMap<QString, int> AlbumTree::firstNode()
                         s.replace(tags.at(i), tr(QString("Unknown " + tags.at(i)).toUtf8().data()));
                 }
                 s.remove("%");
-                s.append(QDir::separator());
+                s.append("/");
 
                 map.insert(s, 0);
             }
