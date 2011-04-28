@@ -54,6 +54,7 @@ public:
     QString stylesheet;
     bool alternate_colors;
     bool show_header;
+    int  smooth_art_scale;
 
 
 private:

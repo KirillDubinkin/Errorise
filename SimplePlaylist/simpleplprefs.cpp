@@ -24,26 +24,26 @@ void SimplePLPrefs::reset()
     //qDebug("SimplePlaylist->Prefs::reset()");
 
     //! Groups
-    groups_format = "[%date%] %album%";
-    groups_text_color = "ffffff";
-    groups_back_color = "13363b";
-    groups_stylesheet = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
+    groups_format        = "[%date%] %album%";
+    groups_text_color    = "ffffff";
+    groups_back_color    = "13363b";
+    groups_stylesheet    = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
     groups_text_aligment = Qt::AlignLeft;
     group_height         = 20;
     group_delay          = 2;
-    group_labels = true;
-    group_header = true;
+    group_labels         = true;
+    group_header         = true;
 
     //! Columns
-    columns_names << "Cover" << "#" << "Length" << "Track Name" << "Format";
-    columns_sizes << 300 << 40 << 80 << 200 << 80;
-    columns_aligment << 4 << 4 << 4 << 4 << 4;
+    columns_names      << "Cover" << "#" << "Length" << "Track Name" << "Format";
+    columns_sizes      << 300 << 40 << 80 << 200 << 80;
+    columns_aligment   << 4 << 4 << 4 << 4 << 4;
     columns_stylesheet << "" << "" << "" << "" << "";
 
     //! Rows
-    rows_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
-    rows_stylesheet << "" << "" << "" << "" << "";
-    rows_playback_format << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
+    rows_format              << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
+    rows_stylesheet          << "" << "" << "" << "" << "";
+    rows_playback_format     << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
     rows_playback_stylesheet << "" << "" << "" << "" << "";
     labels = false;
 
@@ -52,11 +52,11 @@ void SimplePLPrefs::reset()
     color_column_back << "" << "" << "" << "" << "";
 
     //! Other
-    stylesheet = "font: 9pt \"Ubuntu\"";
-    row_height = 16;
+    stylesheet       = "font: 9pt \"Ubuntu\"";
+    row_height       = 16;
     alternate_colors = true;
-    show_header = false;
-
+    show_header      = false;
+    smooth_art_scale = Qt::SmoothTransformation;
 
 }
 
@@ -128,7 +128,7 @@ void SimplePLPrefs::save()
     set.setValue("row_height", row_height);
     set.setValue("alternate_colors", alternate_colors);
     set.setValue("show_header", show_header);
-
+    set.setValue("smooth_art_scale", smooth_art_scale);
     set.endGroup();
 
 
@@ -203,10 +203,11 @@ void SimplePLPrefs::load()
 
     //! Other
     set.beginGroup("Other");
-    stylesheet = set.value("stylesheet", stylesheet).toString();
-    row_height = set.value("row_height", row_height).toInt();
+    stylesheet       = set.value("stylesheet", stylesheet).toString();
+    row_height       = set.value("row_height", row_height).toInt();
     alternate_colors = set.value("alternate_colors", alternate_colors).toBool();
-    show_header = set.value("show_header", show_header).toBool();
+    show_header      = set.value("show_header", show_header).toBool();
+    smooth_art_scale = set.value("smooth_art_scale", smooth_art_scale).toInt();
     set.endGroup();
 }
 
