@@ -13,6 +13,8 @@
 #include <QtSql/QSqlError>
 #include <QTimer>
 #include <QTableWidgetSelectionRange>
+#include <QHash>
+#include <QHashIterator>
 
 #include <QDebug>
 
@@ -226,32 +228,38 @@ void SimplePlaylist::setTracksWithGroups()
 
     //! Clear. We don't know how many rows will be
     this->setRowCount(0);
-    int groupRow = 0, row = 0, colCount = this->columnCount() - 1;
+    int groupRow = 0, row = 0, colCount = this->columnCount() - 1;    
 
     //! Insert first group
-    QString prev = helper->parseLine(trackGuids.at(0), prefs->groups_format), current;
+    QString current;
+    QString prev = helper->parseLine(trackGuids.at(0), prefs->groups_format);
     if (!prefs->group_labels)
         this->addGroupItem(row, prev);
     else
         this->addGroupLabel(row, prev);
 
-    if (!prefs->labels) {
+//    if (!prefs->labels) {
         for (int idx = 0; idx < trackGuids.size(); idx++)
         {
             current = helper->parseLine(trackGuids.at(idx), prefs->groups_format);
 
             if (prev != current)
-            { //! Insert cover to current group, and begin a new group
-                if (this->CoverColumn > -1)
-                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.at(idx-1)));
+            {
+                if (row - groupRow > 1)
+                { //! Insert cover to current group, and begin a new group
+                    if (this->CoverColumn > -1)
+                        row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.at(idx-1)));
 
-                if (!prefs->group_labels)
-                    this->addGroupItem(++row, current);
-                else
-                    this->addGroupLabel(++row, current);
+                   if (!prefs->group_labels)
+                        this->addGroupItem(++row, current);
+                    else
+                        this->addGroupLabel(++row, current);
+                }
 
                 groupRow = row;
+
             }
+
 
             this->insertRow(++row);
             this->setRowHeight(row, prefs->row_height);
@@ -264,8 +272,9 @@ void SimplePlaylist::setTracksWithGroups()
 
             prev = current;
         }
-    }
+//    }
 
+/*
     //! Do the same, except this->addRowLabel;
     //! The whole algorithm is written twice, because otherwise this test will be called (columnCount * trackGuids.size()) times
     else {
@@ -298,6 +307,7 @@ void SimplePlaylist::setTracksWithGroups()
             prev = current;
         }
     }
+*/
 
     if (this->CoverColumn > -1)
         row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.last()));
