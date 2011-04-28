@@ -43,6 +43,8 @@ public:
     static QString funcIF(QString line, const int id);
 
 
+    static inline QString vaGroup(const QString &line) { return line; }
+
 };
 
 #endif // HELPER_H

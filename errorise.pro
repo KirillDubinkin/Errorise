@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     MediaLibrary/albumtreeprefs.cpp \
     MediaLibrary/albumtreeprefswidget.cpp \
     SimpleToolbar/simpetoolbarprefswidget.cpp \
-    SimpleGUI/simpleguiprefs.cpp
+    SimpleGUI/simpleguiprefs.cpp \
+    MediaLibrary/mediainfo.cpp
 
 HEADERS  += \
     global.h \

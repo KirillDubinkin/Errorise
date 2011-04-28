@@ -86,6 +86,7 @@ bool MusicLibrary::createTagsTable()
     s.append("id INTEGER PRIMARY KEY AUTOINCREMENT,");
     s.append("filepath TEXT,");
     s.append("filename TEXT,");
+    s.append("art TEXT,");
     s.append("modified TEXT,");
     s.append("artist TEXT,");
     s.append("album TEXT,");
@@ -156,16 +157,17 @@ void MusicLibrary::insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString
 void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tags)
 {
     QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("INSERT INTO tracks (filepath, filename, modified, artist, album, albumartist,"
+    query->prepare("INSERT INTO tracks (filepath, filename, art, modified, artist, album, albumartist,"
                    "title, date, tracknumber, genre, duration, format,"
                    "description, other)"
-                   "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                   "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     QStringList path = filename.split("/");
     path.removeLast();
     query->addBindValue(path.join("/"));
     query->addBindValue(filename.remove(path.join("/")).remove(0, 1));
 
+    query->addBindValue(tags.value("ART"));
     query->addBindValue(tags.value("MODIFIED"));
     query->addBindValue(tags.value("ARTIST"));
     query->addBindValue(tags.value("ALBUM"));

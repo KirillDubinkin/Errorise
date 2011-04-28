@@ -24,6 +24,9 @@ void PMediaInfo::scanFile(QString filename)
 
 void PMediaInfo::scanFiles(QStringList files)
 {
+    if (!files.isEmpty())
+        artFilePath = findArt(QFileInfo(files.first()).absolutePath());
+
     filenames = files;
     meta.clear();
     scanNextFile();
@@ -68,6 +71,7 @@ void PMediaInfo::pringTags()
         QMultiMap<QString, QString> temp = object->metaData();
         QStringList format = object->currentSource().fileName().split(".");
 
+        temp.insert("ART", artFilePath);
         temp.insert("DURATION", QTime(0, 0).addMSecs(object->totalTime()).toString("mm:ss"));
         temp.insert("FORMAT", QString(format.last()).toUpper());
         temp.insert("MODIFIED", QString::number(QFileInfo(format.join(".")).lastModified().toMSecsSinceEpoch()));

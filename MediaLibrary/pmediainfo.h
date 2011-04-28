@@ -36,6 +36,7 @@ private slots:
 
 private:
     Phonon::MediaObject *object;
+    QString artFilePath;
     QStringList filenames;
     QString sourcePath;
     QMultiMap<QString, QMultiMap<QString, QString> > meta;

@@ -7,7 +7,7 @@
 #include <QMultiMap>
 
 /*
-    Recursive folders scan realised in MusicLibrary
+    Recursive folders scan relised in MusicLibrary
     MusicLibrary will be send group of files to scanner
     And will be wait 'allFilesScanned' signal
 */
@@ -16,7 +16,7 @@ class MediaInfo: public QObject
 {
     Q_OBJECT
 protected:
-    inline MediaInfo(QObject *parent = 0) : QObject(parent) { }
+    MediaInfo(QObject *parent = 0) : QObject(parent) { }
 
 public:
     virtual void scanFile (QString filename)  = 0;
@@ -24,6 +24,8 @@ public:
     virtual void scanDir  (QString path)      = 0;
 
     virtual void scanForChanges()             = 0;
+
+    virtual QString findArt(QString path);
 
 signals:
     void allFilesScanned(QMultiMap<QString, QMultiMap<QString, QString> > tags);
