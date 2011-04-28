@@ -25,7 +25,11 @@ void PMediaInfo::scanFile(QString filename)
 void PMediaInfo::scanFiles(QStringList files)
 {
     if (!files.isEmpty())
+    {
         artFilePath = findArt(QFileInfo(files.first()).absolutePath());
+        if (!artFilePath.isEmpty())
+            qDebug() << "Finded cover:" << artFilePath;
+    }
 
     filenames = files;
     meta.clear();

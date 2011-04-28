@@ -52,8 +52,12 @@ void Preferences::reset()
         //! Library
     music_library_path  = "";
     files_filter        = "*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma";
-    art_search_patterns << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
-    art_search_folders  << "art" << "artwork" << "covers";
+    art_search_patterns << "*cover*.jp*g" << "*cover*.png" << "*cover*.gif" << "*cover*.bmp"
+                        << "*folder*.jp*g" << "*folder*.png" << "*folder*.gif" << "*folder*.bmp"
+                        << "*front*.jp*g"  << "*front*.png" << "*front*.gif" << "*front*.bmp"
+                        << "*.jp*g" << "*.png" << "*.gif" << ".bmp";
+
+    art_search_folders  << "art" << "artwork" << "covers" << "Art" << "Artwork" << "ArtWork" << "Covers" << "Images" << "images";
 
 }
 
