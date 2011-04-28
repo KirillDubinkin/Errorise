@@ -4,6 +4,7 @@
 /* Global settings */
 
 #include <QString>
+#include <QStringList>
 
 
 class Preferences {
@@ -26,37 +27,32 @@ public:
         inline QString configPath() { return config_path; }
 
 
-    /* *******
-       General
-       ******* */
-        QString ao; // audio output
+            //! General
         QString log_filter;
-
-	int volume;
-	bool mute;
-
-	int cache_for_files;
-	int cache_for_streams;
-
         bool log;
         bool save_log;
+	bool close_on_finish;
+        bool auto_add_to_playlist; //! Add files to open  playlist
 
 
+            //! Player
+        QString audio_output;
+        int volume;
+        bool mute;
+
+
+            //! GUI
+        QString language;
+        QString iconset;
+        QString translations_path;
         bool stay_on_top;
 
-	QString language;
-	QString iconset;
 
-	bool close_on_finish;
-
-	bool auto_add_to_playlist; //!< Add files to open to playlist
-	bool add_to_playlist_consecutive_files;
-
-
+            //! Library
         QString music_library_path;
         QString files_filter;
-
-        QString translations_path;
+        QStringList art_search_patterns;
+        QStringList art_search_folders;
 
 };
 
