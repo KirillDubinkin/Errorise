@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QStringList>
 #include <QList>
+#include <QHash>
 
 #include "SimplePlaylist/simpleplprefs.h"
 #include "SimplePlaylist/simpleplaylistprefswindow.h"
@@ -31,7 +32,7 @@ public slots:
     void setColumns();
     void setTracks();
     void setTracksWithGroups();
-
+    void fillPlaylist();
 
     void highlightCurrentTrack(QString filename, int guid);
     void highlightCurrentTrack();
@@ -63,6 +64,10 @@ private:
 
     bool findCurrentTrack(int guid);
     bool findCurrentTrack(QString filename);
+
+
+    QList<int> getGroup(const QList<int> &tracks);
+    void insertCover(int row, int col, const QString &cover);
 
 
     void createActions();
