@@ -19,11 +19,13 @@ public:
     //! Groups
     QString groups_format;
     QString groups_text_color;
-    int groups_text_aligment;
     QString groups_back_color;
     QString groups_stylesheet;
+    int groups_text_aligment;
     int group_height;
+    int group_delay;
     bool group_labels;
+    bool group_header;
 
 
     //! Columns
@@ -49,8 +51,6 @@ public:
 
     //! Other
     int row_height;
-    QStringList art_search_pattern;
-    QStringList art_search_folders;
     QString stylesheet;
     bool alternate_colors;
     bool show_header;

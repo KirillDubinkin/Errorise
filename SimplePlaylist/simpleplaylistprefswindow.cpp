@@ -37,7 +37,7 @@ void SimplePlaylistPrefsWindow::createGeneralTab()
 
 
 
-
+/*
 //!  Artwork
     artFolders = new QListWidget();
     artFolders->setEditTriggers(QAbstractItemView::DoubleClicked);
@@ -64,7 +64,7 @@ void SimplePlaylistPrefsWindow::createGeneralTab()
     artLayout->addWidget(artFolders, 1, 0);
     artLayout->addWidget(artPatterns, 1, 1);
 //! //////////////////////////////////////////////////////////
-
+*/
 
 
 
@@ -87,7 +87,7 @@ void SimplePlaylistPrefsWindow::createGeneralTab()
 
     mainLayout->addLayout(checkboxLayout);
     mainLayout->addSpacing(20);
-    mainLayout->addLayout(artLayout, 35);
+  //  mainLayout->addLayout(artLayout, 35);
     mainLayout->addSpacing(30);
     mainLayout->addLayout(styleLayout, 100);
 
@@ -121,17 +121,6 @@ void SimplePlaylistPrefsWindow::setPlStyleheet()
     emit styleEdited(prefs->stylesheet);
 }
 
-void SimplePlaylistPrefsWindow::artFoldersChange(QListWidgetItem *item)
-{
-    prefs->art_search_folders.replace(artFolders->row(item), item->text());
-    emit artSearchChanged();
-}
-
-void SimplePlaylistPrefsWindow::artPatternsChange(QListWidgetItem *item)
-{
-    prefs->art_search_pattern.replace(artPatterns->row(item), item->text());
-    emit artSearchChanged();
-}
 
 void SimplePlaylistPrefsWindow::fillList(QListWidget *list, const QStringList &strlist,
                                          Qt::ItemFlags flags)

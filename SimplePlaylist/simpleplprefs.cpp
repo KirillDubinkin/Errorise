@@ -26,11 +26,13 @@ void SimplePLPrefs::reset()
     //! Groups
     groups_format = "[%date%] %album%";
     groups_text_color = "ffffff";
-    groups_text_aligment = Qt::AlignLeft;
     groups_back_color = "13363b";
     groups_stylesheet = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
-    group_height = 20;
+    groups_text_aligment = Qt::AlignLeft;
+    group_height         = 20;
+    group_delay          = 2;
     group_labels = true;
+    group_header = true;
 
     //! Columns
     columns_names << "Cover" << "#" << "Length" << "Track Name" << "Format";
@@ -50,8 +52,6 @@ void SimplePLPrefs::reset()
     color_column_back << "" << "" << "" << "" << "";
 
     //! Other
-    art_search_pattern << "*cover*.jpg" << "*folder*.jpg" << "*front*.jpg";
-    art_search_folders << "art" << "artwork" << "covers";
     stylesheet = "font: 9pt \"Ubuntu\"";
     row_height = 16;
     alternate_colors = true;
@@ -78,10 +78,12 @@ void SimplePLPrefs::save()
     set.setValue("groups_format", groups_format);
     set.setValue("groups_text_color", groups_text_color);
     set.setValue("groups_back_color", groups_back_color);
-    set.setValue("groups_text_aligment", groups_text_aligment);
     set.setValue("groups_stylesheet", groups_stylesheet);
+    set.setValue("groups_text_aligment", groups_text_aligment);
     set.setValue("group_height", group_height);
+    set.setValue("group_delay", group_delay);
     set.setValue("group_labels", group_labels);
+    set.setValue("group_header", group_header);
     set.endGroup();
 
 
@@ -122,8 +124,6 @@ void SimplePLPrefs::save()
 
     //! Other
     set.beginGroup("Other");
-    set.setValue("art_search_pattern", art_search_pattern);
-    set.setValue("art_search_folders", art_search_folders);
     set.setValue("stylesheet", stylesheet);
     set.setValue("row_height", row_height);
     set.setValue("alternate_colors", alternate_colors);
@@ -153,10 +153,12 @@ void SimplePLPrefs::load()
     groups_format = set.value("groups_format", groups_format).toString();
     groups_text_color = set.value("groups_text_color", groups_text_color).toString();
     groups_back_color = set.value("groups_back_color", groups_back_color).toString();
-    groups_text_aligment = set.value("groups_text_aligment", groups_text_aligment).toInt();
     groups_stylesheet = set.value("groups_stylesheet", groups_stylesheet).toString();
-    group_height = set.value("group_height", group_height).toInt();
+    groups_text_aligment = set.value("groups_text_aligment", groups_text_aligment).toInt();
+    group_delay          = set.value("group_delay", group_delay).toInt();
+    group_height         = set.value("group_height", group_height).toInt();
     group_labels = set.value("group_labels", group_labels).toBool();
+    group_header = set.value("group_header", group_header).toBool();
     set.endGroup();
 
 
@@ -201,8 +203,6 @@ void SimplePLPrefs::load()
 
     //! Other
     set.beginGroup("Other");
-    art_search_pattern = set.value("art_search_pattern", art_search_pattern).toStringList();
-    art_search_folders = set.value("art_search_folders", art_search_folders).toStringList();
     stylesheet = set.value("stylesheet", stylesheet).toString();
     row_height = set.value("row_height", row_height).toInt();
     alternate_colors = set.value("alternate_colors", alternate_colors).toBool();

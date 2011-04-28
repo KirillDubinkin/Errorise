@@ -25,12 +25,11 @@ signals:
     void artSearchChanged();
 //!    ------------------
 
+
 private slots:
     void setShowHeader(bool show);
     void setAlternateColors(bool b);
     void setPlStyleheet();
-    void artFoldersChange(QListWidgetItem *item);
-    void artPatternsChange(QListWidgetItem *item);
 //!    ------------------
 
 
@@ -46,8 +45,6 @@ private:
     void createGeneralTab();
     QCheckBox   *showHeader;
     QCheckBox   *alternateColors;
-    QListWidget *artPatterns;
-    QListWidget *artFolders;
     QTextEdit   *styleEdit;
 
 
