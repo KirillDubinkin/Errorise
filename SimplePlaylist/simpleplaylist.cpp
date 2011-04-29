@@ -312,11 +312,6 @@ void SimplePlaylist::insertCover(int row, int col, const QString &cover)
     QPixmap fullPic(cover);
     QPixmap pic = fullPic.scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1),( Qt::TransformationMode) prefs->smooth_art_scale);
 
-    QLabel *art = new QLabel;
-    art->setMaximumHeight(pic.height());
-    art->setPixmap(pic);
-
-
     int curGroupSize = prefs->row_height * (rowCount() - row);
 
     if (curGroupSize < pic.height())
@@ -362,7 +357,11 @@ void SimplePlaylist::insertCover(int row, int col, const QString &cover)
 
     }
 
+    QLabel *art = new QLabel;
+    art->setMaximumHeight(pic.height());
+
     setCellWidget(row, col, art);
+    art->setPixmap(pic);
 }
 
 

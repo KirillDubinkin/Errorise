@@ -57,7 +57,7 @@ void Preferences::reset()
                         << "*front*.jp*g"  << "*front*.png" << "*front*.gif" << "*front*.bmp"
                         << "*.jp*g" << "*.png" << "*.gif" << ".bmp";
 
-    art_search_folders  << "art" << "artwork" << "covers" << "Art" << "Artwork" << "ArtWork" << "Covers" << "Images" << "images" << "Scans" << "scans";
+    art_search_folders  << "art" << "artwork" << "covers" << "Art" << "Artwork" << "ArtWork" << "Artworks" << "artworks" << "Covers" << "Images" << "images" << "Scans" << "scans";
 
 }
 
