@@ -281,7 +281,7 @@ int Helper::nextQuote(const QString &line, int from)
 {
     if (line.size() != from)
     {
-        if (int next = line.indexOf("'", from + 1))
+        if (int next = line.indexOf("'", from + 1) > 0)
             return next;
     }
 
