@@ -33,6 +33,7 @@ void SimplePLPrefs::reset()
     group_delay          = 2;
     group_labels         = true;
     group_header         = true;
+    group_byDirs         = true;
 
     //! Columns
     columns_names      << "Cover" << "#" << "Length" << "Track Name" << "Format";
@@ -84,6 +85,7 @@ void SimplePLPrefs::save()
     set.setValue("group_delay", group_delay);
     set.setValue("group_labels", group_labels);
     set.setValue("group_header", group_header);
+    set.setValue("group_byDirs", group_byDirs);
     set.endGroup();
 
 
@@ -159,6 +161,7 @@ void SimplePLPrefs::load()
     group_height         = set.value("group_height", group_height).toInt();
     group_labels = set.value("group_labels", group_labels).toBool();
     group_header = set.value("group_header", group_header).toBool();
+    group_byDirs = set.value("group_byDirs", group_byDirs).toBool();
     set.endGroup();
 
 

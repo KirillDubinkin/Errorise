@@ -26,6 +26,7 @@ public:
     int group_delay;
     bool group_labels;
     bool group_header;
+    bool group_byDirs;
 
 
     //! Columns

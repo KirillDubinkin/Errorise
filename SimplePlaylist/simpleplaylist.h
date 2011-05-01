@@ -7,9 +7,11 @@
 #include <QStringList>
 #include <QList>
 #include <QHash>
+#include <QTime>
 
 #include "SimplePlaylist/simpleplprefs.h"
 #include "SimplePlaylist/simpleplaylistprefswindow.h"
+#include "SimplePlaylist/coversqueue.h"
 
 #include "helper.h"
 #include "global.h"
@@ -43,6 +45,7 @@ private:
     Helper * helper;
     SimplePlaylistPrefsWindow  *prefsWindow;
     QList<int> trackGuids;
+    QList<CoversQueue> artQueue;
 
     void loadSettings();
 
@@ -65,9 +68,10 @@ private:
     bool findCurrentTrack(int guid);
     bool findCurrentTrack(QString filename);
 
+    QTime time;
 
     QList<int> getGroup(const QList<int> &tracks);
-    void insertCover(int row, int col, const QString &cover);
+    void insertCover(int row, const QString &cover);
 
 
     void createActions();
@@ -86,6 +90,9 @@ private slots:
         { QTableWidget::setAlternatingRowColors(enable); }
 
     void getNewTracks(QString tag, QString value);
+    void insertCover();
+    void insertLastCovers();
+
 
 
 
