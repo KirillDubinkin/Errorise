@@ -49,12 +49,6 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 
     setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    time.start();
-
-/*//! MediaInfo
-    connect(mediainfo, SIGNAL(newTracksReceived(QList<int>)),
-            this, SLOT(setTracksWithGroups(QList<int>)));
-*/
 //!  MusicLibrary
     connect(mlib, SIGNAL(tracksSelectedBy(QString,QString)),
             this, SLOT(getNewTracks(QString,QString)));
@@ -184,47 +178,11 @@ void SimplePlaylist::setColumns()
 }
 
 
-void SimplePlaylist::setTracks()
-{
-    //qDebug() << "PL:GUID.size" << GUID.size();
-    //qDebug() << "ID's :" << GUID;
-
-    this->setRowCount(trackGuids.size());
-   // int row = -1;
-
-    int colCount = this->columnCount() - 1;
-
-    if (!prefs->labels){
-            //! In this function row == idx, so
-        for (int idx = 0; idx < trackGuids.size(); idx++){
-            this->setRowHeight(idx, prefs->row_height);
-
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
-            this->setItem(idx, 0, index);
-
-            for (int col = 0; col < colCount; col++)
-                this->addRowItem(idx, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
-        }
-    } else {
-        for (int idx = 0; idx < trackGuids.size(); idx++){
-            this->setRowHeight(idx, prefs->row_height);
-
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
-            this->setItem(idx, 0, index);
-
-            for (int col = 0; col < colCount; col++)
-                this->addRowLabel(idx, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
-        }
-    }
-}
-
-
 void SimplePlaylist::fillPlaylist()
 {
     if (trackGuids.isEmpty())
     {
         QTimer::singleShot(0, this, SLOT(insertLastCovers()));
-        qDebug() << time.elapsed();
         return;
     }
 
@@ -405,195 +363,6 @@ void SimplePlaylist::insertLastCovers()
 }
 
 
-void SimplePlaylist::setTracksWithGroups()
-{
-    //! Exit, if files not found, or somethink, to avoid empty group creation
-    if (trackGuids.isEmpty())
-        return;
-
-    this->currentTrackRow = -1;
-
-    //! Clear. We don't know how many rows will be
-    this->setRowCount(0);
-    int groupRow = 0, row = 0, colCount = this->columnCount() - 1;    
-
-    //! Insert first group
-    QString current;
-    QString prev = helper->parseLine(trackGuids.at(0), prefs->groups_format);
-    if (!prefs->group_labels)
-        this->addGroupItem(row, prev);
-    else
-        this->addGroupLabel(row, prev);
-
-//    if (!prefs->labels) {
-        for (int idx = 0; idx < trackGuids.size(); idx++)
-        {
-            current = helper->parseLine(trackGuids.at(idx), prefs->groups_format);
-
-            if (prev != current)
-            {
-                if (row - groupRow > 1)
-                { //! Insert cover to current group, and begin a new group
-                    if (this->CoverColumn > -1)
-                        row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.at(idx-1)));
-
-                   if (!prefs->group_labels)
-                        this->addGroupItem(++row, current);
-                    else
-                        this->addGroupLabel(++row, current);
-                }
-
-                groupRow = row;
-
-            }
-
-
-            this->insertRow(++row);
-            this->setRowHeight(row, prefs->row_height);
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
-            this->setItem(row, 0, index);
-
-            for (int col = 0; col < colCount; col++)
-                if (this->CoverColumn-1 != col)
-                    this->addRowItem(row, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
-
-            prev = current;
-        }
-//    }
-
-/*
-    //! Do the same, except this->addRowLabel;
-    //! The whole algorithm is written twice, because otherwise this test will be called (columnCount * trackGuids.size()) times
-    else {
-        for (int idx = 0; idx < trackGuids.size(); idx++)
-        {
-            current = helper->parseLine(trackGuids.at(idx), prefs->groups_format);
-
-            if (prev != current)
-            { //! Insert cover to current group, and begin a new group
-                if (this->CoverColumn > -1)
-                    row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.at(idx-1)));
-
-                if (!prefs->group_labels)
-                    this->addGroupItem(++row, current);
-                else
-                    this->addGroupLabel(++row, current);
-
-                groupRow = row;
-            }
-
-            this->insertRow(++row);
-            this->setRowHeight(row, prefs->row_height);
-            QTableWidgetItem *index = new QTableWidgetItem(QString().number(trackGuids.at(idx)));
-            this->setItem(row, 0, index);
-
-            for (int col = 0; col < colCount; col++)
-                if (this->CoverColumn-1 != col)
-                    this->addRowItem(row, col, helper->parseLine(trackGuids.at(idx), prefs->rows_format.at(col)));
-
-            prev = current;
-        }
-    }
-*/
-
-    if (this->CoverColumn > -1)
-        row = this->addCover(groupRow+1, row - groupRow, helper->filePath(trackGuids.last()));
-
-
-    QTimer::singleShot(0, this, SLOT(highlightCurrentTrack()));
-}
-
-
-int SimplePlaylist::addCover(int row, int spanRow, const QString &searchPath)
-{
-    const QBrush &brush = this->palette().brush(QPalette::Base);
-
-    if (!pref->art_search_patterns.isEmpty())
-    {
-
-        QDir path(searchPath);
-        QStringList files = path.entryList(pref->art_search_patterns, QDir::Files);
-
-        if (!files.isEmpty())
-        {
-
-            QPixmap dPic(path.absoluteFilePath(files.at(0)));
-            QPixmap pic = dPic.scaledToWidth(prefs->columns_sizes.at(this->CoverColumn-1),
-                                             Qt::SmoothTransformation);
-
-           // float factor = (float) prefs->columns_sizes.at(this->CoverColumn-1) / pic.width();
-            int curGroupSize = prefs->row_height * (spanRow);
-
-
-            QLabel *art = new QLabel;
-            //art->setScaledContents(true);
-            art->setPixmap(pic);
-
-            if (curGroupSize < pic.height())
-            {
-                //! Insert row under the group, to perform image resize without resize track height
-                int newRow = row + spanRow;
-                this->insertRow(newRow);
-                QTableWidgetItem *index = new QTableWidgetItem(COVER);
-                this->setItem(newRow, 0, index);
-
-
-
-                //! Set span in new row. Even if cover column not in the side of table
-                if (this->CoverColumn == 1) {
-                    this->setSpan(newRow, 2, 1, this->columnCount() - 1);
-                    this->setItem(newRow, 2, this->newItem(brush, Qt::NoItemFlags));
-                }
-                else if (this->CoverColumn == this->columnCount()) {
-                    this->setSpan(newRow, 1, 1, this->columnCount() - 1);
-                    this->setItem(newRow, 1, this->newItem(brush, Qt::NoItemFlags));
-                }
-                else {
-                    if (this->CoverColumn+1 < this->columnCount())
-                        this->setSpan(newRow, this->CoverColumn+1, 1, this->columnCount() - this->CoverColumn);
-
-                    this->setItem(newRow, this->CoverColumn+1, this->newItem(brush, Qt::NoItemFlags));
-
-                    if (this->CoverColumn > 2)
-                        this->setSpan(newRow, 1, 1, this->CoverColumn-1);
-
-                    this->setItem(newRow, 1, this->newItem(brush, Qt::NoItemFlags));
-                }
-
-
-                this->setRowHeight(newRow,  pic.height() - curGroupSize);
-
-                //! Set span for cover cell and add him item, to set cover cell background colors
-                this->setSpan(row, this->CoverColumn, spanRow+1, 1);
-                this->setItem(row, this->CoverColumn, this->newItem(brush, Qt::NoItemFlags));
-                this->setCellWidget(row, this->CoverColumn, art);
-
-                return newRow;
-            }
-
-            this->setSpan(row, this->CoverColumn, spanRow, 1);
-            this->setItem(row, this->CoverColumn, this->newItem(brush, Qt::NoItemFlags));
-
-            art->setMaximumHeight(pic.height());
-            this->setCellWidget(row, this->CoverColumn, art);
-
-            return row + spanRow - 1;
-        }
-    }
-
-    //! Set span for cover cell, if images not found, or pattern is empty.
-    if (spanRow > 1)
-    {
-        this->setSpan(row, this->CoverColumn, spanRow, 1);
-        this->setItem(row, this->CoverColumn, this->newItem(brush, Qt::NoItemFlags));
-
-        return row + spanRow - 1;
-    }
-
-    return row;
-}
-
-
 QTableWidgetItem * SimplePlaylist::newItem(const QBrush &background, Qt::ItemFlags flags, const QString &text)
 {
     QTableWidgetItem *item = new QTableWidgetItem(text);
@@ -629,6 +398,8 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
     this->setItem(row, 0, index);
 }
 
+
+/*
 void SimplePlaylist::addGroupLabel(int row, const QString &text)
 {
     this->insertRow(row);
@@ -652,6 +423,7 @@ void SimplePlaylist::addGroupLabel(int row, const QString &text)
     QTableWidgetItem *index = new QTableWidgetItem(GROUP);
     this->setItem(row, 0, index);
 }
+*/
 
 
 void SimplePlaylist::addRowItem(int row, int col, const QString &text)
@@ -676,6 +448,8 @@ void SimplePlaylist::addRowItem(int row, int col, const QString &text)
     this->setItem(row, col+1, item);
 }
 
+
+/*
 void SimplePlaylist::addRowLabel(int row, int col, const QString &text)
 {
     QLabel *label = new QLabel(text);
@@ -692,6 +466,7 @@ void SimplePlaylist::addRowLabel(int row, int col, const QString &text)
 
     this->setCellWidget(row, col+1, label);
 }
+*/
 
 
 void SimplePlaylist::highlightCurrentTrack()
@@ -862,12 +637,11 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
 
         //QTimer::singleShot(0, this, SLOT(setTracksWithGroups()));
 
-        this->clear();
-        this->setRowCount(0);
-        this->currentTrackRow = -1;
-        this->artQueue.clear();
+        clear();
+        setRowCount(0);
+        currentTrackRow = -1;
+        artQueue.clear();
         QTimer::singleShot(0, this, SLOT(fillPlaylist()));
-        time.restart();
 
 
         //this->setTracksWithGroups(trackGuids);

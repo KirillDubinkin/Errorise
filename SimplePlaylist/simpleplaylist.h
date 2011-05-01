@@ -32,13 +32,12 @@ signals:
 
 public slots:    
     void setColumns();
-    void setTracks();
-    void setTracksWithGroups();
     void fillPlaylist();
 
     void highlightCurrentTrack(QString filename, int guid);
     void highlightCurrentTrack();
     void defPlhighlight();
+
 
 private:
     SimplePLPrefs * prefs;
@@ -47,18 +46,11 @@ private:
     QList<int> trackGuids;
     QList<CoversQueue> artQueue;
 
-    void loadSettings();
-
     QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,
                               const QString &text = "");
 
     void addRowItem(int row, int col, const QString &text);
-    void addRowLabel(int row, int col, const QString &text);
-
     void addGroupItem(int row, const QString &text);
-    void addGroupLabel(int row, const QString &text);
-
-    int addCover(int row, int spanRow, const QString &searchPath);
 
     int CoverColumn;
     int LengthColumn;
@@ -73,7 +65,7 @@ private:
     QList<int> getGroup(const QList<int> &tracks);
     void insertCover(int row, const QString &cover);
 
-
+    void loadSettings();
     void createActions();
 
 
@@ -86,17 +78,12 @@ private slots:
     void showPreferences();
     void addToQueue();
 
-    inline void setAlternatingRowColors(bool enable)
-        { QTableWidget::setAlternatingRowColors(enable); }
+    void setAlternatingRowColors(bool enable) { QTableWidget::setAlternatingRowColors(enable); }
 
     void getNewTracks(QString tag, QString value);
     void insertCover();
     void insertLastCovers();
 
-
-
-
-    //PlayerInterface *player;
 };
 
 #endif // SIMPLEPLAYLIST_H
