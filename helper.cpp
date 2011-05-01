@@ -285,7 +285,7 @@ int Helper::nextQuote(const QString &line, int from)
             return next;
     }
 
-    qWarning() << QObject::tr("Lonely quote in " + line.toUtf8());
+//    qWarning() << QObject::tr("Lonely quote in " + line.toUtf8());
     return from;
 }
 
