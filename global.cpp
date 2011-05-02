@@ -1,13 +1,13 @@
 #include "global.h"
 #include "preferences.h"
 
-#include "translator.h"
+//#include "translator.h"
 #include <QApplication>
 #include <QFile>
-#include "version.h"
+//#include "version.h"
 
 Preferences     * Global::pref       = 0;
-Translator      * Global::translator = 0;
+//Translator      * Global::translator = 0;
 
 MusicLibrary    * Global::mlib       = 0;
 PhononFace      * Global::player     = 0;
@@ -22,7 +22,7 @@ void Global::global_init()
         pref      = new Preferences();
 
         // Translator
-        translator = new Translator();
+//        translator = new Translator();
 
         player    = new PhononFace();
         mlib      = new MusicLibrary(pref->music_library_path,
@@ -40,7 +40,7 @@ void Global::global_end() {
 	delete pref;
 	pref = 0;
 
-	delete translator;
+//	delete translator;
 }
 
 

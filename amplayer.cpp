@@ -24,7 +24,7 @@ AMPlayer::AMPlayer(QObject * parent ) :
     global_init();
 
     // Application translations
-    translator->load( pref->language );
+//    translator->load( pref->language );
     showInfo();
 }
 

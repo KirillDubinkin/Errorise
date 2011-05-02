@@ -10,7 +10,7 @@
 // Some global objects
 
 class Preferences;
-class Translator;
+//class Translator;
 
 class PhononFace;
 class MusicLibrary;
@@ -21,7 +21,7 @@ namespace Global {
 	extern Preferences * pref;
 
 	//! Translator (for changing language)
-	extern Translator * translator;
+//	extern Translator * translator;
 
 
         extern MusicLibrary *mlib;
