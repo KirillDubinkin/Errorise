@@ -1,7 +1,6 @@
 
 #include "mediainfo.h"
 #include "global.h"
-#include <QDir>
 #include <QFileInfo>
 #include <QStringList>
 
@@ -36,6 +35,16 @@ QString MediaInfo::findArt(QString path)
                 return dir.absoluteFilePath(files.first());
         }
     }
+
+    return QString::null;
+}
+
+
+
+QString MediaInfo::findPlArt(QDir dir)
+{
+    if (dir.exists(pref->pl_art_filename))
+        return dir.absoluteFilePath(pref->pl_art_filename);
 
     return QString::null;
 }

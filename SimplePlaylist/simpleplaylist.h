@@ -63,7 +63,7 @@ private:
     QTime time;
 
     QList<int> getGroup(const QList<int> &tracks);
-    void insertCover(int row, const QString &cover);
+    QString doPlaylistArt(QString filename, QString dir);
 
     void loadSettings();
     void createActions();

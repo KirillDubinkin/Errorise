@@ -24,11 +24,16 @@ void PMediaInfo::scanFile(QString filename)
 
 void PMediaInfo::scanFiles(QStringList files)
 {
+    playlistArtFilePath.clear();
+    artFilePath.clear();
+
     if (!files.isEmpty())
     {
-        artFilePath = findArt(QFileInfo(files.first()).absolutePath());
-        if (!artFilePath.isEmpty())
-            qDebug() << "Finded cover:" << artFilePath;
+        playlistArtFilePath = findPlArt(QFileInfo(files.first()).absoluteDir());
+        artFilePath         = findArt(QFileInfo(files.first()).absolutePath());
+
+        if (!playlistArtFilePath.isEmpty())
+            qDebug() << "Finded playlist art:" << playlistArtFilePath;
     }
 
     filenames = files;
@@ -76,6 +81,7 @@ void PMediaInfo::pringTags()
         QStringList format = object->currentSource().fileName().split(".");
 
         temp.insert("ART", artFilePath);
+        temp.insert("PLAYLISTART", playlistArtFilePath);
         temp.insert("DURATION", QTime(0, 0).addMSecs(object->totalTime()).toString("mm:ss"));
         temp.insert("FORMAT", QString(format.last()).toUpper());
         temp.insert("MODIFIED", QString::number(QFileInfo(format.join(".")).lastModified().toMSecsSinceEpoch()));

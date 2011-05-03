@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QMultiMap>
+#include <QDir>
 
 /*
     Recursive folders scan relised in MusicLibrary
@@ -26,6 +27,7 @@ public:
     virtual void scanForChanges()             = 0;
 
     virtual QString findArt(QString path);
+    virtual QString findPlArt(QDir dir);
 
 signals:
     void allFilesScanned(QMultiMap<QString, QMultiMap<QString, QString> > tags);

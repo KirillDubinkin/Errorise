@@ -182,7 +182,7 @@ void SimplePlaylist::fillPlaylist()
 {
     if (trackGuids.isEmpty())
     {
-        QTimer::singleShot(0, this, SLOT(insertLastCovers()));
+//        QTimer::singleShot(0, this, SLOT(insertLastCovers()));
         return;
     }
 
@@ -298,13 +298,20 @@ void SimplePlaylist::fillPlaylist()
         setItem(artRow, CoverColumn, newItem(brush, Qt::NoItemFlags));
 
 
-
-        QString cover = Helper::valueOfTrack("art", group.first());
+        QString cover = Helper::valueOfTrack("playlistart", group.first());
         if (!cover.isEmpty())
             artQueue.append(CoversQueue(artRow, newRow, cover));
+        else
+        {
+            cover = Helper::valueOfTrack("art", group.first());
+            if (!cover.isEmpty())
+            {
+                cover = doPlaylistArt(cover, dir);
+                artQueue.append(CoversQueue(artRow, newRow, cover));
+            }
+        }
 
-        if (prefs->row_height * rowCount() <= height())
-            QTimer::singleShot(0, this, SLOT(insertCover()));
+        QTimer::singleShot(0, this, SLOT(insertCover()));
 
     }
 
@@ -315,6 +322,27 @@ void SimplePlaylist::fillPlaylist()
 }
 
 
+QString SimplePlaylist::doPlaylistArt(QString filename, QString dir)
+{
+    QPixmap pic = QPixmap(filename).scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1), Qt::SmoothTransformation);
+
+    QString newFilename = dir.append("/" + pref->pl_art_filename);
+    if (pic.save(newFilename))
+    {
+        QSqlQuery query(mlib->db);
+
+        if (!query.exec("UPDATE tracks SET playlistart = '" + QString(newFilename).replace("'", "''") + "' "
+                        "WHERE art LIKE '" + filename.replace("'", "''") + "'"))
+            qWarning() << "SimplePlaylist::doPlaylistArt\n\t" << query.lastError().text();
+
+        return newFilename;
+    }
+
+    qWarning() << "SimplePlaylist::doPlaylistArt  New picture not saved!";
+    return filename;
+}
+
+
 void SimplePlaylist::insertCover()
 {
     if (artQueue.isEmpty())
@@ -322,7 +350,8 @@ void SimplePlaylist::insertCover()
 
     CoversQueue art = artQueue.takeFirst();
 
-    QPixmap pic = QPixmap(art.filename).scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1),( Qt::TransformationMode) prefs->smooth_art_scale);
+    //QPixmap pic = QPixmap(art.filename).scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1),( Qt::TransformationMode) prefs->smooth_art_scale);
+    QPixmap pic(art.filename);
 
     int curGroupSize = prefs->row_height * (art.spanRow - art.artRow);
     int picHeight    = pic.height();
@@ -345,7 +374,8 @@ void SimplePlaylist::insertLastCovers()
 
     CoversQueue art = artQueue.takeFirst();
 
-    QPixmap pic = QPixmap(art.filename).scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1),( Qt::TransformationMode) prefs->smooth_art_scale);
+    //QPixmap pic = QPixmap(art.filename).scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1),( Qt::TransformationMode) prefs->smooth_art_scale);
+    QPixmap pic(art.filename);
 
     int curGroupSize = prefs->row_height * (art.spanRow - art.artRow);
     int picHeight    = pic.height();

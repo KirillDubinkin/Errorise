@@ -52,6 +52,7 @@ void Preferences::reset()
         //! Library
     music_library_path  = "";
     files_filter        = "*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma";
+    pl_art_filename     = ".errorise_cover.bmp";
     art_search_patterns << "*cover*.jp*g" << "*cover*.png" << "*cover*.gif" << "*cover*.bmp"
                         << "*folder*.jp*g" << "*folder*.png" << "*folder*.gif" << "*folder*.bmp"
                         << "*front*.jp*g"  << "*front*.png" << "*front*.gif" << "*front*.bmp"
@@ -106,6 +107,7 @@ void Preferences::save()
     set.beginGroup("Library");
     set.setValue("music_library_path", music_library_path);
     set.setValue("files_filter", files_filter);
+    set.setValue("pl_art_filename", pl_art_filename);
     set.setValue("art_search_patterns", art_search_patterns);
     set.setValue("art_search_folders", art_search_folders);
     set.endGroup();
@@ -161,6 +163,7 @@ void Preferences::load()
     set.beginGroup("Library");
     music_library_path  = set.value("music_library_path", music_library_path).toString();
     files_filter        = set.value("files_filter", files_filter).toString();
+    pl_art_filename     = set.value("pl_art_filename", pl_art_filename).toString();
     art_search_patterns = set.value("art_search_patterns", art_search_patterns).toStringList();
     art_search_folders  = set.value("art_search_folders", art_search_folders).toStringList();
     set.endGroup();

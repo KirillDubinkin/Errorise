@@ -51,6 +51,7 @@ public:
             //! Library
         QString music_library_path;
         QString files_filter;
+        QString pl_art_filename;
         QStringList art_search_patterns;
         QStringList art_search_folders;
 
