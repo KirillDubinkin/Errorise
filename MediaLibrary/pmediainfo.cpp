@@ -30,10 +30,9 @@ void PMediaInfo::scanFiles(QStringList files)
     if (!files.isEmpty())
     {
         playlistArtFilePath = findPlArt(QFileInfo(files.first()).absoluteDir());
-        artFilePath         = findArt(QFileInfo(files.first()).absolutePath());
 
-        if (!playlistArtFilePath.isEmpty())
-            qDebug() << "Finded playlist art:" << playlistArtFilePath;
+        if (playlistArtFilePath.isEmpty())
+            artFilePath         = findArt(QFileInfo(files.first()).absolutePath());
     }
 
     filenames = files;
