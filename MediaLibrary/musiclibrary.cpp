@@ -93,12 +93,18 @@ bool MusicLibrary::createTagsTable()
     s.append("album TEXT,");
     s.append("albumartist TEXT,");
     s.append("title TEXT,");
+    s.append("composer TEXT,");
     s.append("date TEXT,");
     s.append("tracknumber TEXT,");
+    s.append("trackcount TEXT,");
     s.append("genre TEXT,");
     s.append("duration TEXT,");
     s.append("format TEXT,");
-    s.append("description TEXT,");
+    s.append("codec TEXT,");
+    s.append("bitrate TEXT,");
+    s.append("channelmode TEXT,");
+    s.append("containerformat TEXT,");
+    s.append("comment TEXT,");
     s.append("other TEXT");
     s.append(")");
 
@@ -162,9 +168,10 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
 {
     QSqlQuery *query = new QSqlQuery(db);
     query->prepare("INSERT INTO tracks (filepath, filename, art, playlistart, modified, artist, album, albumartist,"
-                   "title, date, tracknumber, genre, duration, format,"
-                   "description, other)"
-                   "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                   "title, composer, date, tracknumber, trackcount, genre, duration,"
+                   "format, codec, bitrate, channelmode, containerformat,"
+                   "comment, other)"
+                   "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     QStringList path = filename.split("/");
     path.removeLast();
@@ -176,14 +183,20 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
     query->addBindValue(tags.value("MODIFIED"));
     query->addBindValue(tags.value("ARTIST"));
     query->addBindValue(tags.value("ALBUM"));
-    query->addBindValue(tags.value("ALBUMARTIST"));
+    query->addBindValue(tags.value("ALBUM-ARTIST"));
     query->addBindValue(tags.value("TITLE"));
+    query->addBindValue(tags.value("COMPOSER"));
     query->addBindValue(tags.value("DATE"));
-    query->addBindValue(tags.value("TRACKNUMBER"));
+    query->addBindValue(tags.value("TRACK-NUMBER"));
+    query->addBindValue(tags.value("TRACK-COUNT"));
     query->addBindValue(tags.value("GENRE"));
     query->addBindValue(tags.value("DURATION"));
     query->addBindValue(tags.value("FORMAT"));
-    query->addBindValue(tags.value("DESCRIPTION"));
+    query->addBindValue(tags.value("AUDIO-CODEC"));
+    query->addBindValue(tags.value("BITRATE"));
+    query->addBindValue(tags.value("CHANNEL-MODE"));
+    query->addBindValue(tags.value("CONTAINER-FORMAT"));
+    query->addBindValue(tags.value("COMMENT"));
     query->addBindValue(tags.value("OTHER"));
 
     query->exec();
