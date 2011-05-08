@@ -24,15 +24,21 @@ public:
     static QStringList getTags(QString pattern);
     static QString     getTag(const QString &pattern);
 
-    static int  nextQuote(const QString &line, int from);
-    static bool isContainer(const QString &line);
-    static int  funcEnd(const QString &line, const int from = 0);
-    static int  funcSize(const QString &line, const int from = 0);
 
     static QString     valueOfTrack(const QString &tag, const int id);
     static QStringList valueOfTrack(const QStringList &tags, const int id);
 
     static QString parseLine(const int id, QString line);
+
+
+    static inline QString vaGroup(const QString &line) { return line; }
+
+protected:
+    static int  nextQuote(const QString &line, int from);
+    static bool isContainer(const QString &line);
+    static int  funcEnd(const QString &line, const int from = 0);
+    static int  funcSize(const QString &line, const int from = 0);
+
     static QString processQuotes(QString line);
     static QString processTags(QString line, const int id);
     static QString processContainer(QString line, const int id);
@@ -41,10 +47,6 @@ public:
 
     static QString doFunc(const QString &func, QString line, const int id);
     static QString funcIF(QString line, const int id);
-
-
-    static inline QString vaGroup(const QString &line) { return line; }
-
 };
 
 #endif // HELPER_H
