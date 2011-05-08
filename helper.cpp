@@ -279,13 +279,10 @@ QString Helper::processTags(QString line, const int id)
 
 int Helper::nextQuote(const QString &line, int from)
 {
-    if (line.size() != from)
-    {
-        if (int next = line.indexOf("'", from + 1) > 0)
-            return next;
-    }
+    int next = line.indexOf('\'', from+1);
+    if (next > -1)
+        return next;
 
-//    qWarning() << QObject::tr("Lonely quote in " + line.toUtf8());
     return from;
 }
 
@@ -402,6 +399,8 @@ QString Helper::processContainers(QString line, const int id)
 {
     QQueue<int> open;
     QQueue<int> closed;
+
+    qDebug() << line << line.size();
 
     for (int pos = 0; pos < line.size(); pos++)
     {
