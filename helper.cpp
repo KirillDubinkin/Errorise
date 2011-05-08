@@ -15,34 +15,6 @@ using namespace Global;
 
 static QRegExp rx_tag("%([a-z]*)%");
 
-/*
-QString Helper::parseLine(const int GUID, QString pattern)
-{
-    QString s = pattern;
-
-    QStringList tags = getTags(pattern);
-    QSqlQuery query(mlib->db);
-
-    if (query.exec("SELECT " + tags.join(", ") + " FROM tracks "
-                   "WHERE id = '" + QString::number(GUID) + "'"))
-    {
-        query.next();
-        for (int i = 0; i < tags.size(); i++)
-        {
-            if (tags.at(i) != "duration")
-                s.replace(tags.at(i), query.value(i).toString());
-            else
-                s.replace(tags.at(i), QTime(0, 0).addMSecs(query.value(i).toInt()).toString());
-        }
-        s.remove("%");
-
-    } else {
-        qWarning() << query.lastError();
-    }
-
-    return s;
-}
-*/
 
 QStringList Helper::getTags(QString pattern)
 {
@@ -55,7 +27,7 @@ QStringList Helper::getTags(QString pattern)
         pos += rx_tag.matchedLength();
     }
 
-    return list; // тэги из паттерна одной ветви
+    return list;
 }
 
 
@@ -104,22 +76,9 @@ QStringList Helper::valueOfTrack(const QStringList &tags, int id)
 }
 
 
-QString Helper::formatTime(int sec)
-{
-    int hours = (int) sec / 3600;
-    sec -= hours*3600;
-    int minutes = (int) sec / 60;
-    sec -= minutes*60;
-    int seconds = sec;
-
-    QString tf;
-    return tf.sprintf("%02d:%02d:%02d",hours,minutes,seconds);
-}
-
-
 QString Helper::fileName(const int id)
 {
-    return valueOfTrack(QStringList() << "filepath" << "filename", id).join(QDir::separator());
+    return valueOfTrack(QStringList() << "filepath" << "filename", id).join("/");
 }
 
 
@@ -159,19 +118,6 @@ int Helper::guidOf(QString filename)
 }
 
 
-QString Helper::getHexColors(int r, int g, int b)
-{
-    QString str = "";
-    if (r < 16) str = "0";
-    str.append(QString::number(r,16));
-    if (g < 16) str.append("0");
-    str.append(QString().number(g,16));
-    if (b < 16) str.append("0");
-    str.append(QString().number(b,16));
-
-    return str;
-}
-
 
 QString Helper::processContainer(QString line, int id)
 {
@@ -202,7 +148,6 @@ QString Helper::processContainer(QString line, int id)
 
     QStringList values = valueOfTrack(tags, id);
 
- //   line = processQuotes(line);
 
     int ok = 0;
 
@@ -263,7 +208,6 @@ QString Helper::processQuotes(QString line)
 QString Helper::processTags(QString line, const int id)
 {
     QStringList tags = getTags(line);
-//    line = processQuotes(line);
 
     if (!tags.isEmpty())
     {
@@ -347,7 +291,7 @@ QString Helper::doFunc(const QString &func, QString line, const int id)
 {
     if (func == "if")
         return funcIF(line, id);
-    /*else if (func == ...) */
+
 
     qWarning() << QObject::tr("I'm not familiar with function \"$" + func.toUtf8());
     return QString::null;
@@ -400,8 +344,6 @@ QString Helper::processContainers(QString line, const int id)
     QQueue<int> open;
     QQueue<int> closed;
 
-    qDebug() << line << line.size();
-
     for (int pos = 0; pos < line.size(); pos++)
     {
         int opa = open.size();
@@ -411,19 +353,15 @@ QString Helper::processContainers(QString line, const int id)
 
         if (chr == '\'')
             pos = nextQuote(line, pos);
+
         else
         if (chr == '$')
-        {
-            /*if (open.isEmpty())
-            {
-                line = processFunctions(line, id);
-                return processContainers(line, id);
-            }*/
             pos = funcEnd(line, pos);
-        }
+
         else
         if (chr == '[')
             open.enqueue(pos);
+
         else
         if (chr == ']')
         {
