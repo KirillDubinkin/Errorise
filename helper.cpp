@@ -327,7 +327,7 @@ QString Helper::processFunctions(QString line, const int id)
     }
 
 
-    if (body && (!func.isEmpty()) && end)
+    if (start && body && (!func.isEmpty()) && end)
     {
         func = doFunc(func, line.mid(body + 1, end - body - 1), id);
         line.replace(start, end - start + 1, func);
