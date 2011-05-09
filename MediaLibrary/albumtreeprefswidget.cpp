@@ -99,10 +99,7 @@ void AlbumTreePrefsWidget::setTreeItemIcon(QString text)
 
 void AlbumTreePrefsWidget::setTreeStyle()
 {
-    if (timer.isActive())
-    {
-        timer.stop();
-        prefs->stylesheet = ui->StyleSheetEdit->toPlainText();
-        timer.start(1000);
-    }
+    timer.stop();
+    prefs->stylesheet = ui->StyleSheetEdit->toPlainText();
+    timer.start(2000);
 }
