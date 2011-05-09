@@ -24,21 +24,42 @@ void PMediaInfo::scanFile(QString filename)
 
 void PMediaInfo::scanFiles(QStringList files)
 {
+    isUpdateState = false;
+
+    qDebug() << "PMediaInfo::scanFiles" << files.size();
+
     playlistArtFilePath.clear();
     artFilePath.clear();
 
-    if (!files.isEmpty())
-    {
-        playlistArtFilePath = findPlArt(QFileInfo(files.first()).absoluteDir());
+    playlistArtFilePath = findPlArt(QFileInfo(files.first()).absoluteDir());
 
-        if (playlistArtFilePath.isEmpty())
-            artFilePath         = findArt(QFileInfo(files.first()).absolutePath());
-    }
+    if (playlistArtFilePath.isEmpty())
+        artFilePath     = findArt(QFileInfo(files.first()).absolutePath());
+
 
     filenames = files;
     meta.clear();
     scanNextFile();
 }
+
+
+
+void PMediaInfo::reScanFiles(QStringList files)
+{
+    isUpdateState = true;
+
+    playlistArtFilePath.clear();
+    artFilePath.clear();
+
+    playlistArtFilePath = findPlArt(QFileInfo(files.first()).absoluteDir());
+    if (playlistArtFilePath.isEmpty())
+        artFilePath     = findArt(QFileInfo(files.first()).absolutePath());
+
+    filenames = files;
+    meta.clear();
+    scanNextFile();
+}
+
 
 
 void PMediaInfo::scanDir(QString path)
@@ -134,5 +155,10 @@ void PMediaInfo::scanNextFile()
     if (filenames.size())
         scanFile(filenames.takeFirst());
     else
-        emit allFilesScanned(meta);
+    {
+        if (isUpdateState)
+            emit oldFilesScanned(meta);
+        else
+            emit newFilesScanned(meta);
+    }
 }

@@ -78,14 +78,14 @@ QStringList Helper::valueOfTrack(const QStringList &tags, int id)
 
 QString Helper::fileName(const int id)
 {
-    return valueOfTrack(QStringList() << "filepath" << "filename", id).join("/");
+    return valueOfTrack("filepath", id);
 }
 
 
 
 QString Helper::filePath(const int id)
 {
-    return valueOfTrack("filepath", id);
+    return valueOfTrack("filedir", id);
 }
 
 
@@ -97,16 +97,11 @@ int Helper::guidOf(QString filename)
 
     filename.replace("'", "''");
 
-    QStringList path = filename.split(QDir::separator());
-    path.removeLast();
-
-    QString f = filename.remove(path.join(QDir::separator())).remove(0, 1);
 
     QSqlQuery query(mlib->db);
 
     if (query.exec("SELECT id FROM tracks "
-                   "WHERE (filepath LIKE '" + path.join(QDir::separator()) + "') "
-                   "AND (filename LIKE '" + f + "')"))
+                   "WHERE filepath LIKE '" + filename + "'"))
     {
         query.next();
         return query.value(0).toInt();

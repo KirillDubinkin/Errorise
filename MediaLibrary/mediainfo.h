@@ -19,18 +19,21 @@ class MediaInfo: public QObject
 protected:
     MediaInfo(QObject *parent = 0) : QObject(parent) { }
 
-public:
-    virtual void scanFile (QString filename)  = 0;
-    virtual void scanFiles(QStringList files) = 0;
-    virtual void scanDir  (QString path)      = 0;
 
-    virtual void scanForChanges()             = 0;
+public slots:
+    virtual void scanFiles  (QStringList files)   = 0;
+    virtual void reScanFiles(QStringList files) = 0;
+
+public:
+    virtual void scanFile (QString filename)    = 0;
+    virtual void scanDir  (QString path)        = 0;
 
     virtual QString findArt(QString path);
     virtual QString findPlArt(QDir dir);
 
 signals:
-    void allFilesScanned(QMultiMap<QString, QMultiMap<QString, QString> > tags);
+    void newFilesScanned(QMultiMap<QString, QMultiMap<QString, QString> > tags);
+    void oldFilesScanned(QMultiMap<QString, QMultiMap<QString, QString> > tags);
 
     void fileWasRemoved(int id);
     void fileWasUpdated(int id, QMultiMap<QString, QString> tags);

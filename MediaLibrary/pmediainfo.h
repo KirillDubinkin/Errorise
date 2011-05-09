@@ -18,16 +18,18 @@ public:
     explicit PMediaInfo(QObject *parent = 0);
 
     void scanFile (QString filename);
-    void scanFiles(QStringList files);
     void scanDir  (QString path);
 
-    inline void scanForChanges() {}
+    void checkFiles(QStringList files);
+
+
+public slots:
+    void scanFiles  (QStringList files);
+    void reScanFiles(QStringList files);
 
 
 signals:
     void fileScaned();
-
-public slots:
 
 private slots:
     void pringTags();
@@ -36,12 +38,15 @@ private slots:
 
 private:
     Phonon::MediaObject *object;
-    QString artFilePath;
-    QString playlistArtFilePath;
-    QStringList filenames;
-    QString sourcePath;
+    QString             artFilePath;
+    QString             playlistArtFilePath;
+    QStringList         filenames;
+    QString             sourcePath;
+
     QMultiMap<QString, QMultiMap<QString, QString> > meta;
           //! filename, (TAG, Value);
+
+    bool isUpdateState;
 
 };
 

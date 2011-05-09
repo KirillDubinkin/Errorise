@@ -9,7 +9,6 @@
 #include <QMultiMap>
 #include <QString>
 #include <QStringList>
-#include <QTime>
 
 class MusicLibrary : public QObject
 {
@@ -29,29 +28,39 @@ signals:
     void readyToWork();
     void tracksSelectedBy(QString tag, QString value);
 
-public slots:
+    void updateRequired(QStringList files);
+    void newFilesAvailable(QStringList files);
+
+    void doneWithCurDir();
 
 
 
 private slots:
     void insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString> > meta);
+    void updateOldTracks(QMultiMap<QString, QMultiMap<QString, QString> > meta);
+
+    void checkNextDir();
 
 private:
     MediaInfo       *minfo;
     QString          fileFilters;
     QString          libPath;
     QQueue<QString>  dirs;
-    QStringList      files;
+    QStringList      newFiles;
+    QStringList      existingFiles;
 
-    bool ready;
+    QMap<QString, qint64> lastModifiedDates;
 
-    QTime timer;
+    bool             ready;
 
 private:
     bool openDb();
     bool createTagsTable();
-    void fillDb(QString fromPath);
+    void updateDb(QString fromPath);
+    void deleteRemovedFiles();
+
     void appendTrack(QString filename, QMultiMap<QString, QString> tags);
+    void updateTrack(QString filename, QMultiMap<QString, QString> tags);
 
 };
 

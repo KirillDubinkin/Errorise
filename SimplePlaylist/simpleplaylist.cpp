@@ -191,7 +191,7 @@ void SimplePlaylist::fillPlaylist()
     QList<int> group;
     group.append(trackGuids.first());
 
-    QString dir  = Helper::valueOfTrack("filepath", trackGuids.first());
+    QString dir  = Helper::valueOfTrack("filedir", trackGuids.first());
     QString prev = Helper::parseLine(trackGuids.takeFirst(), prefs->groups_format);
     QString current;
     bool VA = false;
@@ -204,14 +204,14 @@ void SimplePlaylist::fillPlaylist()
 
         if (prefs->group_byDirs)
         {
-            if (dir != Helper::valueOfTrack("filepath", guid))
+            if (dir != Helper::valueOfTrack("filedir", guid))
                 break;
 
             if (prev != current)
                 VA = true;
 
         } else if (prev != current) {
-            if ( (index - groupRow > prefs->group_delay) | (dir != Helper::valueOfTrack("filepath", guid)) )
+            if ( (index - groupRow > prefs->group_delay) | (dir != Helper::valueOfTrack("filedir", guid)) )
                 break;
             else
                 VA = true;
@@ -655,7 +655,7 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
 
     if (query.exec("SELECT id FROM tracks "
                    "WHERE " + tag + " LIKE '" + value + "%'"
-                   "ORDER BY filepath, filename"))
+                   "ORDER BY filepath"))
     {
         trackGuids.clear();
 
