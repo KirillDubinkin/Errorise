@@ -9,6 +9,7 @@
 #include <QMultiMap>
 #include <QString>
 #include <QStringList>
+#include <QTimer>
 
 class MusicLibrary : public QObject
 {
@@ -40,9 +41,12 @@ private slots:
     void updateOldTracks(QMultiMap<QString, QMultiMap<QString, QString> > meta);
 
     void checkNextDir();
+    void checkForUpdates();
 
 private:
     MediaInfo       *minfo;
+    QTimer          *updateTimer;
+
     QString          fileFilters;
     QString          libPath;
     QQueue<QString>  dirs;
@@ -52,10 +56,12 @@ private:
     QMap<QString, qint64> lastModifiedDates;
 
     bool             ready;
+    bool             modified;
 
 private:
     bool openDb();
     bool createTagsTable();
+
     void updateDb(QString fromPath);
     void deleteRemovedFiles();
 

@@ -18,7 +18,12 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
                            QObject *parent) :
     QObject(parent)
 {
-    ready = false;
+    ready    = false;
+    modified = false;
+
+    updateTimer = new QTimer(this);
+    updateTimer->setInterval(60000);
+    connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkForUpdates()));
 
     if (!openDb())
     {
@@ -142,10 +147,23 @@ void MusicLibrary::deleteRemovedFiles()
         {
             QSqlQuery deleteQuery(db);
             deleteQuery.exec("DELETE FROM tracks WHERE filepath LIKE '" + query.value(0).toString().replace("'", "''") + "'");
+
+            modified = true;
+            existingFiles.removeOne(query.value(0).toString());
+            lastModifiedDates.remove(query.value(0).toString());
         }
     }
 
     db.commit();
+}
+
+
+void MusicLibrary::checkForUpdates()
+{
+    updateTimer->stop();
+
+    deleteRemovedFiles();
+    updateDb(libPath);
 }
 
 
@@ -192,9 +210,15 @@ void MusicLibrary::checkNextDir()
     if (!dirs.isEmpty())
         return updateDb(dirs.dequeue());
 
-    qDebug() << "db.commit()" << db.commit();
+    db.commit();
     ready = true;
-    emit readyToWork();
+    updateTimer->start();
+
+    if (modified)
+    {
+        emit readyToWork();
+        modified = false;
+    }
 }
 
 
@@ -208,6 +232,7 @@ void MusicLibrary::insertNewTracks(QMultiMap<QString, QMultiMap<QString, QString
         appendTrack(i.key(), i.value());
     }
 
+    modified = true;
     emit doneWithCurDir();
 }
 
@@ -225,6 +250,7 @@ void MusicLibrary::updateOldTracks(QMultiMap<QString, QMultiMap<QString, QString
     if (!newFiles.isEmpty())
         return emit newFilesAvailable(newFiles);
 
+    modified = true;
     emit doneWithCurDir();
 }
 
@@ -233,7 +259,7 @@ void MusicLibrary::updateOldTracks(QMultiMap<QString, QMultiMap<QString, QString
 void MusicLibrary::updateTrack(QString filename, QMultiMap<QString, QString> tags)
 {
     QSqlQuery query(db);
-    if (! query.exec("UPDATE tracks SET "
+    if (query.exec("UPDATE tracks SET "
                "art = '"         + tags.value("ART")              + "', "
                "playlistart = '" + tags.value("PLAYLISTART")      + "', "
                "modified = '"    + tags.value("MODIFIED")         + "', "
@@ -257,6 +283,11 @@ void MusicLibrary::updateTrack(QString filename, QMultiMap<QString, QString> tag
                "WHERE filepath = '" + filename.replace("'", "''") + "' " )
             ) //! if
     {
+        lastModifiedDates.remove(filename);
+        lastModifiedDates.insert(filename, QString(tags.value("MODIFIED")).toLongLong());
+
+    } else {
+
         qWarning() << "MusicLib::updateTrack\n\t" << query.lastError().text();
     }
 }
@@ -264,6 +295,9 @@ void MusicLibrary::updateTrack(QString filename, QMultiMap<QString, QString> tag
 
 void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tags)
 {
+    existingFiles.append(filename);
+    lastModifiedDates.insert(filename, QString(tags.value("MODIFIED")).toLongLong());
+
     QSqlQuery *query = new QSqlQuery(db);
     query->prepare("INSERT INTO tracks (filepath, filename, filedir, art, playlistart, modified, artist, album, albumartist,"
                    "title, composer, date, tracknumber, trackcount, genre, duration,"
