@@ -258,37 +258,39 @@ void MusicLibrary::updateOldTracks(QMultiMap<QString, QMultiMap<QString, QString
 
 void MusicLibrary::updateTrack(QString filename, QMultiMap<QString, QString> tags)
 {
-    QSqlQuery query(db);
-    if (query.exec("UPDATE tracks SET "
-               "art = '"         + tags.value("ART")              + "', "
-               "playlistart = '" + tags.value("PLAYLISTART")      + "', "
-               "modified = '"    + tags.value("MODIFIED")         + "', "
-               "artist = '"      + tags.value("ARTIST")           + "', "
-               "album = '"       + tags.value("ALBUM")            + "', "
-               "albumartist = '" + tags.value("ALBUM-ARTIST")     + "', "
-               "title = '"       + tags.value("TITLE")            + "', "
-               "composer = '"    + tags.value("COMPOSER")         + "', "
-               "date = '"        + tags.value("DATE")             + "', "
-               "tracknumber = '" + tags.value("TRACK-NUMBER")     + "', "
-               "trackcount = '"  + tags.value("TRACK-COUNT")      + "', "
-               "genre = '"       + tags.value("GENRE")            + "', "
-               "duration = '"    + tags.value("DURATION")         + "', "
-               "format = '"      + tags.value("FORMAT")           + "', "
-               "codec = '"       + tags.value("AUDIO-CODEC")      + "', "
-               "bitrate = '"     + tags.value("BITRATE")          + "', "
-               "channelmode = '" + tags.value("CHANNEL-MODE")     + "', "
-               "tagstype = '"    + tags.value("CONTAINER-FORMAT") + "', "
-               "comment = '"     + tags.value("COMMENT")          + "'  "
+    QString str("UPDATE tracks SET "
+                "art = '"         + QString(tags.value("ART")).replace("'", "''")              + "', "
+                "playlistart = '" + QString(tags.value("PLAYLISTART")).replace("'", "''")      + "', "
+                "modified = '"    + QString(tags.value("MODIFIED")).replace("'", "''")         + "', "
+                "artist = '"      + QString(tags.value("ARTIST")).replace("'", "''")           + "', "
+                "album = '"       + QString(tags.value("ALBUM")).replace("'", "''")            + "', "
+                "albumartist = '" + QString(tags.value("ALBUM-ARTIST")).replace("'", "''")     + "', "
+                "title = '"       + QString(tags.value("TITLE")).replace("'", "''")            + "', "
+                "composer = '"    + QString(tags.value("COMPOSER")).replace("'", "''")         + "', "
+                "date = '"        + QString(tags.value("DATE")).replace("'", "''")             + "', "
+                "tracknumber = '" + QString(tags.value("TRACK-NUMBER")).replace("'", "''")     + "', "
+                "trackcount = '"  + QString(tags.value("TRACK-COUNT")).replace("'", "''")      + "', "
+                "genre = '"       + QString(tags.value("GENRE")).replace("'", "''")            + "', "
+                "duration = '"    + QString(tags.value("DURATION")).replace("'", "''")         + "', "
+                "format = '"      + QString(tags.value("FORMAT")).replace("'", "''")           + "', "
+                "codec = '"       + QString(tags.value("AUDIO-CODEC")).replace("'", "''")      + "', "
+                "bitrate = '"     + QString(tags.value("BITRATE")).replace("'", "''")          + "', "
+                "channelmode = '" + QString(tags.value("CHANNEL-MODE")).replace("'", "''")     + "', "
+                "tagstype = '"    + QString(tags.value("CONTAINER-FORMAT")).replace("'", "''") + "', "
+                "comment = '"     + QString(tags.value("COMMENT")).replace("'", "''")          + "'  "
 
-               "WHERE filepath = '" + filename.replace("'", "''") + "' " )
-            ) //! if
+                "WHERE filepath = '" + filename.replace("'", "''") + "' " );
+
+
+    QSqlQuery query(db);
+    if (query.exec(str)) //! if
     {
         lastModifiedDates.remove(filename);
         lastModifiedDates.insert(filename, QString(tags.value("MODIFIED")).toLongLong());
 
     } else {
 
-        qWarning() << "MusicLib::updateTrack\n\t" << query.lastError().text();
+        qWarning() << "MusicLib::updateTrack\n\t" << query.lastError().text() << "\n" << str;
     }
 }
 
