@@ -3,6 +3,7 @@
 #include "global.h"
 #include <QFileInfo>
 #include <QStringList>
+#include <QFile>
 
 using namespace Global;
 
@@ -12,15 +13,26 @@ QString MediaInfo::findArt(QString path)
     folders.append(path);
 
     foreach (QString str, pref->art_search_folders)
-        folders.append(path + "/" + str);
+    {
+        str = path + "/" + str;
+        if (QFile::exists(str))
+            folders.append(path + "/" + str);
+    }
 
-    QStringList list(path.split("/"));
-    path = list.join("/").remove(list.last());
+    if (!pref->music_library_path.contains(path))
+    {
+        QStringList list(path.split("/"));
+        path = list.join("/").remove(list.last());
 
-    folders.append(path);
+        folders.append(path);
 
-    foreach (QString str, pref->art_search_folders)
-        folders.append(path + "/" + str);
+        foreach (QString str, pref->art_search_folders)
+        {
+            str = path + "/" + str;
+            if (QFile::exists(str))
+                folders.append(path + "/" + str);
+        }
+    }
 
     QStringList files;
 
