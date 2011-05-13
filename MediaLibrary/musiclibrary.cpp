@@ -27,13 +27,12 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
     if (!openDb())
     {
-        qWarning() << tr("Cannot open or create music library\nPath:") << db.databaseName()
-                   << "\n" << tr(db.lastError().text().toUtf8());
+        qWarning() << tr("\n\tCannot open or create music library\nPath:") << db.databaseName()
+                   << "\n" << tr(db.lastError().text().toUtf8()) << "\n";
         return;
     }
 
     createTagsTable();
-
 
     minfo = new PMediaInfo(this);
 
@@ -51,7 +50,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     this->libPath = libPath;
 
 
-    if (!QDir(libPath).exists()) // path - empty, until user does not change it manually
+    if ((libPath.isEmpty()) | (!QDir(libPath).exists())) // path - empty, until user does not change it manually
        return;
 
 
@@ -160,10 +159,13 @@ void MusicLibrary::deleteRemovedFiles()
 
 void MusicLibrary::checkForUpdates()
 {
-    updateTimer->stop();
+    if (!libPath.isEmpty())
+    {
+        updateTimer->stop();
 
-    deleteRemovedFiles();
-    updateDb(libPath);
+        deleteRemovedFiles();
+        updateDb(libPath);
+    }
 }
 
 
