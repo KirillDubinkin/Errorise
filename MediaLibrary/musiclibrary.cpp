@@ -127,8 +127,8 @@ bool MusicLibrary::createTagsTable()
     s.append("comment TEXT");
     s.append(")");
 
-    QSqlQuery *query = new QSqlQuery(db);
-    return query->exec(s);
+    QSqlQuery query(db);
+    return query.exec(s);
 }
 
 
@@ -302,8 +302,8 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
     existingFiles.append(filename);
     lastModifiedDates.insert(filename, QString(tags.value("MODIFIED")).toLongLong());
 
-    QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("INSERT INTO tracks (filepath, filename, filedir, art, playlistart, modified, artist, album, albumartist,"
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO tracks (filepath, filename, filedir, art, playlistart, modified, artist, album, albumartist,"
                    "title, composer, date, tracknumber, trackcount, genre, duration,"
                    "format, codec, bitrate, channelmode, tagstype,"
                    "comment)"
@@ -312,31 +312,31 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
     QStringList path = filename.split("/");
     path.removeLast();
 
-    query->addBindValue(filename);
-    query->addBindValue(filename.remove(path.join("/")).remove(0, 1));
-    query->addBindValue(path.join("/"));
+    query.addBindValue(filename);
+    query.addBindValue(filename.remove(path.join("/")).remove(0, 1));
+    query.addBindValue(path.join("/"));
 
-    query->addBindValue(tags.value("ART"));
-    query->addBindValue(tags.value("PLAYLISTART"));
-    query->addBindValue(tags.value("MODIFIED"));
-    query->addBindValue(tags.value("ARTIST"));
-    query->addBindValue(tags.value("ALBUM"));
-    query->addBindValue(tags.value("ALBUM-ARTIST"));
-    query->addBindValue(tags.value("TITLE"));
-    query->addBindValue(tags.value("COMPOSER"));
-    query->addBindValue(tags.value("DATE"));
-    query->addBindValue(tags.value("TRACK-NUMBER"));
-    query->addBindValue(tags.value("TRACK-COUNT"));
-    query->addBindValue(tags.value("GENRE"));
-    query->addBindValue(tags.value("DURATION"));
-    query->addBindValue(tags.value("FORMAT"));
-    query->addBindValue(tags.value("AUDIO-CODEC"));
-    query->addBindValue(tags.value("BITRATE"));
-    query->addBindValue(tags.value("CHANNEL-MODE"));
-    query->addBindValue(tags.value("CONTAINER-FORMAT"));
-    query->addBindValue(tags.value("COMMENT"));
+    query.addBindValue(tags.value("ART"));
+    query.addBindValue(tags.value("PLAYLISTART"));
+    query.addBindValue(tags.value("MODIFIED"));
+    query.addBindValue(tags.value("ARTIST"));
+    query.addBindValue(tags.value("ALBUM"));
+    query.addBindValue(tags.value("ALBUM-ARTIST"));
+    query.addBindValue(tags.value("TITLE"));
+    query.addBindValue(tags.value("COMPOSER"));
+    query.addBindValue(tags.value("DATE"));
+    query.addBindValue(tags.value("TRACK-NUMBER"));
+    query.addBindValue(tags.value("TRACK-COUNT"));
+    query.addBindValue(tags.value("GENRE"));
+    query.addBindValue(tags.value("DURATION"));
+    query.addBindValue(tags.value("FORMAT"));
+    query.addBindValue(tags.value("AUDIO-CODEC"));
+    query.addBindValue(tags.value("BITRATE"));
+    query.addBindValue(tags.value("CHANNEL-MODE"));
+    query.addBindValue(tags.value("CONTAINER-FORMAT"));
+    query.addBindValue(tags.value("COMMENT"));
 
-    query->exec();
+    query.exec();
 }
 
 
