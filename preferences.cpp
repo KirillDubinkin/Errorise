@@ -59,7 +59,7 @@ void Preferences::reset()
                         << "*.jp*g" << "*.png" << "*.gif" << ".bmp";
 
     art_search_folders  << "art" << "artwork" << "covers" << "Art" << "Artwork" << "ArtWork" << "Artworks" << "artworks" << "Covers" << "Images" << "images" << "Scans" << "scans";
-
+    lib_update_timeout  = 60;
 }
 
 
@@ -110,6 +110,7 @@ void Preferences::save()
     set.setValue("pl_art_filename", pl_art_filename);
     set.setValue("art_search_patterns", art_search_patterns);
     set.setValue("art_search_folders", art_search_folders);
+    set.setValue("lib_update_timeout", lib_update_timeout);
     set.endGroup();
 
     set.sync();
@@ -166,6 +167,7 @@ void Preferences::load()
     pl_art_filename     = set.value("pl_art_filename", pl_art_filename).toString();
     art_search_patterns = set.value("art_search_patterns", art_search_patterns).toStringList();
     art_search_folders  = set.value("art_search_folders", art_search_folders).toStringList();
+    lib_update_timeout  = set.value("lib_update_timeout", lib_update_timeout).toInt();
     set.endGroup();
 
 }

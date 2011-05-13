@@ -22,7 +22,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     modified = false;
 
     updateTimer = new QTimer(this);
-    updateTimer->setInterval(60000);
+    updateTimer->setInterval(pref->lib_update_timeout * 1000);
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkForUpdates()));
 
     if (!openDb())

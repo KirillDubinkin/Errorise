@@ -54,6 +54,7 @@ public:
         QString pl_art_filename;
         QStringList art_search_patterns;
         QStringList art_search_folders;
+        int         lib_update_timeout;
 
 };
 
