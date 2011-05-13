@@ -39,7 +39,7 @@ private:
 private slots:
     inline void setTreePattern(QString text) { prefs->pattern = text;      emit patternChanged(text); }
     inline void emitStylesheetChange()       { emit stylesheetChanged(prefs->stylesheet); }
-    inline void setMusicPath(QString text)   { musicPath = text; }
+    void setMusicPath(QString text);
     inline void setFileTypes(QString text)   { fileTypes = text; }
 
     void setTreeItemIcon(QString text);

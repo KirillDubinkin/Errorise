@@ -30,6 +30,7 @@ AlbumTreePrefsWidget::~AlbumTreePrefsWidget()
     {
         Global::pref->music_library_path = musicPath;
         Global::pref->files_filter = fileTypes;
+        Global::mlib->setLibraryPath(musicPath);
         emit musicLibraryChanged();
     }
 
@@ -73,6 +74,12 @@ void AlbumTreePrefsWidget::getIcon()
 
     if (!filename.isEmpty())
         ui->ItemIconLine->setText(filename);
+}
+
+
+void AlbumTreePrefsWidget::setMusicPath(QString text)
+{
+    musicPath = text;
 }
 
 
