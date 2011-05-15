@@ -67,8 +67,6 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
     if (query.value(0).toInt()) // if db isn't empty
     {
-        deleteRemovedFiles();
-
         query.clear();
         query.exec("SELECT filepath, modified FROM tracks");
         while (query.next())
@@ -81,10 +79,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
         emit readyToWork();
     }
 
-
-    db.transaction();
-    updateDb(libPath);
-
+    QTimer::singleShot(100, this, SLOT(checkForUpdates()));
 }
 
 
@@ -162,8 +157,9 @@ void MusicLibrary::checkForUpdates()
     if (!libPath.isEmpty())
     {
         updateTimer->stop();
-
         deleteRemovedFiles();
+
+        db.transaction();
         updateDb(libPath);
     }
 }
