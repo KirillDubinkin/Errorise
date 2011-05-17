@@ -117,6 +117,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
     {
         QString temp = key.mid(0, key.indexOf("/"));
         QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
+//        itm->setIcon(0, QIcon(Helper::valueOfTrack("playlistart", pref->music_library_path + "/" + i.key().mid(0, i.key().size() - 1))));
         itm->setIcon(0, QIcon(prefs->items_icon));
         item->addChild(itm);
         item = itm;
@@ -161,6 +162,7 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
         {
             QString temp = key.mid(0, key.indexOf("/"));
             QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
+//            itm->setIcon(0, QIcon(Helper::valueOfTrack("playlistart", pref->music_library_path + "/" + i.key().mid(0, i.key().size() - 1))));
             itm->setIcon(0, QIcon(prefs->items_icon));
             item->addChild(itm);
             item = itm;

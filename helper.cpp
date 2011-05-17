@@ -56,6 +56,22 @@ QString Helper::valueOfTrack(const QString &tag, int id)
 }
 
 
+QString Helper::valueOfTrack(const QString &tag, QString filePath)
+{
+    QSqlQuery query(mlib->db);
+
+    if (query.exec("SELECT " + tag + " FROM tracks "
+                   "WHERE filepath = '" + filePath.replace("'", "''") + "'"))
+    {
+        query.next();
+        return query.value(0).toString();
+    }
+
+    qWarning() << "Helper::valueOfTrack" << query.lastError();
+    return QString::null;
+}
+
+
 QStringList Helper::valueOfTrack(const QStringList &tags, int id)
 {
     QStringList list;

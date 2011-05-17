@@ -16,6 +16,7 @@ public:
 
     static QStringList valueOfTrack(const QStringList &tags, const int id);
     static QString     valueOfTrack(const QString &tag, const int id);
+    static QString     valueOfTrack(const QString &tag, QString filePath);
 
     static QString parseLine(const int id, QString line);
 
