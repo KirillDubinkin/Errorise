@@ -23,7 +23,7 @@ void SimplePLPrefs::reset()
 {
 
     //! Groups
-    groups_format        = "[%artist%] - ['['%date%']'] %album%";
+    groups_format        = "[$if(%albumartist%,%artist%) - ]['['%date%']'] %album%";
     groups_text_color    = "ffffff";
     groups_back_color    = "182835";
     groups_text_aligment = Qt::AlignLeft;
