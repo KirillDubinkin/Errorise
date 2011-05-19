@@ -144,92 +144,69 @@ QMultiMap<QString, QString> MediaInfo::metadata()
 
     foreach (QString line, out)
     {
-/*        if (rx_general.indexIn(line) > -1){
-            track[id].filename = files.at(id);
-            track[id].audio_codec = QFileInfo(track[id].filename).suffix().toUpper();
-           // qDebug() << "filename" << track[id].filename;
-        }
-
-        else */
-
-/*        if (rx_audio.indexIn(line) > -1){
-             //   qDebug() << "rx_audio";
-            //break;
-        }
-
-        else */
         if (rx_format.indexIn(line) > -1){
             QString temp = rx_format.cap(1);
             temp.remove(temp.size() - 1, 1);
             meta.insert("AUDIO-CODEC", temp);
         }
 
-/*        else
+        else
         if (rx_duration.indexIn(line) > -1){
-            track[id].duration = timeToSec(rx_duration.cap(1));
-             //   qDebug() << QTime().fromString(rx_duration.cap(1), "m'm s's");
+            QString temp = rx_duration.cap(1);
+            temp = QTime(0, 0).addSecs(timeToSec(temp)).toString("mm:ss");
+            meta.insert("DURATION", temp);
         }
 
 
         else
         if (rx_bit_rate.indexIn(line) > -1){
-            track[id].bitrate = rx_bit_rate.cap(1);
-#ifdef Q_OS_WIN
-            track[id].bitrate.remove(track[id].bitrate.size()-1, 1);
-#endif
-            //qDebug() << "Bit rate: " << track[id].audio_bitrate;
+            QString temp = rx_bit_rate.cap(1);
+            temp.remove(temp.size() - 1, 1);
+            meta.insert("BITRATE", temp);
         }
-*/
+
         else
         if (rx_track_name.indexIn(line) > -1){
             QString temp = rx_track_name.cap(1);
             temp.remove(temp.size() - 1, 1);
             meta.insert("TITLE", temp);
         }
-/*
-        else
-        if (rx_sample_rate.indexIn(line) > -1){
-            track[id].samplerate = rx_sample_rate.cap(1);
-#ifdef Q_OS_WIN
-            track[id].samplerate.remove(track[id].samplerate.size()-1, 1);
-#endif
-        }
 
         else
         if (rx_channels.indexIn(line) > -1){
-            track[id].audio_nch = rx_channels.cap(1).toInt();
-            switch (track[id].audio_nch){
+            int ch = rx_channels.cap(1).toInt();
+            QString temp;
+            switch (ch) {
             case 1:
-                track[id].channels = "Mono";
+                temp = "Mono";
                 break;
             case 2:
-                track[id].channels = "Stereo";
+                temp = "Stereo";
                 break;
             case 3:
-                track[id].channels = "2.1";
+                temp = "2.1";
                 break;
             case 4:
-                track[id].channels = "Quadro";
+                temp = "Quadro";
                 break;
             case 5:
-                track[id].channels = "5.0";
+                temp = "5.0";
                 break;
             case 6:
-                track[id].channels = "5.1";
+                temp = "5.1";
                 break;
             case 7:
-                track[id].channels = "6.1";
+                temp = "6.1";
                 break;
             case 8:
-                track[id].channels = "8.1";
+                temp = "7.1";
                 break;
             default:
-                qWarning() << "MediaInfo::parse: Unknown channels number \"" << track[id].audio_nch << "\"";
+                qWarning() << "MediaInfo::parse: Unknown channels number \"" << ch << "\"";
             }
-
-
+            meta.insert("CHANNEL-MODE", temp);
         }
-*/
+
         else
         if (rx_artist.indexIn(line) > -1){
             QString temp = rx_artist.cap(1);
@@ -256,19 +233,17 @@ QMultiMap<QString, QString> MediaInfo::metadata()
             temp.remove(temp.size() - 1, 1);
             meta.insert("DATE", temp);
         }
-/*
+
         else
         if (rx_genre.indexIn(line) > -1){
-            track[id].clip_genre = rx_genre.cap(1);
-#ifdef Q_OS_WIN
-            track[id].clip_genre.remove(track[id].clip_genre.size()-1, 1);
-#endif
+            QString temp = rx_genre.cap(1);
+            temp.remove(temp.size() - 1, 1);
+            meta.insert("GENRE", temp);
         }
-*/
+
         else
         if (rx_tracknumber.indexIn(line) > -1){
-            QString temp = rx_date.cap(1);
-            temp.remove(temp.size() - 1, 1);
+            QString temp = rx_tracknumber.cap(1);
             meta.insert("TRACK-NUMBER", temp);
         }
     }
