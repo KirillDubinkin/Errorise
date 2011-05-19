@@ -243,6 +243,10 @@ QMultiMap<QString, QString> MediaInfo::metadata()
         else
         if (rx_tracknumber.indexIn(line) > -1){
             QString temp = rx_tracknumber.cap(1);
+
+#ifdef Q_OS_WIN
+            temp.remove(temp.size() - 1, 1);
+#endif
             meta.insert("TRACK-NUMBER", temp);
         }
     }
