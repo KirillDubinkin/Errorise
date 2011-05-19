@@ -10,6 +10,7 @@ SimpleToolbarPrefs::SimpleToolbarPrefs()
 {
     reset();
     load();
+    save();
 }
 
 

@@ -12,6 +12,7 @@ AlbumTreePrefs::AlbumTreePrefs()
 {
     reset();
     load();
+    save();
 }
 
 

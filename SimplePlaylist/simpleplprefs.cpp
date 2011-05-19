@@ -8,9 +8,9 @@ const QString PlugName = "SimplePlayList";
 
 SimplePLPrefs::SimplePLPrefs()
 {
-
     reset();
     load();
+    save();
 }
 
 SimplePLPrefs::~SimplePLPrefs()

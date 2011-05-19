@@ -16,12 +16,9 @@ public:
         Preferences();
 	virtual ~Preferences();
 
-	virtual void reset();
-
-#ifndef NO_USE_INI_FILES
+        void reset();
 	void save();
 	void load();
-#endif
 
 
         inline QString configPath() { return config_path; }

@@ -9,6 +9,7 @@ SimpleGUIPrefs::SimpleGUIPrefs()
 {
     reset();
     load();
+    save();
 }
 
 SimpleGUIPrefs::~SimpleGUIPrefs()

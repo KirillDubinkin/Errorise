@@ -16,6 +16,7 @@ Preferences::Preferences()
 {
     reset();
     load();
+    save();
 }
 
 
