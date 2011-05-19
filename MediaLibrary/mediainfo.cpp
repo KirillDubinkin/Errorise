@@ -160,7 +160,7 @@ QMultiMap<QString, QString> MediaInfo::metadata()
         else */
         if (rx_format.indexIn(line) > -1){
             QString temp = rx_format.cap(1);
-            temp.remove(temp.size(), 1);
+            temp.remove(temp.size() - 1, 1);
             meta.insert("AUDIO-CODEC", temp);
         }
 
@@ -183,7 +183,7 @@ QMultiMap<QString, QString> MediaInfo::metadata()
         else
         if (rx_track_name.indexIn(line) > -1){
             QString temp = rx_track_name.cap(1);
-            temp.remove(temp.size(), 1);
+            temp.remove(temp.size() - 1, 1);
             meta.insert("TITLE", temp);
         }
 /*
@@ -233,27 +233,27 @@ QMultiMap<QString, QString> MediaInfo::metadata()
         else
         if (rx_artist.indexIn(line) > -1){
             QString temp = rx_artist.cap(1);
-            temp.remove(temp.size(), 1);
+            temp.remove(temp.size() - 1, 1);
             meta.insert("ARTIST", temp);
         }
 
         if (rx_album_artist.indexIn(line) > -1){
             QString temp = rx_album_artist.cap(1);
-            temp.remove(temp.size(), 1);
+            temp.remove(temp.size() - 1, 1);
             meta.insert("ALBUM-ARTIST", temp);
         }
 
         else
         if (rx_album.indexIn(line) > -1){
             QString temp = rx_album.cap(1);
-            temp.remove(temp.size(), 1);
+            temp.remove(temp.size() - 1, 1);
             meta.insert("ALBUM", temp);
         }
 
         else
         if (rx_date.indexIn(line) > -1){
             QString temp = rx_date.cap(1);
-            temp.remove(temp.size(), 1);
+            temp.remove(temp.size() - 1, 1);
             meta.insert("DATE", temp);
         }
 /*
@@ -268,7 +268,7 @@ QMultiMap<QString, QString> MediaInfo::metadata()
         else
         if (rx_tracknumber.indexIn(line) > -1){
             QString temp = rx_date.cap(1);
-            temp.remove(temp.size(), 1);
+            temp.remove(temp.size() - 1, 1);
             meta.insert("TRACK-NUMBER", temp);
         }
     }
