@@ -214,7 +214,7 @@ QPushButton * SimpleToolbar::btnStop()
 }
 
 
-void SimpleToolbar::showPreferences()
+QWidget * SimpleToolbar::getPrefsWidget()
 {
     if (!prefsWidget)
     {
@@ -223,8 +223,10 @@ void SimpleToolbar::showPreferences()
         connect(prefsWidget, SIGNAL(somethingChanged()), this, SLOT(buildToolbar()));
     }
 
-    prefsWidget->show();
-    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
+//    prefsWidget->show();
+//    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
+
+    return prefsWidget;
 }
 
 
@@ -236,7 +238,7 @@ void SimpleToolbar::createMenu()
     QAction *act;
 
     act = new QAction("Preferences...", this);
-    connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
+    connect(act, SIGNAL(triggered()), this, SIGNAL(needPrefWindow()));
     addAction(act);
 
 }

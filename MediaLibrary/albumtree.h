@@ -19,15 +19,16 @@ public:
     explicit AlbumTree(QWidget *parent = 0);
     ~AlbumTree();
 
+    QWidget *getPrefsWidget();
+
 signals:
-   // void selectedTracksChanged(QString tag, QString value);
+   void needPrefWindow();
 
 public slots:
 
 private slots:
     void fillTree();
     void selectedNodeChange(QTreeWidgetItem *cur);
-    void showPreferences();
     inline void deletePreferences() { prefsWidget = 0; }
 
 private:

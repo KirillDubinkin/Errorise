@@ -50,12 +50,12 @@ void AlbumTree::createMenu()
     QAction *act;
 
     act = new QAction("Preferences...", this);
-    connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
+    connect(act, SIGNAL(triggered()), this, SIGNAL(needPrefWindow()));
     addAction(act);
 }
 
 
-void AlbumTree::showPreferences()
+QWidget * AlbumTree::getPrefsWidget()
 {
     if (!prefsWidget)
     {
@@ -66,8 +66,9 @@ void AlbumTree::showPreferences()
         connect(prefsWidget, SIGNAL(patternChanged(QString)), this, SLOT(fillTree()));
     }
 
-    prefsWidget->show();
-    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
+//    prefsWidget->show();
+//    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
+    return prefsWidget;
 }
 
 

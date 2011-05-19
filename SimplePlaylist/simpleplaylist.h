@@ -28,7 +28,10 @@ public:
     int coverColumn();
     int lengthColumn();
 
+    QWidget *getPrefsWidget();
+
 signals:
+    void needPrefWindow();
 
 public slots:    
     void setColumns();
@@ -74,7 +77,6 @@ private slots:
     bool addNextTrack();
     void finished();
 
-    void showPreferences();
     void addToQueue();
 
     void setAlternatingRowColors(bool enable) { QTableWidget::setAlternatingRowColors(enable); }

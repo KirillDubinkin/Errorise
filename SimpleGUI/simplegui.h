@@ -10,6 +10,7 @@
 #include "SimpleToolbar/simpletoolbar.h"
 #include "MediaLibrary/albumtree.h"
 #include "simpleguiprefs.h"
+#include "prefswidget.h"
 
 using namespace Global;
 
@@ -25,6 +26,7 @@ public:
 signals:
 
 public slots:
+    void showPreferences();
 
 private slots:
     void changeTitle(QString, int guid);
@@ -32,9 +34,9 @@ private slots:
 
 private:
     SimpleGUIPrefs *prefs;
+    PrefsWidget    *prefsWidget;
 
     QMenu *mainMenu;
-    QWidget *toolBar;
     SimplePlaylist *pl;
     SimpleToolbar *toolbar;
 

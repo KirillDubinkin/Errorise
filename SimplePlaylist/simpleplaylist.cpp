@@ -91,7 +91,7 @@ void SimplePlaylist::createActions()
 
     act = new QAction(tr("Preferences..."), this);
     addAction(act);
-    connect(act, SIGNAL(triggered()), this, SLOT(showPreferences()));
+    connect(act, SIGNAL(triggered()), this, SIGNAL(needPrefWindow()));
 }
 
 
@@ -111,7 +111,7 @@ void SimplePlaylist::addToQueue()
 }
 
 
-void SimplePlaylist::showPreferences()
+QWidget * SimplePlaylist::getPrefsWidget()
 {
     if (!prefsWindow)
     {
@@ -125,11 +125,7 @@ void SimplePlaylist::showPreferences()
                 this, SLOT(setStyleSheet(QString)));
     }
 
-    QDialog *dialog = new QDialog(this);
-    QGridLayout *l  = new QGridLayout(this);
-    l->addWidget(prefsWindow);
-    dialog->setLayout(l);
-    dialog->show();
+    return prefsWindow;
 }
 
 

@@ -30,14 +30,14 @@ public:
     QPushButton *btnPause();
     QPushButton *btnPlayPause();
 
+    QWidget *getPrefsWidget();
+
 
 public slots:
     void hideVol();
     void hideSeekbar();
 
-
 private slots:
-    void showPreferences();
     inline void deletePreferences() { prefsWidget = 0; }
     void buildToolbar();
 
@@ -59,7 +59,7 @@ private:
     QPushButton *btn_play, *btn_next, *btn_prev, *btn_stop, *btn_pause, *btn_play_pause;
 
 signals:
-
+    void needPrefWindow();
 
 
 };

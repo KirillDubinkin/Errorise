@@ -12,7 +12,8 @@
 SimpleGUI::SimpleGUI(QWidget *parent) :
     QWidget(parent)
 {
-    prefs = new SimpleGUIPrefs();
+    prefs       = new SimpleGUIPrefs();
+    prefsWidget = 0;
 
     mainLayout = new QVBoxLayout();
     mainLayout->setMargin(0);
@@ -40,6 +41,10 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
     connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle(QString,int)));
     connect(player, SIGNAL(finished()), this, SLOT(restoreTitle()));
+
+    connect(toolbar, SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
+    connect(pl,      SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
+    connect(tree,    SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
 }
 
 SimpleGUI::~SimpleGUI()
@@ -59,4 +64,18 @@ void SimpleGUI::changeTitle(QString, int guid)
 void SimpleGUI::restoreTitle()
 {
     this->setWindowTitle(myplayerName() + " v." + myplayerVersion());
+}
+
+
+void SimpleGUI::showPreferences()
+{
+    if (!prefsWidget)
+    {
+        prefsWidget = new PrefsWidget(this);
+        prefsWidget->addPrefsWidget("Toolbar", toolbar->getPrefsWidget());
+        prefsWidget->addPrefsWidget("Playlist", pl->getPrefsWidget());
+        prefsWidget->addPrefsWidget("Media Library", tree->getPrefsWidget());
+    }
+
+    prefsWidget->show();
 }
