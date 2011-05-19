@@ -1,12 +1,10 @@
 #include "mediainfo.h"
-#include "global.h"
-#include <QStringList>
+
 #include <QDebug>
 #include <QRegExp>
 #include <QTime>
 #include <QFileInfo>
 
-using namespace Global;
 
 MediaInfo::MediaInfo(QObject *parent): Minfo(parent)
 {
@@ -14,14 +12,6 @@ MediaInfo::MediaInfo(QObject *parent): Minfo(parent)
 
     connect(minfo, SIGNAL(finished(int)), this, SLOT(pringTags()));
     connect(this, SIGNAL(fileScanned()), this, SLOT(scanNextFile()));
-}
-
-
-MediaInfo::~MediaInfo(){
-//    if (minfo->isOpen())
-//        minfo->terminate();
-//    delete minfo;
-//    delete [] track;
 }
 
 
@@ -39,6 +29,25 @@ void MediaInfo::scanFiles(QStringList files)
     if (playlistArtFilePath.isEmpty())
         artFilePath     = findArt(QFileInfo(files.first()).absolutePath());
 
+
+    filenames = files;
+    meta.clear();
+    scanNextFile();
+}
+
+
+void MediaInfo::reScanFiles(QStringList files)
+{
+    isUpdateState = true;
+
+    qDebug() << "MediaInfo::reScanFiles" << files.size();
+
+    playlistArtFilePath.clear();
+    artFilePath.clear();
+
+    playlistArtFilePath = findPlArt(QFileInfo(files.first()).absoluteDir());
+    if (playlistArtFilePath.isEmpty())
+        artFilePath     = findArt(QFileInfo(files.first()).absolutePath());
 
     filenames = files;
     meta.clear();
@@ -128,7 +137,9 @@ int MediaInfo::timeToSec(QString time)
 
 QMultiMap<QString, QString> MediaInfo::metadata()
 {
-    QStringList out = QString(minfo->readAllStandardOutput()).split("\n");
+    QStringList out = QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
+    minfo->close();
+
     QMultiMap<QString, QString> meta;
 
     foreach (QString line, out)

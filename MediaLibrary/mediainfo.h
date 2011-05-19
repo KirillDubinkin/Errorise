@@ -5,6 +5,7 @@
 #include <QProcess>
 #include <QMap>
 #include <QMultiMap>
+#include <QString>
 #include <QStringList>
 #include "minfo.h"
 
@@ -13,28 +14,19 @@ class MediaInfo : public Minfo
     Q_OBJECT
 public:
     explicit MediaInfo(QObject *parent = 0);
-    ~MediaInfo();
 
     static int timeToSec(QString time);
 
     QMap<QString, QMultiMap<QString, QString> > meta;
-
-    QString format;
-    QString duration;
-    QString bitrate;
-
-    QString title;
-
-    int numParsedFiles;
 
 signals:
     void fileScanned();
 
 public slots:
     void scanFiles(QStringList files);
+    void reScanFiles(QStringList files);
     void scanFile(QString filename);
     QMultiMap<QString, QString> metadata();
-
 
 private slots:
     void pringTags();
@@ -50,7 +42,6 @@ private:
 
 protected:
     QProcess *minfo;
-
 
 };
 
