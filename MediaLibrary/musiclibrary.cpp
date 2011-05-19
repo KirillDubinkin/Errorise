@@ -79,7 +79,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
         emit readyToWork();
     }
 
-    QTimer::singleShot(100, this, SLOT(checkForUpdates()));
+    QTimer::singleShot(3000, this, SLOT(checkForUpdates()));
 }
 
 
