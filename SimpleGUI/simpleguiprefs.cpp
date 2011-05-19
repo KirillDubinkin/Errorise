@@ -19,7 +19,7 @@ SimpleGUIPrefs::~SimpleGUIPrefs()
 
 void SimpleGUIPrefs::reset()
 {
-    geometry.setRect(100, 100, 980, 576);
+    geometry.setRect(100, 100, 996, 640);
     title_format = "%artist% - [%date%] %title%";
 }
 

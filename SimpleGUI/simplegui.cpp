@@ -25,7 +25,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
 
     QHBoxLayout *hl = new QHBoxLayout();
-    hl->addWidget(tree, 30);
+    hl->addWidget(tree, 25);
     hl->addWidget(pl, 70);
     hl->setMargin(0);
     hl->setSpacing(6);
