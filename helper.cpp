@@ -275,7 +275,7 @@ QString Helper::funcIF(QString line, const int id)
     else
         cond = processTags(cond, id);
 
-    if (!cond.isEmpty())
+    if (cond.isEmpty())
     {
         QString tmp = line.mid(comma + 1);
 
@@ -283,6 +283,9 @@ QString Helper::funcIF(QString line, const int id)
             return processContainer(tmp, id);
 
         return processTags(tmp, id);
+
+    } else {
+        return cond;
     }
 
     return QString::null;

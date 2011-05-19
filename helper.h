@@ -20,7 +20,7 @@ public:
 
     static QString parseLine(const int id, QString line);
 
-    static QString vaGroup(const QString &line) { return line; }
+    static QString vaGroup(const QString &line) { return "VA"; }
 
 protected:
     static int  nextQuote(const QString &line, int from);
