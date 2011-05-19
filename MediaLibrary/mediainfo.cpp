@@ -161,7 +161,6 @@ QMultiMap<QString, QString> MediaInfo::metadata()
         else
         if (rx_bit_rate.indexIn(line) > -1){
             QString temp = rx_bit_rate.cap(1);
-            temp.remove(temp.size() - 1, 1);
             meta.insert("BITRATE", temp);
         }
 
