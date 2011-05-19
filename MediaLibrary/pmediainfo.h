@@ -27,14 +27,12 @@ public slots:
     void scanFiles  (QStringList files);
     void reScanFiles(QStringList files);
 
-
 signals:
     void fileScaned();
 
 private slots:
     void pringTags();
     void scanNextFile();
-    void recursiveDirs(QString from);
 
 private:
     Phonon::MediaObject *object;

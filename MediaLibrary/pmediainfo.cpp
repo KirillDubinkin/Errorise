@@ -10,7 +10,6 @@ PMediaInfo::PMediaInfo(QObject *parent) : Minfo(parent)
 {
     object = new Phonon::MediaObject(this);
 
-//    connect(object, SIGNAL(metaDataChanged()), this, SLOT(pringTags()));
     connect(object, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
             this, SLOT(pringTags()));
     connect(this, SIGNAL(fileScaned()), this, SLOT(scanNextFile()));
@@ -61,41 +60,11 @@ void PMediaInfo::reScanFiles(QStringList files)
 }
 
 
-
-void PMediaInfo::scanDir(QString path)
-{
-    sourcePath = path;
-    QTimer::singleShot(0, this, SLOT(recursiveDirs()));
-}
-
-
-void PMediaInfo::recursiveDirs(QString from)
-{
-    QDir dir(from);
-    QFileInfoList list = dir.entryInfoList(QStringList() << "*.mp3",
-                              QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot);
-
-    filenames.clear();
-
-    foreach (QFileInfo info, list)
-    {
-        if (info.isDir())
-            recursiveDirs(info.filePath());
-        else
-            filenames.append(info.filePath());
-    }
-
-    qDebug() << "end;";
-}
-
-
-
 void PMediaInfo::pringTags()
 {
     if ((object->state() == Phonon::StoppedState)
         | (object->state() == Phonon::ErrorState))
     {
-      //  qDebug() << object->metaData();
 
         QMultiMap<QString, QString> temp = object->metaData();
         QStringList format = object->currentSource().fileName().split(".");

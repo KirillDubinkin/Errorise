@@ -10,7 +10,7 @@
 /*
     Recursive folders scan relised in MusicLibrary
     MusicLibrary will be send group of files to scanner
-    And will be wait 'allFilesScanned' signal
+    And will be wait '***FilesScanned' signal
 */
 
 class Minfo: public QObject
@@ -21,12 +21,11 @@ protected:
 
 
 public slots:
-    virtual void scanFiles  (QStringList files)   = 0;
+    virtual void scanFiles  (QStringList files) = 0;
     virtual void reScanFiles(QStringList files) = 0;
 
 public:
     virtual void scanFile (QString filename)    = 0;
-    virtual void scanDir  (QString path)        = 0;
 
     virtual QString findArt(QString path);
     virtual QString findPlArt(QDir dir);
