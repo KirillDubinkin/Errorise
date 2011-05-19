@@ -1,5 +1,5 @@
-#ifndef MEDIAINFO_H
-#define MEDIAINFO_H
+#ifndef MINFO_H
+#define MINFO_H
 
 #include <QObject>
 #include <QString>
@@ -13,11 +13,11 @@
     And will be wait 'allFilesScanned' signal
 */
 
-class MediaInfo: public QObject
+class Minfo: public QObject
 {
     Q_OBJECT
 protected:
-    MediaInfo(QObject *parent = 0) : QObject(parent) { }
+    Minfo(QObject *parent = 0) : QObject(parent) { }
 
 
 public slots:
@@ -42,4 +42,4 @@ signals:
 
 };
 
-#endif // MEDIAINFO_H
+#endif // MINFO_H

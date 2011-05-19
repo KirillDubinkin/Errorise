@@ -1,7 +1,7 @@
 #ifndef MUSICLIBRARY_H
 #define MUSICLIBRARY_H
 
-#include "mediainfo.h"
+#include "minfo.h"
 
 #include <QObject>
 #include <QtSql/QSqlDatabase>
@@ -45,7 +45,7 @@ private slots:
     void checkForUpdates();
 
 private:
-    MediaInfo       *minfo;
+    Minfo           *minfo;
     QTimer          *updateTimer;
 
     QString          fileFilters;

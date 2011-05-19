@@ -1,5 +1,5 @@
 
-#include "mediainfo.h"
+#include "minfo.h"
 #include "global.h"
 #include <QFileInfo>
 #include <QStringList>
@@ -7,7 +7,7 @@
 
 using namespace Global;
 
-QString MediaInfo::findArt(QString path)
+QString Minfo::findArt(QString path)
 {
     QStringList folders;
     folders.append(path);
@@ -53,7 +53,7 @@ QString MediaInfo::findArt(QString path)
 
 
 
-QString MediaInfo::findPlArt(QDir dir)
+QString Minfo::findPlArt(QDir dir)
 {
     if (dir.exists(pref->pl_art_filename))
         return dir.absoluteFilePath(pref->pl_art_filename);

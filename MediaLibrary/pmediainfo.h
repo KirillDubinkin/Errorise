@@ -1,7 +1,7 @@
 #ifndef PMEDIAINFO_H
 #define PMEDIAINFO_H
 
-#include "mediainfo.h"
+#include "minfo.h"
 
 #include <QObject>
 #include <Phonon/MediaSource>
@@ -11,7 +11,7 @@
 #include <QStringList>
 #include <QMultiMap>
 
-class PMediaInfo : public MediaInfo
+class PMediaInfo : public Minfo
 {
     Q_OBJECT
 public:

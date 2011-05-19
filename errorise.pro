@@ -33,8 +33,8 @@ SOURCES += main.cpp\
     MediaLibrary/albumtreeprefswidget.cpp \
     SimpleToolbar/simpetoolbarprefswidget.cpp \
     SimpleGUI/simpleguiprefs.cpp \
-    MediaLibrary/mediainfo.cpp \
-    SimplePlaylist/coversqueue.cpp
+    SimplePlaylist/coversqueue.cpp \
+    MediaLibrary/minfo.cpp
 
 HEADERS  += \
     global.h \
@@ -58,8 +58,8 @@ HEADERS  += \
     MediaLibrary/albumtreeprefswidget.h \
     SimpleToolbar/simpetoolbarprefswidget.h \
     SimpleGUI/simpleguiprefs.h \
-    MediaLibrary/mediainfo.h \
-    SimplePlaylist/coversqueue.h
+    SimplePlaylist/coversqueue.h \
+    MediaLibrary/minfo.h
 
 FORMS    += \
     MediaLibrary/albumtreeprefswidget.ui \
