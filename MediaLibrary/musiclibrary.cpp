@@ -6,7 +6,7 @@
 #else
 #include "mediainfo.h"
 #endif
-#include "mediainfo.h"
+
 #include <QDir>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
@@ -39,7 +39,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     createTagsTable();
 
 #ifdef Q_OS_LINUX
-    minfo = new MediaInfo(this);
+    minfo = new PMediaInfo(this);
 #else
     minfo = new MediaInfo(this);
 #endif

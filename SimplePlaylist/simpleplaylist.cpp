@@ -22,14 +22,6 @@
 #define GROUP "g"
 
 
-//! сделать авто-определение сборников
-//! прятать (в идеале не заполнять вообще) колонку с артом, если группы не активны
-//! придумать вкладки в плейлисте. из возможных реализаций - дерево, встроенное в таблицу,
-//! либо множество экземпляров плейлиста, встроенных в дерево.
-//! либо не дерево, а анимированные вкладки (нажал - группа скрылась, нажал - открылась)
-
-
-
 SimplePlaylist::SimplePlaylist(QWidget *parent) :
     QTableWidget(parent)
 {
@@ -252,8 +244,6 @@ void SimplePlaylist::fillPlaylist()
 
     if (CoverColumn > -1)
     {
-        const QBrush &brush = palette().brush(QPalette::Base);
-
         //! Insert row under the group, to perform image resize without resize track height
         int newRow = rowCount();
         insertRow(newRow);
