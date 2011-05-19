@@ -123,6 +123,7 @@ QWidget * SimplePlaylist::getPrefsWidget()
                 this, SLOT(setAlternatingRowColors(bool)));
         connect(prefsWindow, SIGNAL(styleEdited(QString)),
                 this, SLOT(setStyleSheet(QString)));
+        connect(prefsWindow, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
     }
 
     return prefsWindow;

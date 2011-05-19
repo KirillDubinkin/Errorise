@@ -14,6 +14,8 @@ SimplePlaylistPrefsWindow::SimplePlaylistPrefsWindow(SimplePLPrefs *preferences,
     titleFont.setBold(true);
 
     this->createGeneralTab();
+
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 

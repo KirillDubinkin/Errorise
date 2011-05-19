@@ -31,6 +31,7 @@ public slots:
 private slots:
     void changeTitle(QString, int guid);
     void restoreTitle();
+    void deletePreferences() { prefsWidget = 0; }
 
 private:
     SimpleGUIPrefs *prefs;

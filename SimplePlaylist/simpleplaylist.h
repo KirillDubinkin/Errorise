@@ -84,6 +84,7 @@ private slots:
     void getNewTracks(QString tag, QString value);
     void insertCover();
     void insertLastCovers();
+    void deletePreferences() { prefsWindow = 0; }
 
 };
 

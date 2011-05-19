@@ -12,6 +12,7 @@ PrefsWidget::PrefsWidget(QWidget *parent) :
 
     setWindowFlags(Qt::Window);
     setWindowTitle("Errorise preferences");
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 
