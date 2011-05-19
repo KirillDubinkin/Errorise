@@ -21,17 +21,14 @@ SimplePLPrefs::~SimplePLPrefs()
 
 void SimplePLPrefs::reset()
 {
-    //qDebug("SimplePlaylist->Prefs::reset()");
 
     //! Groups
-    groups_format        = "[%artist%] - [%date%] %album%";
+    groups_format        = "[%artist%] - ['['%date%']'] %album%";
     groups_text_color    = "ffffff";
     groups_back_color    = "182835";
-//    groups_stylesheet    = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
     groups_text_aligment = Qt::AlignLeft;
     group_height         = 20;
     group_delay          = 2;
-//    group_labels         = true;
     group_header         = true;
     group_byDirs         = true;
 
@@ -39,14 +36,10 @@ void SimplePLPrefs::reset()
     columns_names      << "Cover" << "#" << "Length" << "Track Name" << "Format";
     columns_sizes      << 300 << 40 << 80 << 200 << 80;
     columns_aligment   << 4 << 4 << 4 << 4 << 4;
-//    columns_stylesheet << "" << "" << "" << "" << "";
 
     //! Rows
     rows_format              << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
-//    rows_stylesheet          << "" << "" << "" << "" << "";
     rows_playback_format     << "%art%" << "%tracknumber%" << "%duration%" << "%title%" << "%format%";
-//    rows_playback_stylesheet << "" << "" << "" << "" << "";
-//    labels = false;
 
     //! Colors
     color_column_text << "" << "527482" << "43606b" << "" << "527482";
@@ -64,8 +57,6 @@ void SimplePLPrefs::reset()
 
 void SimplePLPrefs::save()
 {
-    //qDebug("SimplePlaylist->Prefs::save()");
-
 #ifdef Q_OS_LINUX
         QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #else
@@ -79,11 +70,9 @@ void SimplePLPrefs::save()
     set.setValue("groups_format", groups_format);
     set.setValue("groups_text_color", groups_text_color);
     set.setValue("groups_back_color", groups_back_color);
-//    set.setValue("groups_stylesheet", groups_stylesheet);
     set.setValue("groups_text_aligment", groups_text_aligment);
     set.setValue("group_height", group_height);
     set.setValue("group_delay", group_delay);
-//    set.setValue("group_labels", group_labels);
     set.setValue("group_header", group_header);
     set.setValue("group_byDirs", group_byDirs);
     set.endGroup();
@@ -102,18 +91,13 @@ void SimplePLPrefs::save()
     for (int i = 0; i < columns_aligment.size(); i++)
         s_col_align << QString().number(columns_aligment.at(i));
     set.setValue("columns_aligment", s_col_align);
-
-//    set.setValue("columns_stylesheet", columns_stylesheet);
     set.endGroup();
 
 
     //! Rows
     set.beginGroup("Rows");
     set.setValue("rows_format", rows_format);
-//    set.setValue("rows_stylesheet", rows_stylesheet);
     set.setValue("rows_playback_format", rows_playback_format);
-//    set.setValue("rows_playback_stylesheet", rows_playback_stylesheet);
-//    set.setValue("labels", labels);
     set.endGroup();
 
 
@@ -140,8 +124,6 @@ void SimplePLPrefs::save()
 
 void SimplePLPrefs::load()
 {
-    //qDebug("SimplePlaylist->Prefs::load()");
-
 #ifdef Q_OS_LINUX
         QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
 #else
@@ -155,11 +137,9 @@ void SimplePLPrefs::load()
     groups_format = set.value("groups_format", groups_format).toString();
     groups_text_color = set.value("groups_text_color", groups_text_color).toString();
     groups_back_color = set.value("groups_back_color", groups_back_color).toString();
-//    groups_stylesheet = set.value("groups_stylesheet", groups_stylesheet).toString();
     groups_text_aligment = set.value("groups_text_aligment", groups_text_aligment).toInt();
     group_delay          = set.value("group_delay", group_delay).toInt();
     group_height         = set.value("group_height", group_height).toInt();
-//    group_labels = set.value("group_labels", group_labels).toBool();
     group_header = set.value("group_header", group_header).toBool();
     group_byDirs = set.value("group_byDirs", group_byDirs).toBool();
     set.endGroup();
@@ -183,17 +163,13 @@ void SimplePLPrefs::load()
             columns_aligment << QString(s_col_align.at(i)).toInt();
     }
 
-//    columns_stylesheet = set.value("columns_stylesheet", columns_stylesheet).toStringList();
     set.endGroup();
 
 
     //! Rows
     set.beginGroup("Rows");
     rows_format = set.value("rows_format", rows_format).toStringList();
-//    rows_stylesheet = set.value("rows_stylesheet", rows_stylesheet).toStringList();
     rows_playback_format = set.value("rows_playback_format", rows_playback_format).toStringList();
-//    rows_playback_stylesheet = set.value("rows_playback_stylesheet", rows_playback_stylesheet).toStringList();
-//    labels = set.value("labels", labels).toBool();
     set.endGroup();
 
 

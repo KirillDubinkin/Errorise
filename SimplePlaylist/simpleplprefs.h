@@ -20,11 +20,9 @@ public:
     QString groups_format;
     QString groups_text_color;
     QString groups_back_color;
-//    QString groups_stylesheet;
     int groups_text_aligment;
     int group_height;
     int group_delay;
-//    bool group_labels;
     bool group_header;
     bool group_byDirs;
 
@@ -33,15 +31,11 @@ public:
     QStringList columns_names;
     QList<int> columns_sizes;
     QList<int> columns_aligment;
-//    QStringList columns_stylesheet;
 
 
     //! Rows
     QStringList rows_format;
-//    QStringList rows_stylesheet;
     QStringList rows_playback_format;
-//    QStringList rows_playback_stylesheet;
-//    bool labels;
 
     //! Colors
     QStringList color_column_text;
