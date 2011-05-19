@@ -46,8 +46,7 @@ private:
     QList<int> trackGuids;
     QList<CoversQueue> artQueue;
 
-    QTableWidgetItem *newItem(const QBrush &background, Qt::ItemFlags flags = Qt::ItemIsEnabled,
-                              const QString &text = "");
+    QTableWidgetItem *newItem(Qt::ItemFlags flags = Qt::NoItemFlags, const QString &text = "");
 
     void addRowItem(int row, int col, const QString &text);
     void addGroupItem(int row, const QString &text);

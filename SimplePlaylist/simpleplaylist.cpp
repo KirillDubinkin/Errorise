@@ -169,22 +169,15 @@ void SimplePlaylist::setColumns()
 
         this->setHorizontalHeaderItem(col, item);
         this->setColumnWidth(col++, prefs->columns_sizes.at(i));
-
-     //   qDebug() << "PL:" << prefs->columns_names.at(i) << "size =" << prefs->columns_sizes.at(i);
     }
-
-   // qDebug() << "PL:ColumnCount" << this->columnCount();
-   // qDebug() << "PL:CoverColumn" << this->CoverColumn;
 }
 
 
 void SimplePlaylist::fillPlaylist()
 {
     if (trackGuids.isEmpty())
-    {
-//        QTimer::singleShot(0, this, SLOT(insertLastCovers()));
         return;
-    }
+
 
     int groupRow = 0;
 
@@ -272,22 +265,22 @@ void SimplePlaylist::fillPlaylist()
         //! Set span in new row. Even if cover column not in the side of table
         if (CoverColumn == 1) {
             setSpan(newRow, 2, 1, columnCount() - 1);
-            setItem(newRow, 2, newItem(brush, Qt::NoItemFlags));
+            setItem(newRow, 2, newItem());
         }
         else if (CoverColumn == columnCount()) {
             setSpan(newRow, 1, 1, columnCount() - 1);
-            setItem(newRow, 1, newItem(brush, Qt::NoItemFlags));
+            setItem(newRow, 1, newItem());
         }
         else {
             if (CoverColumn+1 < columnCount())
                 setSpan(newRow, CoverColumn+1, 1, columnCount() - CoverColumn);
 
-            setItem(newRow, CoverColumn+1, newItem(brush, Qt::NoItemFlags));
+            setItem(newRow, CoverColumn+1, newItem());
 
             if (CoverColumn > 2)
                 setSpan(newRow, 1, 1, CoverColumn-1);
 
-            setItem(newRow, 1, newItem(brush, Qt::NoItemFlags));
+            setItem(newRow, 1, newItem());
         }
 
 
@@ -295,7 +288,7 @@ void SimplePlaylist::fillPlaylist()
 
         //! Set span for cover cell and add him item, to set cover cell background colors
         setSpan(artRow, CoverColumn, newRow - artRow + 1, 1);
-        setItem(artRow, CoverColumn, newItem(brush, Qt::NoItemFlags));
+        setItem(artRow, CoverColumn, newItem());
 
 
         QString cover = Helper::valueOfTrack("playlistart", group.first());
@@ -318,7 +311,6 @@ void SimplePlaylist::fillPlaylist()
 
     QTimer::singleShot(0, this, SLOT(highlightCurrentTrack()));
     QTimer::singleShot(0, this, SLOT(fillPlaylist()));
-
 }
 
 
@@ -349,8 +341,6 @@ void SimplePlaylist::insertCover()
         return;
 
     CoversQueue art = artQueue.takeFirst();
-
-    //QPixmap pic = QPixmap(art.filename).scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1),( Qt::TransformationMode) prefs->smooth_art_scale);
     QPixmap pic(art.filename);
 
     int curGroupSize = prefs->row_height * (art.spanRow - art.artRow);
@@ -373,8 +363,6 @@ void SimplePlaylist::insertLastCovers()
         return;
 
     CoversQueue art = artQueue.takeFirst();
-
-    //QPixmap pic = QPixmap(art.filename).scaledToWidth(prefs->columns_sizes.at(CoverColumn - 1),( Qt::TransformationMode) prefs->smooth_art_scale);
     QPixmap pic(art.filename);
 
     int curGroupSize = prefs->row_height * (art.spanRow - art.artRow);
@@ -393,11 +381,10 @@ void SimplePlaylist::insertLastCovers()
 }
 
 
-QTableWidgetItem * SimplePlaylist::newItem(const QBrush &background, Qt::ItemFlags flags, const QString &text)
+QTableWidgetItem * SimplePlaylist::newItem(Qt::ItemFlags flags, const QString &text)
 {
     QTableWidgetItem *item = new QTableWidgetItem(text);
     item->setFlags(flags);
-//    item->setBackground(background);
 
     return item;
 }
@@ -429,33 +416,6 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
 }
 
 
-/*
-void SimplePlaylist::addGroupLabel(int row, const QString &text)
-{
-    this->insertRow(row);
-    this->setSpan(row, 1, 1, this->columnCount()-1);
-
-    QLabel *group = new QLabel(text);
-
-    switch (prefs->groups_text_aligment){
-    case 1: group->setAlignment(Qt::AlignLeft | Qt::AlignVCenter); break;
-    case 2: group->setAlignment(Qt::AlignRight | Qt::AlignVCenter); break;
-    case 4: group->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter); break;
-    case 8: group->setAlignment(Qt::AlignJustify | Qt::AlignVCenter); break;
-    }
-
-    if (!prefs->groups_stylesheet.isEmpty())
-        group->setStyleSheet("QLabel { " + prefs->groups_stylesheet + " }");
-
-    this->setRowHeight(row, prefs->group_height);
-    this->setCellWidget(row, 1, group);
-
-    QTableWidgetItem *index = new QTableWidgetItem(GROUP);
-    this->setItem(row, 0, index);
-}
-*/
-
-
 void SimplePlaylist::addRowItem(int row, int col, const QString &text)
 {
     bool ok;
@@ -467,36 +427,9 @@ void SimplePlaylist::addRowItem(int row, int col, const QString &text)
     if (prefs->color_column_text.at(col) != "")
         item->setTextColor( QColor(QString(prefs->color_column_text.at(col)).toInt(&ok, 16)) );
 
-/*    if (!prefs->alternate_colors)
-    {
-        if (prefs->color_column_back.at(col) != "")
-            item->setBackgroundColor( QColor(QString(prefs->color_column_back.at(col)).toInt(&ok, 16)) );
-        else
-            item->setBackground(this->palette().brush(QPalette::Base));
-    }
-*/
     this->setItem(row, col+1, item);
 }
 
-
-/*
-void SimplePlaylist::addRowLabel(int row, int col, const QString &text)
-{
-    QLabel *label = new QLabel(text);
-
-    switch (prefs->columns_aligment.at(col)) {
-    case 1: label->setAlignment(Qt::AlignLeft); break;
-    case 2: label->setAlignment(Qt::AlignRight); break;
-    case 4: label->setAlignment(Qt::AlignHCenter); break;
-    case 8: label->setAlignment(Qt::AlignJustify); break;
-    }
-
-    if (prefs->columns_stylesheet.at(col) != "")
-        label->setStyleSheet("QLabel { " + prefs->columns_stylesheet.at(col) + " }");
-
-    this->setCellWidget(row, col+1, label);
-}
-*/
 
 
 void SimplePlaylist::highlightCurrentTrack()
@@ -529,10 +462,6 @@ void SimplePlaylist::highlightCurrentTrack(QString filename, int guid)
                 item(currentTrackRow, j)->setTextColor(palette().brush(QPalette::Active, QPalette::HighlightedText).color());
             }
         }
-/*
-    else
-        qDebug("PL-HIGHLIGHT: Current track not found");
-*/
 }
 
 
@@ -593,7 +522,7 @@ void SimplePlaylist::play(int row)
     if (ok)
         return player->play(guid);
 
-    qWarning("Playlist: row %d, guid %d", row, guid);
+    qWarning("SimplePlaylist::play\n\t row %d, guid %d", row, guid);
 }
 
 
@@ -647,8 +576,6 @@ void SimplePlaylist::playNext()
 
 void SimplePlaylist::getNewTracks(QString tag, QString value)
 {
-    //QList<QMap<QMap<QString
-
     QSqlQuery query(mlib->db);
 
     value.replace("'", "''");
@@ -662,19 +589,13 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
         while (query.next())
         {
             trackGuids.append(query.value(0).toInt());
-            //qDebug() << query.value(0).toInt();
         }
-
-        //QTimer::singleShot(0, this, SLOT(setTracksWithGroups()));
 
         clear();
         setRowCount(0);
         currentTrackRow = -1;
         artQueue.clear();
         QTimer::singleShot(0, this, SLOT(fillPlaylist()));
-
-
-        //this->setTracksWithGroups(trackGuids);
 
     } else {
         qWarning() << query.lastError();
