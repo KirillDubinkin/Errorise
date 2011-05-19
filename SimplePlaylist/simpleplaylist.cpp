@@ -397,7 +397,7 @@ QTableWidgetItem * SimplePlaylist::newItem(const QBrush &background, Qt::ItemFla
 {
     QTableWidgetItem *item = new QTableWidgetItem(text);
     item->setFlags(flags);
-    item->setBackground(background);
+//    item->setBackground(background);
 
     return item;
 }
@@ -467,14 +467,14 @@ void SimplePlaylist::addRowItem(int row, int col, const QString &text)
     if (prefs->color_column_text.at(col) != "")
         item->setTextColor( QColor(QString(prefs->color_column_text.at(col)).toInt(&ok, 16)) );
 
-    if (!prefs->alternate_colors)
+/*    if (!prefs->alternate_colors)
     {
         if (prefs->color_column_back.at(col) != "")
             item->setBackgroundColor( QColor(QString(prefs->color_column_back.at(col)).toInt(&ok, 16)) );
         else
             item->setBackground(this->palette().brush(QPalette::Base));
     }
-
+*/
     this->setItem(row, col+1, item);
 }
 
