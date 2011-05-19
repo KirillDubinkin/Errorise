@@ -1,7 +1,11 @@
 #include "musiclibrary.h"
-#include "pmediainfo.h"
 #include "global.h"
 
+#ifdef Q_OS_LINUX
+#include "pmediainfo.h"
+#else
+#include "mediainfo.h"
+#endif
 
 #include <QDir>
 #include <QtSql/QSqlQuery>
@@ -34,7 +38,11 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
     createTagsTable();
 
+#ifdef Q_OS_LINUX
     minfo = new PMediaInfo(this);
+#else
+    minfo = new MediaInfo(this);
+#endif
 
     connect(minfo, SIGNAL(newFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
             this, SLOT(insertNewTracks(QMultiMap<QString,QMultiMap<QString,QString> >)));
