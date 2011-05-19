@@ -26,7 +26,7 @@ void SimplePLPrefs::reset()
     //! Groups
     groups_format        = "[%artist%] - [%date%] %album%";
     groups_text_color    = "ffffff";
-    groups_back_color    = "13363b";
+    groups_back_color    = "182835";
 //    groups_stylesheet    = "background-color: qradialgradient(spread:reflect, cx:0.5, cy:0.5, radius:0.681, fx:0.5, fy:0.5, stop:0 rgba(0, 35, 51, 255), stop:1 rgba(0, 74, 92, 255));\ncolor: rgb(255, 255, 255);";
     groups_text_aligment = Qt::AlignLeft;
     group_height         = 20;
@@ -53,7 +53,7 @@ void SimplePLPrefs::reset()
     color_column_back << "" << "" << "" << "" << "";
 
     //! Other
-    stylesheet       = "font: 9pt \"Ubuntu\"";
+    stylesheet       = "font: 9pt \"Ubuntu\"; gridline-color: rgb(192, 192, 192); \nbackground-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(9, 14, 17, 255), stop:1 rgba(50, 57, 64, 255)); \ncolor: rgb(200,200,200);\ngridline-color: rgb(74, 91, 108); \nalternate-background-color: rgb(28, 36, 45); \nselection-background-color: rgb(48, 56, 65); \nselection-color: rgb(157, 196, 255);";
     row_height       = 16;
     alternate_colors = true;
     show_header      = false;

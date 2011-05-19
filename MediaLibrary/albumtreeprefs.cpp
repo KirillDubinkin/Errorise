@@ -24,7 +24,7 @@ AlbumTreePrefs::~AlbumTreePrefs()
 void AlbumTreePrefs::reset()
 {
     pattern    = "%filepath%";
-    stylesheet = "";
+    stylesheet = "background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(9, 14, 17, 255), stop:1 rgba(50, 57, 64, 255));\ncolor: rgb(200,200,200);\ngridline-color: rgb(74, 91, 108);\nselection-color: rgb(157, 196, 255);\nselection-background-color: rgb(67, 82, 98);";
     items_icon = "";
 }
 
