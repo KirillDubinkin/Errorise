@@ -77,5 +77,6 @@ void SimpleGUI::showPreferences()
         prefsWidget->addPrefsWidget("Media Library", tree->getPrefsWidget());
     }
 
+    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 800, 576);
     prefsWidget->show();
 }
