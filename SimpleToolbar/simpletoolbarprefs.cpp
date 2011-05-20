@@ -28,28 +28,28 @@ void SimpleToolbarPrefs::reset()
     btnHeight = 21;
 
     btnPlayIcon = "";
-    btnPlayText = "[|>]";
-    btnPlayWidth = 42;
+    btnPlayText = "I>";
+    btnPlayWidth = 45;
 
     btnStopIcon = "";
-    btnStopText = "[#]";
-    btnStopWidth = 42;
+    btnStopText = "#";
+    btnStopWidth = 45;
 
     btnNextIcon = "";
-    btnNextText = "[>>|]";
-    btnNextWidth = 42;
+    btnNextText = ">>I";
+    btnNextWidth = 45;
 
     btnPrevIcon = "";
-    btnPrevText = "[|<<]";
-    btnPrevWidth = 42;
+    btnPrevText = "I<<";
+    btnPrevWidth = 45;
 
     btnPauseIcon = "";
-    btnPauseText = "[||]";
-    btnPauseWidth = 42;
+    btnPauseText = "II";
+    btnPauseWidth = 45;
 
     btnPlayPauseIcon = "";
-    btnPlayPauseText = "[|> | ||]";
-    btnPlayPauseWidth = 60;
+    btnPlayPauseText = "I> | II";
+    btnPlayPauseWidth = 45;
 
 
     //! Other
