@@ -13,8 +13,10 @@ using namespace Global;
 SimpleGUI::SimpleGUI(QWidget *parent) :
     QWidget(parent)
 {
-    prefs       = new SimpleGUIPrefs();
-    prefsWidget = 0;
+    prefs           = new SimpleGUIPrefs();
+    prefsWidget     = 0;
+    sGuiPrefsWidget = 0;
+    currentID       = 0;
 
     mainLayout = new QVBoxLayout();
     mainLayout->setMargin(0);
@@ -57,6 +59,9 @@ SimpleGUI::~SimpleGUI()
 
 void SimpleGUI::changeTitle(QString, int guid)
 {
+    if (!guid)
+        return;
+
     currentID = guid;
 
     if (prefs->title_format.contains("%playbacktime%"))
@@ -96,12 +101,28 @@ void SimpleGUI::showPreferences()
     if (!prefsWidget)
     {
         prefsWidget = new PrefsWidget(this);
-        prefsWidget->addPrefsWidget("Toolbar", toolbar->getPrefsWidget());
-        prefsWidget->addPrefsWidget("Playlist", pl->getPrefsWidget());
+        prefsWidget->addPrefsWidget("GUI",           this->getPrefsWidget());
+        prefsWidget->addPrefsWidget("Toolbar",       toolbar->getPrefsWidget());
+        prefsWidget->addPrefsWidget("Playlist",      pl->getPrefsWidget());
         prefsWidget->addPrefsWidget("Media Library", tree->getPrefsWidget());
         connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
     }
 
     prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 800, 576);
     prefsWidget->show();
+}
+
+
+QWidget * SimpleGUI::getPrefsWidget()
+{
+    if (!sGuiPrefsWidget)
+    {
+        if (!sGuiPrefsWidget)
+        {
+            sGuiPrefsWidget = new SimpleGuiPrefsWidget(prefs, this);
+            connect(sGuiPrefsWidget, SIGNAL(windowTitleChanged(QString)), this, SLOT(changeTitle()));
+        }
+    }
+
+    return sGuiPrefsWidget;
 }
