@@ -16,6 +16,11 @@ PrefsWidget::PrefsWidget(QWidget *parent) :
 }
 
 
+PrefsWidget::~PrefsWidget()
+{
+    emit geometryChanged(geometry());
+}
+
 void PrefsWidget::addPrefsWidget(QString name, QWidget *widget)
 {
     widgetHash.insert(name, widget);

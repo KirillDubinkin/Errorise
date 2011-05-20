@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QString>
+#include <QRect>
 
 #include "SimplePlaylist/simpleplaylist.h"
 #include "SimpleToolbar/simpletoolbar.h"
@@ -32,7 +33,8 @@ private slots:
     void changeTitle()  { changeTitle(QString::null, currentID); }
 
     void restoreTitle();
-    void deletePreferences() { prefsWidget = 0; sGuiPrefsWidget = 0; }
+    void deletePreferences()              { prefsWidget = 0; sGuiPrefsWidget = 0; }
+    void setPrefsGeometry(QRect geomerty) { prefs->prefs_geometry = geomerty; }
     void setTimeInTitle(qint64 msec);
 
 private:

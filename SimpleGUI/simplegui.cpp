@@ -105,10 +105,11 @@ void SimpleGUI::showPreferences()
         prefsWidget->addPrefsWidget("Toolbar",       toolbar->getPrefsWidget());
         prefsWidget->addPrefsWidget("Playlist",      pl->getPrefsWidget());
         prefsWidget->addPrefsWidget("Media Library", tree->getPrefsWidget());
-        connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
+        connect(prefsWidget, SIGNAL(geometryChanged(QRect)), this, SLOT(setPrefsGeometry(QRect)));
+        connect(prefsWidget, SIGNAL(destroyed()),            this, SLOT(deletePreferences()));
     }
 
-    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 800, 576);
+    prefsWidget->setGeometry(prefs->prefs_geometry);
     prefsWidget->show();
 }
 

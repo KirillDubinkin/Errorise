@@ -5,14 +5,17 @@
 #include <QHash>
 #include <QListWidget>
 #include <QStackedWidget>
+#include <QRect>
 
 class PrefsWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit PrefsWidget(QWidget *parent = 0);
+    virtual ~PrefsWidget();
 
 signals:
+    void geometryChanged(QRect geometry);
 
 public slots:
     void addPrefsWidget(QString name, QWidget *widget);
