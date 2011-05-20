@@ -47,8 +47,6 @@ public slots:
     void enqueue(int guid);
     void enqueue(QList<int> guids);
 
-    void printTick(qint64 tick);
-
 private:
     Phonon::MediaObject *mobject;
     Phonon::AudioOutput *output;

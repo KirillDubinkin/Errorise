@@ -21,13 +21,11 @@ PhononFace::PhononFace(QObject *parent) :
 
     mobject->setTickInterval(1000);
 
+    connect(mobject, SIGNAL(tick(qint64)),    this, SIGNAL(tick(qint64)));
     connect(mobject, SIGNAL(aboutToFinish()), this, SIGNAL(aboutToFinish()));
-    connect(mobject, SIGNAL(finished()), this, SIGNAL(finished()));
+    connect(mobject, SIGNAL(finished()),      this, SIGNAL(finished()));
     connect(mobject, SIGNAL(currentSourceChanged(Phonon::MediaSource)),
-            this, SLOT(sourceChange(Phonon::MediaSource)));
-
-
-    connect(mobject, SIGNAL(tick(qint64)), this, SLOT(printTick(qint64)));
+            this,    SLOT(sourceChange(Phonon::MediaSource)));
 
 }
 
@@ -84,16 +82,6 @@ void PhononFace::playOrPause()
         return mobject->pause();
 
     this->play();
-}
-
-
-void PhononFace::printTick(qint64 tick)
-{
-    qDebug("Phonon::Tick: %s of %s",
-           QTime(0, 0).addMSecs(tick).toString("h:mm:ss").toUtf8().data(),
-           QTime(0, 0).addMSecs(mobject->totalTime()).toString("h:mm:ss").toUtf8().data()
-           );
-
 }
 
 
