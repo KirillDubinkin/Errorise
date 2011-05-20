@@ -15,6 +15,7 @@ public:
     void save();
 
     QRect   geometry;
+    QRect   prefs_geometry;
     QString title_format;
 
 };
