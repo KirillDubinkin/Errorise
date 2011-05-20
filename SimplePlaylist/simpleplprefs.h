@@ -29,19 +29,10 @@ public:
 
     //! Columns
     QStringList columns_names;
-    QList<int> columns_sizes;
-    QList<int> columns_aligment;
-
-
-    //! Rows
+    QList<int>  columns_sizes;
+    QList<int>  columns_aligment;
     QStringList rows_format;
-    QStringList rows_playback_format;
-
-    //! Colors
-    QStringList color_column_text;
-    QStringList color_column_back;
-    QStringList color_playback_text;
-    QStringList color_playback_back;
+    QStringList rows_text_color;
 
 
     //! Other
@@ -49,8 +40,6 @@ public:
     QString stylesheet;
     bool alternate_colors;
     bool show_header;
-    int  smooth_art_scale;
-
 
 private:
     QString filename;
