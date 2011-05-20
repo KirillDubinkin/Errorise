@@ -21,7 +21,7 @@ SimpleGUIPrefs::~SimpleGUIPrefs()
 void SimpleGUIPrefs::reset()
 {
     geometry.setRect(100, 100, 996, 640);
-    title_format = "%artist% - [%date%] %title%";
+    title_format = "[%artist% - ][%title%] '['%playbacktime% of %duration%']'";
 }
 
 
