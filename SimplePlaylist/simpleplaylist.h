@@ -3,20 +3,13 @@
 
 #include <QTableWidget>
 #include <QTableWidgetItem>
-#include <QDir>
+#include <QString>
 #include <QStringList>
 #include <QList>
-#include <QHash>
-#include <QTime>
 
 #include "SimplePlaylist/simpleplprefs.h"
 #include "SimplePlaylist/simpleplaylistprefswindow.h"
 #include "SimplePlaylist/coversqueue.h"
-
-#include "helper.h"
-#include "global.h"
-
-using namespace Global;
 
 class SimplePlaylist : public QTableWidget
 {
@@ -24,9 +17,6 @@ class SimplePlaylist : public QTableWidget
 public:
     explicit SimplePlaylist(QWidget *parent = 0);
     ~SimplePlaylist();
-
-    int coverColumn();
-    int lengthColumn();
 
     QWidget *getPrefsWidget();
 
@@ -41,10 +31,8 @@ public slots:
     void highlightCurrentTrack();
     void defPlhighlight();
 
-
 private:
     SimplePLPrefs * prefs;
-    Helper * helper;
     SimplePlaylistPrefsWindow  *prefsWindow;
     QList<int> trackGuids;
     QList<CoversQueue> artQueue;
@@ -58,18 +46,14 @@ private:
     int LengthColumn;
     int currentTrackRow;
 
-
     bool findCurrentTrack(int guid);
     bool findCurrentTrack(QString filename);
-
-    QTime time;
 
     QList<int> getGroup(const QList<int> &tracks);
     QString doPlaylistArt(QString filename, QString dir);
 
     void loadSettings();
     void createActions();
-
 
 private slots:
     void play(int row);

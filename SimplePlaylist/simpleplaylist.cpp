@@ -2,31 +2,26 @@
 
 #include <QHeaderView>
 #include <QLabel>
-#include <QSettings>
-#include <QTextCodec>
-#include <QBrush>
-#include <QTimer>
 #include <QAction>
-#include <QDialog>
-#include <QGridLayout>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QTimer>
 #include <QTableWidgetSelectionRange>
-#include <QHashIterator>
-#include <Qt>
 
 #include <QDebug>
 
 #define COVER "c"
 #define GROUP "g"
 
+#include "helper.h"
+#include "global.h"
+
+using namespace Global;
 
 SimplePlaylist::SimplePlaylist(QWidget *parent) :
     QTableWidget(parent)
 {
     prefs = new SimplePLPrefs();
-    helper = new Helper();
     prefsWindow = 0;  // init only on show;
 
     CoverColumn     = -1;
@@ -63,16 +58,15 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 SimplePlaylist::~SimplePlaylist()
 {
     delete prefs;
-    delete helper;
 }
 
 
 void SimplePlaylist::loadSettings()
 {
-    this->horizontalHeader()->setVisible(prefs->show_header);
-    this->verticalHeader()->setVisible(false);
-    this->setAlternatingRowColors(prefs->alternate_colors);
-    this->setStyleSheet(prefs->stylesheet);
+    horizontalHeader()->setVisible(prefs->show_header);
+    verticalHeader()->setVisible(false);
+    setAlternatingRowColors(prefs->alternate_colors);
+    setStyleSheet(prefs->stylesheet);
 }
 
 void SimplePlaylist::createActions()
@@ -129,16 +123,6 @@ QWidget * SimplePlaylist::getPrefsWidget()
     return prefsWindow;
 }
 
-
-int SimplePlaylist::coverColumn()
-{
-    return CoverColumn;
-}
-
-int SimplePlaylist::lengthColumn()
-{
-    return LengthColumn;
-}
 
 void SimplePlaylist::setColumns()
 {
@@ -435,7 +419,7 @@ void SimplePlaylist::highlightCurrentTrack(QString filename, int guid)
         this->defPlhighlight();   // clear previos highlighting
 
 
-    if (filename == helper->fileName(guid))
+    if (filename == Helper::fileName(guid))
         findCurrentTrack(guid);
     else
         findCurrentTrack(filename);
@@ -477,7 +461,7 @@ bool SimplePlaylist::findCurrentTrack(QString filename)
         guid = item(i, 0)->text().toInt(&ok);
         if (ok)
         {
-            if (filename == helper->fileName(guid))
+            if (filename == Helper::fileName(guid))
             {
                 this->currentTrackRow = i;
                 return 1;
@@ -494,7 +478,7 @@ void SimplePlaylist::defPlhighlight()
         for (int col = 1; col < columnCount() - 1; col++)
             if (col != CoverColumn - 1)
                 this->addRowItem(currentTrackRow, col,
-                                 helper->parseLine(this->item(currentTrackRow, 0)->text().toInt(), prefs->rows_format.at(col)));
+                                 Helper::parseLine(this->item(currentTrackRow, 0)->text().toInt(), prefs->rows_format.at(col)));
 }
 
 
