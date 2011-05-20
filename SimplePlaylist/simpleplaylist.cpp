@@ -10,13 +10,13 @@
 
 #include <QDebug>
 
-#define COVER "c"
-#define GROUP "g"
-
 #include "helper.h"
 #include "global.h"
 
 using namespace Global;
+
+const QString Cover = "c";
+const QString Group = "g";
 
 SimplePlaylist::SimplePlaylist(QWidget *parent) :
     QTableWidget(parent)
@@ -98,7 +98,7 @@ void SimplePlaylist::addToQueue()
         for (int row = range.topRow(); row <= range.bottomRow(); row++)
         {
             QString s = item(row, 0)->text();
-            if ((s != GROUP) && (s != COVER))
+            if ((s != Group) && (s != Cover))
                 player->enqueue(item(row, 0)->text().toInt());
         }
     }
@@ -228,7 +228,7 @@ void SimplePlaylist::fillPlaylist()
         //! Insert row under the group, to perform image resize without resize track height
         int newRow = rowCount();
         insertRow(newRow);
-        QTableWidgetItem *index = new QTableWidgetItem(COVER);
+        QTableWidgetItem *index = new QTableWidgetItem(Cover);
         setItem(newRow, 0, index);
 
 
@@ -382,7 +382,7 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
     this->setRowHeight(row, prefs->group_height);
     this->setItem(row, 1, group);
 
-    QTableWidgetItem *index = new QTableWidgetItem(GROUP);
+    QTableWidgetItem *index = new QTableWidgetItem(Group);
     this->setItem(row, 0, index);
 }
 
@@ -486,7 +486,7 @@ void SimplePlaylist::play(int row)
 {
     bool ok = 0;
 
-    if (item(row, 0)->text() == GROUP)
+    if (item(row, 0)->text() == Group)
         row++;
     int guid = this->item(row, 0)->text().toInt(&ok);
 
@@ -504,13 +504,13 @@ bool SimplePlaylist::addNextTrack()
 
     if ( (currentTrackRow > -1) && (nextTrackRow < rowCount()) ) //! If ok
     {
-        if (item(nextTrackRow, 0)->text() == GROUP)
+        if (item(nextTrackRow, 0)->text() == Group)
         {
             player->enqueue(item(++nextTrackRow, 0)->text().toInt());
             return 1;
         }
 
-        if (item(nextTrackRow, 0)->text() == COVER)
+        if (item(nextTrackRow, 0)->text() == Cover)
         {
             if (++nextTrackRow < rowCount())       //! After cover may be only group
                 {                                      //! so, play group+1 row
