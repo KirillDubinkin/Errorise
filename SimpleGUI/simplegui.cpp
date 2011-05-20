@@ -1,13 +1,14 @@
 #include "simplegui.h"
-#include "helper.h"
-#include <QAction>
-#include <QToolBar>
-#include <QSlider>
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include "version.h"
 #include <QDebug>
 
+#include "helper.h"
+#include "version.h"
+#include "global.h"
+
+using namespace Global;
 
 SimpleGUI::SimpleGUI(QWidget *parent) :
     QWidget(parent)
@@ -30,17 +31,17 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     hl->setMargin(0);
     hl->setSpacing(6);
 
-//    mainLayout->setMenuBar(toolbar);
     mainLayout->addWidget(toolbar, 0);
     mainLayout->addLayout(hl, 100);
 
-    this->setLayout(this->mainLayout);
-    this->setGeometry(prefs->geometry);
-    this->setWindowFlags(Qt::Window);
-    this->setWindowTitle(myplayerName() + " v." + myplayerVersion());
+    setLayout(this->mainLayout);
+    setGeometry(prefs->geometry);
+    setWindowFlags(Qt::Window);
+    setWindowTitle(myplayerName() + " v." + myplayerVersion());
 
     connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle(QString,int)));
     connect(player, SIGNAL(finished()), this, SLOT(restoreTitle()));
+    connect(player, SIGNAL(tick(qint64)), this, SLOT(setTimeInTitle(qint64)));
 
     connect(toolbar, SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
     connect(pl,      SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
@@ -49,21 +50,44 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
 SimpleGUI::~SimpleGUI()
 {
-    prefs->geometry = this->geometry();
+    prefs->geometry = geometry();
     delete prefs;
 }
 
 
 void SimpleGUI::changeTitle(QString, int guid)
 {
-    this->setWindowTitle(Helper::parseLine(guid, prefs->title_format));
-    qDebug() << "GUID:" << guid;
+    currentID = guid;
+
+    if (prefs->title_format.contains("%playbacktime%"))
+    {
+        isTimeInTitle = true;
+        QString temp = prefs->title_format;
+        temp.replace("%playbacktime%", "00:00");
+        setWindowTitle(Helper::parseLine(currentID, temp));
+    }
+    else
+    {
+        isTimeInTitle = false;
+        setWindowTitle(Helper::parseLine(currentID, prefs->title_format));
+    }
+}
+
+
+void SimpleGUI::setTimeInTitle(qint64 msec)
+{
+    if (!isTimeInTitle)
+        return;
+
+    QString temp = prefs->title_format;
+    temp.replace("%playbacktime%", QTime(0, 0).addMSecs(msec).toString("mm:ss"));
+    setWindowTitle(Helper::parseLine(currentID, temp));
 }
 
 
 void SimpleGUI::restoreTitle()
 {
-    this->setWindowTitle(myplayerName() + " v." + myplayerVersion());
+    setWindowTitle(myplayerName() + " v." + myplayerVersion());
 }
 
 
