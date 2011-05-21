@@ -17,7 +17,6 @@ SOURCES += main.cpp\
     global.cpp \
     translator.cpp \
     preferences.cpp \
-    amplayer.cpp \
     helper.cpp \
     SimpleGUI/simplegui.cpp \
     phononface.cpp \
@@ -37,13 +36,13 @@ SOURCES += main.cpp\
     MediaLibrary/minfo.cpp \
     MediaLibrary/mediainfo.cpp \
     SimpleGUI/prefswidget.cpp \
-    SimpleGUI/simpleguiprefswidget.cpp
+    SimpleGUI/simpleguiprefswidget.cpp \
+    loader.cpp
 
 HEADERS  += \
     global.h \
     preferences.h \
     translator.h \
-    amplayer.h \
     version.h \
     helper.h \
     SimpleGUI/simplegui.h \
@@ -65,7 +64,8 @@ HEADERS  += \
     MediaLibrary/minfo.h \
     MediaLibrary/mediainfo.h \
     SimpleGUI/prefswidget.h \
-    SimpleGUI/simpleguiprefswidget.h
+    SimpleGUI/simpleguiprefswidget.h \
+    loader.h
 
 FORMS    += \
     MediaLibrary/albumtreeprefswidget.ui \

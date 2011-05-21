@@ -3,7 +3,8 @@
 #include <QTime>
 #include <QDir>
 
-#include "amplayer.h"
+//#include "amplayer.h"
+#include "loader.h"
 #include "version.h"
 #include "global.h"
 
@@ -91,30 +92,17 @@ int main( int argc, char ** argv )
         QApplication a( argc, argv );
         a.setQuitOnLastWindowClosed(true);
         a.setApplicationName("Errorise");
-        //a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
-
-
-        //QStringList args = a.arguments();
 
         qInstallMsgHandler( myMessageOutput );
 
-        AMPlayer * amplayer = new AMPlayer();
-/*        AMPlayer::ExitCode c = amplayer->processArgs( args );
-        if (c != AMPlayer::NoExit) {
-                return c;
-        }
-*/
-       // mainwindow_instance = amplayer->sgui();
-        //a.connect(amplayer->gui(), SIGNAL(quitSolicited()), &a, SLOT(quit()));
-        amplayer->start();
+        Loader *loader = new Loader();
+        loader->start();
 
         int r = a.exec();
 
-        //mainwindow_instance = 0;
-        delete amplayer;
 
+        delete loader;
         if (output_log.isOpen()) output_log.close();
-
         return r;
 }
 
