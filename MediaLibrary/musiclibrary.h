@@ -21,7 +21,7 @@ public:
     bool isReady();
 
     QString       libraryPath();
-    void          setLibraryPath(QString path) { libPath = path; checkForUpdates(); }
+    void          setLibraryPath(QString path);
     QSqlDatabase  db;
 
     void selectTracksBy(QString tag, QString value);

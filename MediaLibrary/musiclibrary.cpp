@@ -152,6 +152,23 @@ void MusicLibrary::deleteRemovedFiles()
 }
 
 
+void MusicLibrary::setLibraryPath(QString path)
+{
+    libPath = path;
+
+    if (!libPath.isEmpty())
+    {
+        QSqlQuery query(db);
+        if (query.exec("DELETE FROM tracks"))
+        {
+            db.transaction();
+            return updateDb(libPath);
+        }
+
+        qWarning() << "MusicLibrary::setLibraryPath()\n\t" << query.lastError();
+    }
+}
+
 void MusicLibrary::checkForUpdates()
 {
     if (!libPath.isEmpty())
