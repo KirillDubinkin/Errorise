@@ -24,9 +24,10 @@ AlbumTreePrefs::~AlbumTreePrefs()
 
 void AlbumTreePrefs::reset()
 {
-    pattern    = "%filepath%";
-    stylesheet = "background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(9, 14, 17, 255), stop:1 rgba(50, 57, 64, 255));\ncolor: rgb(200,200,200);\ngridline-color: rgb(74, 91, 108);\nselection-color: rgb(157, 196, 255);\nselection-background-color: rgb(67, 82, 98);";
-    items_icon = "";
+    pattern       = "%filepath%";
+    stylesheet    = "background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(9, 14, 17, 255), stop:1 rgba(50, 57, 64, 255));\ncolor: rgb(200,200,200);\ngridline-color: rgb(74, 91, 108);\nselection-color: rgb(157, 196, 255);\nselection-background-color: rgb(67, 82, 98);";
+    items_icon    = "";
+    context_icons = true;
 }
 
 
@@ -41,9 +42,10 @@ void AlbumTreePrefs::load()
     set.setIniCodec(QTextCodec::codecForLocale());
 
     set.beginGroup("General");
-    pattern    = set.value("pattern", pattern).toString();
-    stylesheet = set.value("stylesheet", stylesheet).toString();
-    items_icon = set.value("items_icon", items_icon).toString();
+    pattern       = set.value("pattern", pattern).toString();
+    stylesheet    = set.value("stylesheet", stylesheet).toString();
+    items_icon    = set.value("items_icon", items_icon).toString();
+    context_icons = set.value("context_icons", context_icons).toBool();
     set.endGroup();
 }
 
@@ -62,6 +64,7 @@ void AlbumTreePrefs::save()
     set.setValue("pattern", pattern);
     set.setValue("stylesheet", stylesheet);
     set.setValue("items_icon", items_icon);
+    set.setValue("context_icons", context_icons);
     set.endGroup();
 
     set.sync();

@@ -33,12 +33,10 @@ private slots:
 
 private:
     void createMenu();
-    QMap<QString, int> firstNode();
-    void mkTree(const QMap<QString, int> &map);
+    QMap<QString, QString> firstNode();
+    void mkTree(const QMap<QString, QString> &map);
 
 private:
-    QString ptrn;
-    QMultiMap<QString, int> tracks;
     AlbumTreePrefs          *prefs;
     AlbumTreePrefsWidget    *prefsWidget;
 

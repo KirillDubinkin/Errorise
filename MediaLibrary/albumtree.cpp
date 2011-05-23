@@ -111,18 +111,18 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
 
 void AlbumTree::fillTree()
 {
-    QMap<QString, int> map = firstNode();
+    QMap<QString, QString> map = firstNode();
     if (!map.isEmpty())
         mkTree(map);
 }
 
 
 
-void AlbumTree::mkTree(const QMap<QString, int> &map)
+void AlbumTree::mkTree(const QMap<QString, QString> &map)
 {
     clear();
 
-    QMapIterator<QString, int> i(map);
+    QMapIterator<QString, QString> i(map);
     QList<QTreeWidgetItem *> list;
 
     QTreeWidgetItem *item;
@@ -139,8 +139,12 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
     {
         QString temp = key.mid(0, key.indexOf("/"));
         QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
-//        itm->setIcon(0, QIcon(Helper::valueOfTrack("playlistart", pref->music_library_path + "/" + i.key().mid(0, i.key().size() - 1))));
-        itm->setIcon(0, QIcon(prefs->items_icon));
+
+        if (prefs->context_icons)
+            itm->setIcon(0, QIcon(i.value()));
+        else
+            itm->setIcon(0, QIcon(prefs->items_icon));
+
         item->addChild(itm);
         item = itm;
         key.remove(0, temp.size() + 1);
@@ -184,8 +188,12 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
         {
             QString temp = key.mid(0, key.indexOf("/"));
             QTreeWidgetItem *itm = new QTreeWidgetItem(QStringList(temp));
-//            itm->setIcon(0, QIcon(Helper::valueOfTrack("playlistart", pref->music_library_path + "/" + i.key().mid(0, i.key().size() - 1))));
-            itm->setIcon(0, QIcon(prefs->items_icon));
+
+            if (prefs->context_icons)
+                itm->setIcon(0, QIcon(i.value()));
+            else
+                itm->setIcon(0, QIcon(prefs->items_icon));
+
             item->addChild(itm);
             item = itm;
             key.remove(0, temp.size() + 1);
@@ -197,23 +205,23 @@ void AlbumTree::mkTree(const QMap<QString, int> &map)
 
 
 
-QMap<QString, int> AlbumTree::firstNode()
+QMap<QString, QString> AlbumTree::firstNode()
 {
     QStringList tags = Helper::getTags(prefs->pattern);
 
     QSqlQuery query(mlib->db);
 
-    if (query.exec("SELECT id, " + tags.join(", ") + " FROM tracks "
+    if (query.exec("SELECT playlistart, " + tags.join(", ") + " FROM tracks "
                    "ORDER BY " + tags.join(", ")))
     {
-        QMap<QString, int> map;
+        QMap<QString, QString> map;
 
         if (prefs->pattern.contains("filepath"))
         {
             QString s = mlib->libraryPath() + "/";
 
             while (query.next())
-                map.insert(query.value(1).toString().remove(s) + "/", query.value(0).toInt());
+                map.insert(query.value(1).toString().remove(s) + "/", query.value(0).toString());
             map.remove(mlib->libraryPath() + "/");
         }
         else
@@ -232,7 +240,7 @@ QMap<QString, int> AlbumTree::firstNode()
                 s.remove("%");
                 s.append("/");
 
-                map.insert(s, query.value(0).toInt());
+                map.insert(s, query.value(0).toString());
             }
         }
 
@@ -240,7 +248,7 @@ QMap<QString, int> AlbumTree::firstNode()
     }
     //qWarning() << query.lastError();
 
-    QMap<QString, int> map;
+    QMap<QString, QString> map;
     return map;
 }
 
