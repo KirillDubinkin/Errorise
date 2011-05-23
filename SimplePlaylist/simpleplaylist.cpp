@@ -39,6 +39,8 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 //!  MusicLibrary
     connect(mlib, SIGNAL(tracksSelectedBy(QString,QString)),
             this, SLOT(getNewTracks(QString,QString)));
+    connect(mlib, SIGNAL(tracksSelectedBy(QStringList,QStringList)),
+            this, SLOT(getNewTracks(QStringList,QStringList)));
 
 
 //!  Player (PhononFace)
@@ -558,9 +560,7 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
         trackGuids.clear();
 
         while (query.next())
-        {
             trackGuids.append(query.value(0).toInt());
-        }
 
         clear();
         setRowCount(0);
@@ -571,4 +571,37 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
     } else {
         qWarning() << query.lastError();
     }
+}
+
+
+void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
+{
+    QString temp;
+
+    temp.append("SELECT id FROM tracks WHERE");
+
+    while (!tags.isEmpty())
+        temp.append(" (" + tags.takeFirst() + " = '" + values.takeFirst().replace("'", "''") + "') AND");
+
+    temp.remove(temp.size() - 3, 3);
+    temp.append(" ORDER BY filepath");
+
+    QSqlQuery query(mlib->db);
+    if (query.exec(temp))
+    {
+        trackGuids.clear();
+
+        while (query.next())
+            trackGuids.append(query.value(0).toInt());
+
+        clear();
+        setRowCount(0);
+        currentTrackRow = -1;
+        artQueue.clear();
+        QTimer::singleShot(0, this, SLOT(fillPlaylist()));
+
+    } else {
+        qWarning() << "SimplePlaylist::getNewTracks(QStringList, QStringList)\n\t" << query.lastError();
+    }
+
 }

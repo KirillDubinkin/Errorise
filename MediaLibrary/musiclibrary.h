@@ -25,10 +25,12 @@ public:
     QSqlDatabase  db;
 
     void selectTracksBy(QString tag, QString value);
+    void selectTracksBy(QStringList tags, QStringList values);
 
 signals:
     void readyToWork();
     void tracksSelectedBy(QString tag, QString value);
+    void tracksSelectedBy(QStringList tags, QStringList values);
 
     void updateRequired(QStringList files);
     void newFilesAvailable(QStringList files);

@@ -66,6 +66,7 @@ private slots:
     void setAlternatingRowColors(bool enable) { QTableWidget::setAlternatingRowColors(enable); }
 
     void getNewTracks(QString tag, QString value);
+    void getNewTracks(QStringList tags, QStringList values);
     void insertCover();
     void insertLastCovers();
     void deletePreferences() { prefsWindow = 0; }
