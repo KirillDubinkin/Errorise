@@ -158,6 +158,8 @@ void MusicLibrary::setLibraryPath(QString path)
 
     if (!libPath.isEmpty())
     {
+        updateTimer->stop();
+
         QSqlQuery query(db);
         if (query.exec("DELETE FROM tracks"))
         {
@@ -166,6 +168,7 @@ void MusicLibrary::setLibraryPath(QString path)
         }
 
         qWarning() << "MusicLibrary::setLibraryPath()\n\t" << query.lastError();
+        updateTimer->start();
     }
 }
 
