@@ -162,7 +162,7 @@ QString Helper::processContainer(QString line, int id)
 
     int ok = 0;
 
-    for (int i = 0; i < tags.size(); i++)
+    for (int i = 0; i < values.size(); i++)
     {
         if (!QString(values.at(i)).isEmpty())
         {
@@ -294,6 +294,9 @@ QString Helper::funcIF(QString line, const int id)
 
 bool Helper::isContainer(const QString &line)
 {
+    if (line.isEmpty())
+        return false;
+
     if ((line.at(0) == '[') && (line.at(line.size() - 1) == ']'))
         return true;
 
