@@ -22,7 +22,7 @@ void SimpleGUIPrefs::reset()
 {
     geometry.setRect(100, 100, 996, 640);
     prefs_geometry.setRect(200, 200, 800, 576);
-    title_format = "[%artist% - ][%title%] '['%playbacktime% of %duration%']'";
+    title_format = "[$if(%artist%,%albumartist%)    -    ][%title%]     '['%playbacktime% of %duration%']'";
 }
 
 
