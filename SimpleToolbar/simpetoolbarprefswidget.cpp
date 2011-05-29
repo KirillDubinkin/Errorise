@@ -54,11 +54,11 @@ void SimpeToolbarPrefsWidget::load()
 
 void SimpeToolbarPrefsWidget::conct()
 {
-    connect(ui->widthLine,      SIGNAL(textEdited(QString)),  this, SLOT(setToolWidth(QString)));
+    connect(ui->widthLine,      SIGNAL(textEdited(QString)), this, SLOT(setToolWidth(QString)));
     connect(ui->heightLine,     SIGNAL(textEdited(QString)), this, SLOT(setToolHeight(QString)));
     connect(ui->textLine,       SIGNAL(textEdited(QString)), this, SLOT(setToolText(QString)));
     connect(ui->iconLine,       SIGNAL(textEdited(QString)), this, SLOT(setToolIcon(QString)));
-    connect(ui->stylesheetEdit, SIGNAL(textEdited()),        this, SLOT(setToolStylesheet()));
+    connect(ui->stylesheetEdit, SIGNAL(textChanged()),       this, SLOT(setToolStylesheet()));
 
     connect(this, SIGNAL(needTimer()), this, SLOT(startTimerNow()));
     connect(&timer, SIGNAL(timeout()), this, SIGNAL(somethingChanged()));
@@ -172,8 +172,13 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
 {
     int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
 
-    bool ok;
-    int width = text.toInt(&ok);
+    bool ok = true;
+    int width;
+
+    if (text.isEmpty())
+        width = 0;
+    else
+        width = text.toInt(&ok);
 
     if (ok)
     {
@@ -208,9 +213,17 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
 
 void SimpeToolbarPrefsWidget::setToolHeight(QString text)
 {
-    if (!text.isEmpty() && text.toInt() != prefs->btnHeight)
+    bool ok = true;
+    int height;
+
+    if (text.isEmpty())
+        height = 0;
+    else
+        height = text.toInt(&ok);
+
+    if (ok)
     {
-        prefs->btnHeight = text.toInt();
+        prefs->btnHeight = height;
         emit needTimer();
     }
 }
