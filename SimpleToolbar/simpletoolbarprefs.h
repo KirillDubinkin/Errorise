@@ -5,16 +5,17 @@
 #include <QStringList>
 
 
-enum btns { Play = 1000, Pause = 1010,  PlayPause = 1020, Stop = 1030,
-           Prev = 1040, Next = 1050 };
-
-enum tools { Buttons = 5000, Seekbar = 5010, Volume = 5020,
-             SmallMenu = 5030, FullMenu = 5040, PlaybackOrder = 5050 };
-
-
 class SimpleToolbarPrefs
 {
 public:
+
+    enum btns { Play = 1000, Pause = 1010,  PlayPause = 1020, Stop = 1030,
+               Prev = 1040, Next = 1050 };
+
+    enum tools { Buttons = 5000, Seekbar = 5010, Volume = 5020,
+                 SmallMenu = 5030, FullMenu = 5040, PlaybackOrder = 5050 };
+
+
     SimpleToolbarPrefs();
     ~SimpleToolbarPrefs();
 

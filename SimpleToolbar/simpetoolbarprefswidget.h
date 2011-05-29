@@ -37,14 +37,14 @@ private slots:
     void startTimerNow();
 
     void removeTool();
-    void addSpacing() {}
+    void addSpacing() { prefs->toolList.append("6"); }
     void addButtonPlay() {}
     void addButtonPause() {}
     void addButtonPlayOrPause() {}
     void addButtonStop() {}
     void addButtonNext() {}
     void addButtonPrev() {}
-    void addSeekBar() {}
+    void addSeekBar() { prefs->toolList.append(QString::number(SimpleToolbarPrefs::Seekbar)); }
     void addVolumeBar() {}
     void moveUp() {}
     void moveDown() {}

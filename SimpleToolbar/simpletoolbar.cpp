@@ -40,14 +40,14 @@ void SimpleToolbar::buildToolbar()
     {
         switch (QString(prefs->toolList.at(i)).toInt())
         {
-        case Seekbar: L->addWidget(this->seekbar(), 100); break;
-        case Volume: L->addWidget(this->vol()); break;
-        case Play: L->addWidget(this->btnPlay()); break;
-        case Pause: L->addWidget(this->btnPause()); break;
-        case PlayPause: L->addWidget(this->btnPlayPause()); break;
-        case Stop: L->addWidget(this->btnStop()); break;
-        case Prev: L->addWidget(this->btnPrev()); break;
-        case Next: L->addWidget(this->btnNext()); break;
+        case SimpleToolbarPrefs::Seekbar:   L->addWidget(this->seekbar(), 100); break;
+        case SimpleToolbarPrefs::Volume:    L->addWidget(this->vol()); break;
+        case SimpleToolbarPrefs::Play:      L->addWidget(this->btnPlay()); break;
+        case SimpleToolbarPrefs::Pause:     L->addWidget(this->btnPause()); break;
+        case SimpleToolbarPrefs::PlayPause: L->addWidget(this->btnPlayPause()); break;
+        case SimpleToolbarPrefs::Stop:      L->addWidget(this->btnStop()); break;
+        case SimpleToolbarPrefs::Prev:      L->addWidget(this->btnPrev()); break;
+        case SimpleToolbarPrefs::Next:      L->addWidget(this->btnNext()); break;
 
         default: L->addSpacing(QString(prefs->toolList.at(i)).toInt());
         }
@@ -107,7 +107,7 @@ Phonon::SeekSlider * SimpleToolbar::seekbar()
 
 void SimpleToolbar::hideSeekbar()
 {
-    if (prefs->toolList.removeOne(QString::number(Seekbar))) {
+    if (prefs->toolList.removeOne(QString::number(SimpleToolbarPrefs::Seekbar))) {
         this->seekbar()->close();
     }
 }
@@ -135,7 +135,7 @@ Phonon::VolumeSlider * SimpleToolbar::vol()
 
 void SimpleToolbar::hideVol()
 {
-    if (prefs->toolList.removeOne(QString::number(Volume))) {
+    if (prefs->toolList.removeOne(QString::number(SimpleToolbarPrefs::Volume))) {
        // L->removeWidget(this->vol());
         this->vol()->close();
     }

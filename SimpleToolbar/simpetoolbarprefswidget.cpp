@@ -36,14 +36,14 @@ void SimpeToolbarPrefsWidget::load()
     {
         switch (QString(prefs->toolList.at(i)).toInt())
         {
-        case Seekbar: ui->toolList->addItem(new QListWidgetItem(tr("Seekbar"))); break;
-        case Volume: ui->toolList->addItem(new QListWidgetItem(tr("Volume"))); break;
-        case Play: ui->toolList->addItem(new QListWidgetItem(tr("Play button"))); break;
-        case Pause: ui->toolList->addItem(new QListWidgetItem(tr("Pause button"))); break;
-        case PlayPause: ui->toolList->addItem(new QListWidgetItem(tr("Play or pause button"))); break;
-        case Stop: ui->toolList->addItem(new QListWidgetItem(tr("Stop button"))); break;
-        case Prev: ui->toolList->addItem(new QListWidgetItem(tr("Previous button"))); break;
-        case Next: ui->toolList->addItem(new QListWidgetItem(tr("Next button"))); break;
+        case SimpleToolbarPrefs::Seekbar: ui->toolList->addItem(new QListWidgetItem(tr("Seekbar"))); break;
+        case SimpleToolbarPrefs::Volume: ui->toolList->addItem(new QListWidgetItem(tr("Volume"))); break;
+        case SimpleToolbarPrefs::Play: ui->toolList->addItem(new QListWidgetItem(tr("Play button"))); break;
+        case SimpleToolbarPrefs::Pause: ui->toolList->addItem(new QListWidgetItem(tr("Pause button"))); break;
+        case SimpleToolbarPrefs::PlayPause: ui->toolList->addItem(new QListWidgetItem(tr("Play or pause button"))); break;
+        case SimpleToolbarPrefs::Stop: ui->toolList->addItem(new QListWidgetItem(tr("Stop button"))); break;
+        case SimpleToolbarPrefs::Prev: ui->toolList->addItem(new QListWidgetItem(tr("Previous button"))); break;
+        case SimpleToolbarPrefs::Next: ui->toolList->addItem(new QListWidgetItem(tr("Next button"))); break;
 
         default: ui->toolList->addItem(new QListWidgetItem(tr("Spacing") + " (" + prefs->toolList.at(i) + ")")); break;
         }
@@ -112,44 +112,44 @@ void SimpeToolbarPrefsWidget::itemChosen()
 
     switch (tool)
     {
-    case Seekbar:   enableAll(false); clearFields(); break;
-    case Volume:    enableAll(false); clearFields(); break;
-    case Play:
+    case SimpleToolbarPrefs::Seekbar:   enableAll(false); clearFields(); break;
+    case SimpleToolbarPrefs::Volume:    enableAll(false); clearFields(); break;
+    case SimpleToolbarPrefs::Play:
         enableAll(true);
         ui->heightLine->setText(QString::number(prefs->btnHeight));
         ui->widthLine->setText(QString::number(prefs->btnPlayWidth));
         ui->textLine->setText(prefs->btnPlayText);
         ui->iconLine->setText(prefs->btnPlayIcon);
         break;
-    case Pause:
+    case SimpleToolbarPrefs::Pause:
         enableAll(true);
         ui->heightLine->setText(QString::number(prefs->btnHeight));
         ui->widthLine->setText(QString::number(prefs->btnPauseWidth));
         ui->textLine->setText(prefs->btnPauseText);
         ui->iconLine->setText(prefs->btnPauseIcon);
         break;
-    case PlayPause:
+    case SimpleToolbarPrefs::PlayPause:
         enableAll(true);
         ui->heightLine->setText(QString::number(prefs->btnHeight));
         ui->widthLine->setText(QString::number(prefs->btnPlayPauseWidth));
         ui->textLine->setText(prefs->btnPlayPauseText);
         ui->iconLine->setText(prefs->btnPlayPauseIcon);
         break;
-    case Stop:
+    case SimpleToolbarPrefs::Stop:
         enableAll(true);
         ui->heightLine->setText(QString::number(prefs->btnHeight));
         ui->widthLine->setText(QString::number(prefs->btnStopWidth));
         ui->textLine->setText(prefs->btnStopText);
         ui->iconLine->setText(prefs->btnStopIcon);
         break;
-    case Prev:
+    case SimpleToolbarPrefs::Prev:
         enableAll(true);
         ui->heightLine->setText(QString::number(prefs->btnHeight));
         ui->widthLine->setText(QString::number(prefs->btnPrevWidth));
         ui->textLine->setText(prefs->btnPrevText);
         ui->iconLine->setText(prefs->btnPrevIcon);
         break;
-    case Next:
+    case SimpleToolbarPrefs::Next:
         enableAll(true);
         ui->heightLine->setText(QString::number(prefs->btnHeight));
         ui->widthLine->setText(QString::number(prefs->btnNextWidth));
@@ -227,14 +227,14 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
 
         switch (tool)
         {
-        case Seekbar:   break;
-        case Volume:    break;
-        case Play:      prevWidth = prefs->btnPlayWidth;      prefs->btnPlayWidth      = width; break;
-        case Pause:     prevWidth = prefs->btnPauseWidth;     prefs->btnPauseWidth     = width; break;
-        case PlayPause: prevWidth = prefs->btnPlayPauseWidth; prefs->btnPlayPauseWidth = width; break;
-        case Stop:      prevWidth = prefs->btnStopWidth;      prefs->btnStopWidth      = width; break;
-        case Prev:      prevWidth = prefs->btnPrevWidth;      prefs->btnPrevWidth      = width; break;
-        case Next:      prevWidth = prefs->btnNextWidth;      prefs->btnNextWidth      = width; break;
+        case SimpleToolbarPrefs::Seekbar:   break;
+        case SimpleToolbarPrefs::Volume:    break;
+        case SimpleToolbarPrefs::Play:      prevWidth = prefs->btnPlayWidth;      prefs->btnPlayWidth      = width; break;
+        case SimpleToolbarPrefs::Pause:     prevWidth = prefs->btnPauseWidth;     prefs->btnPauseWidth     = width; break;
+        case SimpleToolbarPrefs::PlayPause: prevWidth = prefs->btnPlayPauseWidth; prefs->btnPlayPauseWidth = width; break;
+        case SimpleToolbarPrefs::Stop:      prevWidth = prefs->btnStopWidth;      prefs->btnStopWidth      = width; break;
+        case SimpleToolbarPrefs::Prev:      prevWidth = prefs->btnPrevWidth;      prefs->btnPrevWidth      = width; break;
+        case SimpleToolbarPrefs::Next:      prevWidth = prefs->btnNextWidth;      prefs->btnNextWidth      = width; break;
 
         default:
             prevWidth = prefs->toolList.at(ui->toolList->currentRow()).toInt();
@@ -278,14 +278,14 @@ void SimpeToolbarPrefsWidget::setToolText(QString text)
 
     switch (tool)
     {
-    case Seekbar:   break;
-    case Volume:    break;
-    case Play:      prevText = prefs->btnPlayText;      prefs->btnPlayText      = text; break;
-    case Pause:     prevText = prefs->btnPauseText;     prefs->btnPauseText     = text; break;
-    case PlayPause: prevText = prefs->btnPlayPauseText; prefs->btnPlayPauseText = text; break;
-    case Stop:      prevText = prefs->btnStopText;      prefs->btnStopText      = text; break;
-    case Prev:      prevText = prefs->btnPrevText;      prefs->btnPrevText      = text; break;
-    case Next:      prevText = prefs->btnNextText;      prefs->btnNextText      = text; break;
+    case SimpleToolbarPrefs::Seekbar:   break;
+    case SimpleToolbarPrefs::Volume:    break;
+    case SimpleToolbarPrefs::Play:      prevText = prefs->btnPlayText;      prefs->btnPlayText      = text; break;
+    case SimpleToolbarPrefs::Pause:     prevText = prefs->btnPauseText;     prefs->btnPauseText     = text; break;
+    case SimpleToolbarPrefs::PlayPause: prevText = prefs->btnPlayPauseText; prefs->btnPlayPauseText = text; break;
+    case SimpleToolbarPrefs::Stop:      prevText = prefs->btnStopText;      prefs->btnStopText      = text; break;
+    case SimpleToolbarPrefs::Prev:      prevText = prefs->btnPrevText;      prefs->btnPrevText      = text; break;
+    case SimpleToolbarPrefs::Next:      prevText = prefs->btnNextText;      prefs->btnNextText      = text; break;
 
     default:        break;
     }
@@ -303,14 +303,14 @@ void SimpeToolbarPrefsWidget::setToolIcon(QString filename)
 
     switch (tool)
     {
-    case Seekbar:   break;
-    case Volume:    break;
-    case Play:      prevFilename = prefs->btnPlayIcon;      prefs->btnPlayIcon      = filename; break;
-    case Pause:     prevFilename = prefs->btnPauseIcon;     prefs->btnPauseIcon     = filename; break;
-    case PlayPause: prevFilename = prefs->btnPlayPauseIcon; prefs->btnPlayPauseIcon = filename; break;
-    case Stop:      prevFilename = prefs->btnStopIcon;      prefs->btnStopIcon      = filename; break;
-    case Prev:      prevFilename = prefs->btnPrevIcon;      prefs->btnPrevIcon      = filename; break;
-    case Next:      prevFilename = prefs->btnNextIcon;      prefs->btnNextIcon      = filename; break;
+    case SimpleToolbarPrefs::Seekbar:   break;
+    case SimpleToolbarPrefs::Volume:    break;
+    case SimpleToolbarPrefs::Play:      prevFilename = prefs->btnPlayIcon;      prefs->btnPlayIcon      = filename; break;
+    case SimpleToolbarPrefs::Pause:     prevFilename = prefs->btnPauseIcon;     prefs->btnPauseIcon     = filename; break;
+    case SimpleToolbarPrefs::PlayPause: prevFilename = prefs->btnPlayPauseIcon; prefs->btnPlayPauseIcon = filename; break;
+    case SimpleToolbarPrefs::Stop:      prevFilename = prefs->btnStopIcon;      prefs->btnStopIcon      = filename; break;
+    case SimpleToolbarPrefs::Prev:      prevFilename = prefs->btnPrevIcon;      prefs->btnPrevIcon      = filename; break;
+    case SimpleToolbarPrefs::Next:      prevFilename = prefs->btnNextIcon;      prefs->btnNextIcon      = filename; break;
 
     default:        break;
     }
