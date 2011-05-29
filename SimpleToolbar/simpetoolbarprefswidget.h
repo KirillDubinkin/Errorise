@@ -28,7 +28,7 @@ signals:
 private slots:
     void itemChosen();
     void setToolWidth(QString text);
-    inline void setToolHeight(QString text) { if (!text.isEmpty()) { prefs->btnHeight = text.toInt(); emit needTimer(); } }
+    void setToolHeight(QString text);
     void setToolText(QString text);
     void setToolIcon(QString filename);
     void setToolStylesheet();

@@ -206,6 +206,16 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
 }
 
 
+void SimpeToolbarPrefsWidget::setToolHeight(QString text)
+{
+    if (!text.isEmpty() && text.toInt() != prefs->btnHeight)
+    {
+        prefs->btnHeight = text.toInt();
+        emit needTimer();
+    }
+}
+
+
 void SimpeToolbarPrefsWidget::setToolText(QString text)
 {
     int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
