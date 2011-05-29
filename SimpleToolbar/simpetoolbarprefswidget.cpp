@@ -220,19 +220,24 @@ void SimpeToolbarPrefsWidget::setToolText(QString text)
 {
     int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
 
+    QString prevText;
+
     switch (tool)
     {
     case Seekbar:   break;
     case Volume:    break;
-    case Play:      prefs->btnPlayText      = text; break;
-    case Pause:     prefs->btnPauseText     = text; break;
-    case PlayPause: prefs->btnPlayPauseText = text; break;
-    case Stop:      prefs->btnStopText      = text; break;
-    case Prev:      prefs->btnPrevText      = text; break;
-    case Next:      prefs->btnNextText      = text; break;
+    case Play:      prevText = prefs->btnPlayText;      prefs->btnPlayText      = text; break;
+    case Pause:     prevText = prefs->btnPauseText;     prefs->btnPauseText     = text; break;
+    case PlayPause: prevText = prefs->btnPlayPauseText; prefs->btnPlayPauseText = text; break;
+    case Stop:      prevText = prefs->btnStopText;      prefs->btnStopText      = text; break;
+    case Prev:      prevText = prefs->btnPrevText;      prefs->btnPrevText      = text; break;
+    case Next:      prevText = prefs->btnNextText;      prefs->btnNextText      = text; break;
 
     default:        break;
     }
+
+    if (text != prevText)
+        emit needTimer();
 }
 
 
