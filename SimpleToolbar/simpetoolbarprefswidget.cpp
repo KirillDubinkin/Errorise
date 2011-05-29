@@ -3,6 +3,7 @@
 
 #include <QListWidgetItem>
 #include <QFileDialog>
+#include <QDebug>
 
 SimpeToolbarPrefsWidget::SimpeToolbarPrefsWidget(SimpleToolbarPrefs *p, QWidget *parent) :
     QWidget(parent),
@@ -176,26 +177,31 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
 
     if (ok)
     {
+        int prevWidth;
+
         switch (tool)
         {
         case Seekbar:   break;
         case Volume:    break;
-        case Play:      prefs->btnPlayWidth      = width; break;
-        case Pause:     prefs->btnPauseWidth     = width; break;
-        case PlayPause: prefs->btnPlayPauseWidth = width; break;
-        case Stop:      prefs->btnStopWidth      = width; break;
-        case Prev:      prefs->btnPrevWidth      = width; break;
-        case Next:      prefs->btnNextWidth      = width; break;
+        case Play:      prevWidth = prefs->btnPlayWidth;      prefs->btnPlayWidth      = width; break;
+        case Pause:     prevWidth = prefs->btnPauseWidth;     prefs->btnPauseWidth     = width; break;
+        case PlayPause: prevWidth = prefs->btnPlayPauseWidth; prefs->btnPlayPauseWidth = width; break;
+        case Stop:      prevWidth = prefs->btnStopWidth;      prefs->btnStopWidth      = width; break;
+        case Prev:      prevWidth = prefs->btnPrevWidth;      prefs->btnPrevWidth      = width; break;
+        case Next:      prevWidth = prefs->btnNextWidth;      prefs->btnNextWidth      = width; break;
 
         default:
-            prefs->toolList.replace(ui->toolList->currentRow(),
-                                                QString::number(width));
+            prevWidth = prefs->toolList.at(ui->toolList->currentRow()).toInt();
+
+            prefs->toolList.replace(ui->toolList->currentRow(), QString::number(width));
+
             ui->toolList->item(ui->toolList->currentRow())->setText(
                     tr("Spacing") + " (" + QString::number(width) + ")");
             break;
         }
 
-        emit needTimer();
+        if (width != prevWidth)
+            emit needTimer();
     }
 }
 
