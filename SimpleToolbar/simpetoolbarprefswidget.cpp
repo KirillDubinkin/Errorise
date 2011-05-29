@@ -54,11 +54,11 @@ void SimpeToolbarPrefsWidget::load()
 
 void SimpeToolbarPrefsWidget::conct()
 {
-    connect(ui->widthLine,      SIGNAL(textChanged(QString)), this, SLOT(setToolWidth(QString)));
-    connect(ui->heightLine,     SIGNAL(textChanged(QString)), this, SLOT(setToolHeight(QString)));
-    connect(ui->textLine,       SIGNAL(textChanged(QString)), this, SLOT(setToolText(QString)));
-    connect(ui->iconLine,       SIGNAL(textChanged(QString)), this, SLOT(setToolIcon(QString)));
-    connect(ui->stylesheetEdit, SIGNAL(textChanged()),        this, SLOT(setToolStylesheet()));
+    connect(ui->widthLine,      SIGNAL(textEdited(QString)),  this, SLOT(setToolWidth(QString)));
+    connect(ui->heightLine,     SIGNAL(textEdited(QString)), this, SLOT(setToolHeight(QString)));
+    connect(ui->textLine,       SIGNAL(textEdited(QString)), this, SLOT(setToolText(QString)));
+    connect(ui->iconLine,       SIGNAL(textEdited(QString)), this, SLOT(setToolIcon(QString)));
+    connect(ui->stylesheetEdit, SIGNAL(textEdited()),        this, SLOT(setToolStylesheet()));
 
     connect(this, SIGNAL(needTimer()), this, SLOT(startTimerNow()));
     connect(&timer, SIGNAL(timeout()), this, SIGNAL(somethingChanged()));
@@ -292,5 +292,5 @@ void SimpeToolbarPrefsWidget::startTimerNow()
 {
     timer.stop();
 
-    timer.start(100);
+    timer.start(400);
 }
