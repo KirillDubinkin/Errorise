@@ -54,11 +54,12 @@ void SimpeToolbarPrefsWidget::load()
 
 void SimpeToolbarPrefsWidget::conct()
 {
-    connect(ui->widthLine,      SIGNAL(textEdited(QString)), this, SLOT(setToolWidth(QString)));
-    connect(ui->heightLine,     SIGNAL(textEdited(QString)), this, SLOT(setToolHeight(QString)));
-    connect(ui->textLine,       SIGNAL(textEdited(QString)), this, SLOT(setToolText(QString)));
-    connect(ui->iconLine,       SIGNAL(textEdited(QString)), this, SLOT(setToolIcon(QString)));
-    connect(ui->stylesheetEdit, SIGNAL(textChanged()),       this, SLOT(setToolStylesheet()));
+    connect(ui->widthLine,      SIGNAL(textEdited(QString)),  this, SLOT(setToolWidth(QString)));
+    connect(ui->heightLine,     SIGNAL(textEdited(QString)),  this, SLOT(setToolHeight(QString)));
+    connect(ui->textLine,       SIGNAL(textEdited(QString)),  this, SLOT(setToolText(QString)));
+    connect(ui->iconLine,       SIGNAL(textChanged(QString)), this, SLOT(setToolIcon(QString)));
+    connect(ui->stylesheetEdit, SIGNAL(textChanged()),        this, SLOT(setToolStylesheet()));
+    connect(ui->iconButton,     SIGNAL(clicked()),            this, SLOT(getToolIcon()));
 
     connect(this, SIGNAL(needTimer()), this, SLOT(startTimerNow()));
     connect(&timer, SIGNAL(timeout()), this, SIGNAL(somethingChanged()));
@@ -287,7 +288,10 @@ void SimpeToolbarPrefsWidget::getToolIcon()
                 QFileDialog::ReadOnly);
 
     if (!filename.isEmpty())
+    {
         ui->iconLine->setText(filename);
+        emit needTimer();
+    }
 }
 
 
