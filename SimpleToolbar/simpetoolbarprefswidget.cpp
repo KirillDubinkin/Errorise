@@ -280,7 +280,11 @@ void SimpeToolbarPrefsWidget::getToolIcon()
 
 void SimpeToolbarPrefsWidget::setToolStylesheet()
 {
-    prefs->style = ui->stylesheetEdit->toPlainText();
+    if (prefs->style != ui->stylesheetEdit->toPlainText())
+    {
+        prefs->style = ui->stylesheetEdit->toPlainText();
+        emit styleChanged(prefs->style);
+    }
 }
 
 

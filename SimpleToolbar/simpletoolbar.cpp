@@ -221,12 +221,10 @@ QWidget * SimpleToolbar::getPrefsWidget()
     if (!prefsWidget)
     {
         prefsWidget = new SimpeToolbarPrefsWidget(prefs, this);
-        connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
-        connect(prefsWidget, SIGNAL(somethingChanged()), this, SLOT(buildToolbar()));
+        connect(prefsWidget, SIGNAL(destroyed()),           this, SLOT(deletePreferences()));
+        connect(prefsWidget, SIGNAL(somethingChanged()),    this, SLOT(buildToolbar()));
+        connect(prefsWidget, SIGNAL(styleChanged(QString)), this, SLOT(setStyleSheet(QString)));
     }
-
-//    prefsWidget->show();
-//    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
 
     return prefsWidget;
 }

@@ -24,6 +24,7 @@ public:
 signals:
     void needTimer();
     void somethingChanged();
+    void styleChanged(QString stylesheet);
 
 private slots:
     void itemChosen();
