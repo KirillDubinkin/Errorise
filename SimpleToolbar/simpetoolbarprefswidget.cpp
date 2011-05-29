@@ -32,22 +32,7 @@ SimpeToolbarPrefsWidget::~SimpeToolbarPrefsWidget()
 
 void SimpeToolbarPrefsWidget::load()
 {
-    for (int i = 0; i < prefs->toolList.size(); i++)
-    {
-        switch (QString(prefs->toolList.at(i)).toInt())
-        {
-        case SimpleToolbarPrefs::Seekbar: ui->toolList->addItem(new QListWidgetItem(tr("Seekbar"))); break;
-        case SimpleToolbarPrefs::Volume: ui->toolList->addItem(new QListWidgetItem(tr("Volume"))); break;
-        case SimpleToolbarPrefs::Play: ui->toolList->addItem(new QListWidgetItem(tr("Play button"))); break;
-        case SimpleToolbarPrefs::Pause: ui->toolList->addItem(new QListWidgetItem(tr("Pause button"))); break;
-        case SimpleToolbarPrefs::PlayPause: ui->toolList->addItem(new QListWidgetItem(tr("Play or pause button"))); break;
-        case SimpleToolbarPrefs::Stop: ui->toolList->addItem(new QListWidgetItem(tr("Stop button"))); break;
-        case SimpleToolbarPrefs::Prev: ui->toolList->addItem(new QListWidgetItem(tr("Previous button"))); break;
-        case SimpleToolbarPrefs::Next: ui->toolList->addItem(new QListWidgetItem(tr("Next button"))); break;
-
-        default: ui->toolList->addItem(new QListWidgetItem(tr("Spacing") + " (" + prefs->toolList.at(i) + ")")); break;
-        }
-    }
+    loadToolList();
 
     ui->stylesheetEdit->setPlainText(prefs->style);
 
@@ -78,7 +63,7 @@ void SimpeToolbarPrefsWidget::createToolListMenu()
     menu = new QMenu(ui->toolList);
 
     chldmenu = menu->addMenu(tr("Add new tool"));
-    chldmenu->addAction(tr("Spacing"),              this, SLOT(removeTool()));
+    chldmenu->addAction(tr("Spacing"),              this, SLOT(addSpacing()));
     chldmenu->addSeparator();
     chldmenu->addAction(tr("Seek bar"),             this, SLOT(addSeekBar()));
     chldmenu->addAction(tr("Volume bar"),           this, SLOT(addVolumeBar()));
@@ -100,11 +85,69 @@ void SimpeToolbarPrefsWidget::createToolListMenu()
 }
 
 
-void SimpeToolbarPrefsWidget::removeTool()
+void SimpeToolbarPrefsWidget::addSeekBar()
 {
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::Seekbar)))
+        return;
 
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::Seekbar));
+    loadToolList();
+    emit needTimer();
 }
 
+
+void SimpeToolbarPrefsWidget::addSpacing()
+{
+    prefs->toolList.insert(ui->toolList->currentRow()+1, "6");
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::addVolumeBar()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::Volume)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::Volume));
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::removeTool()
+{
+    if ((ui->toolList->currentRow() > -1) && (ui->toolList->currentRow() < prefs->toolList.size()))
+    {
+        prefs->toolList.removeAt(ui->toolList->currentRow());
+        loadToolList();
+
+        emit needTimer();
+    }
+}
+
+
+void SimpeToolbarPrefsWidget::loadToolList()
+{
+    ui->toolList->clear();
+
+    for (int i = 0; i < prefs->toolList.size(); i++)
+    {
+        switch (QString(prefs->toolList.at(i)).toInt())
+        {
+        case SimpleToolbarPrefs::Seekbar: ui->toolList->addItem(new QListWidgetItem(tr("Seek bar"))); break;
+        case SimpleToolbarPrefs::Volume: ui->toolList->addItem(new QListWidgetItem(tr("Volume"))); break;
+        case SimpleToolbarPrefs::Play: ui->toolList->addItem(new QListWidgetItem(tr("Play button"))); break;
+        case SimpleToolbarPrefs::Pause: ui->toolList->addItem(new QListWidgetItem(tr("Pause button"))); break;
+        case SimpleToolbarPrefs::PlayPause: ui->toolList->addItem(new QListWidgetItem(tr("Play or pause button"))); break;
+        case SimpleToolbarPrefs::Stop: ui->toolList->addItem(new QListWidgetItem(tr("Stop button"))); break;
+        case SimpleToolbarPrefs::Prev: ui->toolList->addItem(new QListWidgetItem(tr("Previous button"))); break;
+        case SimpleToolbarPrefs::Next: ui->toolList->addItem(new QListWidgetItem(tr("Next button"))); break;
+
+        default: ui->toolList->addItem(new QListWidgetItem(tr("Spacing") + " (" + prefs->toolList.at(i) + ")")); break;
+        }
+    }
+}
 
 void SimpeToolbarPrefsWidget::itemChosen()
 {
