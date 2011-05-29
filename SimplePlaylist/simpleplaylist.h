@@ -8,7 +8,7 @@
 #include <QList>
 
 #include "SimplePlaylist/simpleplprefs.h"
-#include "SimplePlaylist/simpleplaylistprefswindow.h"
+#include "SimplePlaylist/simpleplaylistprefswidget.h"
 #include "SimplePlaylist/coversqueue.h"
 
 class SimplePlaylist : public QTableWidget
@@ -33,7 +33,7 @@ public slots:
 
 private:
     SimplePLPrefs * prefs;
-    SimplePlaylistPrefsWindow  *prefsWindow;
+    SimplePlaylistPrefsWidget  *prefsWidget;
     QList<int> trackGuids;
     QList<CoversQueue> artQueue;
 
@@ -69,7 +69,7 @@ private slots:
     void getNewTracks(QStringList tags, QStringList values);
     void insertCover();
     void insertLastCovers();
-    void deletePreferences() { prefsWindow = 0; }
+    void deletePreferences() { prefsWidget = 0; }
 
 };
 

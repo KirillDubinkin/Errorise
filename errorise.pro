@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     phononface.cpp \
     SimplePlaylist/simpleplaylist.cpp \
     SimplePlaylist/simpleplprefs.cpp \
-    SimplePlaylist/simpleplaylistprefswindow.cpp \
     MediaLibrary/pmediainfo.cpp \
     MediaLibrary/musiclibrary.cpp \
     MediaLibrary/albumtree.cpp \
@@ -37,7 +36,8 @@ SOURCES += main.cpp\
     MediaLibrary/mediainfo.cpp \
     SimpleGUI/prefswidget.cpp \
     SimpleGUI/simpleguiprefswidget.cpp \
-    loader.cpp
+    loader.cpp \
+    SimplePlaylist/simpleplaylistprefswidget.cpp
 
 HEADERS  += \
     global.h \
@@ -50,7 +50,6 @@ HEADERS  += \
     SimplePlaylist/simpleplaylist.h \
     SimplePlaylist/simpleplaylistpreferences.h \
     SimplePlaylist/simpleplprefs.h \
-    SimplePlaylist/simpleplaylistprefswindow.h \
     MediaLibrary/pmediainfo.h \
     MediaLibrary/musiclibrary.h \
     MediaLibrary/albumtree.h \
@@ -65,9 +64,11 @@ HEADERS  += \
     MediaLibrary/mediainfo.h \
     SimpleGUI/prefswidget.h \
     SimpleGUI/simpleguiprefswidget.h \
-    loader.h
+    loader.h \
+    SimplePlaylist/simpleplaylistprefswidget.h
 
 FORMS    += \
     MediaLibrary/albumtreeprefswidget.ui \
     SimpleToolbar/simpetoolbarprefswidget.ui \
-    SimpleGUI/simpleguiprefswidget.ui
+    SimpleGUI/simpleguiprefswidget.ui \
+    SimplePlaylist/simpleplaylistprefswidget.ui

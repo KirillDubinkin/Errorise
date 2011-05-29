@@ -22,7 +22,7 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     QTableWidget(parent)
 {
     prefs = new SimplePLPrefs();
-    prefsWindow = 0;  // init only on show;
+    prefsWidget = 0;  // init only on show;
 
     CoverColumn     = -1;
     LengthColumn    = -1;
@@ -109,20 +109,20 @@ void SimplePlaylist::addToQueue()
 
 QWidget * SimplePlaylist::getPrefsWidget()
 {
-    if (!prefsWindow)
+    if (!prefsWidget)
     {
-        prefsWindow = new SimplePlaylistPrefsWindow(prefs, this);
+        prefsWidget = new SimplePlaylistPrefsWidget(this);
 
-        connect(prefsWindow, SIGNAL(showHeaderChanged(bool)),
+/*        connect(prefsWindow, SIGNAL(showHeaderChanged(bool)),
                 this->horizontalHeader(), SLOT(setVisible(bool)));
         connect(prefsWindow, SIGNAL(useAlternateColorsChanged(bool)),
                 this, SLOT(setAlternatingRowColors(bool)));
         connect(prefsWindow, SIGNAL(styleEdited(QString)),
                 this, SLOT(setStyleSheet(QString)));
         connect(prefsWindow, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
-    }
+*/    }
 
-    return prefsWindow;
+    return prefsWidget;
 }
 
 
