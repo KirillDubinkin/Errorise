@@ -4,6 +4,8 @@
 #include <QListWidgetItem>
 #include <QFileDialog>
 #include <QDebug>
+#include <QAction>
+#include <QMenu>
 
 SimpeToolbarPrefsWidget::SimpeToolbarPrefsWidget(SimpleToolbarPrefs *p, QWidget *parent) :
     QWidget(parent),
@@ -15,6 +17,7 @@ SimpeToolbarPrefsWidget::SimpeToolbarPrefsWidget(SimpleToolbarPrefs *p, QWidget 
 
     load();
     conct();
+    createToolListMenu();
 
     this->setWindowFlags(Qt::Window);
     this->setAttribute(Qt::WA_DeleteOnClose, true);
@@ -63,6 +66,43 @@ void SimpeToolbarPrefsWidget::conct()
 
     connect(this, SIGNAL(needTimer()), this, SLOT(startTimerNow()));
     connect(&timer, SIGNAL(timeout()), this, SIGNAL(somethingChanged()));
+}
+
+
+void SimpeToolbarPrefsWidget::createToolListMenu()
+{
+    QMenu *menu, *chldmenu;
+
+    ui->toolList->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    menu = new QMenu(ui->toolList);
+
+    chldmenu = menu->addMenu(tr("Add new tool"));
+    chldmenu->addAction(tr("Spacing"),              this, SLOT(removeTool()));
+    chldmenu->addSeparator();
+    chldmenu->addAction(tr("Seek bar"),             this, SLOT(addSeekBar()));
+    chldmenu->addAction(tr("Volume bar"),           this, SLOT(addVolumeBar()));
+    chldmenu->addSeparator();
+    chldmenu->addAction(tr("Play button"),          this, SLOT(addButtonPlay()));
+    chldmenu->addAction(tr("Pause button"),         this, SLOT(addButtonPause()));
+    chldmenu->addAction(tr("Play or Pause button"), this, SLOT(addButtonPlayOrPause()));
+    chldmenu->addAction(tr("Stop button"),          this, SLOT(addButtonStop()));
+    chldmenu->addAction(tr("Previous button"),      this, SLOT(addButtonPrev()));
+    chldmenu->addAction(tr("Next button"),          this, SLOT(addButtonNext()));
+
+    menu->addSeparator();
+    menu->addAction(tr("Move Up"),     this, SLOT(moveUp()));
+    menu->addAction(tr("Move down"),   this, SLOT(moveDown()));
+    menu->addSeparator();
+    menu->addAction(tr("Remove item"), this, SLOT(removeTool()));
+
+    ui->toolList->addActions(menu->actions());
+}
+
+
+void SimpeToolbarPrefsWidget::removeTool()
+{
+
 }
 
 

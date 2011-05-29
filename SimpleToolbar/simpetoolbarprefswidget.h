@@ -36,9 +36,23 @@ private slots:
     void getToolIcon();
     void startTimerNow();
 
+    void removeTool();
+    void addSpacing() {}
+    void addButtonPlay() {}
+    void addButtonPause() {}
+    void addButtonPlayOrPause() {}
+    void addButtonStop() {}
+    void addButtonNext() {}
+    void addButtonPrev() {}
+    void addSeekBar() {}
+    void addVolumeBar() {}
+    void moveUp() {}
+    void moveDown() {}
+
 private:
     void load();
     void conct();
+    void createToolListMenu();
 
     void enableAll(bool enable);
     void enableIcons(bool enable);
