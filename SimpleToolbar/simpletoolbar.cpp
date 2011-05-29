@@ -3,6 +3,7 @@
 #include <QTextCodec>
 #include <QAction>
 #include <QDebug>
+#include <QSpacerItem>
 
 #include "global.h"
 
@@ -34,6 +35,7 @@ void SimpleToolbar::buildToolbar()
     deleteComponents();
 
 
+
     for (int i = 0; i < prefs->toolList.size(); i++)
     {
         switch (QString(prefs->toolList.at(i)).toInt())
@@ -55,17 +57,17 @@ void SimpleToolbar::buildToolbar()
 
 void SimpleToolbar::deleteComponents()
 {
-    for (int i = 0; i < L->count(); i++)
-        L->removeItem(L->itemAt(i));
+    if (seek_bar)       { L->removeWidget(seek_bar);       delete seek_bar; }
+    if (volume)         { L->removeWidget(volume);         delete volume; }
+    if (btn_next)       { L->removeWidget(btn_next);       delete btn_next; }
+    if (btn_pause)      { L->removeWidget(btn_pause);      delete btn_pause; }
+    if (btn_play)       { L->removeWidget(btn_play);       delete btn_play; }
+    if (btn_play_pause) { L->removeWidget(btn_play_pause); delete btn_play_pause; }
+    if (btn_prev)       { L->removeWidget(btn_prev);       delete btn_prev; }
+    if (btn_stop)       { L->removeWidget(btn_stop);       delete btn_stop; }
 
-    if (seek_bar)       delete seek_bar;
-    if (volume)         delete volume;
-    if (btn_next)       delete btn_next;
-    if (btn_pause)      delete btn_pause;
-    if (btn_play)       delete btn_play;
-    if (btn_play_pause) delete btn_play_pause;
-    if (btn_prev)       delete btn_prev;
-    if (btn_stop)       delete btn_stop;
+    while (L->count())
+        L->removeItem(L->itemAt(0));
 
     initComponents();
 }
