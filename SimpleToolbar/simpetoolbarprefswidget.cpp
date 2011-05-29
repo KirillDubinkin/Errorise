@@ -115,6 +115,72 @@ void SimpeToolbarPrefsWidget::addVolumeBar()
 }
 
 
+void SimpeToolbarPrefsWidget::addButtonPlay()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::Play)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::Play));
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::addButtonPause()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::Pause)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::Pause));
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::addButtonPlayOrPause()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::PlayPause)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::PlayPause));
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::addButtonStop()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::Stop)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::Stop));
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::addButtonPrev()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::Prev)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::Prev));
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::addButtonNext()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::Next)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::Next));
+    loadToolList();
+    emit needTimer();
+}
+
+
 void SimpeToolbarPrefsWidget::removeTool()
 {
     if ((ui->toolList->currentRow() > -1) && (ui->toolList->currentRow() < prefs->toolList.size()))
@@ -125,6 +191,29 @@ void SimpeToolbarPrefsWidget::removeTool()
         emit needTimer();
     }
 }
+
+
+void SimpeToolbarPrefsWidget::moveUp()
+{
+    if (!ui->toolList->currentRow())
+        return;
+
+    prefs->toolList.move(ui->toolList->currentRow(), ui->toolList->currentRow() - 1);
+    loadToolList();
+    emit needTimer();
+}
+
+
+void SimpeToolbarPrefsWidget::moveDown()
+{
+    if (ui->toolList->currentRow() >= prefs->toolList.size() - 1)
+        return;
+
+    prefs->toolList.move(ui->toolList->currentRow(), ui->toolList->currentRow() + 1);
+    loadToolList();
+    emit needTimer();
+}
+
 
 
 void SimpeToolbarPrefsWidget::loadToolList()
