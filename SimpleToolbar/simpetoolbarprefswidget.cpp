@@ -245,19 +245,24 @@ void SimpeToolbarPrefsWidget::setToolIcon(QString filename)
 {
     int tool = QString(prefs->toolList.at(ui->toolList->currentRow())).toInt();
 
+    QString prevFilename;
+
     switch (tool)
     {
     case Seekbar:   break;
     case Volume:    break;
-    case Play:      prefs->btnPlayIcon      = filename; break;
-    case Pause:     prefs->btnPauseIcon     = filename; break;
-    case PlayPause: prefs->btnPlayPauseIcon = filename; break;
-    case Stop:      prefs->btnStopIcon      = filename; break;
-    case Prev:      prefs->btnPrevIcon      = filename; break;
-    case Next:      prefs->btnNextIcon      = filename; break;
+    case Play:      prevFilename = prefs->btnPlayIcon;      prefs->btnPlayIcon      = filename; break;
+    case Pause:     prevFilename = prefs->btnPauseIcon;     prefs->btnPauseIcon     = filename; break;
+    case PlayPause: prevFilename = prefs->btnPlayPauseIcon; prefs->btnPlayPauseIcon = filename; break;
+    case Stop:      prevFilename = prefs->btnStopIcon;      prefs->btnStopIcon      = filename; break;
+    case Prev:      prevFilename = prefs->btnPrevIcon;      prefs->btnPrevIcon      = filename; break;
+    case Next:      prevFilename = prefs->btnNextIcon;      prefs->btnNextIcon      = filename; break;
 
     default:        break;
     }
+
+    if (filename != prevFilename)
+        emit needTimer();
 }
 
 
