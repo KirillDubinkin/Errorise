@@ -30,6 +30,7 @@ void SimplePlaylistPrefsWidget::load()
     ui->styleEdit->setPlainText(prefs->stylesheet);
     ui->plArtSaveBox->setChecked(Global::pref->use_pl_art);
     ui->plArtSaveEdit->setText(Global::pref->pl_art_filename);
+    ui->plArtSaveEdit->setEnabled(ui->plArtSaveBox->isChecked());
     fillArtSearchLists();
 
 
@@ -55,7 +56,39 @@ void SimplePlaylistPrefsWidget::load()
 
 void SimplePlaylistPrefsWidget::conct()
 {
+        //! General
+    connect(ui->alternateColorsBox, SIGNAL(toggled(bool)), this, SLOT(changeAlternateColors(bool)));
+    connect(ui->showHeaderBox,      SIGNAL(toggled(bool)), this, SLOT(changeHeaderVisible(bool)));
+    connect(ui->styleEdit,          SIGNAL(textChanged()), this, SLOT(changeStylesheet()));
+    connect(ui->plArtSaveBox,       SIGNAL(toggled(bool)), this, SLOT(changePlArtSave(bool)));
+    connect(ui->plArtSaveEdit,      SIGNAL(textChanged(QString)), this, SLOT(changePlArtFilename(QString)));
+}
 
+
+void SimplePlaylistPrefsWidget::changePlArtFilename(QString filename)
+{
+    Global::pref->pl_art_filename = filename;
+}
+
+
+void SimplePlaylistPrefsWidget::changeStylesheet()
+{
+    prefs->stylesheet = ui->styleEdit->toPlainText();
+    emit stylesheetChanged(prefs->stylesheet);
+}
+
+
+void SimplePlaylistPrefsWidget::changePlArtSave(bool enable)
+{
+    Global::pref->use_pl_art = enable;
+    ui->plArtSaveEdit->setEnabled(enable);
+}
+
+
+void SimplePlaylistPrefsWidget::changeHeaderVisible(bool enable)
+{
+    prefs->show_header = enable;
+    emit headerVisibleChanged(enable);
 }
 
 
@@ -100,3 +133,12 @@ void SimplePlaylistPrefsWidget::setAlignBoxState(QComboBox *box, int alignment)
     default: qWarning() << "SimplePlaylistPrefsWidget::setAlignBoxState()\n\t Undefined aligment:" << alignment; break;
     }
 }
+
+
+void SimplePlaylistPrefsWidget::changeAlternateColors(bool enable)
+{
+    prefs->alternate_colors = enable;
+    emit alternateColorsChanged(enable);
+}
+
+
