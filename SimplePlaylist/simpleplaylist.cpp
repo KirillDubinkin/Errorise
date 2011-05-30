@@ -111,7 +111,7 @@ QWidget * SimplePlaylist::getPrefsWidget()
 {
     if (!prefsWidget)
     {
-        prefsWidget = new SimplePlaylistPrefsWidget(this);
+        prefsWidget = new SimplePlaylistPrefsWidget(prefs, this);
 
 /*        connect(prefsWindow, SIGNAL(showHeaderChanged(bool)),
                 this->horizontalHeader(), SLOT(setVisible(bool)));
@@ -372,14 +372,16 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
     group->setTextAlignment( prefs->groups_text_aligment  | Qt::AlignVCenter);
     group->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    bool ok;
-    if (!prefs->groups_text_color.isEmpty())
-        group->setTextColor( QColor(prefs->groups_text_color.toInt(&ok, 16)) );
 
-    if (prefs->groups_back_color.isEmpty())
-        group->setBackground(this->palette().brush(QPalette::Base));
+    if (prefs->groups_text_color.isValid())
+        group->setTextColor(prefs->groups_text_color);
+
+
+    if (prefs->groups_back_color.isValid())
+        group->setBackgroundColor(prefs->groups_back_color);
     else
-        group->setBackgroundColor( QColor(prefs->groups_back_color.toInt(&ok, 16)) );
+        group->setBackground(this->palette().brush(QPalette::Base));
+
 
     this->setRowHeight(row, prefs->group_height);
     this->setItem(row, 1, group);

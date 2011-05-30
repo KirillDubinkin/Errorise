@@ -54,6 +54,7 @@ void Preferences::reset()
     music_library_path  = "";
     files_filter        = "*.mp3;*.wv;*.flac;*.ogg;*.dts;*.ape;*.m4a;*.mp4;*.ac3;*.wma";
     pl_art_filename     = ".errorise_cover.bmp";
+    use_pl_art          = true;
     art_search_patterns << "*cover*.jp*g" << "*cover*.png" << "*cover*.gif" << "*cover*.bmp"
                         << "*folder*.jp*g" << "*folder*.png" << "*folder*.gif" << "*folder*.bmp"
                         << "*front*.jp*g"  << "*front*.png" << "*front*.gif" << "*front*.bmp"
@@ -109,6 +110,7 @@ void Preferences::save()
     set.setValue("music_library_path", music_library_path);
     set.setValue("files_filter", files_filter);
     set.setValue("pl_art_filename", pl_art_filename);
+    set.setValue("use_pl_art", use_pl_art);
     set.setValue("art_search_patterns", art_search_patterns);
     set.setValue("art_search_folders", art_search_folders);
     set.setValue("lib_update_timeout", lib_update_timeout);
@@ -166,6 +168,7 @@ void Preferences::load()
     music_library_path  = set.value("music_library_path", music_library_path).toString();
     files_filter        = set.value("files_filter", files_filter).toString();
     pl_art_filename     = set.value("pl_art_filename", pl_art_filename).toString();
+    use_pl_art          = set.value("use_pl_art", use_pl_art).toBool();
     art_search_patterns = set.value("art_search_patterns", art_search_patterns).toStringList();
     art_search_folders  = set.value("art_search_folders", art_search_folders).toStringList();
     lib_update_timeout  = set.value("lib_update_timeout", lib_update_timeout).toInt();

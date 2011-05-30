@@ -24,13 +24,15 @@ void SimplePLPrefs::reset()
 
     //! Groups
     groups_format        = "[$if(%albumartist%,%artist%) - ]['['%date%']'] %album%";
-    groups_text_color    = "ffffff";
-    groups_back_color    = "182835";
+    groups_text_color.setNamedColor("#ffffff");
+    groups_back_color.setNamedColor("#182835");
     groups_text_aligment = Qt::AlignLeft;
     group_height         = 20;
     group_delay          = 2;
     group_header         = true;
     group_byDirs         = true;
+
+
 
     //! Columns
     columns_names      << "Cover" << "#"             << "Length"     << "Track Name" << "Format";
@@ -117,8 +119,8 @@ void SimplePLPrefs::load()
     //! Groups
     set.beginGroup("Groups");
     groups_format = set.value("groups_format", groups_format).toString();
-    groups_text_color = set.value("groups_text_color", groups_text_color).toString();
-    groups_back_color = set.value("groups_back_color", groups_back_color).toString();
+    groups_text_color = set.value("groups_text_color", groups_text_color).value<QColor>();
+    groups_back_color = set.value("groups_back_color", groups_back_color).value<QColor>();
     groups_text_aligment = set.value("groups_text_aligment", groups_text_aligment).toInt();
     group_delay          = set.value("group_delay", group_delay).toInt();
     group_height         = set.value("group_height", group_height).toInt();

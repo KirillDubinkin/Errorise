@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
+#include <QColor>
 
 class SimplePLPrefs
 {
@@ -18,8 +19,8 @@ public:
 
     //! Groups
     QString groups_format;
-    QString groups_text_color;
-    QString groups_back_color;
+    QColor  groups_text_color;
+    QColor  groups_back_color;
     int groups_text_aligment;
     int group_height;
     int group_delay;
