@@ -20,14 +20,28 @@ public:
 
 
 signals:
+        //! General
     void alternateColorsChanged(bool enable);
     void headerVisibleChanged(bool enable);
     void stylesheetChanged(QString style);
+
+        //! Columns
     void colWidthChanged(int col, int width);
     void colAlignChanged(int col, int align);
     void colTextChanged(int col, QString text);
     void colTextColorChanged(int col, QColor color);
     void rowHeightChanged(int height);
+
+        //! Groups
+    void grpHeaderVisibleChanged(bool visible);
+    void grpByDirsChanged(bool enable);
+    void grpDelayChanged(int delay);
+    void grpHeightChanged(int height);
+    void grpTextChanged(QString text);
+    void grpTextAlignChanged(int align);
+    void grpColorBackChanged(QColor color);
+    void grpColorTextChanged(QColor color);
+//! ===============================================================
 
 
 private slots:
@@ -47,6 +61,19 @@ private slots:
     void changeColText(QString text);
     void changeColTextColor(QString color);
     void openColColorDialog();
+
+        //! Groups
+    void changeGrpHeaderVisible(bool visible);
+    void changeGrpByDirs(bool enable);
+    void changeGrpDelay(QString text);
+    void changeGrpHeight(QString text);
+    void changeGrpText(QString text);
+    void changeGrpTextAlign(int boxIndex);
+    void changeGrpColorText(QString text);
+    void changeGrpColorBack(QString text);
+    void openGrpColorTextDialog();
+    void openGrpColorBackDialog();
+//! =================================================================
 
 
 private:

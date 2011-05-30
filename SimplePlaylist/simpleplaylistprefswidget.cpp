@@ -74,6 +74,128 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->colTextEdit,    SIGNAL(textChanged(QString)),      this,   SLOT(changeColText(QString)));
     connect(ui->colColorEdit,   SIGNAL(textChanged(QString)),      this,   SLOT(changeColTextColor(QString)));
     connect(ui->colColorButton, SIGNAL(clicked()),                 this,   SLOT(openColColorDialog()));
+
+
+        //! Groups
+    connect(ui->grpShowHeaderBox,   SIGNAL(toggled(bool)),        this, SLOT(changeGrpHeaderVisible(bool)));
+    connect(ui->grpByDirs,          SIGNAL(toggled(bool)),        this, SLOT(changeGrpByDirs(bool)));
+    connect(ui->grpDelayEdit,       SIGNAL(textChanged(QString)), this, SLOT(changeGrpDelay(QString)));
+    connect(ui->grpHeigthEdit,      SIGNAL(textChanged(QString)), this, SLOT(changeGrpHeight(QString)));
+    connect(ui->grpTextEdit,        SIGNAL(textChanged(QString)), this, SLOT(changeGrpText(QString)));
+    connect(ui->grpAlignBox,    SIGNAL(currentIndexChanged(int)), this, SLOT(changeGrpTextAlign(int)));
+    connect(ui->grpColorBackEdit,   SIGNAL(textChanged(QString)), this, SLOT(changeGrpColorBack(QString)));
+    connect(ui->grpColorTextEdit,   SIGNAL(textChanged(QString)), this, SLOT(changeGrpColorText(QString)));
+    connect(ui->grpColorBackButton, SIGNAL(clicked()),            this, SLOT(openGrpColorBackDialog()));
+    connect(ui->grpColorTextButton, SIGNAL(clicked()),            this, SLOT(openGrpColorTextDialog()));
+}
+
+
+void SimplePlaylistPrefsWidget::openGrpColorTextDialog()
+{
+    QColor color = QColorDialog::getColor(prefs->groups_text_color, this,
+                     tr("Choose color for group-line background"));
+
+    if (!color.isValid() || (color == prefs->groups_text_color))
+        return;
+
+    ui->grpColorTextEdit->setText(color.name());
+}
+
+
+void SimplePlaylistPrefsWidget::openGrpColorBackDialog()
+{
+    QColor color = QColorDialog::getColor(prefs->groups_back_color, this,
+                     tr("Choose color for group-line background"));
+
+    if (!color.isValid() || (color == prefs->groups_back_color))
+        return;
+
+    ui->grpColorBackEdit->setText(color.name());
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpColorText(QString text)
+{
+    QColor color;
+    color.setNamedColor(text);
+    prefs->groups_text_color = color;
+    emit grpColorTextChanged(color);
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpColorBack(QString text)
+{
+    QColor color;
+    color.setNamedColor(text);
+    prefs->groups_back_color = color;
+    emit grpColorBackChanged(color);
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpTextAlign(int boxIndex)
+{
+    int align = getAlignFromBox(boxIndex);
+
+    if (prefs->groups_text_aligment != align)
+    {
+        prefs->groups_text_aligment = align;
+        emit grpTextAlignChanged(align);
+    }
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpText(QString text)
+{
+    prefs->groups_format = text;
+    emit grpTextChanged(text);
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpHeight(QString text)
+{
+    if (text.isEmpty())
+        prefs->group_height = 0;
+    else
+    {
+        bool ok;
+        int height = text.toInt(&ok);
+
+        if (!ok) return;
+
+        prefs->group_height = height;
+        emit grpHeightChanged(height);
+    }
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpDelay(QString text)
+{
+    if (text.isEmpty())
+        prefs->group_delay = 0;
+    else
+    {
+        bool ok;
+        int delay = text.toInt(&ok);
+
+        if (!ok) return;
+
+        prefs->group_delay = delay;
+        emit grpDelayChanged(delay);
+    }
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpByDirs(bool enable)
+{
+    prefs->group_byDirs = enable;
+    emit grpByDirsChanged(enable);
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpHeaderVisible(bool visible)
+{
+    prefs->group_header = visible;
+    emit grpHeaderVisibleChanged(visible);
 }
 
 
@@ -145,8 +267,7 @@ void SimplePlaylistPrefsWidget::changeRowHeight(QString text)
         bool ok;
         int size = text.toInt(&ok);
 
-        if (!ok)
-            return;
+        if (!ok) return;
 
         prefs->row_height = size;
         emit rowHeightChanged(size);
@@ -163,8 +284,7 @@ void SimplePlaylistPrefsWidget::changeColWidth(QString text)
         bool ok;
         int size = text.toInt(&ok);
 
-        if (!ok)
-            return;
+        if (!ok) return;
 
         prefs->columns_sizes.replace(ui->colList->currentRow(), size);
         emit colWidthChanged(ui->colList->currentRow(), size);
