@@ -42,6 +42,8 @@ public:
     bool alternate_colors;
     bool show_header;
 
+    int prefs_tab;
+
 private:
     QString filename;
     QStringList s_col_size;

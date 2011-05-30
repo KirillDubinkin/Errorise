@@ -13,15 +13,17 @@ SimplePlaylistPrefsWidget::SimplePlaylistPrefsWidget(SimplePLPrefs *prefs, QWidg
 {
     ui->setupUi(this);
     this->prefs = prefs;
-    setAttribute(Qt::WA_DeleteOnClose);
 
     load();
     conct();
+
     if (!prefs->columns_names.isEmpty()) ui->colList->setCurrentRow(0);
+    setCurrentIndex(prefs->prefs_tab);
 }
 
 SimplePlaylistPrefsWidget::~SimplePlaylistPrefsWidget()
 {
+    prefs->prefs_tab = currentIndex();
     delete ui;
 }
 
@@ -82,11 +84,11 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->grpDelayEdit,       SIGNAL(textChanged(QString)), this, SLOT(changeGrpDelay(QString)));
     connect(ui->grpHeigthEdit,      SIGNAL(textChanged(QString)), this, SLOT(changeGrpHeight(QString)));
     connect(ui->grpTextEdit,        SIGNAL(textChanged(QString)), this, SLOT(changeGrpText(QString)));
-    connect(ui->grpAlignBox,    SIGNAL(currentIndexChanged(int)), this, SLOT(changeGrpTextAlign(int)));
     connect(ui->grpColorBackEdit,   SIGNAL(textChanged(QString)), this, SLOT(changeGrpColorBack(QString)));
     connect(ui->grpColorTextEdit,   SIGNAL(textChanged(QString)), this, SLOT(changeGrpColorText(QString)));
     connect(ui->grpColorBackButton, SIGNAL(clicked()),            this, SLOT(openGrpColorBackDialog()));
     connect(ui->grpColorTextButton, SIGNAL(clicked()),            this, SLOT(openGrpColorTextDialog()));
+    connect(ui->grpAlignBox,        SIGNAL(currentIndexChanged(int)), this, SLOT(changeGrpTextAlign(int)));
 }
 
 

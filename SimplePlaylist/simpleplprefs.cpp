@@ -49,6 +49,8 @@ void SimplePLPrefs::reset()
     alternate_colors = false;
     show_header      = false;
 
+    prefs_tab = 0;
+
 }
 
 
@@ -109,6 +111,7 @@ void SimplePLPrefs::save()
     set.setValue("row_height", row_height);
     set.setValue("alternate_colors", alternate_colors);
     set.setValue("show_header", show_header);
+    set.setValue("prefs_tab", prefs_tab);
     set.endGroup();
 
 
@@ -177,6 +180,7 @@ void SimplePLPrefs::load()
     row_height       = set.value("row_height", row_height).toInt();
     alternate_colors = set.value("alternate_colors", alternate_colors).toBool();
     show_header      = set.value("show_header", show_header).toBool();
+    prefs_tab        = set.value("prefs_tab", prefs_tab).toInt();
     set.endGroup();
 }
 
