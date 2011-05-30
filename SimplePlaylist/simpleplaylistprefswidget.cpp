@@ -3,6 +3,7 @@
 
 #include "global.h"
 #include <QListWidgetItem>
+#include <QDebug>
 
 SimplePlaylistPrefsWidget::SimplePlaylistPrefsWidget(SimplePLPrefs *prefs, QWidget *parent) :
     QTabWidget(parent),
@@ -12,6 +13,7 @@ SimplePlaylistPrefsWidget::SimplePlaylistPrefsWidget(SimplePLPrefs *prefs, QWidg
     this->prefs = prefs;
 
     load();
+    conct();
 }
 
 SimplePlaylistPrefsWidget::~SimplePlaylistPrefsWidget()
@@ -33,6 +35,8 @@ void SimplePlaylistPrefsWidget::load()
 
         //! Columns
     fillColNamesList();
+    connect(ui->colList, SIGNAL(currentRowChanged(int)), this, SLOT(columnChosen(int)));
+    if (!prefs->columns_names.isEmpty()) ui->colList->setCurrentRow(0);
 
 
         //! Groups
@@ -44,8 +48,14 @@ void SimplePlaylistPrefsWidget::load()
 
     ui->grpColorBackEdit->setText(prefs->groups_back_color.name());
     ui->grpColorTextEdit->setText(prefs->groups_text_color.name());
-
     ui->grpTextEdit->setText(prefs->groups_format);
+    setAlignBoxState(ui->grpAlignBox, prefs->groups_text_aligment);
+}
+
+
+void SimplePlaylistPrefsWidget::conct()
+{
+
 }
 
 
@@ -68,4 +78,25 @@ void SimplePlaylistPrefsWidget::fillColNamesList()
 
     foreach(QString column, prefs->columns_names)
         ui->colList->addItem(new QListWidgetItem(column));
+}
+
+
+void SimplePlaylistPrefsWidget::columnChosen(int col)
+{
+    ui->colWidth->setText(QString::number(prefs->columns_sizes.at(col)));
+    ui->colHeight->setText(QString::number(prefs->row_height));
+    ui->colColorEdit->setText(prefs->rows_text_color.at(col));
+    setAlignBoxState(ui->colAlignBox, prefs->columns_aligment.at(col));
+}
+
+
+void SimplePlaylistPrefsWidget::setAlignBoxState(QComboBox *box, int alignment)
+{
+    switch (alignment) {
+    case Qt::AlignLeft:    box->setCurrentIndex(0); break;
+    case Qt::AlignRight:   box->setCurrentIndex(1); break;
+    case Qt::AlignHCenter: box->setCurrentIndex(2); break;
+    case Qt::AlignJustify: box->setCurrentIndex(3); break;
+    default: qWarning() << "SimplePlaylistPrefsWidget::setAlignBoxState()\n\t Undefined aligment:" << alignment; break;
+    }
 }

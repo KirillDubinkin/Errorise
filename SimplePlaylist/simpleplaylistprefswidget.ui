@@ -361,7 +361,28 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="colAlignBox"/>
+            <widget class="QComboBox" name="colAlignBox">
+             <item>
+              <property name="text">
+               <string>Left</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Right</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Center</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Justify</string>
+              </property>
+             </item>
+            </widget>
            </item>
           </layout>
          </item>
@@ -786,7 +807,28 @@
          </spacer>
         </item>
         <item>
-         <widget class="QComboBox" name="grpAlignBox"/>
+         <widget class="QComboBox" name="grpAlignBox">
+          <item>
+           <property name="text">
+            <string>Left</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Right</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Center</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Justify</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </item>
