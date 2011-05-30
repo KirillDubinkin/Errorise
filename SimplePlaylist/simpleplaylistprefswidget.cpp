@@ -93,7 +93,7 @@ void SimplePlaylistPrefsWidget::conct()
 void SimplePlaylistPrefsWidget::openGrpColorTextDialog()
 {
     QColor color = QColorDialog::getColor(prefs->groups_text_color, this,
-                     tr("Choose color for group-line background"));
+                     tr("Choose color for group-line text"));
 
     if (!color.isValid() || (color == prefs->groups_text_color))
         return;
