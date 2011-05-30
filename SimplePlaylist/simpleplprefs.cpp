@@ -39,7 +39,7 @@ void SimplePLPrefs::reset()
     columns_sizes      << 300     << 40              << 80           << 200          << 80;
     columns_aligment   << 4       << 4               << 4            << 4            << 4;
     rows_format        << "%art%" << "%tracknumber%" << "%duration%" << "%title%"    << "%format%";
-    rows_text_color    << ""      << "527482"        << "43606b"     << ""           << "527482";
+    rows_text_color    << ""      << "#527482"       << "#43606b"    << ""           << "#527482";
 
 
 
@@ -89,7 +89,17 @@ void SimplePLPrefs::save()
         s_col_align << QString().number(columns_aligment.at(i));
     set.setValue("columns_aligment", s_col_align);
     set.setValue("rows_format", rows_format);
+
+    rows_text_color.clear();
+    foreach(QColor color, columns_text_color)
+    {
+        if (color.isValid())
+            rows_text_color.append(color.name());
+        else
+            rows_text_color.append(QString::null);
+    }
     set.setValue("rows_text_color", rows_text_color);
+
     set.endGroup();
 
 
@@ -148,7 +158,16 @@ void SimplePLPrefs::load()
     }
 
     rows_format = set.value("rows_format", rows_format).toStringList();
+
     rows_text_color = set.value("rows_text_color", rows_text_color).toStringList();
+    columns_text_color.clear();
+    foreach(QString colorName, rows_text_color)
+    {
+        QColor color;
+        color.setNamedColor(colorName);
+        columns_text_color.append(color);
+    }
+
     set.endGroup();
 
 

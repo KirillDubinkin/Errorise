@@ -112,15 +112,8 @@ QWidget * SimplePlaylist::getPrefsWidget()
     if (!prefsWidget)
     {
         prefsWidget = new SimplePlaylistPrefsWidget(prefs, this);
-
-/*        connect(prefsWindow, SIGNAL(showHeaderChanged(bool)),
-                this->horizontalHeader(), SLOT(setVisible(bool)));
-        connect(prefsWindow, SIGNAL(useAlternateColorsChanged(bool)),
-                this, SLOT(setAlternatingRowColors(bool)));
-        connect(prefsWindow, SIGNAL(styleEdited(QString)),
-                this, SLOT(setStyleSheet(QString)));
-        connect(prefsWindow, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
-*/    }
+        connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
+    }
 
     return prefsWidget;
 }
@@ -399,8 +392,8 @@ void SimplePlaylist::addRowItem(int row, int col, const QString &text)
     item->setTextAlignment(prefs->columns_aligment.at(col));
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    if (!prefs->rows_text_color.at(col).isEmpty())
-        item->setTextColor( QColor(prefs->rows_text_color.at(col).toInt(&ok, 16)) );
+    if (prefs->columns_text_color.at(col).isValid())
+        item->setTextColor(prefs->columns_text_color.at(col));
 
     this->setItem(row, col+1, item);
 }

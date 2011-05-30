@@ -29,11 +29,11 @@ public:
 
 
     //! Columns
-    QStringList columns_names;
-    QList<int>  columns_sizes;
-    QList<int>  columns_aligment;
-    QStringList rows_format;
-    QStringList rows_text_color;
+    QStringList   columns_names;
+    QList<int>    columns_sizes;
+    QList<int>    columns_aligment;
+    QStringList   rows_format;
+    QList<QColor> columns_text_color;
 
 
     //! Other
@@ -46,6 +46,7 @@ private:
     QString filename;
     QStringList s_col_size;
     QStringList s_col_align;
+    QStringList rows_text_color;
 };
 
 #endif // SIMPLEPLPREFS_H

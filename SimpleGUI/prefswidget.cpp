@@ -31,10 +31,10 @@ void PrefsWidget::show()
 {
     if (!listWidget)
     {
-        listWidget = new QListWidget;
-        stack      = new QStackedWidget;
+        listWidget = new QListWidget(this);
+        stack      = new QStackedWidget(this);
 
-        QHBoxLayout *hl = new QHBoxLayout();
+        QHBoxLayout *hl = new QHBoxLayout(this);
         hl->addWidget(listWidget, 20);
         hl->addWidget(stack, 80);
         setLayout(hl);
