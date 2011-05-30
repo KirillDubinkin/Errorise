@@ -23,6 +23,12 @@ signals:
     void alternateColorsChanged(bool enable);
     void headerVisibleChanged(bool enable);
     void stylesheetChanged(QString style);
+    void colWidthChanged(int col, int width);
+    void colAlignChanged(int col, int align);
+    void colTextChanged(int col, QString text);
+    void colTextColorChanged(int col, QColor color);
+    void rowHeightChanged(int height);
+
 
 private slots:
     void columnChosen(int col);
@@ -34,6 +40,15 @@ private slots:
     void changePlArtSave(bool enable);
     void changePlArtFilename(QString filename);
 
+        //! Columns
+    void changeColWidth(QString text);
+    void changeRowHeight(QString text);
+    void changeColAlign(int boxIndex);
+    void changeColText(QString text);
+    void changeColTextColor(QString color);
+    void openColColorDialog();
+
+
 private:
     Ui::SimplePlaylistPrefsWidget *ui;
     SimplePLPrefs                 *prefs;
@@ -43,6 +58,7 @@ private:
     void fillArtSearchLists();
     void fillColNamesList();
     void setAlignBoxState(QComboBox *box, int alignment);
+    Qt::AlignmentFlag getAlignFromBox(int boxIndex);
 };
 
 #endif // SIMPLEPLAYLISTPREFSWIDGET_H
