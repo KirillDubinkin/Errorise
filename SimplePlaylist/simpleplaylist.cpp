@@ -399,8 +399,8 @@ void SimplePlaylist::addRowItem(int row, int col, const QString &text)
     item->setTextAlignment(prefs->columns_aligment.at(col));
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    if (prefs->rows_text_color.at(col) != "")
-        item->setTextColor( QColor(QString(prefs->rows_text_color.at(col)).toInt(&ok, 16)) );
+    if (!prefs->rows_text_color.at(col).isEmpty())
+        item->setTextColor( QColor(prefs->rows_text_color.at(col).toInt(&ok, 16)) );
 
     this->setItem(row, col+1, item);
 }
