@@ -21,6 +21,7 @@ SimplePlaylistPrefsWidget::SimplePlaylistPrefsWidget(SimplePLPrefs *prefs, QWidg
     setCurrentIndex(prefs->prefs_tab);
 }
 
+
 SimplePlaylistPrefsWidget::~SimplePlaylistPrefsWidget()
 {
     prefs->prefs_tab = currentIndex();

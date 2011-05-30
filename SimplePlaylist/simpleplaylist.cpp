@@ -113,6 +113,8 @@ QWidget * SimplePlaylist::getPrefsWidget()
     {
         prefsWidget = new SimplePlaylistPrefsWidget(prefs, this);
         connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
+        connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)), this, SLOT(setAlternatingRowColors(bool)));
+        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),   this, SLOT(setStyleSheet(QString)));
     }
 
     return prefsWidget;
