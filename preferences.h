@@ -43,6 +43,7 @@ public:
         QString iconset;
         QString translations_path;
         bool stay_on_top;
+        int  last_prefs_widget;
 
 
             //! Library

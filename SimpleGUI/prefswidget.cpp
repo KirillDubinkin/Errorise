@@ -4,6 +4,8 @@
 #include <QHashIterator>
 #include <QListWidgetItem>
 
+#include "global.h"
+
 PrefsWidget::PrefsWidget(QWidget *parent) :
     QWidget(parent)
 {
@@ -18,6 +20,7 @@ PrefsWidget::PrefsWidget(QWidget *parent) :
 
 PrefsWidget::~PrefsWidget()
 {
+    Global::pref->last_prefs_widget = listWidget->currentRow();
     emit geometryChanged(geometry());
 }
 
@@ -52,6 +55,8 @@ void PrefsWidget::show()
         listWidget->setCurrentRow(0);
     }
 
+    if (listWidget->count() > Global::pref->last_prefs_widget)
+        listWidget->setCurrentRow(Global::pref->last_prefs_widget);
 
     QWidget::show();
 }
