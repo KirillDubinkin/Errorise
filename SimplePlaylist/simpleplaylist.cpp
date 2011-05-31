@@ -165,7 +165,7 @@ void SimplePlaylist::setColumnAlign(int column, int align)
         {
             QTableWidgetItem *item = this->item(row, column);
             if (item)
-                item->setTextAlignment(align);
+                item->setTextAlignment(align | Qt::AlignVCenter);
         }
     }
 }
@@ -458,7 +458,7 @@ void SimplePlaylist::addRowItem(int row, int col, const QString &text)
     bool ok;
 
     QTableWidgetItem *item = new QTableWidgetItem(text);
-    item->setTextAlignment(prefs->columns_aligment.at(col));
+    item->setTextAlignment(prefs->columns_aligment.at(col) | Qt::AlignVCenter);
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     if (prefs->columns_text_color.at(col).isValid())
