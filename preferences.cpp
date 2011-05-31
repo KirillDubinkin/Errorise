@@ -62,10 +62,11 @@ void Preferences::reset()
                         << "*.jp*g" << "*.png" << "*.gif" << ".bmp";
 
 #ifdef Q_OS_WIN
-    art_search_folders  << "art" << "Art" << "artwork" << "Artwork" << "artworks" << "Artworks" << "covers" << "Covers" << "images" << "Images" << "scans" << "Scans";
-#else
     art_search_folders  << "art" << "artwork" << "artworks" << "covers" << "images" << "scans";
+#else
+    art_search_folders  << "art" << "Art" << "artwork" << "Artwork" << "artworks" << "Artworks" << "covers" << "Covers" << "images" << "Images" << "scans" << "Scans";
 #endif
+
     lib_update_timeout  = 60;
 }
 
