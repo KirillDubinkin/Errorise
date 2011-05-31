@@ -111,15 +111,38 @@ QWidget * SimplePlaylist::getPrefsWidget()
     {
         prefsWidget = new SimplePlaylistPrefsWidget(prefs, this);
         connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
-        connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)),  this, SLOT(setAlternatingRowColors(bool)));
-        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),    this, SLOT(setStyleSheet(QString)));
-        connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),    this, SLOT(setHeaderVisible(bool)));
+        connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)), this, SLOT(setAlternatingRowColors(bool)));
+        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),   this, SLOT(setStyleSheet(QString)));
+        connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),   this, SLOT(setHeaderVisible(bool)));
 
-        connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),      this, SLOT(setColumnWidth(int,int)));
-        connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),      this, SLOT(setColumnAlign(int,int)));
+        connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),        this, SLOT(setColumnWidth(int,int)));
+        connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),        this, SLOT(setColumnAlign(int,int)));
+        connect(prefsWidget, SIGNAL(colTextColorChanged(int,QColor)), this, SLOT(setColumnTextColor(int,QColor)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setColumnTextColor(int column, QColor color)
+{
+    if (!rowCount())
+        return;
+
+    column++;
+
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if (this->item(row, 0)->text() != Group)
+        {
+            QTableWidgetItem *item = this->item(row, column);
+
+            if (item && color.isValid())
+                item->setTextColor(color);
+            else if (item)
+                item->setTextColor(palette().text().color());
+        }
+    }
 }
 
 
