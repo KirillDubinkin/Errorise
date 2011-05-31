@@ -71,7 +71,12 @@ private slots:
     void deletePreferences() { prefsWidget = 0; }
 
     void setHeaderVisible(bool enable);
-    void setColumnWidth(int column, int width);
+    void setGridStyle(Qt::PenStyle style) { QTableWidget::setGridStyle(style); }
+
+    void setColumnWidth(int column, int width) { QTableWidget::setColumnWidth(column + 1, width); }
+    // This slot connected to prefsWidget signal, that sending column as index of colum_names list
+    // but, there, first column - hidden, so
+
     void setColumnAlign(int column, int align);
     void setColumnTextColor(int column, QColor color);
 

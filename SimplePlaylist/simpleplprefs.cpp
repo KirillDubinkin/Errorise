@@ -49,7 +49,7 @@ void SimplePLPrefs::reset()
     alternate_colors = false;
     show_header      = false;
     show_grid        = false;
-    grid_style       = Qt::DashDotDotLine;
+    grid_style       = Qt::DashDotLine;
 
     prefs_tab = 0;
 

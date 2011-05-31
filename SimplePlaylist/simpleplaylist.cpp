@@ -65,8 +65,12 @@ void SimplePlaylist::loadSettings()
 {
     horizontalHeader()->setVisible(prefs->show_header);
     verticalHeader()->setVisible(false);
+
     setAlternatingRowColors(prefs->alternate_colors);
     setStyleSheet(prefs->stylesheet);
+
+    setGridStyle(prefs->grid_style);
+    setShowGrid(prefs->show_grid);
 }
 
 void SimplePlaylist::createActions()
@@ -111,9 +115,11 @@ QWidget * SimplePlaylist::getPrefsWidget()
     {
         prefsWidget = new SimplePlaylistPrefsWidget(prefs, this);
         connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
-        connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)), this, SLOT(setAlternatingRowColors(bool)));
-        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),   this, SLOT(setStyleSheet(QString)));
-        connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),   this, SLOT(setHeaderVisible(bool)));
+        connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)),   this, SLOT(setAlternatingRowColors(bool)));
+        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),     this, SLOT(setStyleSheet(QString)));
+        connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),     this, SLOT(setHeaderVisible(bool)));
+        connect(prefsWidget, SIGNAL(gridVisibleChanged(bool)),       this, SLOT(setShowGrid(bool)));
+        connect(prefsWidget, SIGNAL(gridStyleChanged(Qt::PenStyle)), this, SLOT(setGridStyle(Qt::PenStyle)));
 
         connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),        this, SLOT(setColumnWidth(int,int)));
         connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),        this, SLOT(setColumnAlign(int,int)));
@@ -233,14 +239,6 @@ void SimplePlaylist::setColumnAlign(int column, int align)
                 item->setTextAlignment(align | Qt::AlignVCenter);
         }
     }
-}
-
-
-void SimplePlaylist::setColumnWidth(int column, int width)
-{
-        // This slot connected to prefsWidget signal, that sending column as index of colum_names list
-        // but, there, first column - hidden, so
-    QTableWidget::setColumnWidth(column + 1, width);
 }
 
 
