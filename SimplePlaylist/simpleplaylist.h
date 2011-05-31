@@ -71,6 +71,7 @@ private slots:
     void deletePreferences() { prefsWidget = 0; }
 
     void setHeaderVisible(bool enable);
+    void setColumnWidth(int column, int width);
 };
 
 #endif // SIMPLEPLAYLIST_H

@@ -114,9 +114,18 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)),  this, SLOT(setAlternatingRowColors(bool)));
         connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),    this, SLOT(setStyleSheet(QString)));
         connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),    this, SLOT(setHeaderVisible(bool)));
+        connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),      this, SLOT(setColumnWidth(int,int)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setColumnWidth(int column, int width)
+{
+        // This slot connected to prefsWidget signal, that sending column as index of colum_names list
+        // but, there, first column - hidden, so
+    QTableWidget::setColumnWidth(column + 1, width);
 }
 
 
@@ -135,21 +144,18 @@ void SimplePlaylist::setHeaderVisible(bool enable)
 void SimplePlaylist::setColumns()
 {
     // first column contains index of track. it's hidden column;
-    this->setColumnCount(1);
+    setColumnCount(1);
     int col=1;
-
-    this->CoverColumn = -1;
+    CoverColumn = -1;
 
     for (int i = 0; i < prefs->columns_names.size(); i++)
     {
         if (QString(prefs->rows_format.at(i)).contains("%art%"))
-            this->CoverColumn = col;
+            CoverColumn = col;
 
-        this->insertColumn(col);
-        QTableWidgetItem *item = new QTableWidgetItem(prefs->columns_names.at(i));
-
-        this->setHorizontalHeaderItem(col, item);
-        this->setColumnWidth(col++, prefs->columns_sizes.at(i));
+        insertColumn(col);
+        setHorizontalHeaderItem(col, new QTableWidgetItem(prefs->columns_names.at(i)));
+        QTableWidget::setColumnWidth(col++, prefs->columns_sizes.at(i));
     }
 }
 
