@@ -71,6 +71,7 @@ private slots:
     void insertLastCovers();
     void deletePreferences() { prefsWidget = 0; }
 
+    void setHeaderVisible(bool enable);
 };
 
 #endif // SIMPLEPLAYLIST_H

@@ -113,11 +113,24 @@ QWidget * SimplePlaylist::getPrefsWidget()
     {
         prefsWidget = new SimplePlaylistPrefsWidget(prefs, this);
         connect(prefsWidget, SIGNAL(destroyed()), this, SLOT(deletePreferences()));
-        connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)), this, SLOT(setAlternatingRowColors(bool)));
-        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),   this, SLOT(setStyleSheet(QString)));
+        connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)),  this, SLOT(setAlternatingRowColors(bool)));
+        connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),    this, SLOT(setStyleSheet(QString)));
+        connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),    this, SLOT(setHeaderVisible(bool)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setHeaderVisible(bool enable)
+{
+    if (!horizontalHeader()->isVisible())
+    {
+        int col = 1;
+        foreach(QString name, prefs->columns_names)
+            setHorizontalHeaderItem(col++, new QTableWidgetItem(name));
+    }
+    horizontalHeader()->setVisible(enable);
 }
 
 
@@ -559,7 +572,6 @@ void SimplePlaylist::getNewTracks(QString tag, QString value)
         while (query.next())
             trackGuids.append(query.value(0).toInt());
 
-        clear();
         setRowCount(0);
         currentTrackRow = -1;
         artQueue.clear();
@@ -591,7 +603,6 @@ void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
         while (query.next())
             trackGuids.append(query.value(0).toInt());
 
-        clear();
         setRowCount(0);
         currentTrackRow = -1;
         artQueue.clear();
