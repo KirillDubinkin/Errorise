@@ -45,6 +45,8 @@ private slots:
     void setTreeItemIcon(QString text);
     void setTreeStyle();
 
+    void setLibUpdateTimeout(QString text);
+
     void getIcon();
     void getMusicPath();
 };

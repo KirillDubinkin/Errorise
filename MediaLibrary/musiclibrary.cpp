@@ -168,6 +168,7 @@ void MusicLibrary::setLibraryPath(QString path)
         }
 
         qWarning() << "MusicLibrary::setLibraryPath()\n\t" << query.lastError();
+        updateTimer->setInterval(pref->lib_update_timeout * 1000);
         updateTimer->start();
     }
 }
@@ -230,6 +231,7 @@ void MusicLibrary::checkNextDir()
 
     db.commit();
     ready = true;
+    updateTimer->setInterval(pref->lib_update_timeout * 1000);
     updateTimer->start();
 
     if (modified)

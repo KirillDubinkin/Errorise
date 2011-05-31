@@ -49,6 +49,7 @@ void AlbumTreePrefsWidget::load()
         //! Music library
     ui->libPathLine->setText(Global::pref->music_library_path);
     ui->libFileTypes->setText(Global::pref->files_filter);
+    ui->libUpdateIntervalLine->setText(QString::number(Global::pref->lib_update_timeout));
 }
 
 
@@ -62,6 +63,17 @@ void AlbumTreePrefsWidget::conct()
     connect(ui->libPathLine,     SIGNAL(textChanged(QString)), this, SLOT(setMusicPath(QString)));
     connect(ui->libFileTypes,    SIGNAL(textChanged(QString)), this, SLOT(setFileTypes(QString)));
     connect(ui->libButtn,        SIGNAL(clicked()),            this, SLOT(getMusicPath()));
+    connect(ui->libUpdateIntervalLine, SIGNAL(textChanged(QString)), this, SLOT(setLibUpdateTimeout(QString)));
+}
+
+
+void AlbumTreePrefsWidget::setLibUpdateTimeout(QString text)
+{
+    bool ok;
+    int timeout = text.toInt(&ok);
+
+    if (ok)
+        Global::pref->lib_update_timeout = timeout;
 }
 
 
