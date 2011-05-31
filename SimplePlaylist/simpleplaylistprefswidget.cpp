@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QColorDialog>
 #include <QStringList>
+#include <QAction>
 
 SimplePlaylistPrefsWidget::SimplePlaylistPrefsWidget(SimplePLPrefs *prefs, QWidget *parent) :
     QTabWidget(parent),
@@ -16,6 +17,7 @@ SimplePlaylistPrefsWidget::SimplePlaylistPrefsWidget(SimplePLPrefs *prefs, QWidg
 
     load();
     conct();
+    createContextMenus();
 
     if (!prefs->columns_names.isEmpty()) ui->colList->setCurrentRow(0);
     setCurrentIndex(prefs->prefs_tab);
@@ -95,6 +97,25 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->grpColorBackButton, SIGNAL(clicked()),            this, SLOT(openGrpColorBackDialog()));
     connect(ui->grpColorTextButton, SIGNAL(clicked()),            this, SLOT(openGrpColorTextDialog()));
     connect(ui->grpAlignBox,        SIGNAL(currentIndexChanged(int)), this, SLOT(changeGrpTextAlign(int)));
+}
+
+
+void SimplePlaylistPrefsWidget::createContextMenus()
+{
+    ui->colList->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    QAction *act;
+    act = new QAction(tr("Add new column"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(addNewColumn()));
+    ui->colList->addAction(act);
+
+    act = new QAction(this);
+    act->setSeparator(true);
+    ui->colList->addAction(act);
+
+    act = new QAction(tr("Remove column"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(removeColumn()));
+    ui->colList->addAction(act);
 }
 
 

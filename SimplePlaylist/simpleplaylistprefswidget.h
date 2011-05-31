@@ -65,6 +65,8 @@ private slots:
     void changeColText(QString text);
     void changeColTextColor(QString color);
     void openColColorDialog();
+    void addNewColumn() {}
+    void removeColumn() {}
 
         //! Groups
     void changeGrpHeaderVisible(bool visible);
@@ -86,6 +88,7 @@ private:
 
     void load();
     void conct();
+    void createContextMenus();
     void fillArtSearchLists();
     void fillColNamesList();
     void setColPropersiesEnabled(bool enable);
