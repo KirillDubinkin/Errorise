@@ -79,6 +79,7 @@ private slots:
 
     void setGroupRowVisible(bool visible);
     void setGroupRowHeight(int height);
+    void setGroupTextAlign(int align);
 };
 
 #endif // SIMPLEPLAYLIST_H

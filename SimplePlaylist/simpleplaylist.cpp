@@ -122,9 +122,20 @@ QWidget * SimplePlaylist::getPrefsWidget()
 
         connect(prefsWidget, SIGNAL(grpHeaderVisibleChanged(bool)), this, SLOT(setGroupRowVisible(bool)));
         connect(prefsWidget, SIGNAL(grpHeightChanged(int)),         this, SLOT(setGroupRowHeight(int)));
+        connect(prefsWidget, SIGNAL(grpTextAlignChanged(int)),      this, SLOT(setGroupTextAlign(int)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setGroupTextAlign(int align)
+{
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if (item(row, 0)->text() == Group)
+            item(row, 1)->setTextAlignment(align | Qt::AlignVCenter);
+    }
 }
 
 
