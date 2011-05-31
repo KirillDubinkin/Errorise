@@ -229,11 +229,24 @@ void SimplePlaylistPrefsWidget::changeColText(QString text)
     prefs->rows_format.replace(ui->colList->currentRow(), text);
 
     if (text.contains("%art%"))
-        ui->colPropertiesGroup->setEnabled(false);
+        setColPropersiesEnabled(false);
     else
-        ui->colPropertiesGroup->setEnabled(true);
+        setColPropersiesEnabled(true);
 
     emit colTextChanged(ui->colList->currentRow(), text);
+}
+
+
+void SimplePlaylistPrefsWidget::setColPropersiesEnabled(bool enable)
+{
+    ui->colAlignBox->setEnabled(enable);
+    ui->colColorButton->setEnabled(enable);
+    ui->colColorEdit->setEnabled(enable);
+    ui->colHeight->setEnabled(enable);
+
+    ui->lblColAlign->setEnabled(enable);
+    ui->lblColColor->setEnabled(enable);
+    ui->lblColHeight->setEnabled(enable);
 }
 
 

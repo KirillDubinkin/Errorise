@@ -84,6 +84,7 @@ private:
     void conct();
     void fillArtSearchLists();
     void fillColNamesList();
+    void setColPropersiesEnabled(bool enable);
     void setAlignBoxState(QComboBox *box, int alignment);
     Qt::AlignmentFlag getAlignFromBox(int boxIndex);
 };
