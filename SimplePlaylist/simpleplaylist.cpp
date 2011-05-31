@@ -121,9 +121,20 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(rowHeightChanged(int)), this, SLOT(setRowsHeight(int)));
 
         connect(prefsWidget, SIGNAL(grpHeaderVisibleChanged(bool)), this, SLOT(setGroupRowVisible(bool)));
+        connect(prefsWidget, SIGNAL(grpHeightChanged(int)),         this, SLOT(setGroupRowHeight(int)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setGroupRowHeight(int height)
+{
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if (item(row, 0)->text() == Group)
+            setRowHeight(row, height);
+    }
 }
 
 
