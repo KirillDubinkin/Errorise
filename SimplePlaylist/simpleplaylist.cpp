@@ -118,17 +118,26 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),        this, SLOT(setColumnWidth(int,int)));
         connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),        this, SLOT(setColumnAlign(int,int)));
         connect(prefsWidget, SIGNAL(colTextColorChanged(int,QColor)), this, SLOT(setColumnTextColor(int,QColor)));
+
+        connect(prefsWidget, SIGNAL(rowHeightChanged(int)), this, SLOT(setRowsHeight(int)));
     }
 
     return prefsWidget;
 }
 
 
+void SimplePlaylist::setRowsHeight(int height)
+{
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if (item(row, 0)->text() != Group)
+            setRowHeight(row, height);
+    }
+}
+
+
 void SimplePlaylist::setColumnTextColor(int column, QColor color)
 {
-    if (!rowCount())
-        return;
-
     column++;
 
     for (int row = 0; row < rowCount(); row++)
@@ -148,9 +157,6 @@ void SimplePlaylist::setColumnTextColor(int column, QColor color)
 
 void SimplePlaylist::setColumnAlign(int column, int align)
 {
-    if (!rowCount())
-        return;
-
     column++;
 
     for (int row = 0; row < rowCount(); row++)
