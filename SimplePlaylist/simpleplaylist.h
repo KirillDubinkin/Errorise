@@ -81,6 +81,7 @@ private slots:
     void setGroupRowHeight(int height);
     void setGroupTextAlign(int align);
     void setGroupTextColor(QColor color);
+    void setGroupBackColor(QColor color);
 };
 
 #endif // SIMPLEPLAYLIST_H

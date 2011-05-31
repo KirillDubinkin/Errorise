@@ -124,9 +124,25 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(grpHeightChanged(int)),         this, SLOT(setGroupRowHeight(int)));
         connect(prefsWidget, SIGNAL(grpTextAlignChanged(int)),      this, SLOT(setGroupTextAlign(int)));
         connect(prefsWidget, SIGNAL(grpColorTextChanged(QColor)),   this, SLOT(setGroupTextColor(QColor)));
+        connect(prefsWidget, SIGNAL(grpColorBackChanged(QColor)),   this, SLOT(setGroupBackColor(QColor)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setGroupBackColor(QColor color)
+{
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if (item(row, 0)->text() == Group)
+        {
+            if (color.isValid())
+                item(row, 1)->setBackgroundColor(color);
+            else
+                item(row, 1)->setBackground(palette().base());
+        }
+    }
 }
 
 
@@ -490,7 +506,7 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
     if (prefs->groups_back_color.isValid())
         group->setBackgroundColor(prefs->groups_back_color);
     else
-        group->setBackground(this->palette().brush(QPalette::Base));
+        group->setBackground(palette().background());
 
 
     this->setRowHeight(row, prefs->group_height);
