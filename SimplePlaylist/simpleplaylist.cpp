@@ -114,10 +114,31 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(alternateColorsChanged(bool)),  this, SLOT(setAlternatingRowColors(bool)));
         connect(prefsWidget, SIGNAL(stylesheetChanged(QString)),    this, SLOT(setStyleSheet(QString)));
         connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),    this, SLOT(setHeaderVisible(bool)));
+
         connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),      this, SLOT(setColumnWidth(int,int)));
+        connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),      this, SLOT(setColumnAlign(int,int)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setColumnAlign(int column, int align)
+{
+    if (!rowCount())
+        return;
+
+    column++;
+
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if (this->item(row, 0)->text() != Group)
+        {
+            QTableWidgetItem *item = this->item(row, column);
+            if (item)
+                item->setTextAlignment(align);
+        }
+    }
 }
 
 

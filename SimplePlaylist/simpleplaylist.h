@@ -72,6 +72,7 @@ private slots:
 
     void setHeaderVisible(bool enable);
     void setColumnWidth(int column, int width);
+    void setColumnAlign(int column, int align);
 };
 
 #endif // SIMPLEPLAYLIST_H
