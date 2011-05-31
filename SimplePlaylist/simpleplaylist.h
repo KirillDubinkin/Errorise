@@ -76,6 +76,8 @@ private slots:
     void setColumnTextColor(int column, QColor color);
 
     void setRowsHeight(int height);
+
+    void setGroupRowVisible(bool visible);
 };
 
 #endif // SIMPLEPLAYLIST_H

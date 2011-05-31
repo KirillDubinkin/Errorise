@@ -118,11 +118,22 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),        this, SLOT(setColumnWidth(int,int)));
         connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),        this, SLOT(setColumnAlign(int,int)));
         connect(prefsWidget, SIGNAL(colTextColorChanged(int,QColor)), this, SLOT(setColumnTextColor(int,QColor)));
-
         connect(prefsWidget, SIGNAL(rowHeightChanged(int)), this, SLOT(setRowsHeight(int)));
+
+        connect(prefsWidget, SIGNAL(grpHeaderVisibleChanged(bool)), this, SLOT(setGroupRowVisible(bool)));
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setGroupRowVisible(bool visible)
+{
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if (item(row, 0)->text() == Group)
+            setRowHidden(row, !visible);
+    }
 }
 
 
@@ -259,13 +270,12 @@ void SimplePlaylist::fillPlaylist()
     int colCount = this->columnCount() - 1;
     int row = this->rowCount();
 
-    if (prefs->group_header)
-    {
-        if (VA)
-            addGroupItem(row++, Helper::vaGroup(prefs->groups_format));
-        else
-            addGroupItem(row++, prev);
-    }
+    if (VA)
+        addGroupItem(row, Helper::vaGroup(prefs->groups_format));
+    else
+        addGroupItem(row, prev);
+
+    setRowHidden(row++, !prefs->group_header);
 
     int artRow = row;
 
