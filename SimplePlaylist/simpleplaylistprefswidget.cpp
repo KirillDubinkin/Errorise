@@ -119,6 +119,35 @@ void SimplePlaylistPrefsWidget::createContextMenus()
 }
 
 
+void SimplePlaylistPrefsWidget::removeColumn()
+{
+    if (!ui->colList->count())
+        return;
+
+    int id = ui->colList->currentRow();
+
+    prefs->columns_names.removeAt(id);
+    prefs->columns_aligment.removeAt(id);
+    prefs->columns_sizes.removeAt(id);
+    prefs->columns_text_color.removeAt(id);
+    prefs->rows_format.removeAt(id);
+
+    fillColNamesList();
+    if (ui->colList->count() > id)
+        ui->colList->setCurrentRow(id);
+    else if (ui->colList->count())
+        ui->colList->setCurrentRow(ui->colList->count() - 1);
+    else
+    {
+        setColPropersiesEnabled(false);
+        ui->colWidth->setEnabled(false);
+        ui->colTextEdit->setEnabled(false);
+        ui->lblColWidth->setEnabled(false);
+        ui->lblColText->setEnabled(false);
+    }
+}
+
+
 void SimplePlaylistPrefsWidget::changeGridStyle(int boxIndex)
 {
     Qt::PenStyle style;
@@ -268,6 +297,9 @@ void SimplePlaylistPrefsWidget::openColColorDialog()
 
 void SimplePlaylistPrefsWidget::changeColTextColor(QString color)
 {
+    if (!ui->colList->count())
+        return;
+
     QColor c_color;
     c_color.setNamedColor(color);
     prefs->columns_text_color.replace(ui->colList->currentRow(), c_color);
@@ -277,6 +309,9 @@ void SimplePlaylistPrefsWidget::changeColTextColor(QString color)
 
 void SimplePlaylistPrefsWidget::changeColText(QString text)
 {
+    if (!ui->colList->count())
+        return;
+
     prefs->rows_format.replace(ui->colList->currentRow(), text);
 
     if (text.contains("%art%"))
@@ -303,6 +338,9 @@ void SimplePlaylistPrefsWidget::setColPropersiesEnabled(bool enable)
 
 void SimplePlaylistPrefsWidget::changeColAlign(int boxIndex)
 {
+    if (!ui->colList->count())
+        return;
+
     int align = getAlignFromBox(boxIndex);
 
     if (prefs->columns_aligment.at(ui->colList->currentRow()) != align)
@@ -344,6 +382,9 @@ void SimplePlaylistPrefsWidget::changeRowHeight(QString text)
 
 void SimplePlaylistPrefsWidget::changeColWidth(QString text)
 {
+    if (!ui->colList->count())
+        return;
+
     if (text.isEmpty())
         prefs->columns_sizes.replace(ui->colList->currentRow(), 0);
     else
@@ -410,6 +451,9 @@ void SimplePlaylistPrefsWidget::fillColNamesList()
 
 void SimplePlaylistPrefsWidget::columnChosen(int col)
 {
+    if (col < 0)
+        return;
+
     ui->colWidth->setText(QString::number(prefs->columns_sizes.at(col)));
     ui->colHeight->setText(QString::number(prefs->row_height));
     setAlignBoxState(ui->colAlignBox, prefs->columns_aligment.at(col));
