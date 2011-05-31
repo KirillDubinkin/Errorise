@@ -366,14 +366,3 @@ bool MusicLibrary::isReady()
     return ready;
 }
 
-
-void MusicLibrary::selectTracksBy(QString tag, QString value)
-{
-    emit tracksSelectedBy(tag, value);
-}
-
-
-void MusicLibrary::selectTracksBy(QStringList tags, QStringList values)
-{
-    emit tracksSelectedBy(tags, values);
-}

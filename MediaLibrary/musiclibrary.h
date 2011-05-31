@@ -24,12 +24,10 @@ public:
     void          setLibraryPath(QString path);
     QSqlDatabase  db;
 
-    void selectTracksBy(QString tag, QString value);
-    void selectTracksBy(QStringList tags, QStringList values);
+    void selectTracksBy(QStringList tags, QStringList values) { emit tracksSelectedBy(tags, values); }
 
 signals:
     void readyToWork();
-    void tracksSelectedBy(QString tag, QString value);
     void tracksSelectedBy(QStringList tags, QStringList values);
 
     void updateRequired(QStringList files);

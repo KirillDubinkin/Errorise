@@ -25,8 +25,6 @@ AlbumTree::AlbumTree(QWidget *parent) :
 
     setStyleSheet(prefs->stylesheet);
     header()->setVisible(false);
-    //setColumnCount(2);
-    //hideColumn(1);
 
     connect(mlib, SIGNAL(readyToWork()), this, SLOT(fillTree()));
 
@@ -68,8 +66,6 @@ QWidget * AlbumTree::getPrefsWidget()
         connect(prefsWidget, SIGNAL(patternChanged(QString)), this, SLOT(fillTree()));
     }
 
-//    prefsWidget->show();
-//    prefsWidget->setGeometry(mapToGlobal(QPoint(0,0)).x() + 100, mapToGlobal(QPoint(0,0)).y() + 20, 640, 480);
     return prefsWidget;
 }
 
@@ -88,7 +84,7 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
         QString s = list.join("/");
         s.insert(0, mlib->libraryPath() + "/");
 
-        mlib->selectTracksBy(Helper::getTags(prefs->pattern).at(0), s);
+        mlib->selectTracksBy(QStringList("filepath"), QStringList(s));
 
     } else {
         QStringList tags = Helper::getTags(prefs->pattern);
