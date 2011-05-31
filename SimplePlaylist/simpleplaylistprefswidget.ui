@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
-    <height>611</height>
+    <width>638</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,11 +37,22 @@
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="showHeaderBox">
-        <property name="text">
-         <string>Show header</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_14">
+        <item>
+         <widget class="QCheckBox" name="showHeaderBox">
+          <property name="text">
+           <string>Show header</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="showGridBox">
+          <property name="text">
+           <string>Show grid</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="horizontalSpacer_2">
@@ -57,11 +68,50 @@
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="alternateColorsBox">
-        <property name="text">
-         <string>Alternate colors</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_15">
+        <item>
+         <widget class="QCheckBox" name="alternateColorsBox">
+          <property name="text">
+           <string>Alternate colors</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="gridBox">
+          <property name="minimumSize">
+           <size>
+            <width>180</width>
+            <height>0</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string>Solid line</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dash line</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dot line</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dash Dot line</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dash Dot Dot line</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="horizontalSpacer_3">

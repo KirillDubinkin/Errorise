@@ -41,6 +41,8 @@ public:
     QString stylesheet;
     bool alternate_colors;
     bool show_header;
+    bool show_grid;
+    Qt::PenStyle grid_style;
 
     int prefs_tab;
 

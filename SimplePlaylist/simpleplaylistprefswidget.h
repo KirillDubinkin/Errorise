@@ -24,6 +24,8 @@ signals:
     void alternateColorsChanged(bool enable);
     void headerVisibleChanged(bool enable);
     void stylesheetChanged(QString style);
+    void gridVisibleChanged(bool visible);
+    void gridStyleChanged(Qt::PenStyle style);
 
         //! Columns
     void colWidthChanged(int col, int width);
@@ -53,6 +55,8 @@ private slots:
     void changeStylesheet();
     void changePlArtSave(bool enable);
     void changePlArtFilename(QString filename);
+    void changeGridVisible(bool visible);
+    void changeGridStyle(int boxIndex);
 
         //! Columns
     void changeColWidth(QString text);
@@ -86,6 +90,7 @@ private:
     void fillColNamesList();
     void setColPropersiesEnabled(bool enable);
     void setAlignBoxState(QComboBox *box, int alignment);
+    void setGridStyleBoxState(Qt::PenStyle style);
     Qt::AlignmentFlag getAlignFromBox(int boxIndex);
 };
 

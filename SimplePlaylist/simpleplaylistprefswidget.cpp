@@ -38,6 +38,8 @@ void SimplePlaylistPrefsWidget::load()
     ui->plArtSaveBox->setChecked(Global::pref->use_pl_art);
     ui->plArtSaveEdit->setText(Global::pref->pl_art_filename);
     ui->plArtSaveEdit->setEnabled(ui->plArtSaveBox->isChecked());
+    ui->showGridBox->setChecked(prefs->show_grid);
+    setGridStyleBoxState(prefs->grid_style);
     fillArtSearchLists();
 
 
@@ -65,9 +67,12 @@ void SimplePlaylistPrefsWidget::conct()
         //! General
     connect(ui->alternateColorsBox, SIGNAL(toggled(bool)), this, SLOT(changeAlternateColors(bool)));
     connect(ui->showHeaderBox,      SIGNAL(toggled(bool)), this, SLOT(changeHeaderVisible(bool)));
+    connect(ui->showGridBox,        SIGNAL(toggled(bool)), this, SLOT(changeGridVisible(bool)));
     connect(ui->styleEdit,          SIGNAL(textChanged()), this, SLOT(changeStylesheet()));
     connect(ui->plArtSaveBox,       SIGNAL(toggled(bool)), this, SLOT(changePlArtSave(bool)));
-    connect(ui->plArtSaveEdit,      SIGNAL(textChanged(QString)), this, SLOT(changePlArtFilename(QString)));
+    connect(ui->plArtSaveEdit,      SIGNAL(textChanged(QString)),     this, SLOT(changePlArtFilename(QString)));
+    connect(ui->gridBox,            SIGNAL(currentIndexChanged(int)), this, SLOT(changeGridStyle(int)));
+
 
 
         //! Columns
@@ -90,6 +95,31 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->grpColorBackButton, SIGNAL(clicked()),            this, SLOT(openGrpColorBackDialog()));
     connect(ui->grpColorTextButton, SIGNAL(clicked()),            this, SLOT(openGrpColorTextDialog()));
     connect(ui->grpAlignBox,        SIGNAL(currentIndexChanged(int)), this, SLOT(changeGrpTextAlign(int)));
+}
+
+
+void SimplePlaylistPrefsWidget::changeGridStyle(int boxIndex)
+{
+    Qt::PenStyle style;
+
+    switch (boxIndex) {
+    case 0: style = Qt::SolidLine;      break;
+    case 1: style = Qt::DashLine;       break;
+    case 2: style = Qt::DotLine;        break;
+    case 3: style = Qt::DashDotLine;    break;
+    case 4: style = Qt::DashDotDotLine; break;
+    default: qWarning() << "SimplePlaylistPrefsWidget::changeGridStyle()\n\t Undefined index:" << boxIndex; break;
+    }
+
+    prefs->grid_style = style;
+    emit gridStyleChanged(style);
+}
+
+
+void SimplePlaylistPrefsWidget::changeGridVisible(bool visible)
+{
+    prefs->show_grid = visible;
+    emit gridVisibleChanged(visible);
 }
 
 
@@ -379,6 +409,19 @@ void SimplePlaylistPrefsWidget::setAlignBoxState(QComboBox *box, int alignment)
     case Qt::AlignHCenter: box->setCurrentIndex(2); break;
     case Qt::AlignJustify: box->setCurrentIndex(3); break;
     default: qWarning() << "SimplePlaylistPrefsWidget::setAlignBoxState()\n\t Undefined aligment:" << alignment; break;
+    }
+}
+
+
+void SimplePlaylistPrefsWidget::setGridStyleBoxState(Qt::PenStyle style)
+{
+    switch (style) {
+    case Qt::SolidLine:      ui->gridBox->setCurrentIndex(0); break;
+    case Qt::DashLine:       ui->gridBox->setCurrentIndex(1); break;
+    case Qt::DotLine:        ui->gridBox->setCurrentIndex(2); break;
+    case Qt::DashDotLine:    ui->gridBox->setCurrentIndex(3); break;
+    case Qt::DashDotDotLine: ui->gridBox->setCurrentIndex(4); break;
+    default: qWarning() << "SimplePlaylistPrefsWidget::setGridStyleBoxState()\n\t Undefined PenStyle:" << style; break;
     }
 }
 

@@ -48,6 +48,8 @@ void SimplePLPrefs::reset()
     row_height       = 16;
     alternate_colors = false;
     show_header      = false;
+    show_grid        = false;
+    grid_style       = Qt::DashDotDotLine;
 
     prefs_tab = 0;
 
@@ -112,6 +114,8 @@ void SimplePLPrefs::save()
     set.setValue("alternate_colors", alternate_colors);
     set.setValue("show_header", show_header);
     set.setValue("prefs_tab", prefs_tab);
+    set.setValue("show_grid", show_grid);
+    set.setValue("grid_style", grid_style);
     set.endGroup();
 
 
@@ -180,6 +184,9 @@ void SimplePLPrefs::load()
     row_height       = set.value("row_height", row_height).toInt();
     alternate_colors = set.value("alternate_colors", alternate_colors).toBool();
     show_header      = set.value("show_header", show_header).toBool();
+    show_grid        = set.value("show_grid", show_grid).toBool();
+    grid_style       = (Qt::PenStyle) set.value("grid_style", grid_style).toInt();
+
     prefs_tab        = set.value("prefs_tab", prefs_tab).toInt();
     set.endGroup();
 }
