@@ -37,6 +37,7 @@ protected:
 
     static QString doFunc(const QString &func, QString line, const int id);
     static QString funcIF(QString line, const int id);
+    static QString funcIF2(QString line, const int id);
 };
 
 #endif // HELPER_H

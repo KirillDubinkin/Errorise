@@ -242,7 +242,56 @@ int Helper::nextQuote(const QString &line, int from)
 }
 
 
+    //! Return tag2, if tag1 not empty
 QString Helper::funcIF(QString line, const int id)
+{
+    QString cond;
+    int comma = 0;
+
+    for (int pos = 0; pos < line.size(); pos++)
+    {
+        QChar chr = line.at(pos);
+
+        if (chr == '\'')
+            pos = nextQuote(line, pos);
+        else
+        if (chr == ',')
+        {
+            comma = pos;
+            cond = line.mid(0, comma);
+            break;
+        }
+    }
+
+
+    if (!comma)
+    {
+        qWarning() << QObject::tr("There is no comma in function $if(" + line.toUtf8());
+        return QString::null;
+    }
+
+    if (isContainer(cond))
+        cond = processContainer(cond, id);
+    else
+        cond = processTags(cond, id);
+
+
+    if (cond.isEmpty())
+        return QString::null;
+    else
+    {
+        QString tmp = line.mid(comma + 1);
+
+        if (isContainer(tmp))
+            return processContainer(tmp, id);
+
+        return processTags(tmp, id);
+    }
+}
+
+
+    //! Returns first not empty tag
+QString Helper::funcIF2(QString line, const int id)
 {
     QString cond;
     int comma = 0;
@@ -265,7 +314,7 @@ QString Helper::funcIF(QString line, const int id)
 
     if (!comma)
     {
-        qWarning() << QObject::tr("There is no comma in function $if(" + line.toUtf8());
+        qWarning() << QObject::tr("There is no comma in function $if2(" + line.toUtf8());
         return QString::null;
     }
 
@@ -287,8 +336,6 @@ QString Helper::funcIF(QString line, const int id)
     } else {
         return cond;
     }
-
-    return QString::null;
 }
 
 
@@ -308,6 +355,9 @@ QString Helper::doFunc(const QString &func, QString line, const int id)
 {
     if (func == "if")
         return funcIF(line, id);
+
+    if (func == "if2")
+        return funcIF2(line, id);
 
 
     qWarning() << QObject::tr("I'm not familiar with function \"$" + func.toUtf8());
