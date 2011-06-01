@@ -40,6 +40,7 @@ signals:
     void grpDelayChanged(int delay);
     void grpHeightChanged(int height);
     void grpTextChanged(QString text);
+    void grpVaTextChanged(QString text);
     void grpTextAlignChanged(int align);
     void grpColorBackChanged(QColor color);
     void grpColorTextChanged(QColor color);
@@ -74,6 +75,7 @@ private slots:
     void changeGrpDelay(QString text);
     void changeGrpHeight(QString text);
     void changeGrpText(QString text);
+    void changeGrpVaText(QString text);
     void changeGrpTextAlign(int boxIndex);
     void changeGrpColorText(QString text);
     void changeGrpColorBack(QString text);

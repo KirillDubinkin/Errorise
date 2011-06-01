@@ -24,6 +24,7 @@ void SimplePLPrefs::reset()
 
     //! Groups
     groups_format        = "[$if2(%albumartist%,%artist%) - ]['['%date%']'] %album%";
+    groups_va_format     = "['['%date%']'] %album%[  // %albumartist%]";
     groups_text_color.setNamedColor("#ffffff");
     groups_back_color.setNamedColor("#182835");
     groups_text_aligment = Qt::AlignLeft;
@@ -69,6 +70,7 @@ void SimplePLPrefs::save()
     //! Groups
     set.beginGroup("Groups");
     set.setValue("groups_format", groups_format);
+    set.setValue("groups_va_format", groups_va_format);
     set.setValue("groups_text_color", groups_text_color);
     set.setValue("groups_back_color", groups_back_color);
     set.setValue("groups_text_aligment", groups_text_aligment);
@@ -135,7 +137,8 @@ void SimplePLPrefs::load()
 
     //! Groups
     set.beginGroup("Groups");
-    groups_format = set.value("groups_format", groups_format).toString();
+    groups_format     = set.value("groups_format", groups_format).toString();
+    groups_va_format  = set.value("groups_va_format", groups_va_format).toString();
     groups_text_color = set.value("groups_text_color", groups_text_color).value<QColor>();
     groups_back_color = set.value("groups_back_color", groups_back_color).value<QColor>();
     groups_text_aligment = set.value("groups_text_aligment", groups_text_aligment).toInt();

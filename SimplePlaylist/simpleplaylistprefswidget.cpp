@@ -60,6 +60,7 @@ void SimplePlaylistPrefsWidget::load()
     ui->grpColorBackEdit->setText(prefs->groups_back_color.name());
     ui->grpColorTextEdit->setText(prefs->groups_text_color.name());
     ui->grpTextEdit->setText(prefs->groups_format);
+    ui->grpVATextEdit->setText(prefs->groups_va_format);
     setAlignBoxState(ui->grpAlignBox, prefs->groups_text_aligment);
 }
 
@@ -92,6 +93,7 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->grpDelayEdit,       SIGNAL(textChanged(QString)), this, SLOT(changeGrpDelay(QString)));
     connect(ui->grpHeigthEdit,      SIGNAL(textChanged(QString)), this, SLOT(changeGrpHeight(QString)));
     connect(ui->grpTextEdit,        SIGNAL(textChanged(QString)), this, SLOT(changeGrpText(QString)));
+    connect(ui->grpVATextEdit,      SIGNAL(textChanged(QString)), this, SLOT(changeGrpVaText(QString)));
     connect(ui->grpColorBackEdit,   SIGNAL(textChanged(QString)), this, SLOT(changeGrpColorBack(QString)));
     connect(ui->grpColorTextEdit,   SIGNAL(textChanged(QString)), this, SLOT(changeGrpColorText(QString)));
     connect(ui->grpColorBackButton, SIGNAL(clicked()),            this, SLOT(openGrpColorBackDialog()));
@@ -116,6 +118,13 @@ void SimplePlaylistPrefsWidget::createContextMenus()
     act = new QAction(tr("Remove column"), this);
     connect(act, SIGNAL(triggered()), this, SLOT(removeColumn()));
     ui->colList->addAction(act);
+}
+
+
+void SimplePlaylistPrefsWidget::changeGrpVaText(QString text)
+{
+    prefs->groups_va_format = text;
+    emit grpVaTextChanged(text);
 }
 
 

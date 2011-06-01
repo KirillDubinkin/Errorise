@@ -323,7 +323,7 @@ void SimplePlaylist::fillPlaylist()
     int row = this->rowCount();
 
     if (VA)
-        addGroupItem(row, Helper::vaGroup(prefs->groups_format));
+        addGroupItem(row, Helper::parseLine(group.first(), prefs->groups_va_format));
     else
         addGroupItem(row, prev);
 

@@ -19,6 +19,7 @@ public:
 
     //! Groups
     QString groups_format;
+    QString groups_va_format;
     QColor  groups_text_color;
     QColor  groups_back_color;
     int groups_text_aligment;
