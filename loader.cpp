@@ -35,5 +35,6 @@ void Loader::start()
 
 void Loader::processArgs(QStringList args)
 {
+    qDebug() << args;
     // TODO
 }

@@ -105,7 +105,7 @@ void SimplePlaylistPrefsWidget::conct()
 }
 
 
-void SimplePlaylistPrefsWidget::changeColName(QListWidgetItem *current, QListWidgetItem *previous)
+void SimplePlaylistPrefsWidget::changeColName(QListWidgetItem *, QListWidgetItem *previous)
 {
     qDebug() << previous->text();
 
@@ -266,7 +266,7 @@ void SimplePlaylistPrefsWidget::removeColumn()
 
 void SimplePlaylistPrefsWidget::changeGridStyle(int boxIndex)
 {
-    Qt::PenStyle style;
+    Qt::PenStyle style = prefs->grid_style;
 
     switch (boxIndex) {
     case 0: style = Qt::SolidLine;      break;
@@ -483,6 +483,8 @@ Qt::AlignmentFlag SimplePlaylistPrefsWidget::getAlignFromBox(int boxIndex)
     case 3: return Qt::AlignJustify;
     default: qWarning() << "SimplePlaylistPrefsWidget::getAlignFromBox()\n\t Undefined index:" << boxIndex; break;
     }
+
+    return Qt::AlignLeft;
 }
 
 

@@ -355,7 +355,7 @@ void SimpeToolbarPrefsWidget::setToolWidth(QString text)
 
     if (ok)
     {
-        int prevWidth;
+        int prevWidth = -1;
 
         switch (tool)
         {

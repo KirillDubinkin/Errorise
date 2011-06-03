@@ -542,8 +542,6 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
 
 void SimplePlaylist::addRowItem(int row, int col, const QString &text)
 {
-    bool ok;
-
     QTableWidgetItem *item = new QTableWidgetItem(text);
     item->setTextAlignment(prefs->columns_aligment.at(col) | Qt::AlignVCenter);
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
