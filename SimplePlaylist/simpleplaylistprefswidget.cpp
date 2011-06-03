@@ -260,7 +260,7 @@ void SimplePlaylistPrefsWidget::removeColumn()
         ui->lblColText->setEnabled(false);
     }
 
-    emit colRemoved(id);
+    emit colRemoved(id + 1);
 }
 
 

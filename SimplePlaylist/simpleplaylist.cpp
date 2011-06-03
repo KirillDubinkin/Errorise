@@ -126,6 +126,7 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(colTextColorChanged(int,QColor)), this, SLOT(setColumnTextColor(int,QColor)));
         connect(prefsWidget, SIGNAL(rowHeightChanged(int)),           this, SLOT(setRowsHeight(int)));
         connect(prefsWidget, SIGNAL(colNameChanged(int,QString)),     this, SLOT(setColumnName(int,QString)));
+        connect(prefsWidget, SIGNAL(colRemoved(int)),                 this, SLOT(removeColumn(int)));
 
         connect(prefsWidget, SIGNAL(grpHeaderVisibleChanged(bool)), this, SLOT(setGroupRowVisible(bool)));
         connect(prefsWidget, SIGNAL(grpHeightChanged(int)),         this, SLOT(setGroupRowHeight(int)));

@@ -81,6 +81,7 @@ private slots:
     void setColumnTextColor(int column, QColor color);
     void setColumnName(int column, QString name);
 
+
     void setRowsHeight(int height);
 
     void setGroupRowVisible(bool visible);
