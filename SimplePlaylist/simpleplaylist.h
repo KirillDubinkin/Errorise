@@ -80,7 +80,8 @@ private slots:
     void setColumnAlign(int column, int align);
     void setColumnTextColor(int column, QColor color);
     void setColumnName(int column, QString name);
-
+    void moveColumn(int from, int to);
+    void insertNewColumn(int col);
 
     void setRowsHeight(int height);
 

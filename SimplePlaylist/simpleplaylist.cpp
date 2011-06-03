@@ -127,6 +127,8 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(rowHeightChanged(int)),           this, SLOT(setRowsHeight(int)));
         connect(prefsWidget, SIGNAL(colNameChanged(int,QString)),     this, SLOT(setColumnName(int,QString)));
         connect(prefsWidget, SIGNAL(colRemoved(int)),                 this, SLOT(removeColumn(int)));
+        connect(prefsWidget, SIGNAL(colMoved(int,int)),               this, SLOT(moveColumn(int,int)));
+        connect(prefsWidget, SIGNAL(colInserted(int)),                this, SLOT(insertNewColumn(int)));
 
         connect(prefsWidget, SIGNAL(grpHeaderVisibleChanged(bool)), this, SLOT(setGroupRowVisible(bool)));
         connect(prefsWidget, SIGNAL(grpHeightChanged(int)),         this, SLOT(setGroupRowHeight(int)));
@@ -136,6 +138,20 @@ QWidget * SimplePlaylist::getPrefsWidget()
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::insertNewColumn(int col)
+{
+    insertColumn(col + 1);
+    setHorizontalHeaderItem(col + 1, new QTableWidgetItem(prefs->columns_names.at(col)));
+    QTableWidget::setColumnWidth(col + 1, prefs->columns_sizes.at(col));
+}
+
+
+void SimplePlaylist::moveColumn(int from, int to)
+{
+    horizontalHeader()->moveSection(from + 1, to + 1);
 }
 
 

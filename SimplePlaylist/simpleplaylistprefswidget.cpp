@@ -210,7 +210,7 @@ void SimplePlaylistPrefsWidget::addNewColumn()
 
     prefs->columns_aligment.insert(id + 1, Qt::AlignLeft);
     prefs->columns_names.insert(id + 1, tr("New column"));
-    prefs->columns_sizes.insert(id + 1, 10);
+    prefs->columns_sizes.insert(id + 1, 100);
     prefs->columns_text_color.insert(id + 1, QColor());
     prefs->rows_format.insert(id + 1, QString::null);
 
