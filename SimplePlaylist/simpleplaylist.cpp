@@ -124,7 +124,8 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),        this, SLOT(setColumnWidth(int,int)));
         connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),        this, SLOT(setColumnAlign(int,int)));
         connect(prefsWidget, SIGNAL(colTextColorChanged(int,QColor)), this, SLOT(setColumnTextColor(int,QColor)));
-        connect(prefsWidget, SIGNAL(rowHeightChanged(int)), this, SLOT(setRowsHeight(int)));
+        connect(prefsWidget, SIGNAL(rowHeightChanged(int)),           this, SLOT(setRowsHeight(int)));
+        connect(prefsWidget, SIGNAL(colNameChanged(int,QString)),     this, SLOT(setColumnName(int,QString)));
 
         connect(prefsWidget, SIGNAL(grpHeaderVisibleChanged(bool)), this, SLOT(setGroupRowVisible(bool)));
         connect(prefsWidget, SIGNAL(grpHeightChanged(int)),         this, SLOT(setGroupRowHeight(int)));
@@ -134,6 +135,13 @@ QWidget * SimplePlaylist::getPrefsWidget()
     }
 
     return prefsWidget;
+}
+
+
+void SimplePlaylist::setColumnName(int column, QString name)
+{
+    QTableWidgetItem *item = horizontalHeaderItem(column + 1);
+    item->setText(name);
 }
 
 
