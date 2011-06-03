@@ -86,10 +86,8 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->colTextEdit,    SIGNAL(textChanged(QString)),      this,   SLOT(changeColText(QString)));
     connect(ui->colColorEdit,   SIGNAL(textChanged(QString)),      this,   SLOT(changeColTextColor(QString)));
     connect(ui->colColorButton, SIGNAL(clicked()),                 this,   SLOT(openColColorDialog()));
-
     connect(ui->colList,        SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             this,   SLOT(beginChangindColName(QListWidgetItem*)));
-   // connect(ui->colList,    SIGNAL(currentTextChanged(QString)), this, SLOT(changeColEdited(QString)));
 
 
         //! Groups
@@ -119,7 +117,7 @@ void SimplePlaylistPrefsWidget::changeColName(QListWidgetItem *current, QListWid
         if (prefs->columns_names.at(editedCol) != previous->text())
         {
             prefs->columns_names.replace(editedCol, previous->text());
-            emit colNameChanged(previous->text());
+            emit colNameChanged(editedCol, previous->text());
         }
 
         editedCol = -1;
@@ -181,6 +179,8 @@ void SimplePlaylistPrefsWidget::moveColUp()
 
     fillColNamesList();
     ui->colList->setCurrentRow(col - 1);
+
+    emit colMoved(col, col - 1);
 }
 
 
@@ -199,6 +199,8 @@ void SimplePlaylistPrefsWidget::moveColDown()
 
     fillColNamesList();
     ui->colList->setCurrentRow(col + 1);
+
+    emit colMoved(col, col + 1);
 }
 
 
@@ -221,6 +223,8 @@ void SimplePlaylistPrefsWidget::addNewColumn()
         ui->colTextEdit->setEnabled(true);
         ui->lblColText->setEnabled(true);
     }
+
+    emit colInserted(id + 1);
 }
 
 
@@ -255,6 +259,8 @@ void SimplePlaylistPrefsWidget::removeColumn()
         ui->colTextEdit->setEnabled(false);
         ui->lblColText->setEnabled(false);
     }
+
+    emit colRemoved(id);
 }
 
 

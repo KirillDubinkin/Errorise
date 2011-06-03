@@ -34,7 +34,10 @@ signals:
     void colTextChanged(int col, QString text);
     void colTextColorChanged(int col, QColor color);
     void rowHeightChanged(int height);
-    void colNameChanged(QString text);
+    void colNameChanged(int col, QString text);
+    void colInserted(int col);
+    void colRemoved(int col);
+    void colMoved(int from, int to);
 
         //! Groups
     void grpHeaderVisibleChanged(bool visible);
