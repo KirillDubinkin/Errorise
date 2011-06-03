@@ -105,19 +105,87 @@ void SimplePlaylistPrefsWidget::conct()
 void SimplePlaylistPrefsWidget::createContextMenus()
 {
     ui->colList->setContextMenuPolicy(Qt::ActionsContextMenu);
-
     QAction *act;
-    act = new QAction(tr("Add new column"), this);
-    connect(act, SIGNAL(triggered()), this, SLOT(addNewColumn()));
+
+    act = new QAction(tr("Move up"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(moveColUp()));
     ui->colList->addAction(act);
+
+    act = new QAction(tr("Move down"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(moveColDown()));
+    ui->colList->addAction(act);
+
 
     act = new QAction(this);
     act->setSeparator(true);
     ui->colList->addAction(act);
 
+
+    act = new QAction(tr("Add new column"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(addNewColumn()));
+    ui->colList->addAction(act);
+
     act = new QAction(tr("Remove column"), this);
     connect(act, SIGNAL(triggered()), this, SLOT(removeColumn()));
     ui->colList->addAction(act);
+}
+
+
+void SimplePlaylistPrefsWidget::moveColUp()
+{
+    int col = ui->colList->currentRow();
+
+    if (!col)
+        return;
+
+    prefs->columns_aligment.move(col, col - 1);
+    prefs->columns_names.move(col, col - 1);
+    prefs->columns_sizes.move(col, col - 1);
+    prefs->columns_text_color.move(col, col - 1);
+    prefs->rows_format.move(col, col - 1);
+
+    fillColNamesList();
+    ui->colList->setCurrentRow(col - 1);
+}
+
+
+void SimplePlaylistPrefsWidget::moveColDown()
+{
+    int col = ui->colList->currentRow();
+
+    if ( (col >= ui->colList->count() - 1) | !ui->colList->count() )
+        return;
+
+    prefs->columns_aligment.move(col, col + 1);
+    prefs->columns_names.move(col, col + 1);
+    prefs->columns_sizes.move(col, col + 1);
+    prefs->columns_text_color.move(col, col + 1);
+    prefs->rows_format.move(col, col + 1);
+
+    fillColNamesList();
+    ui->colList->setCurrentRow(col + 1);
+}
+
+
+void SimplePlaylistPrefsWidget::addNewColumn()
+{
+    int id = ui->colList->currentRow();
+
+    prefs->columns_aligment.insert(id + 1, Qt::AlignLeft);
+    prefs->columns_names.insert(id + 1, tr("New column"));
+    prefs->columns_sizes.insert(id + 1, 10);
+    prefs->columns_text_color.insert(id + 1, QColor());
+    prefs->rows_format.insert(id + 1, QString::null);
+
+    fillColNamesList();
+    ui->colList->setCurrentRow(id + 1);
+
+    if (ui->colList->count() == 1)
+    {
+        ui->colPropertiesGroup->setEnabled(true);
+        ui->colTextEdit->setEnabled(true);
+        ui->lblColText->setEnabled(true);
+    }
 }
 
 
@@ -148,10 +216,8 @@ void SimplePlaylistPrefsWidget::removeColumn()
         ui->colList->setCurrentRow(ui->colList->count() - 1);
     else
     {
-        setColPropersiesEnabled(false);
-        ui->colWidth->setEnabled(false);
+        ui->colPropertiesGroup->setEnabled(false);
         ui->colTextEdit->setEnabled(false);
-        ui->lblColWidth->setEnabled(false);
         ui->lblColText->setEnabled(false);
     }
 }

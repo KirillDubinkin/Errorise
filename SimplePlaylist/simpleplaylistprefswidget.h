@@ -66,8 +66,10 @@ private slots:
     void changeColText(QString text);
     void changeColTextColor(QString color);
     void openColColorDialog();
-    void addNewColumn() {}
+    void addNewColumn();
     void removeColumn();
+    void moveColUp();
+    void moveColDown();
 
         //! Groups
     void changeGrpHeaderVisible(bool visible);
