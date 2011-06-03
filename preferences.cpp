@@ -59,7 +59,7 @@ void Preferences::reset()
     art_search_patterns << "*cover*.jp*g" << "*cover*.png" << "*cover*.gif" << "*cover*.bmp"
                         << "*folder*.jp*g" << "*folder*.png" << "*folder*.gif" << "*folder*.bmp"
                         << "*front*.jp*g"  << "*front*.png" << "*front*.gif" << "*front*.bmp"
-                        << "*.jp*g" << "*.png" << "*.gif" << ".bmp";
+                        << "*.jp*g" << "*.png" << "*.gif" << "*.bmp";
 
 #ifdef Q_OS_WIN
     art_search_folders  << "art" << "artwork" << "artworks" << "covers" << "images" << "scans";
