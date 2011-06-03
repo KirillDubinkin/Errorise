@@ -5,6 +5,7 @@
 #include "SimplePlaylist/simpleplprefs.h"
 #include <QComboBox>
 #include <QString>
+#include <QListWidgetItem>
 
 namespace Ui {
     class SimplePlaylistPrefsWidget;
@@ -33,6 +34,7 @@ signals:
     void colTextChanged(int col, QString text);
     void colTextColorChanged(int col, QColor color);
     void rowHeightChanged(int height);
+    void colNameChanged(QString text);
 
         //! Groups
     void grpHeaderVisibleChanged(bool visible);
@@ -71,6 +73,9 @@ private slots:
     void moveColUp();
     void moveColDown();
 
+    void beginChangindColName(QListWidgetItem *item);
+    void changeColName(QListWidgetItem *current, QListWidgetItem *previous);
+
         //! Groups
     void changeGrpHeaderVisible(bool visible);
     void changeGrpByDirs(bool enable);
@@ -89,6 +94,8 @@ private slots:
 private:
     Ui::SimplePlaylistPrefsWidget *ui;
     SimplePLPrefs                 *prefs;
+
+    int  editedCol;
 
     void load();
     void conct();

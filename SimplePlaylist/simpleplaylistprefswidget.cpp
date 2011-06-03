@@ -14,6 +14,7 @@ SimplePlaylistPrefsWidget::SimplePlaylistPrefsWidget(SimplePLPrefs *prefs, QWidg
 {
     ui->setupUi(this);
     this->prefs = prefs;
+    editedCol = -1;
 
     load();
     conct();
@@ -86,6 +87,10 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->colColorEdit,   SIGNAL(textChanged(QString)),      this,   SLOT(changeColTextColor(QString)));
     connect(ui->colColorButton, SIGNAL(clicked()),                 this,   SLOT(openColColorDialog()));
 
+    connect(ui->colList,        SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+            this,   SLOT(beginChangindColName(QListWidgetItem*)));
+   // connect(ui->colList,    SIGNAL(currentTextChanged(QString)), this, SLOT(changeColEdited(QString)));
+
 
         //! Groups
     connect(ui->grpShowHeaderBox,   SIGNAL(toggled(bool)),        this, SLOT(changeGrpHeaderVisible(bool)));
@@ -99,6 +104,36 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->grpColorBackButton, SIGNAL(clicked()),            this, SLOT(openGrpColorBackDialog()));
     connect(ui->grpColorTextButton, SIGNAL(clicked()),            this, SLOT(openGrpColorTextDialog()));
     connect(ui->grpAlignBox,        SIGNAL(currentIndexChanged(int)), this, SLOT(changeGrpTextAlign(int)));
+}
+
+
+void SimplePlaylistPrefsWidget::changeColName(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    qDebug() << previous->text();
+
+    if (editedCol > -1)
+    {
+        disconnect(ui->colList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
+                   this, SLOT(changeColName(QListWidgetItem*,QListWidgetItem*)));
+
+        if (prefs->columns_names.at(editedCol) != previous->text())
+        {
+            prefs->columns_names.replace(editedCol, previous->text());
+            emit colNameChanged(previous->text());
+        }
+
+        editedCol = -1;
+    }
+}
+
+
+void SimplePlaylistPrefsWidget::beginChangindColName(QListWidgetItem *item)
+{
+    editedCol = ui->colList->row(item);
+    qDebug() << editedCol;
+
+    connect(ui->colList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
+            this, SLOT(changeColName(QListWidgetItem*,QListWidgetItem*)));
 }
 
 
@@ -536,7 +571,11 @@ void SimplePlaylistPrefsWidget::fillColNamesList()
     ui->colList->clear();
 
     foreach(QString column, prefs->columns_names)
-        ui->colList->addItem(new QListWidgetItem(column));
+    {
+        QListWidgetItem *item = new QListWidgetItem(column);
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+        ui->colList->addItem(item);
+    }
 }
 
 
