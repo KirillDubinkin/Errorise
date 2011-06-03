@@ -377,14 +377,21 @@ void SimplePlaylistPrefsWidget::changeColTextColor(QString color)
 
     QColor c_color;
     c_color.setNamedColor(color);
-    prefs->columns_text_color.replace(ui->colList->currentRow(), c_color);
-    emit colTextColorChanged(ui->colList->currentRow(), c_color);
+
+    if (c_color != prefs->columns_text_color.at(ui->colList->currentRow()))
+    {
+        prefs->columns_text_color.replace(ui->colList->currentRow(), c_color);
+        emit colTextColorChanged(ui->colList->currentRow(), c_color);
+    }
 }
 
 
 void SimplePlaylistPrefsWidget::changeColText(QString text)
 {
     if (!ui->colList->count())
+        return;
+
+    if (prefs->rows_format.at(ui->colList->currentRow()) == text)
         return;
 
     prefs->rows_format.replace(ui->colList->currentRow(), text);
@@ -440,8 +447,14 @@ Qt::AlignmentFlag SimplePlaylistPrefsWidget::getAlignFromBox(int boxIndex)
 
 void SimplePlaylistPrefsWidget::changeRowHeight(QString text)
 {
+    if (prefs->row_height == text.toInt())
+        return;
+
     if (text.isEmpty())
+    {
         prefs->row_height = 0;
+        emit rowHeightChanged(0);
+    }
     else
     {
         bool ok;
@@ -458,6 +471,9 @@ void SimplePlaylistPrefsWidget::changeRowHeight(QString text)
 void SimplePlaylistPrefsWidget::changeColWidth(QString text)
 {
     if (!ui->colList->count())
+        return;
+
+    if ( prefs->columns_sizes.at(ui->colList->currentRow()) == text.toInt() )
         return;
 
     if (text.isEmpty())
