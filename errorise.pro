@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     SimpleGUI/prefswidget.cpp \
     SimpleGUI/simpleguiprefswidget.cpp \
     loader.cpp \
-    SimplePlaylist/simpleplaylistprefswidget.cpp
+    SimplePlaylist/simpleplaylistprefswidget.cpp \
+    fileoperations.cpp
 
 HEADERS  += \
     global.h \
@@ -67,7 +68,8 @@ HEADERS  += \
     SimpleGUI/prefswidget.h \
     SimpleGUI/simpleguiprefswidget.h \
     loader.h \
-    SimplePlaylist/simpleplaylistprefswidget.h
+    SimplePlaylist/simpleplaylistprefswidget.h \
+    fileoperations.h
 
 FORMS    += \
     MediaLibrary/albumtreeprefswidget.ui \
