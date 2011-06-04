@@ -52,7 +52,7 @@ void SimplePLPrefs::reset()
     show_grid        = false;
     grid_style       = Qt::DashDotLine;
 
-    copy_preset      = "%artist[ - '['%date%']' %album%][: %title]";
+    copy_preset      = "%artist%[ - ['['%date%']' ]%album%][: %title%]";
 
     prefs_tab = 0;
 
@@ -120,6 +120,7 @@ void SimplePLPrefs::save()
     set.setValue("prefs_tab", prefs_tab);
     set.setValue("show_grid", show_grid);
     set.setValue("grid_style", grid_style);
+    set.setValue("copy_preset", copy_preset);
     set.endGroup();
 
 
@@ -191,6 +192,7 @@ void SimplePLPrefs::load()
     show_header      = set.value("show_header", show_header).toBool();
     show_grid        = set.value("show_grid", show_grid).toBool();
     grid_style       = (Qt::PenStyle) set.value("grid_style", grid_style).toInt();
+    copy_preset      = set.value("copy_preset", copy_preset).toString();
 
     prefs_tab        = set.value("prefs_tab", prefs_tab).toInt();
     set.endGroup();

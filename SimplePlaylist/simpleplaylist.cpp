@@ -8,6 +8,8 @@
 #include <QtSql/QSqlError>
 #include <QTimer>
 #include <QTableWidgetSelectionRange>
+#include <QApplication>
+#include <QClipboard>
 
 #include <QDebug>
 
@@ -93,7 +95,7 @@ void SimplePlaylist::createActions()
 
 
     chldMenu = menu->addMenu(tr("Copy"));
-    chldMenu->addAction(prefs->copy_preset), this, SLOT(copyPatternToClipboard());
+    chldMenu->addAction(prefs->copy_preset, this, SLOT(copyPatternToClipboard()));
     chldMenu->addAction(tr("Playlist line"), this, SLOT(copyPlLineToClipboard()));
     chldMenu->addAction(tr("Column text"), this, SLOT(copyCurColTextToClipboard()));
 
@@ -105,6 +107,58 @@ void SimplePlaylist::createActions()
     menu->addAction(tr("Preferences..."), this, SIGNAL(needPrefWindow()));
 
     addActions(menu->actions());
+}
+
+
+void SimplePlaylist::copyPatternToClipboard()
+{
+    QStringList text;
+    QList<int> ids = getSelectedIds();
+
+    foreach (int id, ids)
+        text.append(Helper::parseLine(id, prefs->copy_preset));
+
+    qApp->clipboard()->setText(text.join("\n"));
+
+    qDebug() << "SimplePlaylist::copyPatternToClipboard\n" << text;
+}
+
+
+void SimplePlaylist::copyPlLineToClipboard()
+{
+    QStringList text;
+    QList<QTableWidgetSelectionRange> ranges = selectedRanges();
+
+    foreach (QTableWidgetSelectionRange range, ranges)
+        for (int row = range.topRow(); row <= range.bottomRow(); row++)
+        {
+            QString line;
+
+            for (int col = 1; col < columnCount(); col++)
+                if (col != CoverColumn)
+                    line.append(item(row, col)->text() + " ");
+
+            text.append(line.mid(0, line.size() - 1));
+        }
+
+    qApp->clipboard()->setText(text.join("\n"));
+
+    qDebug() << "SimplePlaylist::copyPlLineToClipboard\n" << text;
+}
+
+
+void SimplePlaylist::copyCurColTextToClipboard()
+{
+    QStringList text;
+    QList<QTableWidgetSelectionRange> ranges = selectedRanges();
+
+    foreach (QTableWidgetSelectionRange range, ranges)
+        for (int row = range.topRow(); row <= range.bottomRow(); row++)
+            text.append(item(row, currentColumn())->text());
+
+    qApp->clipboard()->setText(text.join("\n"));
+
+    qDebug() << "SimplePlaylist::copyCurColTextToClipboard\n" << text;
 }
 
 
