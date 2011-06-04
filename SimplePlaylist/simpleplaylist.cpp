@@ -86,10 +86,10 @@ void SimplePlaylist::createActions()
 
     chldMenu = menu->addMenu(tr("File operations"));
     chldMenu->addAction(tr("Remove files"), this, SLOT(removeFiles()));
-    chldMenu->addAction(tr("Copy files to..."), this, SLOT(copyFilesTo()));
-    chldMenu->addAction(tr("Copy files to clipboard"), this, SLOT(copyFilesToClipboard()));
+    chldMenu->addAction(tr("Copy files to..."), this, SLOT(copyFilesTo()))->setEnabled(false);
+    chldMenu->addAction(tr("Copy files to clipboard"), this, SLOT(copyFilesToClipboard()))->setEnabled(false);
     chldMenu->addAction(tr("Move files to..."), this, SLOT(moveFiles()));
-    chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()));
+    chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()))->setEnabled(false);
 
     menu->addAction(tr("Remove from playlist"), this, SLOT(deleteTracks()), QKeySequence::Delete);
 
@@ -97,6 +97,17 @@ void SimplePlaylist::createActions()
     menu->addAction(tr("Preferences..."), this, SIGNAL(needPrefWindow()));
 
     addActions(menu->actions());
+}
+
+
+void SimplePlaylist::moveFiles()
+{
+    QList<int> ids = getSelectedIds();
+
+    if (!FileOperations::moveFiles(ids, this))
+        return;
+
+    removeTracks(ids);
 }
 
 

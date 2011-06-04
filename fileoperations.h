@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 #include <QStringList>
+#include <QWidget>
 
 class FileOperations : public QObject
 {
@@ -15,8 +16,7 @@ signals:
 
 public slots:
     static bool removeFiles(QList<int> ids, QWidget *parent = 0);
-    static bool removeFiles(QStringList filepaths) {}
-    static bool removeDir(QString path) {}
+    static bool moveFiles  (QList<int> ids, QWidget *parent = 0);
 
 };
 
