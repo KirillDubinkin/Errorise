@@ -74,7 +74,11 @@ void myMessageOutput( QtMsgType type, const char *msg )
                         // Save log to file
                         if (!output_log.isOpen()) {
                             output_log.setFileName( pref->configPath() + QDir::separator() + myplayerName().toLower() + ".log" );
-                                output_log.open(QIODevice::WriteOnly);
+                                output_log.open(QIODevice::Append);
+                                output_log.write("################################################################################################\n"
+                                                 "################################################################################################\n"
+                                                 "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                                output_log.flush();
                         }
                         if (output_log.isOpen()) {
                                 QString l = line2 + "\r\n";

@@ -98,7 +98,7 @@ void SimplePlaylist::createActions()
 
 
     chldMenu = menu->addMenu(tr("Copy"));
-    chldMenu->addAction(prefs->copy_preset, this, SLOT(copyPatternToClipboard()));
+    chldMenu->addAction(prefs->copy_preset, this, SLOT(copyPatternToClipboard()), QKeySequence::Copy);
     chldMenu->addAction(tr("Playlist line"), this, SLOT(copyPlLineToClipboard()));
     chldMenu->addAction(tr("Column text"), this, SLOT(copyCurColTextToClipboard()));
 
