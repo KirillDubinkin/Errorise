@@ -52,7 +52,7 @@ void SimplePLPrefs::reset()
     show_grid        = false;
     grid_style       = Qt::DashDotLine;
 
-    copy_preset      = "%artist%[ - ['['%date%']' ]%album%][: %title%]";
+    copy_preset      = "[$if2(%artist%,%albumartist%) - ]['['%date%']' ]%album%][: %title%]";
 
     prefs_tab = 0;
 
