@@ -64,6 +64,7 @@ private:
 
 private slots:
     void sourceChange(Phonon::MediaSource);
+    void stateChange(Phonon::State cur, Phonon::State prev);
 
 };
 

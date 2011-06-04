@@ -86,6 +86,10 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
 
         mlib->selectTracksBy(QStringList("filepath"), QStringList(s));
 
+        qDebug() << "AlbumTree::selectedNodeChange\n\titem:" << cur->text(0)
+                 << "\n\ttags:" << QStringList("filepath")
+                 << "\n\tvalues:" << QStringList(s) << endl;
+
     } else {
         QStringList tags = Helper::getTags(prefs->pattern);
         QStringList values;
@@ -98,9 +102,16 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
         }
 
         while (tags.size() > values.size())
+        {
+            qDebug() << "AlbumTree::selectedNodeChange\n\ttags > values:" << tags.last() << endl;
             tags.removeLast();
+        }
 
         mlib->selectTracksBy(tags, values);
+
+        qDebug() << "AlbumTree::selectedNodeChange\n\titem:" << cur->text(0)
+                 << "\n\ttags:" << tags
+                 << "\n\tvalues:" << values << endl;
     }
 }
 
@@ -108,8 +119,19 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
 void AlbumTree::fillTree()
 {
     QMap<QString, QString> map = firstNode();
+
+    QMapIterator<QString, QString> i(map);
+
+    for (int j = 0; j < 1000; j++)
+    {
+        i.next();
+        qDebug("%3d:   %s", j, i.key().toUtf8().data());
+    }
+
     if (!map.isEmpty())
         mkTree(map);
+
+
 }
 
 

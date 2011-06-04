@@ -27,7 +27,36 @@ PhononFace::PhononFace(QObject *parent) :
     connect(mobject, SIGNAL(currentSourceChanged(Phonon::MediaSource)),
             this,    SLOT(sourceChange(Phonon::MediaSource)));
 
+    connect(mobject, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
+            this, SLOT(stateChange(Phonon::State,Phonon::State)));
+
 }
+
+
+void PhononFace::stateChange(Phonon::State cur, Phonon::State prev)
+{
+    switch (cur) {
+    case Phonon::LoadingState:
+        qDebug() << "Phonon::loading\t" << mobject->currentSource().fileName();
+        break;
+    case Phonon::StoppedState:
+        qDebug() << "Phonon::stoped\t" << mobject->currentSource().fileName();
+        break;
+    case Phonon::PlayingState:
+        qDebug() << "Phonon::playing\t" << mobject->currentSource().fileName();
+        break;
+    case Phonon::BufferingState:
+        qDebug() << "Phonon::burrefing\t" << mobject->currentSource().fileName();
+        break;
+    case Phonon::PausedState:
+        qDebug() << "Phonon::paused\t" << mobject->currentTime();
+        break;
+    case Phonon::ErrorState:
+        qWarning() << "Phonon::error\n\ttype:" << mobject->errorType()
+                   << "\n\ttext:" << mobject->errorString();
+    }
+}
+
 
 void PhononFace::play(int guid)
 {

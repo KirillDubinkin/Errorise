@@ -301,8 +301,12 @@ void SimplePlaylist::setColumns()
 void SimplePlaylist::fillPlaylist()
 {
     if (trackGuids.isEmpty())
+    {
+        qDebug() << "SimplePlaylist filled\n"
+                 << "######################################################################"
+                 << "\n" << endl;
         return;
-
+    }
 
     int groupRow = 0;
 
@@ -370,6 +374,9 @@ void SimplePlaylist::fillPlaylist()
                 addRowItem(row, col, Helper::parseLine(group.at(idx), prefs->rows_format.at(col)));
         row++;
     }
+
+    qDebug() << "SimplePlaylist: added group\n\t" << prev
+             << "\n\tgroup size:" << group.size() << endl;
 
 
 
@@ -716,6 +723,7 @@ void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
     temp.remove(temp.size() - 3, 3);
     temp.append(" ORDER BY filepath");
 
+
     QSqlQuery query(mlib->db);
     if (query.exec(temp))
     {
@@ -733,4 +741,8 @@ void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
         qWarning() << "SimplePlaylist::getNewTracks(QStringList, QStringList)\n\t" << query.lastError();
     }
 
+    qDebug() << "SimplePlaylist::getNewTracks\n\ttags:" << tags
+             << "\n\tvalues:" << values
+             << "\n\tquery:" << temp
+             << "\n\ttracks-count:" << trackGuids.size() << endl;
 }

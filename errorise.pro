@@ -8,7 +8,9 @@ QT       += sql
 QT       += core gui
 
 #CONFIG  += static
+#CONFIG   += console
 
+#TARGET = Errorise-console
 TARGET = errorise-testing
 TEMPLATE = app
 
