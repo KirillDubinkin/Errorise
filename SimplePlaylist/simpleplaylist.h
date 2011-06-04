@@ -90,6 +90,12 @@ private slots:
     void setGroupTextAlign(int align);
     void setGroupTextColor(QColor color);
     void setGroupBackColor(QColor color);
+
+    void removeFiles() {}
+    void copyFilesTo() {}
+    void copyFilesToClipboard() {}
+    void moveFiles() {}
+    void renameFiles() {}
 };
 
 #endif // SIMPLEPLAYLIST_H

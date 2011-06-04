@@ -3,6 +3,7 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QAction>
+#include <QMenu>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QTimer>
@@ -77,19 +78,22 @@ void SimplePlaylist::createActions()
 {
     setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    QAction *act;
+    QMenu *menu, *chldMenu;
 
-    act = new QAction(tr("Add to playback queue"), this);
-    addAction(act);
-    connect(act, SIGNAL(triggered()), this, SLOT(addToQueue()));
+    menu = new QMenu(tr("Simple Playlist"), this);
+    menu->addAction(tr("Add to playback queue"), this, SLOT(addToQueue()));
 
-    act = new QAction(this);
-    act->setSeparator(true);
-    addAction(act);
+    chldMenu = menu->addMenu(tr("File operations"));
+    chldMenu->addAction(tr("Remove files"), this, SLOT(removeFiles()));
+    chldMenu->addAction(tr("Copy files to..."), this, SLOT(copyFilesTo()));
+    chldMenu->addAction(tr("Copy files to clipboard"), this, SLOT(copyFilesToClipboard()));
+    chldMenu->addAction(tr("Move files to..."), this, SLOT(moveFiles()));
+    chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()));
 
-    act = new QAction(tr("Preferences..."), this);
-    addAction(act);
-    connect(act, SIGNAL(triggered()), this, SIGNAL(needPrefWindow()));
+    menu->addSeparator();
+    menu->addAction(tr("Preferences..."), this, SIGNAL(needPrefWindow()));
+
+    addActions(menu->actions());
 }
 
 
