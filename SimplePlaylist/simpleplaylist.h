@@ -54,9 +54,10 @@ private:
     QString doPlaylistArt(QString filename, QString dir);
 
     void loadSettings();
-    void createActions();
 
 private slots:
+    void createActions();
+
     void play(int row);
     void playNext();
     bool addNextTrack();

@@ -81,6 +81,9 @@ void SimplePlaylist::createActions()
 {
     setContextMenuPolicy(Qt::ActionsContextMenu);
 
+    while (!actions().isEmpty())
+        delete actions().takeFirst();
+
     QMenu *menu, *chldMenu;
 
     menu = new QMenu(tr("Simple Playlist"), this);
@@ -277,6 +280,7 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(headerVisibleChanged(bool)),     this, SLOT(setHeaderVisible(bool)));
         connect(prefsWidget, SIGNAL(gridVisibleChanged(bool)),       this, SLOT(setShowGrid(bool)));
         connect(prefsWidget, SIGNAL(gridStyleChanged(Qt::PenStyle)), this, SLOT(setGridStyle(Qt::PenStyle)));
+        connect(prefsWidget, SIGNAL(copyPatternChanged(QString)),    this, SLOT(createActions()));
 
         connect(prefsWidget, SIGNAL(colWidthChanged(int,int)),        this, SLOT(setColumnWidth(int,int)));
         connect(prefsWidget, SIGNAL(colAlignChanged(int,int)),        this, SLOT(setColumnAlign(int,int)));

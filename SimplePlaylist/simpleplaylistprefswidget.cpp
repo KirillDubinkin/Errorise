@@ -42,6 +42,7 @@ void SimplePlaylistPrefsWidget::load()
     ui->plArtSaveEdit->setText(Global::pref->pl_art_filename);
     ui->plArtSaveEdit->setEnabled(ui->plArtSaveBox->isChecked());
     ui->showGridBox->setChecked(prefs->show_grid);
+    ui->copyPatternEdit->setText(prefs->copy_preset);
     setGridStyleBoxState(prefs->grid_style);
     fillArtSearchLists();
 
@@ -76,6 +77,7 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->plArtSaveBox,       SIGNAL(toggled(bool)), this, SLOT(changePlArtSave(bool)));
     connect(ui->plArtSaveEdit,      SIGNAL(textChanged(QString)),     this, SLOT(changePlArtFilename(QString)));
     connect(ui->gridBox,            SIGNAL(currentIndexChanged(int)), this, SLOT(changeGridStyle(int)));
+    connect(ui->copyPatternEdit,    SIGNAL(textChanged(QString)),     this, SLOT(changeCopyPattern(QString)));
 
 
 
@@ -102,6 +104,13 @@ void SimplePlaylistPrefsWidget::conct()
     connect(ui->grpColorBackButton, SIGNAL(clicked()),            this, SLOT(openGrpColorBackDialog()));
     connect(ui->grpColorTextButton, SIGNAL(clicked()),            this, SLOT(openGrpColorTextDialog()));
     connect(ui->grpAlignBox,        SIGNAL(currentIndexChanged(int)), this, SLOT(changeGrpTextAlign(int)));
+}
+
+
+void SimplePlaylistPrefsWidget::changeCopyPattern(QString text)
+{
+    prefs->copy_preset = text;
+    emit copyPatternChanged(text);
 }
 
 

@@ -27,6 +27,7 @@ signals:
     void stylesheetChanged(QString style);
     void gridVisibleChanged(bool visible);
     void gridStyleChanged(Qt::PenStyle style);
+    void copyPatternChanged(QString text);
 
         //! Columns
     void colWidthChanged(int col, int width);
@@ -63,6 +64,7 @@ private slots:
     void changePlArtFilename(QString filename);
     void changeGridVisible(bool visible);
     void changeGridStyle(int boxIndex);
+    void changeCopyPattern(QString text);
 
         //! Columns
     void changeColWidth(QString text);
