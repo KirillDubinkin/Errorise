@@ -100,6 +100,10 @@ private slots:
     void copyFilesTo() {}
     void copyFilesToClipboard() {}
     void renameFiles() {}
+
+    void copyPatternToClipboard() {}
+    void copyPlLineToClipboard() {}
+    void copyCurColTextToClipboard() {}
 };
 
 #endif // SIMPLEPLAYLIST_H

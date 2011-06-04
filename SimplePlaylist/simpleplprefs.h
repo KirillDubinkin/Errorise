@@ -44,6 +44,7 @@ public:
     bool show_header;
     bool show_grid;
     Qt::PenStyle grid_style;
+    QString copy_preset;
 
     int prefs_tab;
 

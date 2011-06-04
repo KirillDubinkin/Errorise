@@ -91,6 +91,14 @@ void SimplePlaylist::createActions()
     chldMenu->addAction(tr("Move files to..."), this, SLOT(moveFiles()));
     chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()))->setEnabled(false);
 
+
+    chldMenu = menu->addMenu(tr("Copy"));
+    chldMenu->addAction(prefs->copy_preset), this, SLOT(copyPatternToClipboard());
+    chldMenu->addAction(tr("Playlist line"), this, SLOT(copyPlLineToClipboard()));
+    chldMenu->addAction(tr("Column text"), this, SLOT(copyCurColTextToClipboard()));
+
+
+    menu->addSeparator();
     menu->addAction(tr("Remove from playlist"), this, SLOT(deleteTracks()), QKeySequence::Delete);
 
     menu->addSeparator();
