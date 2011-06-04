@@ -14,7 +14,7 @@ public:
 signals:
 
 public slots:
-    static bool removeFiles(QList<int> ids) {}
+    static bool removeFiles(QList<int> ids, QWidget *parent = 0);
     static bool removeFiles(QStringList filepaths) {}
     static bool removeDir(QString path) {}
 

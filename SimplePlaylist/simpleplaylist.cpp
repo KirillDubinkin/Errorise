@@ -13,6 +13,7 @@
 
 #include "helper.h"
 #include "global.h"
+#include "fileoperations.h"
 
 using namespace Global;
 
@@ -90,10 +91,89 @@ void SimplePlaylist::createActions()
     chldMenu->addAction(tr("Move files to..."), this, SLOT(moveFiles()));
     chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()));
 
+    menu->addAction(tr("Remove from playlist"), this, SLOT(deleteTracks()), QKeySequence::Delete);
+
     menu->addSeparator();
     menu->addAction(tr("Preferences..."), this, SIGNAL(needPrefWindow()));
 
     addActions(menu->actions());
+}
+
+
+void SimplePlaylist::removeFiles()
+{
+    QList<int> ids = getSelectedIds();
+
+    if (!FileOperations::removeFiles(ids, this))
+        return;
+
+    removeTracks(ids);
+}
+
+
+QList<int> SimplePlaylist::getSelectedIds()
+{
+    QList<QTableWidgetSelectionRange> ranges = selectedRanges();
+    QList<int> ids;
+
+    foreach(QTableWidgetSelectionRange range, ranges)
+        for (int row = range.topRow(); row <= range.bottomRow(); row++)
+        {
+            QString s = item(row, 0)->text();
+
+            if ((s != Group) && (s != Cover))
+                ids.append(item(row, 0)->text().toInt());
+        }
+
+    return ids;
+}
+
+
+void SimplePlaylist::removeTracks(QList<int> ids)
+{
+    foreach (int id, ids)
+    {
+        for (int row = 0; row < rowCount(); row++)
+            if (item(row, 0)->text().toInt() == id)
+            {
+                removeRow(row);
+                break;
+            }
+    }
+
+
+        // Remove empty groups
+    int curGroup = 0, prevGroup = 0;
+    bool hasTracks = true;
+
+    for (int row = 0; row < rowCount(); row++)
+    {
+        if ( (item(row, 0)->text() == Group)  )
+        {
+            prevGroup = curGroup;
+            curGroup  = row;
+
+            if (!hasTracks)
+            {
+                removeRow(prevGroup); // group-line
+                removeRow(prevGroup); // art-heidht-line
+
+                row = row - 2;
+                curGroup = row;
+            }
+
+            hasTracks = false;
+
+        }
+        else if ( (item(row, 0)->text() != Cover)  &  (!item(row, 0)->text().isEmpty()) )
+            hasTracks = true;
+    }
+
+    if (item(rowCount() - 2, 0)->text() == Group)
+    {
+        removeRow(rowCount() - 2);
+        removeRow(rowCount() - 2);
+    }
 }
 
 

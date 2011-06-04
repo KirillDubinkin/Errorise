@@ -49,7 +49,8 @@ private:
     bool findCurrentTrack(int guid);
     bool findCurrentTrack(QString filename);
 
-    QList<int> getGroup(const QList<int> &tracks);
+    QList<int> getSelectedIds();
+
     QString doPlaylistArt(QString filename, QString dir);
 
     void loadSettings();
@@ -91,7 +92,10 @@ private slots:
     void setGroupTextColor(QColor color);
     void setGroupBackColor(QColor color);
 
-    void removeFiles() {}
+    void removeFiles();
+    void deleteTracks() { removeTracks(getSelectedIds()); }
+    void removeTracks(QList<int> ids);
+
     void copyFilesTo() {}
     void copyFilesToClipboard() {}
     void moveFiles() {}
