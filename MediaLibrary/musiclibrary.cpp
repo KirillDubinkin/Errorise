@@ -365,7 +365,7 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
 
 QString MusicLibrary::libraryPath()
 {
-    return libPath;
+    return QDir(libPath).path();
 }
 
 bool MusicLibrary::isReady()

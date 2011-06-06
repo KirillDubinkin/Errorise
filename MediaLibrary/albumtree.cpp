@@ -103,7 +103,7 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
 
         while (tags.size() > values.size())
         {
-            qDebug() << "AlbumTree::selectedNodeChange\n\ttags > values:" << tags.last() << endl;
+            qDebug() << "AlbumTree::selectedNodeChange\n\t(tags > values):" << tags.last() << endl;
             tags.removeLast();
         }
 
@@ -120,17 +120,22 @@ void AlbumTree::fillTree()
 {
     QMap<QString, QString> map = firstNode();
 
-    QMapIterator<QString, QString> i(map);
-
-    for (int j = 0; j < 10; j++)
+    if (map.isEmpty())
     {
-        i.next();
-        qDebug("%2d:   %s", j, i.key().toUtf8().data());
+        qWarning() << "AlbumTree::fillTree\t" << "map is empty!";
+        return;
     }
 
-    if (!map.isEmpty())
-        mkTree(map);
+    QMapIterator<QString, QString> i(map);
 
+    int j = 0;
+    while ((i.hasNext()) & j < 10)
+    {
+        i.next();
+        qDebug("%2d:   %s", j++, i.key().toUtf8().data());
+    }
+
+    mkTree(map);
 
 }
 
@@ -236,11 +241,13 @@ QMap<QString, QString> AlbumTree::firstNode()
 
         if (prefs->pattern.contains("filepath"))
         {
-            QString s = mlib->libraryPath() + "/";
+            QDir libDir(mlib->libraryPath());
+            QString libPath = libDir.path() + "/";
 
             while (query.next())
-                map.insert(query.value(1).toString().remove(s) + "/", query.value(0).toString());
-            map.remove(mlib->libraryPath() + "/");
+                map.insert(query.value(1).toString().remove(libPath) + "/", query.value(0).toString());
+            map.remove(libPath);
+            qDebug() << libPath;
         }
         else
         {
