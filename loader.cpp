@@ -19,7 +19,10 @@ Loader::~Loader()
 QWidget * Loader::gui()
 {
     if (!gui_p)
-        gui_p = new SimpleGUI;
+    {
+        Global::gui = new SimpleGUI;
+        gui_p = Global::gui;
+    }
 
     return gui_p;
 }

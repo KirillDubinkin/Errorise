@@ -22,10 +22,9 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
 
-    toolbar = new SimpleToolbar();
-    pl      = new SimplePlaylist();
-    tree    = new AlbumTree();
-
+    toolbar   = new SimpleToolbar();
+    pl        = new SimplePlaylist();
+    tree      = new AlbumTree();
 
     QHBoxLayout *hl = new QHBoxLayout();
     hl->addWidget(tree, 25);
@@ -35,6 +34,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
     mainLayout->addWidget(toolbar, 0);
     mainLayout->addLayout(hl, 100);
+
 
     setLayout(this->mainLayout);
     setGeometry(prefs->geometry);
@@ -54,6 +54,13 @@ SimpleGUI::~SimpleGUI()
 {
     prefs->geometry = geometry();
     delete prefs;
+}
+
+
+void SimpleGUI::showMessage(QString msg, int timeout)
+{
+    setWindowTitle(msg);
+    QTimer::singleShot(timeout, this, SLOT(restoreTitle()));
 }
 
 

@@ -14,6 +14,7 @@ class Preferences;
 
 class PhononFace;
 class MusicLibrary;
+class SimpleGUI;
 
 namespace Global {
 
@@ -23,10 +24,9 @@ namespace Global {
 	//! Translator (for changing language)
 //	extern Translator * translator;
 
-
         extern MusicLibrary *mlib;
         extern PhononFace   *player;
-
+        extern SimpleGUI    *gui;
 
         void global_init();
 	void global_end();
@@ -34,4 +34,3 @@ namespace Global {
 };
 
 #endif
-

@@ -27,6 +27,7 @@ signals:
 
 public slots:
     void showPreferences();
+    void showMessage(QString msg, int timeout = 2000);
 
 private slots:
     void changeTitle(QString, int guid);

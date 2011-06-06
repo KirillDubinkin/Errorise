@@ -6,11 +6,12 @@
 #include <QFile>
 //#include "version.h"
 
-Preferences     * Global::pref       = 0;
-//Translator      * Global::translator = 0;
+Preferences  * Global::pref       = 0;
+//Translator * Global::translator = 0;
 
-MusicLibrary    * Global::mlib       = 0;
-PhononFace      * Global::player     = 0;
+MusicLibrary * Global::mlib       = 0;
+PhononFace   * Global::player     = 0;
+SimpleGUI    * Global::gui        = 0;
 
 using namespace Global;
 
