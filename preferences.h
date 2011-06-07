@@ -34,6 +34,7 @@ public:
 
 
             //! General
+        int version;
         QString log_filter;
         bool log;
         bool save_log;

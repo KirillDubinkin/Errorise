@@ -12,10 +12,15 @@
 
 using namespace Global;
 
+const int ActualVersion = 1;
+
 Preferences::Preferences()
 {
+    version = 0;
+
     reset();
     load();
+    version = ActualVersion;
     save();
 }
 
@@ -92,6 +97,7 @@ void Preferences::save()
 
         //! General
     set.beginGroup("General");
+    set.setValue("version", version);
     set.setValue("log", log);
     set.setValue("save_log", save_log);
     set.setValue("log_filter", log_filter);
@@ -154,6 +160,20 @@ void Preferences::load()
 
         //! General
     set.beginGroup("General");
+
+    version              = set.value("version", version).toInt();
+    if (version < ActualVersion)
+    {
+        set.endGroup();
+
+        QDir dir(QFileInfo(set.fileName()).absolutePath());
+        QFileInfoList list = dir.entryInfoList();
+        foreach (QFileInfo file, list)
+            dir.remove(file.fileName());
+
+        return;
+    }
+
     log                  = set.value("log", log).toBool();
     save_log             = set.value("save_log", save_log).toBool();
     log_filter           = set.value("log_filter", log_filter).toString();
