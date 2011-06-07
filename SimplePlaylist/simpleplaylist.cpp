@@ -7,6 +7,7 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QTimer>
+#include <QTime>
 #include <QTableWidgetSelectionRange>
 #include <QApplication>
 #include <QClipboard>
@@ -51,7 +52,7 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
     connect(player, SIGNAL(trackChanged(QString,int)),
             this, SLOT(highlightCurrentTrack(QString,int)));
 
-    connect(player, SIGNAL(aboutToFinish()), this, SLOT(addNextTrack()));
+    connect(player, SIGNAL(aboutToFinish()), this, SLOT(changeTrack()));
     connect(player, SIGNAL(finished()), this, SLOT(finished()));
     connect(player, SIGNAL(needNext()), this, SLOT(playNext()));
 //! //////////////////////////////////////////////////////////////////////////
@@ -466,6 +467,13 @@ void SimplePlaylist::fillPlaylist()
         qDebug() << "SimplePlaylist filled\n"
                  << "######################################################################"
                  << "\n" << endl;
+
+        for (int row = 0; row < rowCount(); row++)
+        {
+            if ( (item(row, 0)->text() != Group) & (item(row, 0)->text() != Cover) )
+                trackGuids.append(item(row, 0)->text().toInt());
+        }
+
         return;
     }
 
@@ -828,6 +836,46 @@ void SimplePlaylist::play(int row)
 }
 
 
+bool SimplePlaylist::changeTrack(Preferences::PlaybackOrder order)
+{
+    switch (order) {
+    case Preferences::SequentialPlayback: return addNextTrack();
+    case Preferences::RepeatPlaylist:     return addNextTrack();
+    case Preferences::RepeatTrack:        return addCurrentTrack();
+    case Preferences::RandomPlayback:     return addRandomTrack();
+    }
+}
+
+
+bool SimplePlaylist::addCurrentTrack()
+{
+    int id = player->currentGuid();
+    if (id > - 1)
+    {
+        player->enqueue(id);
+        return true;
+    }
+
+    return false;
+}
+
+
+bool SimplePlaylist::addRandomTrack()
+{
+    if (!rowCount())
+        return false;
+
+    qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
+    int track = qrand() % (rowCount() - 1);
+
+    while ( (item(track, 0)->text() == Cover) | (item(track, 0)->text() == Group) )
+        track = qrand() % (rowCount() - 1);
+
+    player->enqueue(item(track, 0)->text().toInt());
+    return true;
+}
+
+
 bool SimplePlaylist::addNextTrack()
 {
     int nextTrackRow = currentTrackRow + 1;
@@ -838,21 +886,27 @@ bool SimplePlaylist::addNextTrack()
         if (item(nextTrackRow, 0)->text() == Group)
         {
             player->enqueue(item(++nextTrackRow, 0)->text().toInt());
-            return 1;
+            return true;
         }
 
         if (item(nextTrackRow, 0)->text() == Cover)
         {
             if (++nextTrackRow < rowCount())       //! After cover may be only group
-                {                                      //! so, play group+1 row
-                    player->enqueue(item(++nextTrackRow, 0)->text().toInt());
-                    return 1;
-                }
-            return 0;
+            {                                      //! so, play group+1 row
+                player->enqueue(item(++nextTrackRow, 0)->text().toInt());
+                return true;
+
+            } else if (pref->playback_order == Preferences::RepeatPlaylist) {
+                player->enqueue(item(1, 0)->text().toInt());
+                return true;
+            }
+
+
+            return false;
         }
 
         player->enqueue(item(nextTrackRow, 0)->text().toInt());
-        return 1;
+        return true;
     }
 
     return 0;
@@ -868,11 +922,17 @@ void SimplePlaylist::finished()
 
 void SimplePlaylist::playNext()
 {
-    if (addNextTrack())
+    Preferences::PlaybackOrder order = pref->playback_order;
+
+    if (order == Preferences::RepeatTrack)
+        order = Preferences::SequentialPlayback;
+
+    if (changeTrack(order))
     {
         player->stop();
         player->play();
     }
+
 }
 
 

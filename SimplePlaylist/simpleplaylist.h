@@ -6,6 +6,7 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
+#include "global.h"
 
 #include "SimplePlaylist/simpleplprefs.h"
 #include "SimplePlaylist/simpleplaylistprefswidget.h"
@@ -55,13 +56,18 @@ private:
 
     void loadSettings();
 
+    bool addNextTrack();
+    bool addRandomTrack();
+    bool addCurrentTrack();
+//    bool addShuffleTrack();
+
 private slots:
     void createActions();
 
     void play(int row);
     void playNext();
-    bool addNextTrack();
     void finished();
+    bool changeTrack(Preferences::PlaybackOrder order = Global::pref->playback_order);
 
     void addToQueue();
 
