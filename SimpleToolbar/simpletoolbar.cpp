@@ -124,8 +124,6 @@ void SimpleToolbar::changePlaybackOrder(int idx)
     default: qWarning() << "SimpleToolbar::changePlaybackOrder\n\tundefinned index:" << idx;
         break;
     }
-
-    qDebug() << pref->playback_order;
 }
 
 

@@ -765,14 +765,16 @@ void SimplePlaylist::highlightCurrentTrack(QString filename, int guid)
         findCurrentTrack(filename);
 
     if (currentTrackRow > -1)
+    {
         for (int j = 1; j < this->columnCount(); j++)
         {
-            if (j != this->CoverColumn)
-            {
+            if (j != this->CoverColumn) {
                 item(currentTrackRow, j)->setBackground(palette().brush(QPalette::Active, QPalette::Highlight));
                 item(currentTrackRow, j)->setTextColor(palette().brush(QPalette::Active, QPalette::HighlightedText).color());
+                scrollToItem(item(currentTrackRow, j));
             }
         }
+    }
 }
 
 
