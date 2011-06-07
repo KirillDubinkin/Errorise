@@ -55,7 +55,8 @@ void SimpleToolbarPrefs::reset()
     //! Other
     style = "";
     toolList << "12" << QString::number(Stop) << QString::number(PlayPause) << QString::number(Prev)
-            << QString::number(Next) << "6" << QString::number(Seekbar) << "6" << QString::number(Volume) << "12";
+            << QString::number(Next) << "6" << QString::number(Seekbar) << QString::number(PlaybackOrder)
+            << QString::number(Volume) << "12";
 
 }
 
