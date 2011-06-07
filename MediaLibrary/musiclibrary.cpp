@@ -12,6 +12,8 @@
 #include <QMapIterator>
 #include <QDateTime>
 #include <QFile>
+#include <QFileDialog>
+#include <QMessageBox>
 
 using namespace Global;
 
@@ -56,7 +58,26 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
 
     if ((libPath.isEmpty()) | (!QDir(libPath).exists())) // path - empty, until user does not change it manually
-       return;
+    {
+        int btn = QMessageBox::question(0, tr("Location of the local music"),
+                                   tr("You must specify the location of the local music\n"),
+                                   QMessageBox::Ok, QMessageBox::Cancel);
+
+        if (btn == QMessageBox::Cancel)
+            return;
+
+        QString filename = QFileDialog::getExistingDirectory(0,
+                 tr("Select place, where you save music"), Global::pref->music_library_path,
+                 QFileDialog::ShowDirsOnly);
+
+        if (filename.isEmpty())
+            return;
+
+        pref->music_library_path = filename;
+        setLibraryPath(filename);
+        return;
+    }
+
 
 
     QSqlQuery query(db);
@@ -82,9 +103,10 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
         ready = true;
         emit readyToWork();
+
     }
 
-    QTimer::singleShot(3000, this, SLOT(checkForUpdates()));
+    QTimer::singleShot(5000, this, SLOT(checkForUpdates()));
 }
 
 
