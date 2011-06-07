@@ -20,9 +20,9 @@ public:
             SequentialPlayback = 0,
             RepeatTrack        = 1,
             RepeatPlaylist     = 2,
-            ShuffleTracks      = 4,
-            ShuffleAlbums      = 8,
-            RandomPlayback     = 16
+            ShuffleTracks      = 3,
+            ShuffleAlbums      = 4,
+            RandomPlayback     = 5
         };
 
         void reset();
