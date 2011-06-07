@@ -37,6 +37,7 @@ private:
     SimplePlaylistPrefsWidget  *prefsWidget;
     QList<int> trackGuids;
     QList<CoversQueue> artQueue;
+    QList<int> shuffleRows;
 
     QTableWidgetItem *newItem(Qt::ItemFlags flags = Qt::NoItemFlags, const QString &text = "");
 
@@ -59,7 +60,7 @@ private:
     bool addNextTrack();
     bool addRandomTrack();
     bool addCurrentTrack();
-//    bool addShuffleTrack();
+    bool addShuffleTrack();
 
 private slots:
     void createActions();

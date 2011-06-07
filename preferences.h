@@ -20,8 +20,8 @@ public:
             SequentialPlayback = 0,
             RepeatTrack        = 1,
             RepeatPlaylist     = 2,
-            SuffleTracks       = 4,
-            SuffleAlbums       = 8,
+            ShuffleTracks      = 4,
+            ShuffleAlbums      = 8,
             RandomPlayback     = 16
         };
 

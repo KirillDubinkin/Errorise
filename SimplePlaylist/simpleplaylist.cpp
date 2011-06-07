@@ -830,7 +830,10 @@ void SimplePlaylist::play(int row)
     int guid = this->item(row, 0)->text().toInt(&ok);
 
     if (ok)
+    {
+        shuffleRows.clear();
         return player->play(guid);
+    }
 
     qWarning("SimplePlaylist::play\n\t row %d, guid %d", row, guid);
 }
@@ -843,7 +846,57 @@ bool SimplePlaylist::changeTrack(Preferences::PlaybackOrder order)
     case Preferences::RepeatPlaylist:     return addNextTrack();
     case Preferences::RepeatTrack:        return addCurrentTrack();
     case Preferences::RandomPlayback:     return addRandomTrack();
+    case Preferences::ShuffleTracks:      return addShuffleTrack();
     }
+}
+
+
+bool SimplePlaylist::addShuffleTrack()
+{
+    if (currentTrackRow == -1)
+        return false;
+
+    if (shuffleRows.isEmpty())
+    {
+        int count = 0, i = 0;
+        qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
+
+        int rowcount = rowCount() - 2;
+
+        while (count < rowcount)
+        {
+            int row = (qrand() % rowcount) + 1;
+
+            if (!shuffleRows.contains(row))
+            {
+                count++;
+                shuffleRows.append(row);
+            }
+
+            //qDebug("i: %3d\trow: %2d\tcount: %d", i++, row, count);
+        }
+
+        shuffleRows.removeOne(currentTrackRow);
+
+        QList<int> rowsToRemove;
+
+        for (int i = 0; i < shuffleRows.size(); i++)
+        {
+            int row = shuffleRows.at(i);
+            if ( (item(row, 0)->text() == Cover) | (item(row, 0)->text() == Group) )
+                rowsToRemove.append(row);
+        }
+
+
+        foreach(int row, rowsToRemove)
+            shuffleRows.removeOne(row);
+    }
+
+    if (shuffleRows.isEmpty())
+        return false;
+
+    player->enqueue(item(shuffleRows.takeFirst(), 0)->text().toInt());
+    return true;
 }
 
 
@@ -866,10 +919,10 @@ bool SimplePlaylist::addRandomTrack()
         return false;
 
     qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
-    int track = qrand() % (rowCount() - 1);
+    int track = (qrand() % (rowCount() - 2)) + 1;
 
     while ( (item(track, 0)->text() == Cover) | (item(track, 0)->text() == Group) )
-        track = qrand() % (rowCount() - 1);
+        track = (qrand() % (rowCount() - 2)) + 1;
 
     player->enqueue(item(track, 0)->text().toInt());
     return true;
@@ -960,6 +1013,7 @@ void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
     if (query.exec(temp))
     {
         trackGuids.clear();
+        shuffleRows.clear();
 
         while (query.next())
             trackGuids.append(query.value(0).toInt());
