@@ -104,6 +104,7 @@ QComboBox * SimpleToolbar::playbackOrderBox()
         play_order->addItem(tr("Shuffle (albums)"));
         play_order->addItem(tr("Random"));
         play_order->setCurrentIndex(pref->playback_order);
+        play_order->setContextMenuPolicy(Qt::ActionsContextMenu);
 
         connect(play_order, SIGNAL(currentIndexChanged(int)), this, SLOT(changePlaybackOrder(int)));
     }
@@ -130,55 +131,22 @@ void SimpleToolbar::changePlaybackOrder(int idx)
 Phonon::SeekSlider * SimpleToolbar::seekbar()
 {
     if (seek_bar == 0) {
-        //seek_bar = new Phonon::SeekSlider(player->mediaObject(), this);
         seek_bar = player->seekSlider(this);
         seek_bar->setAttribute(Qt::WA_DeleteOnClose);
-        /*seek_bar->setContextMenuPolicy(Qt::ActionsContextMenu);
-
-        QAction *act;
-        seek_bar->addAction(act = new QAction(tr("Remove from Toolbar"), seek_bar));
-        connect(act, SIGNAL(triggered()), this, SLOT(hideSeekbar()));
-    */
     }
 
     return seek_bar;
 }
 
-void SimpleToolbar::hideSeekbar()
-{
-    if (prefs->toolList.removeOne(QString::number(SimpleToolbarPrefs::Seekbar))) {
-        this->seekbar()->close();
-    }
-}
 
 Phonon::VolumeSlider * SimpleToolbar::vol()
 {
-    if (volume == 0){
-        //volume = new Phonon::VolumeSlider(player->audioOutput(), this);
+    if (volume == 0)
         volume = player->volumeSlider(this);
-/*
-        volume->setMinimum(0);
-        volume->setMaximum(100);
-*/
-    /*    volume->setContextMenuPolicy(Qt::ActionsContextMenu);
-        volume->setAttribute(Qt::WA_DeleteOnClose);
-
-        QAction *act;
-        volume->addAction(act = new QAction(tr("Remove from toolbar"), volume));
-        connect(act, SIGNAL(triggered()), this, SLOT(hideVol()));
-*/
-    }
 
     return volume;
 }
 
-void SimpleToolbar::hideVol()
-{
-    if (prefs->toolList.removeOne(QString::number(SimpleToolbarPrefs::Volume))) {
-       // L->removeWidget(this->vol());
-        this->vol()->close();
-    }
-}
 
 QPushButton * SimpleToolbar::btnNext()
 {

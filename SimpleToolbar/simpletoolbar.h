@@ -36,10 +36,6 @@ public:
     QWidget *getPrefsWidget();
 
 
-public slots:
-    void hideVol();
-    void hideSeekbar();
-
 private slots:
     inline void deletePreferences() { prefsWidget = 0; }
     void buildToolbar();
