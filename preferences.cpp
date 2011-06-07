@@ -193,9 +193,8 @@ void Preferences::load()
 
 
         //! Playback
-//    set.beginGroup("Playback");
-//    playback_order = (PlaybackOrder) set.value("playback_order", playback_order).toInt();
-//    set.endGroup();
+    set.beginGroup("Playback");
+    playback_order = (PlaybackOrder) set.value("playback_order", playback_order).toInt();
+    set.endGroup();
 
 }
-

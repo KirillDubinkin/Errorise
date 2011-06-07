@@ -4,7 +4,7 @@
 #include <QRegExp>
 #include <QTime>
 #include <QFileInfo>
-
+#include <QTextCodec>
 
 MediaInfo::MediaInfo(QObject *parent): Minfo(parent)
 {
@@ -136,7 +136,8 @@ int MediaInfo::timeToSec(QString time)
 
 QMultiMap<QString, QString> MediaInfo::metadata()
 {
-    QStringList out = QString::fromLocal8Bit(minfo->readAllStandardOutput()).split("\n");
+    QStringList out = QString::fromUtf8(minfo->readAllStandardOutput()).split("\n");
+
     minfo->close();
 
     QMultiMap<QString, QString> meta;

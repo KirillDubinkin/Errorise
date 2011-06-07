@@ -852,6 +852,7 @@ bool SimplePlaylist::changeTrack(Preferences::PlaybackOrder order)
     case Preferences::RandomPlayback:     return addRandomTrack();
     case Preferences::ShuffleTracks:      return addShuffleTrack();
     case Preferences::ShuffleAlbums:      return addShuffleGroup();
+    default: qWarning() << "SimplePlaylist::changeTrack()\torder:" << order; return false;
     }
 }
 
@@ -863,7 +864,7 @@ bool SimplePlaylist::addShuffleTrack()
 
     if (shuffleRows.isEmpty())
     {
-        int count = 0, i = 0;
+        int count = 0;
         qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
 
         int rowcount = rowCount() - 2;
