@@ -530,9 +530,22 @@ void SimplePlaylist::fillPlaylist()
         QTableWidgetItem *guid = new QTableWidgetItem(QString::number(group.at(idx)));
         setItem(row, 0, guid);
 
-        for (int col = 0; col < colCount; col++)
-            if (CoverColumn-1 != col)
-                addRowItem(row, col, Helper::parseLine(group.at(idx), prefs->rows_format.at(col)));
+        if (!VA)
+        {
+            for (int col = 0; col < colCount; col++)
+                if (CoverColumn-1 != col)
+                    addRowItem(row, col, Helper::parseLine(group.at(idx), prefs->rows_format.at(col)));
+        } else {
+            for (int col = 0; col < colCount; col++)
+                if (CoverColumn-1 != col)
+                {
+                    if (prefs->rows_format.at(col).contains("%title%"))
+                        addRowItem(row, col, Helper::parseLine(group.at(idx), "%artist% - %title%"));
+                    else
+                        addRowItem(row, col, Helper::parseLine(group.at(idx), prefs->rows_format.at(col)));
+                }
+        }
+
         row++;
     }
 
@@ -882,8 +895,7 @@ void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
         temp.append(" (" + tags.takeFirst() + oper + values.takeFirst().replace("'", "''") + percent + "') AND");
 
     temp.remove(temp.size() - 3, 3);
-    temp.append(" ORDER BY filepath");
-
+    temp.append(" ORDER BY filedir, tracknumber");
 
     QSqlQuery query(mlib->db);
     if (query.exec(temp))
