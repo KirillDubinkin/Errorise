@@ -38,6 +38,9 @@ private:
     QList<int> trackGuids;
     QList<CoversQueue> artQueue;
     QList<int> shuffleRows;
+    QList<int> groupRows;
+    QList<int> shuffleGroups;
+    bool firstShuffle;
 
     QTableWidgetItem *newItem(Qt::ItemFlags flags = Qt::NoItemFlags, const QString &text = "");
 
@@ -61,6 +64,7 @@ private:
     bool addRandomTrack();
     bool addCurrentTrack();
     bool addShuffleTrack();
+    bool addShuffleGroup();
 
 private slots:
     void createActions();

@@ -832,6 +832,10 @@ void SimplePlaylist::play(int row)
     if (ok)
     {
         shuffleRows.clear();
+        shuffleGroups.clear();
+        groupRows.clear();
+        firstShuffle = true;
+
         return player->play(guid);
     }
 
@@ -847,6 +851,7 @@ bool SimplePlaylist::changeTrack(Preferences::PlaybackOrder order)
     case Preferences::RepeatTrack:        return addCurrentTrack();
     case Preferences::RandomPlayback:     return addRandomTrack();
     case Preferences::ShuffleTracks:      return addShuffleTrack();
+    case Preferences::ShuffleAlbums:      return addShuffleGroup();
     }
 }
 
@@ -876,7 +881,10 @@ bool SimplePlaylist::addShuffleTrack()
             //qDebug("i: %3d\trow: %2d\tcount: %d", i++, row, count);
         }
 
-        shuffleRows.removeOne(currentTrackRow);
+        if (firstShuffle)
+            shuffleRows.removeOne(currentTrackRow);
+
+        firstShuffle = false;
 
         QList<int> rowsToRemove;
 
@@ -890,13 +898,69 @@ bool SimplePlaylist::addShuffleTrack()
 
         foreach(int row, rowsToRemove)
             shuffleRows.removeOne(row);
-    }
 
-    if (shuffleRows.isEmpty())
-        return false;
+        if (shuffleRows.isEmpty())
+            return false;
+    }
 
     player->enqueue(item(shuffleRows.takeFirst(), 0)->text().toInt());
     return true;
+}
+
+
+bool SimplePlaylist::addShuffleGroup()
+{
+    if (currentTrackRow == -1)
+        return false;
+
+    if (shuffleGroups.isEmpty())
+    {
+        groupRows.clear();
+
+        qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
+
+        for (int row = 0; row < rowCount(); row++)
+            if (item(row, 0)->text() == Group)
+                groupRows.append(row);
+
+        int count = 0;
+
+        while (count < groupRows.size())
+        {
+            int group = qrand() % (groupRows.size());
+
+            if (!shuffleGroups.contains(group))
+            {
+                count++;
+                shuffleGroups.append(group);
+            }
+        }
+
+
+        int curGroup = -1, row = 0;
+        while (row != currentTrackRow)
+            if (item(row++, 0)->text() == Group)
+                curGroup++;
+
+        if (firstShuffle)
+            shuffleGroups.removeOne(curGroup);
+
+        firstShuffle = false;
+    }
+
+
+    if (item(currentTrackRow + 1, 0)->text() != Cover)
+    {
+        player->enqueue(item(currentTrackRow + 1, 0)->text().toInt());
+        return true;
+
+    } else {
+        int curGroup = shuffleGroups.takeFirst();
+        player->enqueue(item(groupRows.at(curGroup) + 1, 0)->text().toInt());
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -1014,6 +1078,9 @@ void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
     {
         trackGuids.clear();
         shuffleRows.clear();
+        shuffleGroups.clear();
+        groupRows.clear();
+        firstShuffle = true;
 
         while (query.next())
             trackGuids.append(query.value(0).toInt());
