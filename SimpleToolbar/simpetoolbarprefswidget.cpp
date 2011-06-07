@@ -74,6 +74,8 @@ void SimpeToolbarPrefsWidget::createToolListMenu()
     chldmenu->addAction(tr("Stop button"),          this, SLOT(addButtonStop()));
     chldmenu->addAction(tr("Previous button"),      this, SLOT(addButtonPrev()));
     chldmenu->addAction(tr("Next button"),          this, SLOT(addButtonNext()));
+    chldmenu->addSeparator();
+    chldmenu->addAction(tr("Playback Order"),       this, SLOT(addPlaybackOrder()));
 
     menu->addSeparator();
     menu->addAction(tr("Move Up"),     this, SLOT(moveUp()));
@@ -82,6 +84,17 @@ void SimpeToolbarPrefsWidget::createToolListMenu()
     menu->addAction(tr("Remove item"), this, SLOT(removeTool()));
 
     ui->toolList->addActions(menu->actions());
+}
+
+
+void SimpeToolbarPrefsWidget::addPlaybackOrder()
+{
+    if (prefs->toolList.contains(QString::number(SimpleToolbarPrefs::PlaybackOrder)))
+        return;
+
+    prefs->toolList.insert(ui->toolList->currentRow()+1, QString::number(SimpleToolbarPrefs::PlaybackOrder));
+    loadToolList();
+    emit needTimer();
 }
 
 
@@ -224,14 +237,33 @@ void SimpeToolbarPrefsWidget::loadToolList()
     {
         switch (QString(prefs->toolList.at(i)).toInt())
         {
-        case SimpleToolbarPrefs::Seekbar: ui->toolList->addItem(new QListWidgetItem(tr("Seek bar"))); break;
-        case SimpleToolbarPrefs::Volume: ui->toolList->addItem(new QListWidgetItem(tr("Volume"))); break;
-        case SimpleToolbarPrefs::Play: ui->toolList->addItem(new QListWidgetItem(tr("Play button"))); break;
-        case SimpleToolbarPrefs::Pause: ui->toolList->addItem(new QListWidgetItem(tr("Pause button"))); break;
-        case SimpleToolbarPrefs::PlayPause: ui->toolList->addItem(new QListWidgetItem(tr("Play or pause button"))); break;
-        case SimpleToolbarPrefs::Stop: ui->toolList->addItem(new QListWidgetItem(tr("Stop button"))); break;
-        case SimpleToolbarPrefs::Prev: ui->toolList->addItem(new QListWidgetItem(tr("Previous button"))); break;
-        case SimpleToolbarPrefs::Next: ui->toolList->addItem(new QListWidgetItem(tr("Next button"))); break;
+        case SimpleToolbarPrefs::Seekbar:
+            ui->toolList->addItem(new QListWidgetItem(tr("Seek bar")));
+            break;
+        case SimpleToolbarPrefs::Volume:
+            ui->toolList->addItem(new QListWidgetItem(tr("Volume")));
+            break;
+        case SimpleToolbarPrefs::Play:
+            ui->toolList->addItem(new QListWidgetItem(tr("Play button")));
+            break;
+        case SimpleToolbarPrefs::Pause:
+            ui->toolList->addItem(new QListWidgetItem(tr("Pause button")));
+            break;
+        case SimpleToolbarPrefs::PlayPause:
+            ui->toolList->addItem(new QListWidgetItem(tr("Play or pause button")));
+            break;
+        case SimpleToolbarPrefs::Stop:
+            ui->toolList->addItem(new QListWidgetItem(tr("Stop button")));
+            break;
+        case SimpleToolbarPrefs::Prev:
+            ui->toolList->addItem(new QListWidgetItem(tr("Previous button")));
+            break;
+        case SimpleToolbarPrefs::Next:
+            ui->toolList->addItem(new QListWidgetItem(tr("Next button")));
+            break;
+        case SimpleToolbarPrefs::PlaybackOrder:
+            ui->toolList->addItem(new QListWidgetItem(tr("Playback Order")));
+            break;
 
         default: ui->toolList->addItem(new QListWidgetItem(tr("Spacing") + " (" + prefs->toolList.at(i) + ")")); break;
         }
@@ -244,8 +276,9 @@ void SimpeToolbarPrefsWidget::itemChosen()
 
     switch (tool)
     {
-    case SimpleToolbarPrefs::Seekbar:   enableAll(false); clearFields(); break;
-    case SimpleToolbarPrefs::Volume:    enableAll(false); clearFields(); break;
+    case SimpleToolbarPrefs::Seekbar:       enableAll(false); clearFields(); break;
+    case SimpleToolbarPrefs::Volume:        enableAll(false); clearFields(); break;
+    case SimpleToolbarPrefs::PlaybackOrder: enableAll(false); clearFields(); break;
     case SimpleToolbarPrefs::Play:
         enableAll(true);
         ui->heightLine->setText(QString::number(prefs->btnHeight));

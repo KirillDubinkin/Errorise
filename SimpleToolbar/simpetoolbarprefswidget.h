@@ -46,6 +46,7 @@ private slots:
     void addButtonPrev();
     void addSeekBar();
     void addVolumeBar();
+    void addPlaybackOrder();
     void moveUp();
     void moveDown();
 
