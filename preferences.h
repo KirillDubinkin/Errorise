@@ -16,6 +16,15 @@ public:
         Preferences();
 	virtual ~Preferences();
 
+        enum PlaybackOrder {
+            SequentialPlayback = 0,
+            RepeatTrack        = 1,
+            RepeatPlaylist     = 2,
+            SuffleTracks       = 4,
+            SuffleAlbums       = 8,
+            RandomPlayback     = 16
+        };
+
         void reset();
 	void save();
 	void load();
@@ -54,6 +63,10 @@ public:
         QStringList art_search_patterns;
         QStringList art_search_folders;
         int         lib_update_timeout;
+
+
+            //! Playback
+        PlaybackOrder playback_order;
 
 };
 

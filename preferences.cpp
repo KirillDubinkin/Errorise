@@ -68,6 +68,10 @@ void Preferences::reset()
 #endif
 
     lib_update_timeout  = 60;
+
+
+        //! Playback
+    playback_order = Preferences::SequentialPlayback;
 }
 
 
@@ -121,6 +125,11 @@ void Preferences::save()
     set.setValue("art_search_patterns", art_search_patterns);
     set.setValue("art_search_folders", art_search_folders);
     set.setValue("lib_update_timeout", lib_update_timeout);
+    set.endGroup();
+
+        //! Playback
+    set.beginGroup("Playback");
+    set.setValue("playback_order", playback_order);
     set.endGroup();
 
     set.sync();
@@ -180,6 +189,12 @@ void Preferences::load()
     art_search_patterns = set.value("art_search_patterns", art_search_patterns).toStringList();
     art_search_folders  = set.value("art_search_folders", art_search_folders).toStringList();
     lib_update_timeout  = set.value("lib_update_timeout", lib_update_timeout).toInt();
+    set.endGroup();
+
+
+        //! Playback
+    set.beginGroup("Playback");
+    playback_order = (PlaybackOrder) set.value("playback_order", playback_order).toInt();
     set.endGroup();
 
 }
