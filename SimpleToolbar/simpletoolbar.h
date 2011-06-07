@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QString>
 #include <QStringList>
+#include <QComboBox>
 
 #include <Phonon/VolumeSlider>
 #include <Phonon/SeekSlider>
@@ -30,6 +31,8 @@ public:
     QPushButton *btnPause();
     QPushButton *btnPlayPause();
 
+    QComboBox   *playbackOrderBox();
+
     QWidget *getPrefsWidget();
 
 
@@ -40,6 +43,7 @@ public slots:
 private slots:
     inline void deletePreferences() { prefsWidget = 0; }
     void buildToolbar();
+    void changePlaybackOrder(int idx);
 
 private:
     void initComponents();
@@ -55,6 +59,7 @@ private:
 
     Phonon::VolumeSlider *volume;
     Phonon::SeekSlider   *seek_bar;
+    QComboBox            *play_order;
 
     QPushButton *btn_play, *btn_next, *btn_prev, *btn_stop, *btn_pause, *btn_play_pause;
 

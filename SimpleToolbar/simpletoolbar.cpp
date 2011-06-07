@@ -48,6 +48,7 @@ void SimpleToolbar::buildToolbar()
         case SimpleToolbarPrefs::Stop:      L->addWidget(this->btnStop()); break;
         case SimpleToolbarPrefs::Prev:      L->addWidget(this->btnPrev()); break;
         case SimpleToolbarPrefs::Next:      L->addWidget(this->btnNext()); break;
+        case SimpleToolbarPrefs::PlaybackOrder: L->addWidget(playbackOrderBox()); break;
 
         default: L->addSpacing(QString(prefs->toolList.at(i)).toInt());
         }
@@ -65,6 +66,7 @@ void SimpleToolbar::deleteComponents()
     if (btn_play_pause) { L->removeWidget(btn_play_pause); delete btn_play_pause; }
     if (btn_prev)       { L->removeWidget(btn_prev);       delete btn_prev; }
     if (btn_stop)       { L->removeWidget(btn_stop);       delete btn_stop; }
+    if (play_order)     { L->removeWidget(play_order);     delete play_order; }
 
     while (L->count())
         L->removeItem(L->itemAt(0));
@@ -86,7 +88,46 @@ void SimpleToolbar::initComponents()
     btn_play_pause = 0;
     btn_prev       = 0;
     btn_stop       = 0;
+
+    play_order     = 0;
 }
+
+
+QComboBox * SimpleToolbar::playbackOrderBox()
+{
+    if (play_order == 0) {
+        play_order = new QComboBox();
+        play_order->addItem(tr("Default"));
+        play_order->addItem(tr("Repeat (track)"));
+        play_order->addItem(tr("Repeat (playlist)"));
+        play_order->addItem(tr("Shuffle (tracks)"));
+        play_order->addItem(tr("Shuffle (albums)"));
+        play_order->addItem(tr("Random"));
+        play_order->setCurrentIndex(pref->playback_order);
+
+        connect(play_order, SIGNAL(currentIndexChanged(int)), this, SLOT(changePlaybackOrder(int)));
+    }
+
+    return play_order;
+}
+
+
+void SimpleToolbar::changePlaybackOrder(int idx)
+{
+    switch (idx) {
+    case 0: pref->playback_order = Preferences::SequentialPlayback; break;
+    case 1: pref->playback_order = Preferences::RepeatTrack;        break;
+    case 2: pref->playback_order = Preferences::RepeatPlaylist;     break;
+    case 3: pref->playback_order = Preferences::ShuffleTracks;      break;
+    case 4: pref->playback_order = Preferences::ShuffleAlbums;      break;
+    case 5: pref->playback_order = Preferences::RandomPlayback;     break;
+    default: qWarning() << "SimpleToolbar::changePlaybackOrder\n\tundefinned index:" << idx;
+        break;
+    }
+
+    qDebug() << pref->playback_order;
+}
+
 
 Phonon::SeekSlider * SimpleToolbar::seekbar()
 {
