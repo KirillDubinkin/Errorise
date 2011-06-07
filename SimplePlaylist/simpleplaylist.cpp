@@ -41,6 +41,8 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 
     setSelectionBehavior(QAbstractItemView::SelectRows);
 
+    qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
+
 //!  MusicLibrary
     connect(mlib, SIGNAL(tracksSelectedBy(QStringList,QStringList)),
             this, SLOT(getNewTracks(QStringList,QStringList)));
@@ -866,41 +868,22 @@ bool SimplePlaylist::addShuffleTrack()
 
     if (shuffleRows.isEmpty())
     {
-        int count = 0;
-        qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
-
-        int rowcount = rowCount() - 2;
-
-        while (count < rowcount)
-        {
-            int row = (qrand() % rowcount) + 1;
-
-            if (!shuffleRows.contains(row))
-            {
-                count++;
+        for (int row = 0; row < rowCount(); row++)
+            if ( (item(row, 0)->text() != Group) & (item(row, 0)->text() != Cover) )
                 shuffleRows.append(row);
-            }
 
-            //qDebug("i: %3d\trow: %2d\tcount: %d", i++, row, count);
+        for (int id = 0; id < shuffleRows.size(); id++)
+        {
+            int newId = qrand() % shuffleRows.size();
+            int row = shuffleRows.at(id);
+            shuffleRows.replace(id, shuffleRows.at(newId));
+            shuffleRows.replace(newId, row);
         }
 
         if (firstShuffle)
             shuffleRows.removeOne(currentTrackRow);
 
         firstShuffle = false;
-
-        QList<int> rowsToRemove;
-
-        for (int i = 0; i < shuffleRows.size(); i++)
-        {
-            int row = shuffleRows.at(i);
-            if ( (item(row, 0)->text() == Cover) | (item(row, 0)->text() == Group) )
-                rowsToRemove.append(row);
-        }
-
-
-        foreach(int row, rowsToRemove)
-            shuffleRows.removeOne(row);
 
         if (shuffleRows.isEmpty())
             return false;
@@ -919,8 +902,6 @@ bool SimplePlaylist::addShuffleGroup()
     if (shuffleGroups.isEmpty())
     {
         groupRows.clear();
-
-        qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
 
         for (int row = 0; row < rowCount(); row++)
             if (item(row, 0)->text() == Group)
@@ -985,7 +966,6 @@ bool SimplePlaylist::addRandomTrack()
     if (!rowCount())
         return false;
 
-    qsrand(QTime(0,0).msecsTo(QTime::currentTime()));
     int track = (qrand() % (rowCount() - 2)) + 1;
 
     while ( (item(track, 0)->text() == Cover) | (item(track, 0)->text() == Group) )
