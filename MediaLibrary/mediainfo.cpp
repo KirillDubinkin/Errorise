@@ -19,7 +19,7 @@ void MediaInfo::scanFiles(QStringList files)
 {
     isUpdateState = false;
 
-    qDebug() << "MediaInfo::scanFiles" << files.size();
+    qDebug() << "MediaInfo::scanFiles" << files.size() << "\n\n" << files.join("\n") << "\n\n\n";
 
     playlistArtFilePath.clear();
     artFilePath.clear();
@@ -85,12 +85,11 @@ void MediaInfo::pringTags()
 {
     QMultiMap<QString, QString> temp = metadata();
 
-    QStringList format = currentFile.split(".");
-    temp.insert("FORMAT", QString(format.last()).toUpper());
-
     temp.insert("ART", artFilePath);
     temp.insert("PLAYLISTART", playlistArtFilePath);
     temp.insert("MODIFIED", QString::number(QFileInfo(currentFile).lastModified().toMSecsSinceEpoch()));
+
+    fixMetadata(currentFile, &temp);
 
     meta.insert(currentFile, temp);
 

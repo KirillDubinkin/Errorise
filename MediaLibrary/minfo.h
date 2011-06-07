@@ -39,6 +39,12 @@ signals:
     void newFileAdded  (QString filename, QMultiMap<QString, QString> tags);
     void updateLibraryNow();
 
+protected:
+    virtual void fixMetadata(QString filepath, QMultiMap<QString, QString> *meta);
+        // fills empty tags "TITLE", "ARTIST", "ALBUM", "TRACK-NUMBER" and "FORMAT"
+        // from filename and filepath
+        // also, adds '0' to TRACK-NUMBER, if it necessary
+
 };
 
 #endif // MINFO_H
