@@ -2,7 +2,7 @@
 #define _VERSION_H_
 
 #define NAME "Errorise"
-#define VERSION "0.1.4 r395"
+#define VERSION "0.1.5 r407"
 #define COMPANY "we_apon"
 
 #include <QString>
