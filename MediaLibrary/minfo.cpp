@@ -78,7 +78,9 @@ void Minfo::fixMetadata(QString filepath, QMultiMap<QString, QString> *meta)
         QString(name.at(0)).toInt(&ok);
         while (ok)
         {
-            i++;
+            if (++i >= name.size())
+                break;
+
             QString(name.at(i)).toInt(&ok);
         }
 
