@@ -24,7 +24,7 @@ void SimplePLPrefs::reset()
 
     //! Groups
     groups_format        = "[$if2(%albumartist%,%artist%) - ]['['%date%']'] %album%";
-    groups_va_format     = "['['%date%']'] %album%[  // %albumartist%]";
+    groups_va_format     = "Various Artists[: ['['%date%']'] %album%[  // %albumartist%]]";
     groups_text_color.setNamedColor("#ffffff");
     groups_back_color.setNamedColor("#182835");
     groups_text_aligment = Qt::AlignLeft;
