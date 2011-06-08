@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <QList>
 
 #include "helper.h"
 #include "version.h"
@@ -116,15 +117,18 @@ void SimpleGUI::restoreTitle()
 }
 
 
-void SimpleGUI::showPreferences()
+void SimpleGUI::showPreferences(QWidget *defaultWidget)
 {
     if (!prefsWidget)
     {
-        prefsWidget = new PrefsWidget(this);
-        prefsWidget->addPrefsWidget(tr("GUI"),           this->getPrefsWidget());
-        prefsWidget->addPrefsWidget(tr("Toolbar"),       toolbar->getPrefsWidget());
-        prefsWidget->addPrefsWidget(tr("Playlist"),      pl->getPrefsWidget());
-        prefsWidget->addPrefsWidget(tr("Media Library"), tree->getPrefsWidget());
+        QList<QWidget *> prefsList;
+        prefsList.append(this->getPrefsWidget());
+        prefsList.append(toolbar->getPrefsWidget());
+        prefsList.append(pl->getPrefsWidget());
+        prefsList.append(tree->getPrefsWidget());
+
+        prefsWidget = new PrefsWidget(prefsList, defaultWidget, this);
+
         connect(prefsWidget, SIGNAL(geometryChanged(QRect)), this, SLOT(setPrefsGeometry(QRect)));
         connect(prefsWidget, SIGNAL(destroyed()),            this, SLOT(deletePreferences()));
     }

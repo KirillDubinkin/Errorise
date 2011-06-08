@@ -6,11 +6,14 @@
 
 #include "global.h"
 
-PrefsWidget::PrefsWidget(QWidget *parent) :
+PrefsWidget::PrefsWidget(QList<QWidget *> prefsWidgetList,
+                         QWidget *defaultWidget, QWidget *parent) :
     QWidget(parent)
 {
     listWidget = 0;
     stack      = 0;
+    defWidget  = defaultWidget;
+    prefsList  = prefsWidgetList;
 
     setWindowFlags(Qt::Window);
     setWindowTitle(tr("Errorise preferences"));
@@ -24,42 +27,32 @@ PrefsWidget::~PrefsWidget()
     emit geometryChanged(geometry());
 }
 
-void PrefsWidget::addPrefsWidget(QString name, QWidget *widget)
-{
-    widgetHash.insert(name, widget);
-}
-
 
 void PrefsWidget::show()
 {
-    if (!listWidget)
-    {
+    if (!listWidget) {
         listWidget = new QListWidget(this);
         stack      = new QStackedWidget(this);
 
-        listWidget->setMinimumWidth(100);
-        listWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        int row = 0;
 
-        QHBoxLayout *hl = new QHBoxLayout(this);
-        hl->addWidget(listWidget, 20);
-        hl->addWidget(stack, 80);
-        setLayout(hl);
+        foreach (QWidget *widget, prefsList) {
+            listWidget->addItem(new QListWidgetItem(widget->windowTitle()));
+            stack->addWidget(widget);
 
-        QHashIterator<QString, QWidget *> i(widgetHash);
-        while (i.hasNext())
-        {
-            i.next();
-            listWidget->addItem(new QListWidgetItem(i.key()));
-            stack->addWidget(i.value());
+            if (widget == defWidget)
+                row = listWidget->count() - 1;
         }
 
         connect(listWidget, SIGNAL(currentRowChanged(int)), stack, SLOT(setCurrentIndex(int)));
 
-        listWidget->setCurrentRow(0);
-    }
+        QHBoxLayout *hl = new QHBoxLayout(this);
+        hl->addWidget(listWidget, 22);
+        hl->addWidget(stack, 80);
+        setLayout(hl);
 
-    if (listWidget->count() > Global::pref->last_prefs_widget)
-        listWidget->setCurrentRow(Global::pref->last_prefs_widget);
+        listWidget->setCurrentRow(row);
+    }
 
     QWidget::show();
 }

@@ -2,7 +2,7 @@
 #define PREFSWIDGET_H
 
 #include <QWidget>
-#include <QHash>
+#include <QList>
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QRect>
@@ -11,18 +11,19 @@ class PrefsWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PrefsWidget(QWidget *parent = 0);
+    explicit PrefsWidget(QList<QWidget *> prefsWidgetList,
+                         QWidget *defaultWidget = 0, QWidget *parent = 0);
     virtual ~PrefsWidget();
 
 signals:
     void geometryChanged(QRect geometry);
 
 public slots:
-    void addPrefsWidget(QString name, QWidget *widget);
     void show();
 
 private:
-    QHash<QString, QWidget *> widgetHash;
+    QList<QWidget *> prefsList;
+    QWidget        *defWidget;
     QStackedWidget *stack;
     QListWidget    *listWidget;
 

@@ -27,7 +27,7 @@ public:
 signals:
 
 public slots:
-    void showPreferences();
+    void showPreferences(QWidget *defaultWidget = 0);
     void showMessage(QString msg, int timeout = 2000);
 
 private slots:
