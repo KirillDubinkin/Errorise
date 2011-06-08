@@ -48,6 +48,9 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     connect(toolbar, SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
     connect(pl,      SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
     connect(tree,    SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
+
+    msgTimer.setSingleShot(true);
+    connect(&msgTimer,  SIGNAL(timeout()), this, SLOT(restoreTitle()));
 }
 
 SimpleGUI::~SimpleGUI()
@@ -59,8 +62,11 @@ SimpleGUI::~SimpleGUI()
 
 void SimpleGUI::showMessage(QString msg, int timeout)
 {
+    msgTimer.stop();
     setWindowTitle(msg);
-    QTimer::singleShot(timeout, this, SLOT(restoreTitle()));
+
+    if (timeout)
+        msgTimer.start(timeout);
 }
 
 
@@ -69,6 +75,7 @@ void SimpleGUI::changeTitle(QString, int guid)
     if (!guid)
         return;
 
+    msgTimer.stop();
     currentID = guid;
 
     if (prefs->title_format.contains("%playbacktime%"))
@@ -91,6 +98,7 @@ void SimpleGUI::setTimeInTitle(qint64 msec)
     if (!isTimeInTitle)
         return;
 
+    msgTimer.stop();
     QString temp = prefs->title_format;
     temp.replace("%playbacktime%", QTime(0, 0).addMSecs(msec).toString("mm:ss"));
     setWindowTitle(Helper::parseLine(currentID, temp));
@@ -99,7 +107,12 @@ void SimpleGUI::setTimeInTitle(qint64 msec)
 
 void SimpleGUI::restoreTitle()
 {
-    setWindowTitle(myplayerName() + " v." + myplayerVersion());
+    msgTimer.stop();
+    if (player->isStoped())
+        setWindowTitle(myplayerName() + " v." + myplayerVersion());
+
+    else if (!isTimeInTitle)
+        changeTitle(player->currentTrack(), player->currentGuid());
 }
 
 

@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QString>
 #include <QRect>
+#include <QTimer>
 
 #include "SimplePlaylist/simpleplaylist.h"
 #include "SimpleToolbar/simpletoolbar.h"
@@ -47,8 +48,10 @@ private:
     SimpleToolbar  *toolbar;
     AlbumTree      *tree;
 
-    bool isTimeInTitle;
-    int  currentID;
+    QTimer msgTimer;
+
+    bool   isTimeInTitle;
+    int    currentID;
 };
 
 #endif // SIMPLEGUI_H
