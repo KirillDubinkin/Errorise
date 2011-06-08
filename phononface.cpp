@@ -33,7 +33,16 @@ PhononFace::PhononFace(QObject *parent) :
 }
 
 
-void PhononFace::stateChange(Phonon::State cur, Phonon::State prev)
+bool PhononFace::isStoped()
+{
+    if ( (mobject->state() == Phonon::PlayingState) | (mobject->state() == Phonon::PausedState) )
+        return false;
+
+    return true;
+}
+
+
+void PhononFace::stateChange(Phonon::State cur, Phonon::State)
 {
     switch (cur) {
     case Phonon::LoadingState:

@@ -18,6 +18,7 @@ public:
     explicit PhononFace(QObject *parent = 0);
 
     bool    isSekable();
+    bool    isStoped();
     QString currentTrack();
     int     currentGuid();
 
