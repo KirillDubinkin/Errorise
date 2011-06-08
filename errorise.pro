@@ -19,7 +19,6 @@ TRANSLATIONS = errorise_ru.ts
 
 SOURCES += main.cpp\
     global.cpp \
-    translator.cpp \
     preferences.cpp \
     helper.cpp \
     SimpleGUI/simplegui.cpp \
@@ -47,7 +46,6 @@ SOURCES += main.cpp\
 HEADERS  += \
     global.h \
     preferences.h \
-    translator.h \
     version.h \
     helper.h \
     SimpleGUI/simplegui.h \
