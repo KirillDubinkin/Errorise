@@ -97,11 +97,11 @@ QComboBox * SimpleToolbar::playbackOrderBox()
 {
     if (play_order == 0) {
         play_order = new QComboBox();
-        play_order->addItem(tr("Default"));
-        play_order->addItem(tr("Repeat (track)"));
-        play_order->addItem(tr("Repeat (playlist)"));
-        play_order->addItem(tr("Shuffle (tracks)"));
-        play_order->addItem(tr("Shuffle (albums)"));
+        play_order->addItem(tr("Sequential"));
+        play_order->addItem(tr("Repeat track"));
+        play_order->addItem(tr("Repeat playlist"));
+        play_order->addItem(tr("Shuffle tracks"));
+        play_order->addItem(tr("Shuffle albums"));
         play_order->addItem(tr("Random"));
         play_order->setCurrentIndex(pref->playback_order);
         play_order->setContextMenuPolicy(Qt::ActionsContextMenu);

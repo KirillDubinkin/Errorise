@@ -51,8 +51,12 @@
     </message>
     <message>
         <location filename="../MediaLibrary/albumtreeprefswidget.cpp" line="84"/>
+        <source>Images</source>
+        <translation>Изображения</translation>
+    </message>
+    <message>
         <source>Images (*.svg *.png *.gif *.xpm *.jpg *.bmp)</source>
-        <translation>Графические файлы (*.svg *.png *.gif *.xpm *.jpg *.bmp)</translation>
+        <translation type="obsolete">Графические файлы (*.svg *.png *.gif *.xpm *.jpg *.bmp)</translation>
     </message>
     <message>
         <location filename="../MediaLibrary/albumtreeprefswidget.cpp" line="101"/>
@@ -62,13 +66,6 @@
 </context>
 <context>
     <name>MusicLibrary</name>
-    <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="34"/>
-        <source>
-	Cannot open or create music library
-Path:</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../MediaLibrary/musiclibrary.cpp" line="68"/>
         <source>Location of the local music</source>
@@ -94,24 +91,6 @@ Path:</source>
         <location filename="../MediaLibrary/musiclibrary.cpp" line="259"/>
         <source>Scan files in</source>
         <translation>Сканируются файлы в папке</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <location filename="../helper.cpp" line="269"/>
-        <source>There is no comma in function $if(</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../helper.cpp" line="317"/>
-        <source>There is no comma in function $if2(</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../helper.cpp" line="363"/>
-        <source>I&apos;m not familiar with function &quot;$</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -142,7 +121,7 @@ Path:</source>
         <translation>Иконка:</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpetoolbarprefswidget.ui" line="209"/>
+        <location filename="../SimpleToolbar/simpetoolbarprefswidget.ui" line="212"/>
         <source>Stylesheet</source>
         <translation>Таблица стилей</translation>
     </message>
@@ -162,7 +141,7 @@ Path:</source>
         <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="68"/>
         <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="241"/>
         <source>Seek bar</source>
-        <translation type="unfinished">Полоса прокрутки</translation>
+        <translation>Полоса прокрутки</translation>
     </message>
     <message>
         <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="69"/>
@@ -182,9 +161,8 @@ Path:</source>
         <translation>Кнопка &quot;Пауза&quot;</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="73"/>
         <source>Play or Pause button</source>
-        <translation type="unfinished">Кнопка &quot;Воспроизведение или Пауза&quot;</translation>
+        <translation type="obsolete">Кнопка &quot;Воспроизведение или Пауза&quot;</translation>
     </message>
     <message>
         <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="74"/>
@@ -231,19 +209,28 @@ Path:</source>
         <translation>Регулятор громкости</translation>
     </message>
     <message>
+        <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="491"/>
+        <source>Choose icon for selected tool...</source>
+        <translation>Укажите иконку выбранного инструмента...</translation>
+    </message>
+    <message>
+        <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="492"/>
+        <source>Images</source>
+        <translation>Изображения</translation>
+    </message>
+    <message>
+        <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="73"/>
         <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="253"/>
         <source>Play or pause button</source>
         <translation>Кнопка &quot;Воспроизведение или пауза&quot;</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="491"/>
         <source>Select AlbumTree items icon...</source>
-        <translation type="unfinished">Выберите икноку для ветветвей музыкального древа...</translation>
+        <translation type="obsolete">Выберите икноку для ветветвей музыкального древа...</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpetoolbarprefswidget.cpp" line="492"/>
         <source>Images (*.svg *.png *.gif *.xpm *.jpg *.bmp)</source>
-        <translation type="unfinished">Графические файлы (*.svg *.png *.gif *.xpm *.jpg *.bmp)</translation>
+        <translation type="obsolete">Графические файлы (*.svg *.png *.gif *.xpm *.jpg *.bmp)</translation>
     </message>
 </context>
 <context>
@@ -267,57 +254,73 @@ Path:</source>
         <translation>Добавить в очередь</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="95"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="96"/>
         <source>File operations</source>
         <translation>Файловые операции</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="96"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="97"/>
         <source>Remove files</source>
         <translation>Удалить файлы</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="97"/>
-        <source>Copy files to...</source>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="98"/>
+        <source>Copy files...</source>
         <translation>Скопировать файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="98"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="100"/>
+        <source>Move files...</source>
+        <translation>Переместить файлы...</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="106"/>
+        <source>Text from selected line</source>
+        <translation>Текст из выбранных строк</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="107"/>
+        <source>Text from selected column</source>
+        <translation>Текст из выбранной колонки</translation>
+    </message>
+    <message>
+        <source>Copy files to...</source>
+        <translation type="obsolete">Скопировать файлы...</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="99"/>
         <source>Copy files to clipboard</source>
         <translation>Скопировать файлы в буффер обмена</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="99"/>
         <source>Move files to...</source>
-        <translation>Переместить файлы...</translation>
+        <translation type="obsolete">Переместить файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="100"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="101"/>
         <source>Rename files</source>
         <translation>Переименовать файлы</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="103"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="104"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="105"/>
         <source>Playlist line</source>
-        <translation>Выбранные строки</translation>
+        <translation type="obsolete">Выбранные строки</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="106"/>
         <source>Column text</source>
-        <translation>Текст из выбранной колонки</translation>
+        <translation type="obsolete">Текст из выбранной колонки</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="110"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="111"/>
         <source>Remove from playlist</source>
         <translation>Удалить из списка</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="113"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="114"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
     </message>
@@ -379,9 +382,13 @@ Path:</source>
         <translation type="unfinished">Паттерн копирования текста:</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="202"/>
         <source>Art search</source>
-        <translation type="unfinished">Поиск обложек альбомов</translation>
+        <translation type="obsolete">Поиск обложек альбомов</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="202"/>
+        <source>Album art search</source>
+        <translation>Поиск обложек альбомов</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="230"/>
@@ -510,7 +517,7 @@ Path:</source>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="934"/>
         <source>Text aligment:</source>
-        <translation>Выравнивание текста</translation>
+        <translation>Выравнивание текста:</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="1034"/>
@@ -519,8 +526,12 @@ Path:</source>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="1041"/>
+        <source>VA-groups text:</source>
+        <translation>Заголовок VA-групп:</translation>
+    </message>
+    <message>
         <source>VA Group by:</source>
-        <translation type="unfinished">Заголовок VA групп:</translation>
+        <translation type="obsolete">Заголовок VA групп:</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="152"/>
@@ -559,35 +570,59 @@ Path:</source>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="414"/>
+        <source>Choose text color for selected column</source>
+        <translation>Укажите цвет текста выбранной колонки</translation>
+    </message>
+    <message>
         <source>Choose color for column</source>
-        <translation type="unfinished">Укажите цвет текста выбранной колонки</translation>
+        <translation type="obsolete">Укажите цвет текста выбранной колонки</translation>
     </message>
 </context>
 <context>
     <name>SimpleToolbar</name>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="100"/>
         <source>Default</source>
-        <translation type="unfinished">Последовательно</translation>
+        <translation type="obsolete">Последовательно</translation>
+    </message>
+    <message>
+        <source>Repeat (track)</source>
+        <translation type="obsolete">Повторять трек</translation>
+    </message>
+    <message>
+        <source>Repeat (playlist)</source>
+        <translation type="obsolete">Повторять список</translation>
+    </message>
+    <message>
+        <source>Shuffle (tracks)</source>
+        <translation type="obsolete">Треки вперемешку</translation>
+    </message>
+    <message>
+        <source>Shuffle (albums)</source>
+        <translation type="obsolete">Альбомы вперемешку</translation>
+    </message>
+    <message>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="100"/>
+        <source>Sequential</source>
+        <translation>Последовательно</translation>
     </message>
     <message>
         <location filename="../SimpleToolbar/simpletoolbar.cpp" line="101"/>
-        <source>Repeat (track)</source>
+        <source>Repeat track</source>
         <translation>Повторять трек</translation>
     </message>
     <message>
         <location filename="../SimpleToolbar/simpletoolbar.cpp" line="102"/>
-        <source>Repeat (playlist)</source>
+        <source>Repeat playlist</source>
         <translation>Повторять список</translation>
     </message>
     <message>
         <location filename="../SimpleToolbar/simpletoolbar.cpp" line="103"/>
-        <source>Shuffle (tracks)</source>
+        <source>Shuffle tracks</source>
         <translation>Треки вперемешку</translation>
     </message>
     <message>
         <location filename="../SimpleToolbar/simpletoolbar.cpp" line="104"/>
-        <source>Shuffle (albums)</source>
+        <source>Shuffle albums</source>
         <translation>Альбомы вперемешку</translation>
     </message>
     <message>
