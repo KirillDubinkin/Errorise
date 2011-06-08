@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">Form</string>
+   <string>Music Library</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Library</string>
+      <string>Music Library</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">

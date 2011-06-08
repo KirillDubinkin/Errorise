@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">Playlist preferences</string>
+   <string>Playlist</string>
   </property>
   <property name="currentIndex">
    <number>2</number>
