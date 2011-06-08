@@ -211,6 +211,9 @@ QList<int> SimplePlaylist::getSelectedIds()
 
 void SimplePlaylist::removeTracks(QList<int> ids)
 {
+    if ( ids.isEmpty() | !rowCount() )
+        return;
+
     foreach (int id, ids)
     {
         for (int row = 0; row < rowCount(); row++)
