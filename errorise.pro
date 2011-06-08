@@ -15,7 +15,7 @@ QT       += core gui
 TARGET   = errorise-testing
 TEMPLATE = app
 
-TRANSLATIONS = errorise_ru.ts
+TRANSLATIONS = translations/errorise_ru.ts
 
 SOURCES += main.cpp\
     global.cpp \
@@ -79,3 +79,7 @@ FORMS    += \
 
 RESOURCES += \
     resources.qrc
+
+OTHER_FILES += \
+    translations/errorise_ru.qm \
+    translations/errorise_ru.ts
