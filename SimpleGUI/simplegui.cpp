@@ -121,10 +121,10 @@ void SimpleGUI::showPreferences()
     if (!prefsWidget)
     {
         prefsWidget = new PrefsWidget(this);
-        prefsWidget->addPrefsWidget("GUI",           this->getPrefsWidget());
-        prefsWidget->addPrefsWidget("Toolbar",       toolbar->getPrefsWidget());
-        prefsWidget->addPrefsWidget("Playlist",      pl->getPrefsWidget());
-        prefsWidget->addPrefsWidget("Media Library", tree->getPrefsWidget());
+        prefsWidget->addPrefsWidget(tr("GUI"),           this->getPrefsWidget());
+        prefsWidget->addPrefsWidget(tr("Toolbar"),       toolbar->getPrefsWidget());
+        prefsWidget->addPrefsWidget(tr("Playlist"),      pl->getPrefsWidget());
+        prefsWidget->addPrefsWidget(tr("Media Library"), tree->getPrefsWidget());
         connect(prefsWidget, SIGNAL(geometryChanged(QRect)), this, SLOT(setPrefsGeometry(QRect)));
         connect(prefsWidget, SIGNAL(destroyed()),            this, SLOT(deletePreferences()));
     }

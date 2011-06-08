@@ -2,6 +2,37 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
 <context>
+    <name>&quot;SimplePLPrefs&quot;</name>
+    <message>
+        <source>Cover</source>
+        <translation type="obsolete">Обложка</translation>
+    </message>
+    <message>
+        <source>#</source>
+        <translation type="obsolete">№</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation type="obsolete">Длительность</translation>
+    </message>
+    <message>
+        <source>Track Name</source>
+        <translation type="obsolete">Название трека</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation type="obsolete">Кодек</translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTree</name>
+    <message>
+        <location filename="../MediaLibrary/albumtree.cpp" line="52"/>
+        <source>Preferences...</source>
+        <translation>Настройки...</translation>
+    </message>
+</context>
+<context>
     <name>AlbumTreePrefsWidget</name>
     <message>
         <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="20"/>
@@ -91,6 +122,37 @@
         <location filename="../MediaLibrary/musiclibrary.cpp" line="259"/>
         <source>Scan files in</source>
         <translation>Сканируются файлы в папке</translation>
+    </message>
+</context>
+<context>
+    <name>PrefsWidget</name>
+    <message>
+        <location filename="../SimpleGUI/prefswidget.cpp" line="16"/>
+        <source>Errorise preferences</source>
+        <translation>Настройки Errorise</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Cover</source>
+        <translation type="obsolete">Обложка</translation>
+    </message>
+    <message>
+        <source>#</source>
+        <translation type="obsolete">№</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation type="obsolete">Длительность</translation>
+    </message>
+    <message>
+        <source>Track Name</source>
+        <translation type="obsolete">Название трека</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation type="obsolete">Кодек</translation>
     </message>
 </context>
 <context>
@@ -234,11 +296,67 @@
     </message>
 </context>
 <context>
+    <name>SimpleGUI</name>
+    <message>
+        <location filename="../SimpleGUI/simplegui.cpp" line="124"/>
+        <source>GUI</source>
+        <translation>Иниерфейс</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/simplegui.cpp" line="125"/>
+        <source>Toolbar</source>
+        <translation>Инструменты</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/simplegui.cpp" line="126"/>
+        <source>Playlist</source>
+        <translation>Плейлист</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/simplegui.cpp" line="127"/>
+        <source>Media Library</source>
+        <translation>Коллекция</translation>
+    </message>
+</context>
+<context>
     <name>SimpleGuiPrefsWidget</name>
     <message>
         <location filename="../SimpleGUI/simpleguiprefswidget.ui" line="36"/>
         <source>Window Title:</source>
-        <translation>Заголовок окна</translation>
+        <translation>Заголовок окна:</translation>
+    </message>
+</context>
+<context>
+    <name>SimplePLPrefs</name>
+    <message>
+        <location filename="../SimplePlaylist/simpleplprefs.cpp" line="27"/>
+        <source>Various Artists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplprefs.cpp" line="39"/>
+        <source>Cover</source>
+        <translation>Обложка</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplprefs.cpp" line="39"/>
+        <source>#</source>
+        <translation>№</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplprefs.cpp" line="39"/>
+        <source>Length</source>
+        <translation>Длительность</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplprefs.cpp" line="39"/>
+        <source>Track Name</source>
+        <translation>Название трека</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplprefs.cpp" line="39"/>
+        <source>Format</source>
+        <translation>Кодек</translation>
     </message>
 </context>
 <context>
@@ -629,6 +747,11 @@
         <location filename="../SimpleToolbar/simpletoolbar.cpp" line="105"/>
         <source>Random</source>
         <translation>Случайные треки</translation>
+    </message>
+    <message>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="247"/>
+        <source>Preferences...</source>
+        <translation>Настройки...</translation>
     </message>
 </context>
 </TS>

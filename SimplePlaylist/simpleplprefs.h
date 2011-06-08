@@ -6,9 +6,12 @@
 #include <QStringList>
 #include <QList>
 #include <QColor>
+#include <QCoreApplication>
 
 class SimplePLPrefs
 {
+    Q_DECLARE_TR_FUNCTIONS(SimplePLPrefs)
+
 public:
     SimplePLPrefs();
     ~SimplePLPrefs();

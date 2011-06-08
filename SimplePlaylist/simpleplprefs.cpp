@@ -24,7 +24,7 @@ void SimplePLPrefs::reset()
 
     //! Groups
     groups_format        = "[$if2(%albumartist%,%artist%) - ]['['%date%']'] %album%";
-    groups_va_format     = "Various Artists[: ['['%date%']'] %album%[  // %albumartist%]]";
+    groups_va_format     = tr("Various Artists") + "[: ['['%date%']'] %album%[  // %albumartist%]]";
     groups_text_color.setNamedColor("#ffffff");
     groups_back_color.setNamedColor("#182835");
     groups_text_aligment = Qt::AlignLeft;
@@ -36,11 +36,11 @@ void SimplePLPrefs::reset()
 
 
     //! Columns
-    columns_names      << "Cover" << "#"             << "Length"     << "Track Name" << "Format";
-    columns_sizes      << 300     << 40              << 80           << 200          << 80;
-    columns_aligment   << 4       << 4               << 4            << 4            << 4;
-    rows_format        << "%art%" << "%tracknumber%" << "%duration%" << "[$if(%albumartist%,%artist%) - ]%title%"    << "%format%";
-    rows_text_color    << ""      << "#527482"       << "#43606b"    << ""           << "#527482";
+    columns_names      << tr("Cover")  << tr("#")         << tr("Length") << tr("Track Name") << tr("Format");
+    columns_sizes      << 300          << 40              << 80           << 200              << 80;
+    columns_aligment   << 4            << 4               << 4            << 4                << 4;
+    rows_format        << "%art%"      << "%tracknumber%" << "%duration%" << "[$if(%albumartist%,%artist%) - ]%title%"    << "%format%";
+    rows_text_color    << ""           << "#527482"       << "#43606b"    << ""               << "#527482";
 
 
 

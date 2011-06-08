@@ -13,7 +13,7 @@ PrefsWidget::PrefsWidget(QWidget *parent) :
     stack      = 0;
 
     setWindowFlags(Qt::Window);
-    setWindowTitle("Errorise preferences");
+    setWindowTitle(tr("Errorise preferences"));
     setAttribute(Qt::WA_DeleteOnClose);
 }
 
@@ -36,6 +36,9 @@ void PrefsWidget::show()
     {
         listWidget = new QListWidget(this);
         stack      = new QStackedWidget(this);
+
+        listWidget->setMinimumWidth(100);
+        listWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
         QHBoxLayout *hl = new QHBoxLayout(this);
         hl->addWidget(listWidget, 20);

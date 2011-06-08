@@ -49,7 +49,7 @@ void AlbumTree::createMenu()
 
     QAction *act;
 
-    act = new QAction("Preferences...", this);
+    act = new QAction(tr("Preferences..."), this);
     connect(act, SIGNAL(triggered()), this, SIGNAL(needPrefWindow()));
     addAction(act);
 }
