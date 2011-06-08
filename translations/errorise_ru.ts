@@ -27,7 +27,7 @@
 <context>
     <name>AlbumTree</name>
     <message>
-        <location filename="../MediaLibrary/albumtree.cpp" line="52"/>
+        <location filename="../MediaLibrary/albumtree.cpp" line="53"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
     </message>
@@ -35,10 +35,19 @@
 <context>
     <name>AlbumTreePrefsWidget</name>
     <message>
-        <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="20"/>
         <source>Library</source>
         <translatorcomment>по смыслу так ок</translatorcomment>
-        <translation>Локальная музыкальная коллекция</translation>
+        <translation type="obsolete">Локальная музыкальная коллекция</translation>
+    </message>
+    <message>
+        <source>Music Library</source>
+        <translation type="obsolete">Музыкальная коллекция</translation>
+    </message>
+    <message>
+        <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="14"/>
+        <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="20"/>
+        <source>Local collection</source>
+        <translation>Локальная коллекция</translation>
     </message>
     <message>
         <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="26"/>
@@ -127,7 +136,7 @@
 <context>
     <name>PrefsWidget</name>
     <message>
-        <location filename="../SimpleGUI/prefswidget.cpp" line="16"/>
+        <location filename="../SimpleGUI/prefswidget.cpp" line="17"/>
         <source>Errorise preferences</source>
         <translation>Настройки Errorise</translation>
     </message>
@@ -159,8 +168,8 @@
     <name>SimpeToolbarPrefsWidget</name>
     <message>
         <location filename="../SimpleToolbar/simpetoolbarprefswidget.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
+        <source>Toolbar</source>
+        <translation>Инструменты</translation>
     </message>
     <message>
         <location filename="../SimpleToolbar/simpetoolbarprefswidget.ui" line="69"/>
@@ -298,32 +307,49 @@
 <context>
     <name>SimpleGUI</name>
     <message>
-        <location filename="../SimpleGUI/simplegui.cpp" line="124"/>
         <source>GUI</source>
-        <translation>Иниерфейс</translation>
+        <translation type="obsolete">Иниерфейс</translation>
     </message>
     <message>
-        <location filename="../SimpleGUI/simplegui.cpp" line="125"/>
         <source>Toolbar</source>
-        <translation>Инструменты</translation>
+        <translation type="obsolete">Инструменты</translation>
     </message>
     <message>
-        <location filename="../SimpleGUI/simplegui.cpp" line="126"/>
         <source>Playlist</source>
-        <translation>Плейлист</translation>
+        <translation type="obsolete">Плейлист</translation>
     </message>
     <message>
-        <location filename="../SimpleGUI/simplegui.cpp" line="127"/>
         <source>Media Library</source>
-        <translation>Коллекция</translation>
+        <translation type="obsolete">Коллекция</translation>
     </message>
 </context>
 <context>
     <name>SimpleGuiPrefsWidget</name>
     <message>
-        <location filename="../SimpleGUI/simpleguiprefswidget.ui" line="36"/>
+        <location filename="../SimpleGUI/simpleguiprefswidget.ui" line="14"/>
+        <source>GUI</source>
+        <translation>Интерфейс</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/simpleguiprefswidget.ui" line="56"/>
         <source>Window Title:</source>
         <translation>Заголовок окна:</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/simpleguiprefswidget.ui" line="63"/>
+        <source>Language:</source>
+        <translation>Язык:</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/simpleguiprefswidget.cpp" line="44"/>
+        <location filename="../SimpleGUI/simpleguiprefswidget.cpp" line="89"/>
+        <source>System</source>
+        <translation>Системный</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/simpleguiprefswidget.cpp" line="94"/>
+        <source>You must restart application to change language</source>
+        <translation>Для смены языка необходимо перезапустить приложение</translation>
     </message>
 </context>
 <context>
@@ -331,7 +357,7 @@
     <message>
         <location filename="../SimplePlaylist/simpleplprefs.cpp" line="27"/>
         <source>Various Artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Различные артисты</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplprefs.cpp" line="39"/>
@@ -362,42 +388,42 @@
 <context>
     <name>SimplePlaylist</name>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="92"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="93"/>
         <source>Simple Playlist</source>
         <translation>Простой список треков</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="93"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="94"/>
         <source>Add to playback queue</source>
         <translation>Добавить в очередь</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="96"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="97"/>
         <source>File operations</source>
         <translation>Файловые операции</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="97"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="98"/>
         <source>Remove files</source>
         <translation>Удалить файлы</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="98"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="99"/>
         <source>Copy files...</source>
         <translation>Скопировать файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="100"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="101"/>
         <source>Move files...</source>
         <translation>Переместить файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="106"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="107"/>
         <source>Text from selected line</source>
         <translation>Текст из выбранных строк</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="107"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="108"/>
         <source>Text from selected column</source>
         <translation>Текст из выбранной колонки</translation>
     </message>
@@ -406,7 +432,7 @@
         <translation type="obsolete">Скопировать файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="99"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="100"/>
         <source>Copy files to clipboard</source>
         <translation>Скопировать файлы в буффер обмена</translation>
     </message>
@@ -415,12 +441,12 @@
         <translation type="obsolete">Переместить файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="101"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="102"/>
         <source>Rename files</source>
         <translation>Переименовать файлы</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="104"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="105"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -433,12 +459,12 @@
         <translation type="obsolete">Текст из выбранной колонки</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="111"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="112"/>
         <source>Remove from playlist</source>
         <translation>Удалить из списка</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="114"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="115"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
     </message>
@@ -502,6 +528,11 @@
     <message>
         <source>Art search</source>
         <translation type="obsolete">Поиск обложек альбомов</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="14"/>
+        <source>Playlist</source>
+        <translation>Плейлист</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="202"/>
@@ -719,37 +750,37 @@
         <translation type="obsolete">Альбомы вперемешку</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="100"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="101"/>
         <source>Sequential</source>
         <translation>Последовательно</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="101"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="102"/>
         <source>Repeat track</source>
         <translation>Повторять трек</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="102"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="103"/>
         <source>Repeat playlist</source>
         <translation>Повторять список</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="103"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="104"/>
         <source>Shuffle tracks</source>
         <translation>Треки вперемешку</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="104"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="105"/>
         <source>Shuffle albums</source>
         <translation>Альбомы вперемешку</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="105"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="106"/>
         <source>Random</source>
         <translation>Случайные треки</translation>
     </message>
     <message>
-        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="247"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="257"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
     </message>
