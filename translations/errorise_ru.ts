@@ -418,14 +418,32 @@
         <translation>Переместить файлы...</translation>
     </message>
     <message>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="105"/>
+        <source>Copy text</source>
+        <translation>Скопировать текст</translation>
+    </message>
+    <message>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="106"/>
+        <source>From selected line</source>
+        <translation>Из выбранных строк</translation>
+    </message>
+    <message>
         <location filename="../SimplePlaylist/simpleplaylist.cpp" line="107"/>
-        <source>Text from selected line</source>
-        <translation>Текст из выбранных строк</translation>
+        <source>From selected column</source>
+        <translation>Из выбранной колонки</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylist.cpp" line="108"/>
+        <source>From defined pattern</source>
+        <translation>По заданному паттерну</translation>
+    </message>
+    <message>
+        <source>Text from selected line</source>
+        <translation type="obsolete">Текст из выбранных строк</translation>
+    </message>
+    <message>
         <source>Text from selected column</source>
-        <translation>Текст из выбранной колонки</translation>
+        <translation type="obsolete">Текст из выбранной колонки</translation>
     </message>
     <message>
         <source>Copy files to...</source>
@@ -446,9 +464,8 @@
         <translation>Переименовать файлы</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="105"/>
         <source>Copy</source>
-        <translation>Копировать</translation>
+        <translation type="obsolete">Копировать</translation>
     </message>
     <message>
         <source>Playlist line</source>
@@ -459,12 +476,12 @@
         <translation type="obsolete">Текст из выбранной колонки</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="112"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="111"/>
         <source>Remove from playlist</source>
         <translation>Удалить из списка</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="115"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="114"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
     </message>
