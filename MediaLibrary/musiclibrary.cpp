@@ -14,6 +14,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include "SimpleGUI/simplegui.h"
 
 using namespace Global;
 
@@ -37,10 +38,15 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
     createTagsTable();
 
+
 #ifdef Q_OS_WIN
     minfo = new MediaInfo(this);
-#else
-    minfo = new PMediaInfo(this);
+#endif
+#ifdef Q_OS_LINUX
+    if (QFile::exists("/usr/bin/mediainfo"))
+        minfo = new MediaInfo(this);
+    else
+        minfo = new PMediaInfo(this);
 #endif
 
     connect(minfo, SIGNAL(newFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
@@ -239,13 +245,18 @@ void MusicLibrary::updateDb(QString fromPath)
     }
 
 
-    if (newFiles.isEmpty() && filesToUpdate.isEmpty()) //! then, remove all files from current dir
+    if (newFiles.isEmpty() && filesToUpdate.isEmpty()) //! then, check next dir
         return emit doneWithCurDir();
 
 
-    if (!filesToUpdate.isEmpty())
-        return emit updateRequired(filesToUpdate);  //! newFilesAvailable will be emited after update
 
+    if (!filesToUpdate.isEmpty()) {
+        gui->showMessage(tr("Update files in") + " " + filesToUpdate.first().mid(0, filesToUpdate.first().lastIndexOf("/")), 5000);
+        return emit updateRequired(filesToUpdate);  //! newFilesAvailable will be emited after update
+    }
+
+
+    gui->showMessage(tr("Scan files in") + " " + newFiles.first().mid(0, newFiles.first().lastIndexOf("/")), 5000);
     return emit newFilesAvailable(newFiles);
 }
 

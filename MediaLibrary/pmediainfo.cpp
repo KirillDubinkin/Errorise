@@ -47,6 +47,8 @@ void PMediaInfo::reScanFiles(QStringList files)
 {
     isUpdateState = true;
 
+    qDebug() << "PMediaInfo::reScanFiles" << files.size() << "\n\n" << files.join("\n") << "\n\n\n";
+
     playlistArtFilePath.clear();
     artFilePath.clear();
 
