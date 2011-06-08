@@ -102,11 +102,10 @@ void SimplePlaylist::createActions()
     chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()))->setEnabled(false);
 
 
-    chldMenu = menu->addMenu(tr("Copy"));
-    chldMenu->addAction(prefs->copy_preset, this, SLOT(copyPatternToClipboard()), QKeySequence::Copy);
-    chldMenu->addAction(tr("Text from selected line"), this, SLOT(copyPlLineToClipboard()));
-    chldMenu->addAction(tr("Text from selected column"), this, SLOT(copyCurColTextToClipboard()));
-
+    chldMenu = menu->addMenu(tr("Copy text"));
+    chldMenu->addAction(tr("From selected line"), this, SLOT(copyPlLineToClipboard()));
+    chldMenu->addAction(tr("From selected column"), this, SLOT(copyCurColTextToClipboard()));
+    chldMenu->addAction(tr("From defined pattern"), this, SLOT(copyPatternToClipboard()), QKeySequence::Copy);
 
     menu->addSeparator();
     menu->addAction(tr("Remove from playlist"), this, SLOT(deleteTracks()), QKeySequence::Delete);
