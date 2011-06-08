@@ -62,9 +62,9 @@ void SimplePLPrefs::reset()
 void SimplePLPrefs::save()
 {
 #ifdef Q_OS_LINUX
-        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QApplication::applicationName().toLower(), PlugName);
 #else
-        QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+        QSettings set(QSettings::IniFormat, QSettings::UserScope, QApplication::applicationName(), PlugName);
 #endif
 
     set.setIniCodec(QTextCodec::codecForLocale());
@@ -131,9 +131,9 @@ void SimplePLPrefs::save()
 void SimplePLPrefs::load()
 {
 #ifdef Q_OS_LINUX
-        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+        QSettings set(QSettings::NativeFormat, QSettings::UserScope, QApplication::applicationName().toLower(), PlugName);
 #else
-        QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+        QSettings set(QSettings::IniFormat, QSettings::UserScope, QApplication::applicationName(), PlugName);
 #endif
 
     set.setIniCodec(QTextCodec::codecForLocale());

@@ -34,9 +34,9 @@ void AlbumTreePrefs::reset()
 void AlbumTreePrefs::load()
 {
 #ifdef Q_OS_LINUX
-    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QApplication::applicationName().toLower(), PlugName);
 #else
-    QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, QApplication::applicationName(), PlugName);
 #endif
 
     set.setIniCodec(QTextCodec::codecForLocale());
@@ -53,9 +53,9 @@ void AlbumTreePrefs::load()
 void AlbumTreePrefs::save()
 {
 #ifdef Q_OS_LINUX
-    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QApplication::applicationName().toLower(), PlugName);
 #else
-    QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), PlugName);
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, QApplication::applicationName(), PlugName);
 #endif
 
     set.setIniCodec(QTextCodec::codecForLocale());

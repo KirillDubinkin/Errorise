@@ -86,9 +86,9 @@ void Preferences::save()
 {
 
 #ifdef Q_OS_LINUX
-    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QApplication::applicationName().toLower(), QApplication::applicationName());
 #else
-    QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, QApplication::applicationName(), QApplication::applicationName());
 #endif
     config_path = QFileInfo(set.fileName()).absolutePath();
     translations_path = config_path + "/translations";
@@ -148,9 +148,9 @@ void Preferences::load()
 {
 
 #ifdef Q_OS_LINUX
-    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+    QSettings set(QSettings::NativeFormat, QSettings::UserScope, QApplication::applicationName().toLower(), QApplication::applicationName());
 #else
-    QSettings set(QSettings::IniFormat, QSettings::UserScope, QString(QApplication::applicationName()).toLower(), QApplication::applicationName());
+    QSettings set(QSettings::IniFormat, QSettings::UserScope, QApplication::applicationName(), QApplication::applicationName());
 #endif
 
     config_path = QFileInfo(set.fileName()).absolutePath();
