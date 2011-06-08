@@ -53,7 +53,6 @@ void Preferences::reset()
     iconset           = "";
     translations_path = config_path + "/translations";
     stay_on_top       = false;
-    last_prefs_widget = 0;
 
 
         //! Library
@@ -119,7 +118,6 @@ void Preferences::save()
     set.setValue("iconset", iconset);
     set.setValue("stay_on_top", stay_on_top);
     set.setValue("translations_path", translations_path);
-    set.setValue("last_prefs_widget", last_prefs_widget);
     set.endGroup();
 
         //! Library
@@ -196,7 +194,6 @@ void Preferences::load()
     iconset           = set.value("iconset", iconset).toString();
     stay_on_top       = set.value("stay_on_top", stay_on_top).toBool();
     translations_path = set.value("translations_path", translations_path).toString();
-    last_prefs_widget = set.value("last_prefs_widget", last_prefs_widget).toInt();
     set.endGroup();
 
 

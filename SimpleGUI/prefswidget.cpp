@@ -4,8 +4,6 @@
 #include <QHashIterator>
 #include <QListWidgetItem>
 
-#include "global.h"
-
 PrefsWidget::PrefsWidget(QList<QWidget *> prefsWidgetList,
                          QWidget *defaultWidget, QWidget *parent) :
     QWidget(parent)
@@ -23,7 +21,6 @@ PrefsWidget::PrefsWidget(QList<QWidget *> prefsWidgetList,
 
 PrefsWidget::~PrefsWidget()
 {
-    Global::pref->last_prefs_widget = listWidget->currentRow();
     emit geometryChanged(geometry());
 }
 

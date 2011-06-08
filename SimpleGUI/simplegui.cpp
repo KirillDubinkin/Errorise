@@ -46,10 +46,6 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     connect(player, SIGNAL(finished()), this, SLOT(restoreTitle()));
     connect(player, SIGNAL(tick(qint64)), this, SLOT(setTimeInTitle(qint64)));
 
-    connect(toolbar, SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
-    connect(pl,      SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
-    connect(tree,    SIGNAL(needPrefWindow()), this, SLOT(showPreferences()));
-
     msgTimer.setSingleShot(true);
     connect(&msgTimer,  SIGNAL(timeout()), this, SLOT(restoreTitle()));
 }
@@ -119,21 +115,23 @@ void SimpleGUI::restoreTitle()
 
 void SimpleGUI::showPreferences(QWidget *defaultWidget)
 {
-    if (!prefsWidget)
-    {
-        QList<QWidget *> prefsList;
-        prefsList.append(this->getPrefsWidget());
-        prefsList.append(toolbar->getPrefsWidget());
-        prefsList.append(pl->getPrefsWidget());
-        prefsList.append(tree->getPrefsWidget());
+    if (prefsWidget)
+        return;
 
-        prefsWidget = new PrefsWidget(prefsList, defaultWidget, this);
+    prefsWidget = (PrefsWidget*) 1; // ugly huck
 
-        connect(prefsWidget, SIGNAL(geometryChanged(QRect)), this, SLOT(setPrefsGeometry(QRect)));
-        connect(prefsWidget, SIGNAL(destroyed()),            this, SLOT(deletePreferences()));
-    }
+    QList<QWidget *> prefsList;
+    prefsList.append(this->getPrefsWidget());
+    prefsList.append(toolbar->getPrefsWidget());
+    prefsList.append(pl->getPrefsWidget());
+    prefsList.append(tree->getPrefsWidget());
 
+    prefsWidget = new PrefsWidget(prefsList, defaultWidget, this);
     prefsWidget->setGeometry(prefs->prefs_geometry);
+
+    connect(prefsWidget, SIGNAL(geometryChanged(QRect)), this, SLOT(setPrefsGeometry(QRect)));
+    connect(prefsWidget, SIGNAL(destroyed()),            this, SLOT(deletePreferences()));
+
     prefsWidget->show();
 }
 

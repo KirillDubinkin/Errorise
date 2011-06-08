@@ -21,9 +21,6 @@ public:
 
     QWidget *getPrefsWidget();
 
-signals:
-    void needPrefWindow();
-
 public slots:    
     void setColumns();
     void fillPlaylist();
@@ -68,6 +65,7 @@ private:
 
 private slots:
     void createActions();
+    void createPrefsWidget();
 
     void play(int row);
     void playNext();

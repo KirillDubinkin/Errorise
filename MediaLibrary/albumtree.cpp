@@ -12,6 +12,7 @@
 #include <QAction>
 
 #include "helper.h"
+#include "SimpleGUI/simplegui.h"
 
 static QRegExp rx_tag("%([a-z]*)%");
 
@@ -50,12 +51,12 @@ void AlbumTree::createMenu()
     QAction *act;
 
     act = new QAction(tr("Preferences..."), this);
-    connect(act, SIGNAL(triggered()), this, SIGNAL(needPrefWindow()));
+    connect(act, SIGNAL(triggered()), this, SLOT(createPrefsWidget()));
     addAction(act);
 }
 
 
-QWidget * AlbumTree::getPrefsWidget()
+void AlbumTree::createPrefsWidget()
 {
     if (!prefsWidget)
     {
@@ -65,6 +66,15 @@ QWidget * AlbumTree::getPrefsWidget()
         connect(prefsWidget, SIGNAL(iconChanged(QString)), this, SLOT(fillTree()));
         connect(prefsWidget, SIGNAL(patternChanged(QString)), this, SLOT(fillTree()));
     }
+
+    gui->showPreferences(prefsWidget);
+}
+
+
+QWidget * AlbumTree::getPrefsWidget()
+{
+    if (!prefsWidget)
+        createPrefsWidget();
 
     return prefsWidget;
 }

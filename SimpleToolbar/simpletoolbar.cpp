@@ -6,6 +6,7 @@
 #include <QSpacerItem>
 
 #include "global.h"
+#include "SimpleGUI/simplegui.h"
 
 using namespace Global;
 
@@ -223,7 +224,7 @@ QPushButton * SimpleToolbar::btnStop()
 }
 
 
-QWidget * SimpleToolbar::getPrefsWidget()
+void SimpleToolbar::createPrefsWidget()
 {
     if (!prefsWidget)
     {
@@ -232,6 +233,15 @@ QWidget * SimpleToolbar::getPrefsWidget()
         connect(prefsWidget, SIGNAL(somethingChanged()),    this, SLOT(buildToolbar()));
         connect(prefsWidget, SIGNAL(styleChanged(QString)), this, SLOT(setStyleSheet(QString)));
     }
+
+    gui->showPreferences(prefsWidget);
+}
+
+
+QWidget * SimpleToolbar::getPrefsWidget()
+{
+    if (!prefsWidget)
+        createPrefsWidget();
 
     return prefsWidget;
 }

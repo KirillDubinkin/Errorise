@@ -21,15 +21,12 @@ public:
 
     QWidget *getPrefsWidget();
 
-signals:
-   void needPrefWindow();
-
-public slots:
-
 private slots:
     void fillTree();
+    void createPrefsWidget();
+    void deletePreferences() { prefsWidget = 0; }
+
     void selectedNodeChange(QTreeWidgetItem *cur);
-    inline void deletePreferences() { prefsWidget = 0; }
 
 private:
     void createMenu();

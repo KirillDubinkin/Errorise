@@ -17,6 +17,7 @@
 #include "helper.h"
 #include "global.h"
 #include "fileoperations.h"
+#include "SimpleGUI/simplegui.h"
 
 using namespace Global;
 
@@ -111,7 +112,7 @@ void SimplePlaylist::createActions()
     menu->addAction(tr("Remove from playlist"), this, SLOT(deleteTracks()), QKeySequence::Delete);
 
     menu->addSeparator();
-    menu->addAction(tr("Preferences..."), this, SIGNAL(needPrefWindow()));
+    menu->addAction(tr("Preferences..."), this, SLOT(createPrefsWidget()));
 
     addActions(menu->actions());
 }
@@ -273,7 +274,7 @@ void SimplePlaylist::addToQueue()
 }
 
 
-QWidget * SimplePlaylist::getPrefsWidget()
+void SimplePlaylist::createPrefsWidget()
 {
     if (!prefsWidget)
     {
@@ -301,6 +302,15 @@ QWidget * SimplePlaylist::getPrefsWidget()
         connect(prefsWidget, SIGNAL(grpColorTextChanged(QColor)),   this, SLOT(setGroupTextColor(QColor)));
         connect(prefsWidget, SIGNAL(grpColorBackChanged(QColor)),   this, SLOT(setGroupBackColor(QColor)));
     }
+
+    gui->showPreferences(prefsWidget);
+}
+
+
+QWidget * SimplePlaylist::getPrefsWidget()
+{
+    if (!prefsWidget)
+        createPrefsWidget();
 
     return prefsWidget;
 }

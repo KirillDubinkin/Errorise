@@ -37,7 +37,8 @@ public:
 
 
 private slots:
-    inline void deletePreferences() { prefsWidget = 0; }
+    void createPrefsWidget();
+    void deletePreferences() { prefsWidget = 0; }
     void buildToolbar();
     void changePlaybackOrder(int idx);
 
@@ -45,7 +46,6 @@ private:
     void initComponents();
     void deleteComponents();
     void createMenu();
-
 
 private:
     QHBoxLayout *L;
@@ -58,10 +58,6 @@ private:
     QComboBox            *play_order;
 
     QPushButton *btn_play, *btn_next, *btn_prev, *btn_stop, *btn_pause, *btn_play_pause;
-
-signals:
-    void needPrefWindow();
-
 
 };
 
