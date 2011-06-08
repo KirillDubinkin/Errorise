@@ -7,13 +7,15 @@ QT       += phonon
 QT       += sql
 QT       += core gui
 
-#CONFIG  += static
+#CONFIG   += static
 #CONFIG   += console
 
-#TARGET = Errorise-console
-TARGET = errorise-testing
+#TARGET   = Errorise-console
+#TARGET   = Errorise
+TARGET   = errorise-testing
 TEMPLATE = app
 
+TRANSLATIONS = errorise_ru.ts
 
 SOURCES += main.cpp\
     global.cpp \
@@ -76,3 +78,6 @@ FORMS    += \
     SimpleToolbar/simpetoolbarprefswidget.ui \
     SimpleGUI/simpleguiprefswidget.ui \
     SimplePlaylist/simpleplaylistprefswidget.ui
+
+RESOURCES += \
+    resources.qrc

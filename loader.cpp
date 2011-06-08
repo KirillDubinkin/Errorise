@@ -1,11 +1,15 @@
 #include "loader.h"
 #include "global.h"
 #include "SimpleGUI/simplegui.h"
+#include <QTranslator>
+#include <QApplication>
+#include <QString>
 
 Loader::Loader(QObject *parent): QObject(parent)
 {
     gui_p = 0;
     Global::global_init();
+    loadTranslations();
 }
 
 
@@ -13,6 +17,40 @@ Loader::~Loader()
 {
     delete gui_p;
     Global::global_end();
+}
+
+
+bool Loader::loadTranslations()
+{
+    QTranslator *appTranslator = new QTranslator(qApp);
+    QString lang = QLocale::system().name();
+
+    if (!Global::pref->language.isEmpty())
+        lang = pref->language;
+
+    QString trFileName = "errorise_" + lang;
+    QString trPath     = Global::pref->configPath() + "/translations";
+
+
+    bool isLoad = false;
+
+    if (QFile::exists(trPath + "/" + trFileName + ".qm"))
+        isLoad = appTranslator->load(trFileName, trPath);
+    else
+    {
+        qDebug("Translation file \"%s\" not found\n\tusing translation from resource",
+               QString(trPath + "/" + trFileName + ".qm").toUtf8().data());
+
+        isLoad = appTranslator->load(trFileName, ":/translations");
+    }
+
+    if (isLoad)
+        qApp->installTranslator(appTranslator);
+    else
+    {
+        qWarning("Translations for locale \"%s\" not found!", lang.toUtf8().data());
+        delete appTranslator;
+    }
 }
 
 

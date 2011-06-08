@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QStringList>
+#include <QApplication>
 
 class Loader : public QObject
 {
@@ -20,6 +21,7 @@ public:
 
 private:
     QWidget *gui_p;
+    bool loadTranslations();
 
 };
 
