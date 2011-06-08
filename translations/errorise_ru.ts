@@ -4,11 +4,6 @@
 <context>
     <name>AlbumTreePrefsWidget</name>
     <message>
-        <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="20"/>
         <source>Library</source>
         <translatorcomment>по смыслу так ок</translatorcomment>
@@ -18,11 +13,6 @@
         <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="26"/>
         <source>Music path:</source>
         <translation>Путь к коллекции:</translation>
-    </message>
-    <message>
-        <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="44"/>
-        <source>...</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../MediaLibrary/albumtreeprefswidget.ui" line="53"/>
@@ -259,11 +249,6 @@ Path:</source>
 <context>
     <name>SimpleGuiPrefsWidget</name>
     <message>
-        <location filename="../SimpleGUI/simpleguiprefswidget.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../SimpleGUI/simpleguiprefswidget.ui" line="36"/>
         <source>Window Title:</source>
         <translation>Заголовок окна</translation>
@@ -340,9 +325,8 @@ Path:</source>
 <context>
     <name>SimplePlaylistPrefsWidget</name>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="14"/>
         <source>Playlist preferences</source>
-        <translation>Настройки списка воспроизведения</translation>
+        <translation type="obsolete">Настройки списка воспроизведения</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="21"/>
@@ -480,8 +464,6 @@ Path:</source>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="583"/>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="886"/>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="906"/>
         <source>...</source>
         <translation></translation>
     </message>

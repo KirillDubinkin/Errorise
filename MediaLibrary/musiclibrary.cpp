@@ -31,7 +31,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
     if (!openDb())
     {
-        qWarning() << tr("\n\tCannot open or create music library\nPath:") << db.databaseName()
+        qWarning() << "\n\tCannot open or create music library\nPath:" << db.databaseName()
                    << "\n" << tr(db.lastError().text().toUtf8()) << "\n";
         return;
     }

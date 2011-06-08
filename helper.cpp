@@ -266,7 +266,7 @@ QString Helper::funcIF(QString line, const int id)
 
     if (!comma)
     {
-        qWarning() << QObject::tr("There is no comma in function $if(" + line.toUtf8());
+        qWarning() << "There is no comma in function $if(" + line.toUtf8();
         return QString::null;
     }
 
@@ -314,7 +314,7 @@ QString Helper::funcIF2(QString line, const int id)
 
     if (!comma)
     {
-        qWarning() << QObject::tr("There is no comma in function $if2(" + line.toUtf8());
+        qWarning() << "There is no comma in function $if2(" + line.toUtf8();
         return QString::null;
     }
 
@@ -360,7 +360,7 @@ QString Helper::doFunc(const QString &func, QString line, const int id)
         return funcIF2(line, id);
 
 
-    qWarning() << QObject::tr("I'm not familiar with function \"$" + func.toUtf8());
+    qWarning() << "I'm not familiar with function \"$" + func.toUtf8();
     return QString::null;
 }
 

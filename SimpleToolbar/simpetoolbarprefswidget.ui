@@ -30,13 +30,13 @@
      </property>
      <property name="maximumSize">
       <size>
-       <width>200</width>
+       <width>500</width>
        <height>16777215</height>
       </size>
      </property>
      <property name="sizeIncrement">
       <size>
-       <width>10</width>
+       <width>30</width>
        <height>0</height>
       </size>
      </property>
@@ -164,9 +164,12 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Maximum</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>62</width>
+       <width>12</width>
        <height>20</height>
       </size>
      </property>

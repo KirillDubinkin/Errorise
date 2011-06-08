@@ -411,7 +411,7 @@ void SimplePlaylistPrefsWidget::openColColorDialog()
 {
     QColor color = QColorDialog::getColor(prefs->columns_text_color.at(ui->colList->currentRow()),
                      this,
-                     tr("Choose color for column") + "\"" + ui->colList->currentItem()->text() + "\"");
+                     tr("Choose text color for selected column") + "\"" + ui->colList->currentItem()->text() + "\"");
 
     if (!color.isValid() || (color == prefs->columns_text_color.at(ui->colList->currentRow())))
         return;

@@ -81,7 +81,7 @@ void AlbumTreePrefsWidget::getIcon()
 {
     QString filename = QFileDialog::getOpenFileName(this,
                 tr("Select AlbumTree items icon..."), prefs->items_icon,
-                tr("Images (*.svg *.png *.gif *.xpm *.jpg *.bmp)"), 0,
+                tr("Images") + " (*.svg *.png *.gif *.xpm *.jpg *.bmp)", 0,
                 QFileDialog::ReadOnly);
 
     if (!filename.isEmpty())

@@ -91,19 +91,20 @@ void SimplePlaylist::createActions()
 
     menu = new QMenu(tr("Simple Playlist"), this);
     menu->addAction(tr("Add to playback queue"), this, SLOT(addToQueue()));
+    menu->addSeparator();
 
     chldMenu = menu->addMenu(tr("File operations"));
     chldMenu->addAction(tr("Remove files"), this, SLOT(removeFiles()));
-    chldMenu->addAction(tr("Copy files to..."), this, SLOT(copyFilesTo()))->setEnabled(false);
+    chldMenu->addAction(tr("Copy files..."), this, SLOT(copyFilesTo()))->setEnabled(false);
     chldMenu->addAction(tr("Copy files to clipboard"), this, SLOT(copyFilesToClipboard()))->setEnabled(false);
-    chldMenu->addAction(tr("Move files to..."), this, SLOT(moveFiles()));
+    chldMenu->addAction(tr("Move files..."), this, SLOT(moveFiles()));
     chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()))->setEnabled(false);
 
 
     chldMenu = menu->addMenu(tr("Copy"));
     chldMenu->addAction(prefs->copy_preset, this, SLOT(copyPatternToClipboard()), QKeySequence::Copy);
-    chldMenu->addAction(tr("Playlist line"), this, SLOT(copyPlLineToClipboard()));
-    chldMenu->addAction(tr("Column text"), this, SLOT(copyCurColTextToClipboard()));
+    chldMenu->addAction(tr("Text from selected line"), this, SLOT(copyPlLineToClipboard()));
+    chldMenu->addAction(tr("Text from selected column"), this, SLOT(copyCurColTextToClipboard()));
 
 
     menu->addSeparator();

@@ -11,10 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Playlist preferences</string>
+   <string notr="true">Playlist preferences</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="tabGeneral">
    <attribute name="title">
@@ -199,7 +199,7 @@
        </size>
       </property>
       <property name="title">
-       <string>Art search</string>
+       <string>Album art search</string>
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
@@ -883,7 +883,7 @@
                </size>
               </property>
               <property name="text">
-               <string>...</string>
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -903,7 +903,7 @@
                </size>
               </property>
               <property name="text">
-               <string>...</string>
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1038,7 +1038,7 @@
         <item>
          <widget class="QLabel" name="lnlGroupTextVA">
           <property name="text">
-           <string>VA Group by:</string>
+           <string>VA-groups text:</string>
           </property>
          </widget>
         </item>

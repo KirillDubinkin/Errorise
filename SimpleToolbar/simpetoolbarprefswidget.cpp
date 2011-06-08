@@ -70,7 +70,7 @@ void SimpeToolbarPrefsWidget::createToolListMenu()
     chldmenu->addSeparator();
     chldmenu->addAction(tr("Play button"),          this, SLOT(addButtonPlay()));
     chldmenu->addAction(tr("Pause button"),         this, SLOT(addButtonPause()));
-    chldmenu->addAction(tr("Play or Pause button"), this, SLOT(addButtonPlayOrPause()));
+    chldmenu->addAction(tr("Play or pause button"), this, SLOT(addButtonPlayOrPause()));
     chldmenu->addAction(tr("Stop button"),          this, SLOT(addButtonStop()));
     chldmenu->addAction(tr("Previous button"),      this, SLOT(addButtonPrev()));
     chldmenu->addAction(tr("Next button"),          this, SLOT(addButtonNext()));
@@ -488,8 +488,8 @@ void SimpeToolbarPrefsWidget::setToolIcon(QString filename)
 void SimpeToolbarPrefsWidget::getToolIcon()
 {
     QString filename = QFileDialog::getOpenFileName(this,
-                tr("Select AlbumTree items icon..."), ui->iconLine->text(),
-                tr("Images (*.svg *.png *.gif *.xpm *.jpg *.bmp)"), 0,
+                tr("Choose icon for selected tool..."), ui->iconLine->text(),
+                tr("Images") + " (*.svg *.png *.gif *.xpm *.jpg *.bmp)", 0,
                 QFileDialog::ReadOnly);
 
     if (!filename.isEmpty())
