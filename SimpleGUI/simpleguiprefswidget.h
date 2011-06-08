@@ -21,10 +21,16 @@ signals:
 
 private slots:
     void changeWindowTitle(QString title)  { prefs->title_format = title;  emit windowTitleChanged(title); }
+    void changeLanguage(int boxIndex);
 
 private:
     Ui::SimpleGuiPrefsWidget *ui;
     SimpleGUIPrefs           *prefs;
+
+    void load();
+    void conct();
+
+    void fillLanguageBox();
 };
 
 #endif // SIMPLEGUIPREFSWIDGET_H

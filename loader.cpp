@@ -22,35 +22,42 @@ Loader::~Loader()
 
 bool Loader::loadTranslations()
 {
-    QTranslator *appTranslator = new QTranslator(qApp);
     QString lang = QLocale::system().name();
 
     if (!Global::pref->language.isEmpty())
         lang = pref->language;
 
+    if (lang == "English")
+        return false;
+
+
     QString trFileName = "errorise_" + lang;
     QString trPath     = Global::pref->configPath() + "/translations";
-
-
     bool isLoad = false;
+
+    QTranslator *appTranslator = new QTranslator(qApp);
+
 
     if (QFile::exists(trPath + "/" + trFileName + ".qm"))
         isLoad = appTranslator->load(trFileName, trPath);
-    else
-    {
+
+    else {
         qDebug("Translation file \"%s\" not found\n\tusing translation from resource",
                QString(trPath + "/" + trFileName + ".qm").toUtf8().data());
 
         isLoad = appTranslator->load(trFileName, ":/translations");
     }
 
-    if (isLoad)
+
+    if (isLoad) {
         qApp->installTranslator(appTranslator);
-    else
-    {
-        qWarning("Translations for locale \"%s\" not found!", lang.toUtf8().data());
-        delete appTranslator;
+        return true;
     }
+
+
+    qWarning("Translations for locale \"%s\" not found!", lang.toUtf8().data());
+    delete appTranslator;
+    return false;
 }
 
 
