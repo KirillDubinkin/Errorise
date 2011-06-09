@@ -255,7 +255,7 @@ void SimpleToolbar::createMenu()
     QAction *act;
 
     act = new QAction(tr("Preferences..."), this);
-    connect(act, SIGNAL(triggered()), this, SIGNAL(needPrefWindow()));
+    connect(act, SIGNAL(triggered()), this, SLOT(createPrefsWidget()));
     addAction(act);
 
 }
