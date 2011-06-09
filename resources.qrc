@@ -2,4 +2,14 @@
     <qresource prefix="/translations">
         <file alias="errorise_ru.qm">translations/errorise_ru.qm</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file alias="add.png">icons/add.png</file>
+        <file alias="prefs.png">icons/configuration.png</file>
+        <file alias="copy.png">icons/disc-cd.png</file>
+        <file alias="files.png">icons/disc-floopy.png</file>
+        <file alias="move.png">icons/download.png</file>
+        <file alias="delete.png">icons/error.png</file>
+        <file alias="message.png">icons/comment.png</file>
+        <file alias="rename.png">icons/rename.png</file>
+    </qresource>
 </RCC>

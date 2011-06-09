@@ -84,4 +84,12 @@ RESOURCES += \
 
 OTHER_FILES += \
     translations/errorise_ru.qm \
-    translations/errorise_ru.ts
+    translations/errorise_ru.ts \
+    icons/error.png \
+    icons/download.png \
+    icons/disc-floopy.png \
+    icons/disc-cd.png \
+    icons/configuration.png \
+    icons/add.png \
+    icons/rename.png \
+    icons/comment.png

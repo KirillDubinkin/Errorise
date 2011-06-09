@@ -93,27 +93,27 @@ void SimplePlaylist::createActions()
     QMenu *menu, *chldMenu;
 
     menu = new QMenu(tr("Simple Playlist"), this);
-    menu->addAction(tr("Add to playback queue"), this, SLOT(addToQueue()));
+    menu->addAction(QIcon(":icons/add.png"), tr("Add to playback queue"), this, SLOT(addToQueue()));
     menu->addSeparator();
 
-    chldMenu = menu->addMenu(tr("File operations"));
-    chldMenu->addAction(tr("Remove files"), this, SLOT(removeFiles()));
-    chldMenu->addAction(tr("Copy files..."), this, SLOT(copyFilesTo()))->setEnabled(false);
-    chldMenu->addAction(tr("Copy files to clipboard"), this, SLOT(copyFilesToClipboard()))->setEnabled(false);
-    chldMenu->addAction(tr("Move files..."), this, SLOT(moveFiles()));
-    chldMenu->addAction(tr("Rename files"), this, SLOT(renameFiles()))->setEnabled(false);
+    chldMenu = menu->addMenu(QIcon(":icons/files.png"), tr("File operations"));
+    chldMenu->addAction(QIcon(":icons/delete.png"), tr("Remove files"), this, SLOT(removeFiles()));
+    chldMenu->addAction(QIcon(":icons/copy.png"), tr("Copy files..."), this, SLOT(copyFilesTo()))->setEnabled(false);
+    chldMenu->addAction(QIcon(":icons/copy.png"), tr("Copy files to clipboard"), this, SLOT(copyFilesToClipboard()))->setEnabled(false);
+    chldMenu->addAction(QIcon(":icons/move.png"), tr("Move files..."), this, SLOT(moveFiles()));
+    chldMenu->addAction(QIcon(":icons/rename.png"), tr("Rename files"), this, SLOT(renameFiles()))->setEnabled(false);
 
 
-    chldMenu = menu->addMenu(tr("Copy text"));
+    chldMenu = menu->addMenu(QIcon(":icons/message.png"), tr("Copy text"));
     chldMenu->addAction(tr("From selected line"), this, SLOT(copyPlLineToClipboard()));
     chldMenu->addAction(tr("From selected column"), this, SLOT(copyCurColTextToClipboard()));
     chldMenu->addAction(tr("From defined pattern"), this, SLOT(copyPatternToClipboard()), QKeySequence::Copy);
 
     menu->addSeparator();
-    menu->addAction(tr("Remove from playlist"), this, SLOT(deleteTracks()), QKeySequence::Delete);
+    menu->addAction(QIcon(":icons/delete.png"), tr("Remove from playlist"), this, SLOT(deleteTracks()), QKeySequence::Delete);
 
     menu->addSeparator();
-    menu->addAction(tr("Preferences..."), this, SLOT(createPrefsWidget()));
+    menu->addAction(QIcon(":icons/prefs.png"), tr("Preferences..."), this, SLOT(createPrefsWidget()));
 
     addActions(menu->actions());
 }

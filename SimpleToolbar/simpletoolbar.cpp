@@ -256,7 +256,7 @@ void SimpleToolbar::createMenu()
 
     QAction *act;
 
-    act = new QAction(tr("Preferences..."), this);
+    act = new QAction(QIcon(":icons/prefs.png"), tr("Preferences..."), this);
     connect(act, SIGNAL(triggered()), this, SLOT(createPrefsWidget()));
     addAction(act);
 
