@@ -48,6 +48,7 @@ void PrefsWidget::show()
         connect(listWidget, SIGNAL(currentRowChanged(int)), stack, SLOT(setCurrentIndex(int)));
 
         QHBoxLayout *hl = new QHBoxLayout();
+        hl->setMargin(0);
         hl->addWidget(listWidget, 22);
         hl->addWidget(stack, 80);
 
