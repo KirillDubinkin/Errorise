@@ -6,8 +6,9 @@
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QRect>
+#include <QMainWindow>
 
-class PrefsWidget : public QWidget
+class PrefsWidget : public QMainWindow
 {
     Q_OBJECT
 public:

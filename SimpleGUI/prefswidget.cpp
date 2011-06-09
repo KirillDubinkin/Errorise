@@ -1,21 +1,25 @@
 #include "prefswidget.h"
+
 #include <QDebug>
 #include <QHBoxLayout>
-#include <QHashIterator>
+#include <QStatusBar>
 #include <QListWidgetItem>
 
 PrefsWidget::PrefsWidget(QList<QWidget *> prefsWidgetList,
                          QWidget *defaultWidget, QWidget *parent) :
-    QWidget(parent)
+    QMainWindow(parent)
 {
     listWidget = 0;
     stack      = 0;
     defWidget  = defaultWidget;
     prefsList  = prefsWidgetList;
 
+    setStatusBar(new QStatusBar(this));
+
     setWindowFlags(Qt::Window);
     setWindowTitle(tr("Errorise preferences"));
     setAttribute(Qt::WA_DeleteOnClose);
+
 }
 
 
@@ -28,8 +32,8 @@ PrefsWidget::~PrefsWidget()
 void PrefsWidget::show()
 {
     if (!listWidget) {
-        listWidget = new QListWidget(this);
-        stack      = new QStackedWidget(this);
+        listWidget = new QListWidget();
+        stack      = new QStackedWidget();
 
         int row = 0;
 
@@ -43,10 +47,13 @@ void PrefsWidget::show()
 
         connect(listWidget, SIGNAL(currentRowChanged(int)), stack, SLOT(setCurrentIndex(int)));
 
-        QHBoxLayout *hl = new QHBoxLayout(this);
+        QHBoxLayout *hl = new QHBoxLayout();
         hl->addWidget(listWidget, 22);
         hl->addWidget(stack, 80);
-        setLayout(hl);
+
+        QWidget *w = new QWidget;
+        w->setLayout(hl);
+        setCentralWidget(w);
 
         listWidget->setCurrentRow(row);
     }
