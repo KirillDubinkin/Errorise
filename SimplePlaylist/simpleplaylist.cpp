@@ -720,8 +720,8 @@ QTableWidgetItem * SimplePlaylist::newItem(Qt::ItemFlags flags, const QString &t
 
 void SimplePlaylist::addGroupItem(int row, const QString &text)
 {
-    this->insertRow(row);
-    this->setSpan(row, 1, 1, this->columnCount()-1);
+    insertRow(row);
+    setSpan(row, 1, 1, columnCount() - 1);
 
     QTableWidgetItem *group = new QTableWidgetItem(text);
     group->setTextAlignment( prefs->groups_text_aligment  | Qt::AlignVCenter);
@@ -734,8 +734,6 @@ void SimplePlaylist::addGroupItem(int row, const QString &text)
 
     if (prefs->groups_back_color.isValid())
         group->setBackgroundColor(prefs->groups_back_color);
-    else
-        group->setBackground(palette().background());
 
 
     this->setRowHeight(row, prefs->group_height);
