@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QTime>
 #include <QDir>
+#include <QTextCodec>
 
 //#include "amplayer.h"
 #include "loader.h"
@@ -15,8 +16,9 @@
 
 using namespace Global;
 
-//MainWindow * mainwindow_instance = 0;
 QFile output_log;
+
+QTextCodec *localCodec;
 
 void myMessageOutput( QtMsgType type, const char *msg )
 {
@@ -39,26 +41,26 @@ void myMessageOutput( QtMsgType type, const char *msg )
                 case QtDebugMsg:
                         if (rx_log.indexIn(orig_line) > -1) {
                                 #ifndef NO_DEBUG_ON_CONSOLE
-                                fprintf( stderr, "Debug: %s\n", orig_line.toLocal8Bit().data() );
+                                fprintf( stderr, "Debug: %s\n",  localCodec->fromUnicode(orig_line).data() );
                                 #endif
                                 line2 = orig_line;
                         }
                         break;
                 case QtWarningMsg:
                         #ifndef NO_DEBUG_ON_CONSOLE
-                        fprintf( stderr, "WARNING: %s\n", orig_line.toLocal8Bit().data() );
+                        fprintf( stderr, "WARNING: %s\n", localCodec->fromUnicode(orig_line).data() );
                         #endif
                         line2 = "WARNING: " + orig_line;
                         break;
                 case QtFatalMsg:
                         #ifndef NO_DEBUG_ON_CONSOLE
-                        fprintf( stderr, "FATAL: %s\n", orig_line.toLocal8Bit().data() );
+                        fprintf( stderr, "FATAL: %s\n", localCodec->fromUnicode(orig_line).data() );
                         #endif
                         line2 = "FATAL: " + orig_line;
                         abort();                    // deliberately core dump
                 case QtCriticalMsg:
                         #ifndef NO_DEBUG_ON_CONSOLE
-                        fprintf( stderr, "CRITICAL: %s\n", orig_line.toLocal8Bit().data() );
+                        fprintf( stderr, "CRITICAL: %s\n", localCodec->fromUnicode(orig_line).data() );
                         #endif
                         line2 = "CRITICAL: " + orig_line;
                         break;
@@ -96,6 +98,13 @@ int main( int argc, char ** argv )
         QApplication a( argc, argv );
         a.setQuitOnLastWindowClosed(true);
         a.setApplicationName("Errorise");
+
+
+        localCodec = QTextCodec::codecForLocale();
+
+        QTextCodec *utf = QTextCodec::codecForName("UTF-8");
+        QTextCodec::setCodecForLocale(utf);
+
 
         qInstallMsgHandler( myMessageOutput );
 
