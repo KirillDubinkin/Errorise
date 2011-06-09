@@ -893,10 +893,8 @@ bool SimplePlaylist::addShuffleTrack()
             shuffleRows.replace(newId, row);
         }
 
-        if (firstShuffle)
-            shuffleRows.removeOne(currentTrackRow);
-
-        firstShuffle = false;
+        shuffleRows.move(shuffleRows.indexOf(currentTrackRow), shuffleRows.size() - 1);
+        qDebug() << "Shuffle tracks:" << shuffleRows;
 
         if (shuffleRows.isEmpty())
             return false;
@@ -939,10 +937,8 @@ bool SimplePlaylist::addShuffleGroup()
             if (item(row++, 0)->text() == Group)
                 curGroup++;
 
-        if (firstShuffle)
-            shuffleGroups.removeOne(curGroup);
-
-        firstShuffle = false;
+        shuffleGroups.move(shuffleGroups.indexOf(curGroup), shuffleGroups.size() - 1);
+        qDebug() << "Shuffle albums:" << shuffleGroups;
     }
 
 
