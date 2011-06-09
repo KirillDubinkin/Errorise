@@ -4,9 +4,7 @@
 #include <QDir>
 #include <QTextCodec>
 
-//#include "amplayer.h"
 #include "loader.h"
-#include "version.h"
 #include "global.h"
 
 #include <stdio.h>
@@ -75,7 +73,7 @@ void myMessageOutput( QtMsgType type, const char *msg )
                 if (pref->save_log) {
                         // Save log to file
                         if (!output_log.isOpen()) {
-                            output_log.setFileName( pref->configPath() + QDir::separator() + myplayerName().toLower() + ".log" );
+                            output_log.setFileName( pref->configPath() + "/" + qApp->applicationName() + ".log" );
                                 output_log.open(QIODevice::Append);
                                 output_log.write("################################################################################################\n"
                                                  "################################################################################################\n"
@@ -98,7 +96,7 @@ int main( int argc, char ** argv )
         QApplication a( argc, argv );
         a.setQuitOnLastWindowClosed(true);
         a.setApplicationName("Errorise");
-
+        a.setApplicationVersion(APP_VERSION);
 
         localCodec = QTextCodec::codecForLocale();
 

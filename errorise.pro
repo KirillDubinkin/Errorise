@@ -7,6 +7,9 @@ QT       += phonon
 QT       += sql
 QT       += core gui
 
+VERSION = 0.1.5.455
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
 #CONFIG   += static
 #CONFIG   += console
 
@@ -46,7 +49,6 @@ SOURCES += main.cpp\
 HEADERS  += \
     global.h \
     preferences.h \
-    version.h \
     helper.h \
     SimpleGUI/simplegui.h \
     phononface.h \
