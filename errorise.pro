@@ -7,7 +7,7 @@ QT       += phonon
 QT       += sql
 QT       += core gui
 
-VERSION = 0.1.5.466
+VERSION = 0.1.5.467
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 #CONFIG   += static
@@ -92,4 +92,8 @@ OTHER_FILES += \
     icons/configuration.png \
     icons/add.png \
     icons/rename.png \
-    icons/comment.png
+    icons/comment.png \
+    icons/up.png \
+    icons/right.png \
+    icons/left.png \
+    icons/down.png
