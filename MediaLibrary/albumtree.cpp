@@ -139,7 +139,7 @@ void AlbumTree::fillTree()
     QMapIterator<QString, QString> i(map);
 
     int j = 0;
-    while (i.hasNext() & (j < 10))
+    while (i.hasNext() & (j < 2))
     {
         i.next();
         qDebug("%2d:   %s", j++, i.key().toUtf8().data());
