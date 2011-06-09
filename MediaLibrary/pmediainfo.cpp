@@ -8,6 +8,7 @@
 
 PMediaInfo::PMediaInfo(QObject *parent) : Minfo(parent)
 {
+    qDebug("Load PMediaInfo");
     object = new Phonon::MediaObject(this);
 
     connect(object, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
@@ -64,6 +65,14 @@ void PMediaInfo::reScanFiles(QStringList files)
 
 void PMediaInfo::pringTags()
 {
+    if (object->state() == Phonon::ErrorState)
+    {
+        qWarning() << "PMediaInfo got error!\n"
+                   << "\ttype:" << object->errorType()
+                   << "\tmessage:" << object->errorString()
+                   << "\tfile:" << object->currentSource().fileName() << endl;
+    }
+
     if ((object->state() == Phonon::StoppedState)
         | (object->state() == Phonon::ErrorState))
     {
