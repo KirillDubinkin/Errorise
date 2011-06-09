@@ -77,7 +77,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     {
         firstRun = true;
 
-        int btn = QMessageBox::question(0, tr("Location of the local music"),
+        int btn = QMessageBox::question(0, qApp->applicationName() + ": " + tr("Location of the local music"),
                                    tr("You must specify the location of the local music, to use this player\n"
                                       "Would you like to specify it right now?"),
                                    QMessageBox::Yes, QMessageBox::No);
@@ -86,8 +86,8 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
             return;
 
         QString filename = QFileDialog::getExistingDirectory(0,
-                 tr("Select place, where you save music"), Global::pref->music_library_path,
-                 QFileDialog::ShowDirsOnly);
+                 qApp->applicationName() + ": " +  tr("Select place, where you save music. Please, choose root music-folder"),
+                 Global::pref->music_library_path, QFileDialog::ShowDirsOnly);
 
         if (filename.isEmpty())
             return;
