@@ -441,15 +441,17 @@ void SimplePlaylistPrefsWidget::changeColText(QString text)
     if (!ui->colList->count())
         return;
 
-    if (prefs->rows_format.at(ui->colList->currentRow()) == text)
-        return;
-
-    prefs->rows_format.replace(ui->colList->currentRow(), text);
 
     if (text.contains("%art%"))
         setColPropersiesEnabled(false);
     else
         setColPropersiesEnabled(true);
+
+
+    if (prefs->rows_format.at(ui->colList->currentRow()) == text)
+        return;
+
+    prefs->rows_format.replace(ui->colList->currentRow(), text);
 
     emit colTextChanged(ui->colList->currentRow(), text);
 }
