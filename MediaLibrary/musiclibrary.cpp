@@ -24,6 +24,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 {
     ready    = false;
     modified = false;
+    firstRun = false;
 
     updateTimer = new QTimer(this);
     updateTimer->setInterval(pref->lib_update_timeout * 1000);
@@ -63,13 +64,16 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     this->libPath = libPath;
 
 
-    if ((libPath.isEmpty()) | (!QDir(libPath).exists())) // path - empty, until user does not change it manually
+    if (libPath.isEmpty() | !QDir(libPath).exists()) // path - empty, until user does not change it manually
     {
-        int btn = QMessageBox::question(0, tr("Location of the local music"),
-                                   tr("You must specify the location of the local music\n"),
-                                   QMessageBox::Ok, QMessageBox::Cancel);
+        firstRun = true;
 
-        if (btn == QMessageBox::Cancel)
+        int btn = QMessageBox::question(0, tr("Location of the local music"),
+                                   tr("You must specify the location of the local music, to use this player\n"
+                                      "Would you like to specify it right now?"),
+                                   QMessageBox::Yes, QMessageBox::No);
+
+        if ( (btn == QMessageBox::Cancel) | (btn == QMessageBox::No) )
             return;
 
         QString filename = QFileDialog::getExistingDirectory(0,
@@ -110,6 +114,8 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
         ready = true;
         emit readyToWork();
 
+    } else {
+        firstRun = true;
     }
 
     QTimer::singleShot(5000, this, SLOT(checkForUpdates()));
@@ -251,12 +257,13 @@ void MusicLibrary::updateDb(QString fromPath)
 
 
     if (!filesToUpdate.isEmpty()) {
-        gui->showMessage(tr("Update files in") + " " + filesToUpdate.first().mid(0, filesToUpdate.first().lastIndexOf("/")), 5000);
+        if (gui)
+            gui->showMessage(tr("Update files in") + " " + filesToUpdate.first().mid(0, filesToUpdate.first().lastIndexOf("/")), 15000);
         return emit updateRequired(filesToUpdate);  //! newFilesAvailable will be emited after update
     }
 
-
-    gui->showMessage(tr("Scan files in") + " " + newFiles.first().mid(0, newFiles.first().lastIndexOf("/")), 5000);
+    if (gui)
+        gui->showMessage(tr("Scan files in") + " " + newFiles.first().mid(0, newFiles.first().lastIndexOf("/")), 15000);
     return emit newFilesAvailable(newFiles);
 }
 
@@ -276,6 +283,9 @@ void MusicLibrary::checkNextDir()
     {
         emit readyToWork();
         modified = false;
+
+        if (firstRun)
+            gui->showMessage(tr("Scanning finished! Now, select any branch of the tree and enjoy listening"), 600000);
     }
 }
 

@@ -56,8 +56,9 @@ private:
 
     QMap<QString, qint64> lastModifiedDates;
 
-    bool             ready;
-    bool             modified;
+    bool ready;
+    bool modified;
+    bool firstRun;
 
 private:
     bool openDb();
