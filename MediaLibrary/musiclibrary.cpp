@@ -44,9 +44,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     MediaInfo *medInfo = new MediaInfo(this);
     connect(medInfo, SIGNAL(failedToStart()), this, SLOT(usePhononScanner()));
     minfo = medInfo;
-#endif
-
-#ifdef Q_OS_LINUX
+#else
     if (QFile::exists("/usr/bin/mediainfo"))
     {
         MediaInfo *medInfo = new MediaInfo(this);
@@ -55,8 +53,6 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     }
     else
         minfo = new PMediaInfo(this);
-#else
-    minfo = new PMediaInfo(this);
 #endif
 
     connect(minfo, SIGNAL(newFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
