@@ -25,6 +25,7 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     ready    = false;
     modified = false;
     firstRun = false;
+    minfo    = 0;
 
     updateTimer = new QTimer(this);
     updateTimer->setInterval(pref->lib_update_timeout * 1000);
@@ -39,15 +40,23 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
 
     createTagsTable();
 
-
 #ifdef Q_OS_WIN
-    minfo = new MediaInfo(this);
+    MediaInfo *medInfo = new MediaInfo(this);
+    connect(medInfo, SIGNAL(failedToStart()), this, SLOT(usePhononScanner()));
+    minfo = medInfo;
 #endif
+
 #ifdef Q_OS_LINUX
     if (QFile::exists("/usr/bin/mediainfo"))
-        minfo = new MediaInfo(this);
+    {
+        MediaInfo *medInfo = new MediaInfo(this);
+        connect(medInfo, SIGNAL(failedToStart()), this, SLOT(usePhononScanner()));
+        minfo = medInfo;
+    }
     else
         minfo = new PMediaInfo(this);
+#else
+    minfo = new PMediaInfo(this);
 #endif
 
     connect(minfo, SIGNAL(newFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
@@ -119,6 +128,29 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
     }
 
     QTimer::singleShot(5000, this, SLOT(checkForUpdates()));
+}
+
+
+void MusicLibrary::usePhononScanner()
+{
+    qWarning("MusicLibrary: Changing tag-scanner to Phonon");
+
+    if (minfo)
+        delete minfo;
+
+    minfo = new PMediaInfo(this);
+    connect(minfo, SIGNAL(newFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
+            this, SLOT(insertNewTracks(QMultiMap<QString,QMultiMap<QString,QString> >)));
+
+    connect(minfo, SIGNAL(oldFilesScanned(QMultiMap<QString,QMultiMap<QString,QString> >)),
+            this, SLOT(updateOldTracks(QMultiMap<QString,QMultiMap<QString,QString> >)));
+
+    connect(this, SIGNAL(updateRequired(QStringList)), minfo, SLOT(reScanFiles(QStringList)));
+    connect(this, SIGNAL(newFilesAvailable(QStringList)), minfo, SLOT(scanFiles(QStringList)));
+
+    db.rollback();
+
+    checkForUpdates();
 }
 
 

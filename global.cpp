@@ -19,21 +19,21 @@ void Global::init_preferences()
 
 void Global::global_init()
 {
-    qDebug("Load player");
+    qDebug("Load Phonon");
     player    = new PhononFace();
 
-    qDebug("Load music library");
+    qDebug("Load Music library");
     mlib      = new MusicLibrary(pref->music_library_path, pref->files_filter);
 }
 
 void Global::global_end() {
-    qDebug("Delete player");
+    qDebug("Delete Phonon");
     delete player;
 
-    qDebug("Delete library");
+    qDebug("Delete Music library");
     delete mlib;
 
-    qDebug("Delete preferences");
+    qDebug("Delete global preferences");
     delete pref;
 }
 

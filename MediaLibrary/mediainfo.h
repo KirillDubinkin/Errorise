@@ -21,6 +21,7 @@ public:
 
 signals:
     void fileScanned();
+    void failedToStart();
 
 public slots:
     void scanFiles(QStringList files);
@@ -31,6 +32,7 @@ public slots:
 private slots:
     void pringTags();
     void scanNextFile();
+    void gotError(QProcess::ProcessError);
 
 private:
     QString     artFilePath;

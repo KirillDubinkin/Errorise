@@ -43,6 +43,7 @@ private slots:
 
     void checkNextDir();
     void checkForUpdates();
+    void usePhononScanner();
 
 private:
     Minfo           *minfo;

@@ -8,10 +8,23 @@
 
 MediaInfo::MediaInfo(QObject *parent): Minfo(parent)
 {
+    qDebug("Load MediaInfo");
     minfo = new QProcess(this);
 
     connect(minfo, SIGNAL(finished(int)), this, SLOT(pringTags()));
-    connect(this, SIGNAL(fileScanned()), this, SLOT(scanNextFile()));
+    connect(this,  SIGNAL(fileScanned()), this, SLOT(scanNextFile()));
+    connect(minfo, SIGNAL(error(QProcess::ProcessError)), this, SLOT(gotError(QProcess::ProcessError)));
+}
+
+
+void MediaInfo::gotError(QProcess::ProcessError error)
+{
+    qWarning() << "MediaInfo got error!\n"
+               << "\terror:" << error
+               << "\tmessage:" << minfo->errorString();
+
+    if ( (error == QProcess::FailedToStart) | (error == QProcess::Crashed) )
+        emit failedToStart();
 }
 
 
