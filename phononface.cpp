@@ -11,9 +11,6 @@ PhononFace::PhononFace(QObject *parent) :
 {
     isPreviousPlaying = false;
 
-    //volSlider = 0;
-    //seekbarSlider = 0;
-
     output  = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     mobject = new Phonon::MediaObject(this);
 
@@ -45,7 +42,7 @@ bool PhononFace::isStoped()
 void PhononFace::stateChange(Phonon::State cur, Phonon::State)
 {
     switch (cur) {
-    case Phonon::LoadingState:
+/*    case Phonon::LoadingState:
         qDebug() << "Phonon::loading\t" << mobject->currentSource().fileName();
         break;
     case Phonon::StoppedState:
@@ -59,7 +56,7 @@ void PhononFace::stateChange(Phonon::State cur, Phonon::State)
         break;
     case Phonon::PausedState:
         qDebug() << "Phonon::paused\t" << mobject->currentTime();
-        break;
+        break; */
     case Phonon::ErrorState:
         qWarning() << "Phonon::error\n\ttype:" << mobject->errorType()
                    << "\n\ttext:" << mobject->errorString();
@@ -163,7 +160,7 @@ void PhononFace::sourceChange(Phonon::MediaSource source)
         if (!isPreviousPlaying)
         {
             prevTracks.append(currentSource);
-            qDebug() << "PhononFace: Added previous track:" << prevTracks.last().fileName();
+//            qDebug() << "PhononFace: Added previous track:" << prevTracks.last().fileName();
         }
         isPreviousPlaying = false;
     }
