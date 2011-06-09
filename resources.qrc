@@ -11,5 +11,9 @@
         <file alias="delete.png">icons/error.png</file>
         <file alias="message.png">icons/comment.png</file>
         <file alias="rename.png">icons/rename.png</file>
+        <file alias="down.png">icons/down.png</file>
+        <file alias="left.png">icons/left.png</file>
+        <file alias="right.png">icons/right.png</file>
+        <file alias="up.png">icons/up.png</file>
     </qresource>
 </RCC>

@@ -62,7 +62,7 @@ void SimpeToolbarPrefsWidget::createToolListMenu()
 
     menu = new QMenu(ui->toolList);
 
-    chldmenu = menu->addMenu(tr("Add new tool"));
+    chldmenu = menu->addMenu(QIcon(":icons/add.png"), tr("Add new tool"));
     chldmenu->addAction(tr("Spacing"),              this, SLOT(addSpacing()));
     chldmenu->addSeparator();
     chldmenu->addAction(tr("Seek bar"),             this, SLOT(addSeekBar()));
@@ -78,10 +78,10 @@ void SimpeToolbarPrefsWidget::createToolListMenu()
     chldmenu->addAction(tr("Playback Order"),       this, SLOT(addPlaybackOrder()));
 
     menu->addSeparator();
-    menu->addAction(tr("Move Up"),     this, SLOT(moveUp()));
-    menu->addAction(tr("Move down"),   this, SLOT(moveDown()));
+    menu->addAction(QIcon(":icons/up.png"), tr("Move Up"),     this, SLOT(moveUp()));
+    menu->addAction(QIcon(":icons/down.png"), tr("Move down"),   this, SLOT(moveDown()));
     menu->addSeparator();
-    menu->addAction(tr("Remove item"), this, SLOT(removeTool()));
+    menu->addAction(QIcon(":icons/delete.png"), tr("Remove item"), this, SLOT(removeTool()));
 
     ui->toolList->addActions(menu->actions());
 }

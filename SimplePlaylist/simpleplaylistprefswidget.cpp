@@ -149,25 +149,28 @@ void SimplePlaylistPrefsWidget::createContextMenus()
     ui->colList->setContextMenuPolicy(Qt::ActionsContextMenu);
     QAction *act;
 
-    act = new QAction(tr("Move up"), this);
-    connect(act, SIGNAL(triggered()), this, SLOT(moveColUp()));
-    ui->colList->addAction(act);
 
-    act = new QAction(tr("Move down"), this);
-    connect(act, SIGNAL(triggered()), this, SLOT(moveColDown()));
+    act = new QAction(QIcon(":icons/add.png"), tr("Add new column"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(addNewColumn()));
     ui->colList->addAction(act);
-
 
     act = new QAction(this);
     act->setSeparator(true);
     ui->colList->addAction(act);
 
-
-    act = new QAction(tr("Add new column"), this);
-    connect(act, SIGNAL(triggered()), this, SLOT(addNewColumn()));
+    act = new QAction(QIcon(":icons/up.png"), tr("Move up"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(moveColUp()));
     ui->colList->addAction(act);
 
-    act = new QAction(tr("Remove column"), this);
+    act = new QAction(QIcon(":icons/down.png"), tr("Move down"), this);
+    connect(act, SIGNAL(triggered()), this, SLOT(moveColDown()));
+    ui->colList->addAction(act);
+
+    act = new QAction(this);
+    act->setSeparator(true);
+    ui->colList->addAction(act);
+
+    act = new QAction(QIcon(":icons/delete.png"), tr("Remove column"), this);
     connect(act, SIGNAL(triggered()), this, SLOT(removeColumn()));
     ui->colList->addAction(act);
 }
