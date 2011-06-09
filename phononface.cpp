@@ -29,6 +29,8 @@ PhononFace::PhononFace(QObject *parent) :
     connect(mobject, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
             this, SLOT(stateChange(Phonon::State,Phonon::State)));
 
+    connect(output, SIGNAL(volumeChanged(qreal)), this, SIGNAL(volumeChanged(qreal)));
+
 }
 
 

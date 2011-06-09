@@ -34,6 +34,7 @@ signals:
     void tick(qint64 tick);
     void trackChanged(QString filename, int guid);
     void needNext();
+    void volumeChanged(qreal vol);
 
 
 public slots:
