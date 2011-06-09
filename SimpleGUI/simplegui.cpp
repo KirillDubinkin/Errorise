@@ -4,9 +4,9 @@
 #include <QHBoxLayout>
 #include <QDebug>
 #include <QList>
+#include <QTime>
 
 #include "helper.h"
-#include "version.h"
 #include "global.h"
 
 using namespace Global;
@@ -14,6 +14,7 @@ using namespace Global;
 SimpleGUI::SimpleGUI(QWidget *parent) :
     QWidget(parent)
 {
+    qDebug("Load GUI");
     prefs           = new SimpleGUIPrefs();
     prefsWidget     = 0;
     sGuiPrefsWidget = 0;
@@ -40,7 +41,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     setLayout(this->mainLayout);
     setGeometry(prefs->geometry);
     setWindowFlags(Qt::Window);
-    setWindowTitle(myplayerName() + " v." + myplayerVersion());
+    setWindowTitle(qApp->applicationName() + " v." + qApp->applicationVersion());
 
     connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle(QString,int)));
     connect(player, SIGNAL(finished()), this, SLOT(restoreTitle()));
@@ -52,6 +53,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
 
 SimpleGUI::~SimpleGUI()
 {
+    qDebug("Delete GUI");
     prefs->geometry = geometry();
     delete prefs;
 }
@@ -60,7 +62,7 @@ SimpleGUI::~SimpleGUI()
 void SimpleGUI::showMessage(QString msg, int timeout)
 {
     msgTimer.stop();
-    setWindowTitle(msg);
+    setWindowTitle(qApp->applicationName() + ": " + msg);
 
     if (timeout)
         msgTimer.start(timeout);
@@ -106,7 +108,7 @@ void SimpleGUI::restoreTitle()
 {
     msgTimer.stop();
     if (player->isStoped())
-        setWindowTitle(myplayerName() + " v." + myplayerVersion());
+        setWindowTitle(qApp->applicationName() + " v." + qApp->applicationVersion());
 
     else if (!isTimeInTitle)
         changeTitle(player->currentTrack(), player->currentGuid());
