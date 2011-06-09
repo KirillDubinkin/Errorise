@@ -27,6 +27,7 @@ const QString Group = "g";
 SimplePlaylist::SimplePlaylist(QWidget *parent) :
     QTableWidget(parent)
 {
+    qDebug("Load SimplePlaylist");
     prefs = new SimplePLPrefs();
     prefsWidget = 0;  // init only on show;
 
@@ -65,6 +66,7 @@ SimplePlaylist::SimplePlaylist(QWidget *parent) :
 
 SimplePlaylist::~SimplePlaylist()
 {
+    qDebug("Delete SimplePlaylist");
     delete prefs;
 }
 

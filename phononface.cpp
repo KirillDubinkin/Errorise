@@ -63,7 +63,7 @@ void PhononFace::stateChange(Phonon::State cur, Phonon::State)
         QString error = mobject->errorString();
         qWarning() << "Phonon::error\n\ttype:" << mobject->errorType()
                    << "\n\ttext:" << error
-                   << "\n\tfile:" << mobject->currentSource().fileName();
+                   << "\n\tfile:" << mobject->currentSource().fileName() << endl;
         Global::gui->showMessage(error.mid(0, error.lastIndexOf("(")), 8000);
     }
 }

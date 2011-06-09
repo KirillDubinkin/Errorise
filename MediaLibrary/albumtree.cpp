@@ -19,6 +19,7 @@ static QRegExp rx_tag("%([a-z]*)%");
 AlbumTree::AlbumTree(QWidget *parent) :
     QTreeWidget(parent)
 {
+    qDebug("Load ALbumTree");
     prefsWidget = 0;
     prefs = new AlbumTreePrefs();
 
@@ -39,6 +40,7 @@ AlbumTree::AlbumTree(QWidget *parent) :
 
 AlbumTree::~AlbumTree()
 {
+    qDebug("Delete AlbumTree");
     delete prefs;
 }
 

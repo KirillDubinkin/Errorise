@@ -21,7 +21,7 @@ void MediaInfo::gotError(QProcess::ProcessError error)
 {
     qWarning() << "MediaInfo got error!\n"
                << "\terror:" << error
-               << "\tmessage:" << minfo->errorString();
+               << "\tmessage:" << minfo->errorString() << endl;
 
     if ( (error == QProcess::FailedToStart) | (error == QProcess::Crashed) )
         emit failedToStart();
@@ -32,7 +32,7 @@ void MediaInfo::scanFiles(QStringList files)
 {
     isUpdateState = false;
 
-    qDebug() << "MediaInfo::scanFiles" << files.size() << "\n\n" << files.join("\n") << "\n\n\n";
+    qDebug() << "MediaInfo::scanFiles\tpath:" << files.first().mid(0, files.first().lastIndexOf("/"));
 
     playlistArtFilePath.clear();
     artFilePath.clear();
@@ -53,7 +53,7 @@ void MediaInfo::reScanFiles(QStringList files)
 {
     isUpdateState = true;
 
-    qDebug() << "MediaInfo::reScanFiles" << files.size() << "\n\n" << files.join("\n") << "\n\n\n";
+    qDebug() << "MediaInfo::reScanFiles\tpath:" << files.first().mid(0, files.first().lastIndexOf("/"));
 
     playlistArtFilePath.clear();
     artFilePath.clear();

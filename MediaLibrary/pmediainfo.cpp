@@ -26,7 +26,7 @@ void PMediaInfo::scanFiles(QStringList files)
 {
     isUpdateState = false;
 
-    qDebug() << "PMediaInfo::scanFiles" << files.size() << "\n\n" << files.join("\n") << "\n\n\n";
+    qDebug() << "PMediaInfo::scanFiles\tpath:" << files.first().mid(0, files.first().lastIndexOf("/"));
 
     playlistArtFilePath.clear();
     artFilePath.clear();
@@ -48,7 +48,7 @@ void PMediaInfo::reScanFiles(QStringList files)
 {
     isUpdateState = true;
 
-    qDebug() << "PMediaInfo::reScanFiles" << files.size() << "\n\n" << files.join("\n") << "\n\n\n";
+    qDebug() << "PMediaInfo::reScanFiles\tpath:" << files.first().mid(0, files.first().lastIndexOf("/"));
 
     playlistArtFilePath.clear();
     artFilePath.clear();

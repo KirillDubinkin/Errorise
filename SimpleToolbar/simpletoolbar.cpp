@@ -14,6 +14,7 @@ using namespace Global;
 SimpleToolbar::SimpleToolbar(QWidget *parent) :
     QWidget(parent)
 {
+    qDebug("Load SimpleToolbar");
     prefs = new SimpleToolbarPrefs();
     L = new QHBoxLayout;
     L->setMargin(0);
@@ -27,6 +28,7 @@ SimpleToolbar::SimpleToolbar(QWidget *parent) :
 
 SimpleToolbar::~SimpleToolbar()
 {
+    qDebug("Delete SimpleToolbar");
     delete prefs;
 }
 
