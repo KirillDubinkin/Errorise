@@ -10,8 +10,6 @@
 // Some global objects
 
 class Preferences;
-//class Translator;
-
 class PhononFace;
 class MusicLibrary;
 class SimpleGUI;
@@ -20,17 +18,14 @@ namespace Global {
 
 	//! Prefences
 	extern Preferences * pref;
-
-	//! Translator (for changing language)
-//	extern Translator * translator;
-
         extern MusicLibrary *mlib;
         extern PhononFace   *player;
         extern SimpleGUI    *gui;
 
+        void init_preferences();
         void global_init();
 	void global_end();
 
-};
+}
 
 #endif

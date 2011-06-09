@@ -8,8 +8,9 @@
 Loader::Loader(QObject *parent): QObject(parent)
 {
     gui_p = 0;
-    Global::global_init();
+    Global::init_preferences();
     loadTranslations();
+    Global::global_init();
 }
 
 
@@ -51,6 +52,7 @@ bool Loader::loadTranslations()
 
     if (isLoad) {
         qApp->installTranslator(appTranslator);
+        qDebug("Translator successfully loaded!");
         return true;
     }
 
