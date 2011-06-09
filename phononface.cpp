@@ -1,5 +1,7 @@
 #include "phononface.h"
 #include "helper.h"
+#include "global.h"
+#include "SimpleGUI/simplegui.h"
 
 #include "QTime"
 #include <QDebug>
@@ -58,8 +60,11 @@ void PhononFace::stateChange(Phonon::State cur, Phonon::State)
         qDebug() << "Phonon::paused\t" << mobject->currentTime();
         break; */
     case Phonon::ErrorState:
+        QString error = mobject->errorString();
         qWarning() << "Phonon::error\n\ttype:" << mobject->errorType()
-                   << "\n\ttext:" << mobject->errorString();
+                   << "\n\ttext:" << error
+                   << "\n\tfile:" << mobject->currentSource().fileName();
+        Global::gui->showMessage(error.mid(0, error.lastIndexOf("(")), 8000);
     }
 }
 
