@@ -192,11 +192,10 @@ void AlbumTree::mkTree(const QMap<QString, QString> &map)
         key = i.key();
         item = list.at(list.size() - 1);
 
-        if (key.mid(0, key.indexOf("/")).contains(item->text(0)))
+        if (key.mid(0, key.indexOf("/")) == item->text(0))
         {
-            while (key.mid(0, key.indexOf("/")).contains(item->text(0)))
+            while (key.mid(0, key.indexOf("/")) == item->text(0))
             {
-              //  key.remove(0, item->text(0).size() + 1);
                 key.remove(0, item->text(0).size());
                 if (key.at(0) == '/')
                     key.remove(0, 1);
