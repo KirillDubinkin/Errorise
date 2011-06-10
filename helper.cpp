@@ -31,6 +31,27 @@ QStringList Helper::getTags(QString pattern)
 }
 
 
+QList<int> Helper::removeTracks(QList<int> ids)
+{
+    QString q;
+    q.append("DELETE FROM tracks WHERE");
+
+    foreach (int id, ids)
+        q.append(" id = '" + QString::number(id) + "' OR");
+    q.remove(q.size() - 3, 3);
+
+    QSqlQuery query(mlib->db);
+    if (query.exec(q)) {
+        return ids;
+    }
+
+    qWarning() << "Helper::removeTracks" << "\n\terror:" << query.lastError()
+                  << "\n\tquery:" << q;
+
+    return QList<int>();
+}
+
+
 QString Helper::getTag(const QString &pattern)
 {
     if (rx_tag.indexIn(pattern) != -1)

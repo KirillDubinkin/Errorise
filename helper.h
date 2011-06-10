@@ -20,6 +20,8 @@ public:
 
     static QString parseLine(const int id, QString line);
 
+    static QList<int> removeTracks(QList<int> ids);  // returns removed id's
+
 
 protected:
     static int  nextQuote(const QString &line, int from);
