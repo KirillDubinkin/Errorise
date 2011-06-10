@@ -1,23 +1,22 @@
 #ifndef FILEOPERATIONS_H
 #define FILEOPERATIONS_H
 
-#include <QObject>
 #include <QList>
 #include <QStringList>
 #include <QWidget>
+#include <QCoreApplication>
 
-class FileOperations : public QObject
+class FileOperations
 {
-    Q_OBJECT
+    Q_DECLARE_TR_FUNCTIONS(FileOperations)
+
 public:
-    explicit FileOperations(QObject *parent = 0);
+    static QList<int> removeFiles(QList<int> ids);
+    static bool moveFiles  (QList<int> ids);
 
-signals:
-
-public slots:
-    static bool removeFiles(QList<int> ids, QWidget *parent = 0);
-    static bool moveFiles  (QList<int> ids, QWidget *parent = 0);
-
+private:
+    FileOperations() {}
+    static QStringList removeDialog(QList<int> ids);
 };
 
 #endif // FILEOPERATIONS_H

@@ -175,7 +175,7 @@ void SimplePlaylist::moveFiles()
 {
     QList<int> ids = getSelectedIds();
 
-    if (!FileOperations::moveFiles(ids, this))
+    if (!FileOperations::moveFiles(ids))
         return;
 
     removeTracks(ids);
@@ -185,8 +185,9 @@ void SimplePlaylist::moveFiles()
 void SimplePlaylist::removeFiles()
 {
     QList<int> ids = getSelectedIds();
+    ids = FileOperations::removeFiles(ids);
 
-    if (!FileOperations::removeFiles(ids, this))
+    if (ids.isEmpty())
         return;
 
     removeTracks(ids);
