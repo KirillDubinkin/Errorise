@@ -174,8 +174,9 @@ void SimplePlaylist::copyCurColTextToClipboard()
 void SimplePlaylist::moveFiles()
 {
     QList<int> ids = getSelectedIds();
+    ids = FileOperations::moveFiles(ids);
 
-    if (!FileOperations::moveFiles(ids))
+    if (ids.isEmpty())
         return;
 
     removeTracks(ids);

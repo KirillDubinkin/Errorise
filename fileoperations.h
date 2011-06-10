@@ -12,11 +12,12 @@ class FileOperations
 
 public:
     static QList<int> removeFiles(QList<int> ids);
-    static bool moveFiles  (QList<int> ids);
+    static QList<int> moveFiles(QList<int> ids);
 
 private:
     FileOperations() {}
     static QStringList removeDialog(QList<int> ids);
+    static bool moveFile(QString filepath, QString destPath);
 };
 
 #endif // FILEOPERATIONS_H
