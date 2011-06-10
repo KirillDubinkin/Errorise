@@ -98,7 +98,7 @@ void SimplePlaylist::createActions()
 
     chldMenu = menu->addMenu(QIcon(":icons/files.png"), tr("File operations"));
     chldMenu->addAction(QIcon(":icons/delete.png"), tr("Remove files"), this, SLOT(removeFiles()));
-    chldMenu->addAction(QIcon(":icons/copy.png"), tr("Copy files..."), this, SLOT(copyFilesTo()))->setEnabled(false);
+    chldMenu->addAction(QIcon(":icons/copy.png"), tr("Copy files..."), this, SLOT(copyFilesTo()));
     chldMenu->addAction(QIcon(":icons/copy.png"), tr("Copy files to clipboard"), this, SLOT(copyFilesToClipboard()))->setEnabled(false);
     chldMenu->addAction(QIcon(":icons/move.png"), tr("Move files..."), this, SLOT(moveFiles()));
     chldMenu->addAction(QIcon(":icons/rename.png"), tr("Rename files"), this, SLOT(renameFiles()))->setEnabled(false);
@@ -116,6 +116,12 @@ void SimplePlaylist::createActions()
     menu->addAction(QIcon(":icons/prefs.png"), tr("Preferences..."), this, SLOT(createPrefsWidget()));
 
     addActions(menu->actions());
+}
+
+
+void SimplePlaylist::copyFilesTo()
+{
+    FileOperations::copyFiles(getSelectedIds());
 }
 
 

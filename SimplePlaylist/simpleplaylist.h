@@ -107,7 +107,7 @@ private slots:
     void removeTracks(QList<int> ids);
     void moveFiles();
 
-    void copyFilesTo() {}
+    void copyFilesTo();
     void copyFilesToClipboard() {}
     void renameFiles() {}
 

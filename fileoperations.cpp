@@ -79,6 +79,21 @@ bool FileOperations::moveFile(QString filepath, QString destPath)
 
     qDebug() << "Can't rename. Will be copy & delete";
 
+    if (copyFile(filepath, destPath))
+        if (QFile::remove(filepath))
+            return true;
+
+    qWarning("Can't remove source file");
+    return false;
+}
+
+
+bool FileOperations::copyFile(QString filepath, QString destPath)
+{
+    if (!QFile::exists(filepath))
+        return false;
+
+
     QFile file(filepath);
     QFile destFile(destPath);
 
@@ -96,21 +111,51 @@ bool FileOperations::moveFile(QString filepath, QString destPath)
     if (destFile.write(file.readAll()) == -1) {
         qWarning("Can't write destination file!");
         file.close();
-        destFile.close();
         return false;
     }
 
     if (destFile.flush()) {
         destFile.close();
-        if (file.remove())
-            return true;
-
-        qWarning("Can't remove source file!");
-        return false;
+        return true;
     }
 
     qWarning("Can't flush destination file!");
     return false;
+}
+
+
+QList<int> FileOperations::copyFiles(QList<int> ids)
+{
+    if (ids.isEmpty())
+        return ids;
+
+    QStringList filePaths;
+    foreach (int id, ids)
+        filePaths.append(Helper::valueOfTrack("filepath", id));
+
+    QList<int> copiedFiles;
+
+    QString dest = QFileDialog::getExistingDirectory(0,
+                    qApp->applicationName() + " copying files: " + tr("Choose destination directory"),
+                    filePaths.first().mid(0, filePaths.first().lastIndexOf("/")));
+
+    if (dest.isEmpty())
+        return copiedFiles;
+
+    qDebug() << "Copying files to" << dest;
+
+
+    for (int i = 0; i < filePaths.size(); i++)
+    {
+        QString file = filePaths.at(i);
+
+        if (!copyFile(file, dest + "/" + file.mid(file.lastIndexOf("/") + 1)))
+            qWarning() << "Can't copy file:" << file;
+        else
+            copiedFiles.append(ids.at(i));
+    }
+
+    return copiedFiles;
 }
 
 
