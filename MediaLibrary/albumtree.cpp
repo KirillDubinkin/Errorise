@@ -55,6 +55,14 @@ void AlbumTree::createMenu()
     act = new QAction(QIcon(":icons/prefs.png"), tr("Preferences..."), this);
     connect(act, SIGNAL(triggered()), this, SLOT(createPrefsWidget()));
     addAction(act);
+
+    act = new QAction(this);
+    act->setSeparator(true);
+    addAction(act);
+
+    act = new QAction(QIcon(":icons/about.png"), tr("About") + " " + qApp->applicationName(), this);
+    connect(act, SIGNAL(triggered()), this, SIGNAL(about()));
+    addAction(act);
 }
 
 

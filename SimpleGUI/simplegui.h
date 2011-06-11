@@ -13,6 +13,7 @@
 #include "simpleguiprefs.h"
 #include "prefswidget.h"
 #include "simpleguiprefswidget.h"
+#include "SimpleGUI/about.h"
 
 class SimpleGUI : public QWidget
 {
@@ -29,6 +30,7 @@ signals:
 public slots:
     void showPreferences(QWidget *defaultWidget = 0);
     void showMessage(QString msg, int timeout = 2000);
+    void showAbout();
 
 private slots:
     void changeTitle(QString, int guid);
@@ -47,6 +49,8 @@ private:
     SimplePlaylist *pl;
     SimpleToolbar  *toolbar;
     AlbumTree      *tree;
+
+    About *about;
 
     QTimer msgTimer;
 

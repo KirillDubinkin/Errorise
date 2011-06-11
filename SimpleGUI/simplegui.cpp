@@ -19,6 +19,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     prefsWidget     = 0;
     sGuiPrefsWidget = 0;
     currentID       = 0;
+    about           = 0;
 
     mainLayout = new QVBoxLayout();
     mainLayout->setMargin(0);
@@ -46,6 +47,10 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle(QString,int)));
     connect(player, SIGNAL(finished()), this, SLOT(restoreTitle()));
     connect(player, SIGNAL(tick(qint64)), this, SLOT(setTimeInTitle(qint64)));
+
+    connect(tree,    SIGNAL(about()), this, SLOT(showAbout()));
+    connect(toolbar, SIGNAL(about()), this, SLOT(showAbout()));
+
 
     msgTimer.setSingleShot(true);
     connect(&msgTimer,  SIGNAL(timeout()), this, SLOT(restoreTitle()));
@@ -135,6 +140,17 @@ void SimpleGUI::showPreferences(QWidget *defaultWidget)
     connect(prefsWidget, SIGNAL(destroyed()),            this, SLOT(deletePreferences()));
 
     prefsWidget->show();
+}
+
+
+void SimpleGUI::showAbout()
+{
+    if (!about) {
+        about = new About(this);
+        about->setWindowModality(Qt::WindowModal);
+    }
+
+    about->show();
 }
 
 

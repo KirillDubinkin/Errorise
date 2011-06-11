@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     SimpleGUI/simpleguiprefswidget.cpp \
     loader.cpp \
     SimplePlaylist/simpleplaylistprefswidget.cpp \
-    fileoperations.cpp
+    fileoperations.cpp \
+    SimpleGUI/about.cpp
 
 HEADERS  += \
     global.h \
@@ -71,13 +72,15 @@ HEADERS  += \
     SimpleGUI/simpleguiprefswidget.h \
     loader.h \
     SimplePlaylist/simpleplaylistprefswidget.h \
-    fileoperations.h
+    fileoperations.h \
+    SimpleGUI/about.h
 
 FORMS    += \
     MediaLibrary/albumtreeprefswidget.ui \
     SimpleToolbar/simpetoolbarprefswidget.ui \
     SimpleGUI/simpleguiprefswidget.ui \
-    SimplePlaylist/simpleplaylistprefswidget.ui
+    SimplePlaylist/simpleplaylistprefswidget.ui \
+    SimpleGUI/about.ui
 
 RESOURCES += \
     resources.qrc

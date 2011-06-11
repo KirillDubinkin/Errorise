@@ -21,6 +21,9 @@ public:
 
     QWidget *getPrefsWidget();
 
+signals:
+    void about();
+
 private slots:
     void fillTree();
     void createPrefsWidget();

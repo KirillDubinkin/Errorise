@@ -15,5 +15,6 @@
         <file alias="left.png">icons/left.png</file>
         <file alias="right.png">icons/right.png</file>
         <file alias="up.png">icons/up.png</file>
+        <file alias="about.png">icons/cassete-clear.png</file>
     </qresource>
 </RCC>

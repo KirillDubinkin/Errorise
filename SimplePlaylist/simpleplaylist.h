@@ -108,7 +108,6 @@ private slots:
     void moveFiles();
 
     void copyFilesTo();
-    void copyFilesToClipboard() {}
     void renameFiles() {}
 
     void copyPatternToClipboard();
