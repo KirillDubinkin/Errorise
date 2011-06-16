@@ -1054,6 +1054,8 @@ void SimplePlaylist::playNext()
 
 void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
 {
+    QStringList t = tags, v = values;
+
     QString temp;
 
     temp.append("SELECT id FROM tracks WHERE");
@@ -1093,8 +1095,8 @@ void SimplePlaylist::getNewTracks(QStringList tags, QStringList values)
         qWarning() << "SimplePlaylist::getNewTracks(QStringList, QStringList)\n\t" << query.lastError();
     }
 
-    qDebug() << "SimplePlaylist::getNewTracks\n\ttags:" << tags
-             << "\n\tvalues:" << values
+    qDebug() << "SimplePlaylist::getNewTracks\n\ttags:" << t
+             << "\n\tvalues:" << v
              << "\n\tquery:" << temp
              << "\n\ttracks-count:" << trackGuids.size() << endl;
 }
