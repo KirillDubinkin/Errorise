@@ -102,4 +102,5 @@ OTHER_FILES += \
     icons/down.png \
     icons/qt.png \
     icons/qt-grey.png \
-    icons/cassete-clear.png
+    icons/cassete-clear.png \
+    icons/cassete-small.png

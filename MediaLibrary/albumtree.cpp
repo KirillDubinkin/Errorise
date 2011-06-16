@@ -61,7 +61,7 @@ void AlbumTree::createMenu()
     act->setSeparator(true);
     addAction(act);
 
-    act = new QAction(QIcon(":icons/about.png"), tr("About") + " " + qApp->applicationName(), this);
+    act = new QAction(QIcon(":icons/cassete.png"), tr("About") + " " + qApp->applicationName(), this);
     connect(act, SIGNAL(triggered()), this, SIGNAL(about()));
     addAction(act);
 

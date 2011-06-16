@@ -18,5 +18,6 @@
         <file alias="about.png">icons/cassete-clear.png</file>
         <file alias="qt-grey.png">icons/qt-grey.png</file>
         <file alias="qt.png">icons/qt.png</file>
+        <file alias="cassete.png">icons/cassete-small.png</file>
     </qresource>
 </RCC>

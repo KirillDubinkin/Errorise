@@ -43,6 +43,7 @@ SimpleGUI::SimpleGUI(QWidget *parent) :
     setGeometry(prefs->geometry);
     setWindowFlags(Qt::Window);
     setWindowTitle(qApp->applicationName() + " v." + qApp->applicationVersion());
+    setWindowIcon(QIcon(":icons/cassete.png"));
 
     connect(player, SIGNAL(trackChanged(QString,int)), this, SLOT(changeTitle(QString,int)));
     connect(player, SIGNAL(finished()), this, SLOT(restoreTitle()));
