@@ -17,7 +17,7 @@ class SimpleGUI;
 namespace Global {
 
 	//! Prefences
-	extern Preferences * pref;
+        extern Preferences  *pref;
         extern MusicLibrary *mlib;
         extern PhononFace   *player;
         extern SimpleGUI    *gui;

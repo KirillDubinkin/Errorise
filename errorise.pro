@@ -99,4 +99,7 @@ OTHER_FILES += \
     icons/up.png \
     icons/right.png \
     icons/left.png \
-    icons/down.png
+    icons/down.png \
+    icons/qt.png \
+    icons/qt-grey.png \
+    icons/cassete-clear.png

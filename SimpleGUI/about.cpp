@@ -13,7 +13,7 @@ About::About(QWidget *parent) :
                 parent->y() + (parent->height() / 2 - 240),
                 720, 480);
 
-    setWindowFlags(Qt::Window);
+    setWindowFlags(Qt::Dialog);
 }
 
 About::~About()

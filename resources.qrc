@@ -16,5 +16,7 @@
         <file alias="right.png">icons/right.png</file>
         <file alias="up.png">icons/up.png</file>
         <file alias="about.png">icons/cassete-clear.png</file>
+        <file alias="qt-grey.png">icons/qt-grey.png</file>
+        <file alias="qt.png">icons/qt.png</file>
     </qresource>
 </RCC>

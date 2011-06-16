@@ -267,4 +267,8 @@ void SimpleToolbar::createMenu()
     act = new QAction(QIcon(":icons/about.png"), tr("About") + " " + qApp->applicationName(), this);
     connect(act, SIGNAL(triggered()), this, SIGNAL(about()));
     addAction(act);
+
+    act = new QAction(QIcon(":icons/qt-grey.png"), tr("About") + " Qt", this);
+    connect(act, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    addAction(act);
 }
