@@ -7,7 +7,7 @@ QT       += phonon
 QT       += sql
 QT       += core gui
 
-VERSION = 0.1.5.477
+VERSION = 0.1.5.479
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 #CONFIG   += static

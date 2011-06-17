@@ -82,7 +82,8 @@ MusicLibrary::MusicLibrary(const QString &libPath, const QString &filters,
             return;
 
         QString filename = QFileDialog::getExistingDirectory(0,
-                 qApp->applicationName() + ": " +  tr("Select place, where you save music. Please, choose root music-folder"),
+                 qApp->applicationName() + ": "
+                    + tr("Select place, where you save music. Please, choose root music-folder"),
                  Global::pref->music_library_path, QFileDialog::ShowDirsOnly);
 
         if (filename.isEmpty())
@@ -207,7 +208,8 @@ void MusicLibrary::deleteRemovedFiles()
         if (!QFile::exists(query.value(0).toString()))
         {
             QSqlQuery deleteQuery(db);
-            deleteQuery.exec("DELETE FROM tracks WHERE filepath LIKE '" + query.value(0).toString().replace("'", "''") + "'");
+            deleteQuery.exec("DELETE FROM tracks WHERE filepath LIKE '"
+                             + query.value(0).toString().replace("'", "''") + "'");
 
             modified = true;
             existingFiles.removeOne(query.value(0).toString());
@@ -286,12 +288,20 @@ void MusicLibrary::updateDb(QString fromPath)
 
     if (!filesToUpdate.isEmpty()) {
         if (gui)
-            gui->showMessage(tr("Update files in") + " " + filesToUpdate.first().mid(0, filesToUpdate.first().lastIndexOf("/")), 15000);
-        return emit updateRequired(filesToUpdate);  //! newFilesAvailable will be emited after update
+            gui->showMessage(tr("Update files in") + "\t\'"
+                 + QDir::toNativeSeparators(filesToUpdate.first().mid(0,
+                             filesToUpdate.first().lastIndexOf("/")).mid(libPath.size() + 1)) + "\'",
+                             15000);
+
+        return emit updateRequired(filesToUpdate);
+            //! newFilesAvailable will be emited after update
     }
 
     if (gui)
-        gui->showMessage(tr("Scan files in") + " " + newFiles.first().mid(0, newFiles.first().lastIndexOf("/")), 15000);
+        gui->showMessage(tr("Scan files in") + "\t\'"
+             + QDir::toNativeSeparators(newFiles.first().mid(0,
+                       newFiles.first().lastIndexOf("/")).mid(libPath.size() + 1)) + "\'", 15000);
+
     return emit newFilesAvailable(newFiles);
 }
 
@@ -313,7 +323,8 @@ void MusicLibrary::checkNextDir()
         modified = false;
 
         if (firstRun)
-            gui->showMessage(tr("Scanning finished! Now, select any branch of the tree and enjoy listening"), 600000);
+            gui->showMessage(tr("Scanning finished! Now, select any branch of the tree and enjoy listening"),
+                             600000);
     }
 }
 
@@ -397,7 +408,8 @@ void MusicLibrary::appendTrack(QString filename, QMultiMap<QString, QString> tag
     lastModifiedDates.insert(filename, QString(tags.value("MODIFIED")).toLongLong());
 
     QSqlQuery query(db);
-    query.prepare("INSERT INTO tracks (filepath, filename, filedir, art, playlistart, modified, artist, album, albumartist,"
+    query.prepare("INSERT INTO tracks (filepath, filename, filedir, art, playlistart,"
+                   "modified, artist, album, albumartist,"
                    "title, composer, date, tracknumber, trackcount, genre, duration,"
                    "format, codec, bitrate, channelmode, tagstype,"
                    "comment)"
