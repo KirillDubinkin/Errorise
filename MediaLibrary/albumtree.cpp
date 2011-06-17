@@ -108,7 +108,8 @@ void AlbumTree::selectedNodeChange(QTreeWidgetItem *cur)
         }
         QString s = list.join("/");
         s.insert(0, mlib->libraryPath() + "/");
-        s.append("/");
+        if (!QFileInfo(s).isFile())
+            s.append("/");
 
         mlib->selectTracksBy(QStringList("filepath"), QStringList(s));
 
