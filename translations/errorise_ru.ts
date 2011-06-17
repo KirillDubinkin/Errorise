@@ -25,11 +25,56 @@
     </message>
 </context>
 <context>
+    <name>About</name>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished">
+</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="54"/>
+        <source>TextLabel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="107"/>
+        <source>About Programm</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="112"/>
+        <source>Autor</source>
+        <translation>Автор</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="117"/>
+        <source>Translators and Friends</source>
+        <translation>Переводчики и друзья проэкта</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="122"/>
+        <source>License</source>
+        <translation>Лицензия</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.cpp" line="27"/>
+        <source>About</source>
+        <translation>О</translation>
+    </message>
+</context>
+<context>
     <name>AlbumTree</name>
     <message>
-        <location filename="../MediaLibrary/albumtree.cpp" line="55"/>
+        <location filename="../MediaLibrary/albumtree.cpp" line="56"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
+    </message>
+    <message>
+        <location filename="../MediaLibrary/albumtree.cpp" line="64"/>
+        <location filename="../MediaLibrary/albumtree.cpp" line="68"/>
+        <source>About</source>
+        <translation>О</translation>
     </message>
 </context>
 <context>
@@ -198,9 +243,28 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>FileOperations</name>
+    <message>
+        <location filename="../fileoperations.cpp" line="19"/>
+        <source>Are you sure want to remove those files permanently?</source>
+        <translation>Вы уверены, что хотите навсегда удалить эти файлы?</translation>
+    </message>
+    <message>
+        <location filename="../fileoperations.cpp" line="33"/>
+        <source>Remove files from disk</source>
+        <translation>Удаление файлов с диска</translation>
+    </message>
+    <message>
+        <location filename="../fileoperations.cpp" line="139"/>
+        <location filename="../fileoperations.cpp" line="175"/>
+        <source>Choose destination directory</source>
+        <translation>Укажите конечную директорию</translation>
+    </message>
+</context>
+<context>
     <name>MusicLibrary</name>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="80"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="76"/>
         <source>Location of the local music</source>
         <translation>Расположение локальной музыкальной коллекции</translation>
     </message>
@@ -214,29 +278,29 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Укажите где вы храните музыку</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="81"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="77"/>
         <source>You must specify the location of the local music, to use this player
 Would you like to specify it right now?</source>
         <translation>Вы должны указать расположение Вашей музыкальной коллекции, если хотите пользоваться этим плеером
 Хотите указать расположение прямо сейчас?</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="89"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="85"/>
         <source>Select place, where you save music. Please, choose root music-folder</source>
         <translation>Укажите где вы храните музыку. Пожалуйста, выберите корневую папку Вашей музыкальной коллекции</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="293"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="289"/>
         <source>Update files in</source>
         <translation>Обновляются файлы в папке</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="298"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="294"/>
         <source>Scan files in</source>
         <translation>Сканируются файлы в папке</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="320"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="316"/>
         <source>Scanning finished! Now, select any branch of the tree and enjoy listening</source>
         <translation>Сканирование завершено! Теперь выберите какую-нибудь ветвь музыкального древа и наслаждайтесь любимой музыкой</translation>
     </message>
@@ -589,27 +653,27 @@ p, li { white-space: pre-wrap; }
         <translation>Скопировать файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="103"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="102"/>
         <source>Move files...</source>
         <translation>Переместить файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="107"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="106"/>
         <source>Copy text</source>
         <translation>Скопировать текст</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="108"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="107"/>
         <source>From selected line</source>
         <translation>Из выбранных строк</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="109"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="108"/>
         <source>From selected column</source>
         <translation>Из выбранной колонки</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="110"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="109"/>
         <source>From defined pattern</source>
         <translation>По заданному паттерну</translation>
     </message>
@@ -626,16 +690,15 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Скопировать файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="102"/>
         <source>Copy files to clipboard</source>
-        <translation>Скопировать файлы в буффер обмена</translation>
+        <translation type="obsolete">Скопировать файлы в буффер обмена</translation>
     </message>
     <message>
         <source>Move files to...</source>
         <translation type="obsolete">Переместить файлы...</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="104"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="103"/>
         <source>Rename files</source>
         <translation>Переименовать файлы</translation>
     </message>
@@ -652,12 +715,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Текст из выбранной колонки</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="113"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="112"/>
         <source>Remove from playlist</source>
         <translation>Удалить из списка</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="116"/>
+        <location filename="../SimplePlaylist/simpleplaylist.cpp" line="115"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
     </message>
@@ -716,7 +779,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="155"/>
         <source>Copy text pattern:</source>
-        <translation type="unfinished">Паттерн копирования текста:</translation>
+        <translation>Паттерн копирования текста:</translation>
     </message>
     <message>
         <source>Art search</source>
@@ -775,7 +838,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="291"/>
         <source>Save playlist art</source>
-        <translation type="unfinished">Сохранять обложки для плейлиста</translation>
+        <translation>Сохранять обложки для плейлиста</translation>
     </message>
     <message>
         <location filename="../SimplePlaylist/simpleplaylistprefswidget.ui" line="340"/>
@@ -1083,42 +1146,42 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Заголовок VA групп:</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="152"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="161"/>
         <source>Move up</source>
         <translation>Переместить вверх</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="156"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="165"/>
         <source>Move down</source>
         <translation>Переместить вниз</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="166"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="153"/>
         <source>Add new column</source>
         <translation>Добавить колонку</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="170"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="173"/>
         <source>Remove column</source>
         <translation>Удалить колонку</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="221"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="224"/>
         <source>New column</source>
         <translation>Новая колонка</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="304"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="307"/>
         <source>Choose color for group-line text</source>
         <translation>Укажите цвет текста в заголовке групп</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="316"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="319"/>
         <source>Choose color for group-line background</source>
         <translation>Укажите цвет фона заголовка групп</translation>
     </message>
     <message>
-        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="414"/>
+        <location filename="../SimplePlaylist/simpleplaylistprefswidget.cpp" line="417"/>
         <source>Choose text color for selected column</source>
         <translation>Укажите цвет текста выбранной колонки</translation>
     </message>
@@ -1183,6 +1246,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../SimpleToolbar/simpletoolbar.cpp" line="259"/>
         <source>Preferences...</source>
         <translation>Настройки...</translation>
+    </message>
+    <message>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="267"/>
+        <location filename="../SimpleToolbar/simpletoolbar.cpp" line="271"/>
+        <source>About</source>
+        <translation>О</translation>
     </message>
 </context>
 </TS>
