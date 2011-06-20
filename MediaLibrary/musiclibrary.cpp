@@ -288,7 +288,7 @@ void MusicLibrary::updateDb(QString fromPath)
 
     if (!filesToUpdate.isEmpty()) {
         if (gui)
-            gui->showMessage(tr("Update files in") + "\t\'"
+            gui->showMessage(tr("Update files in") + "  \'"
                  + QDir::toNativeSeparators(filesToUpdate.first().mid(0,
                              filesToUpdate.first().lastIndexOf("/")).mid(libPath.size() + 1)) + "\'",
                              15000);
@@ -298,7 +298,7 @@ void MusicLibrary::updateDb(QString fromPath)
     }
 
     if (gui)
-        gui->showMessage(tr("Scan files in") + "\t\'"
+        gui->showMessage(tr("Scan files in") + "  \'"
              + QDir::toNativeSeparators(newFiles.first().mid(0,
                        newFiles.first().lastIndexOf("/")).mid(libPath.size() + 1)) + "\'", 15000);
 

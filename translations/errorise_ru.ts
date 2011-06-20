@@ -29,31 +29,75 @@
     <message>
         <location filename="../SimpleGUI/about.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">
-</translation>
+        <translation>О Errorise</translation>
     </message>
     <message>
         <location filename="../SimpleGUI/about.ui" line="54"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>текст_лейбл</translation>
     </message>
     <message>
         <location filename="../SimpleGUI/about.ui" line="107"/>
         <source>About Programm</source>
         <translation>О программе</translation>
     </message>
-    <message>
-        <location filename="../SimpleGUI/about.ui" line="112"/>
-        <source>Autor</source>
-        <translation>Автор</translation>
+    <message utf8="true">
+        <location filename="../SimpleGUI/about.ui" line="113"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Errorise - not simple music player for GNU/Linux and Windows systems&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Errorise writed with Qt4 framework and used Phonon for playing&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;i.e. it&apos;s used decoders installed in your system.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Also, under Windows, it used MediaInfo for scanning tags&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Copyright © 2011 Kirill Dubinkin &amp;lt;kirill.aka.weapon@gmail.com&amp;gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This program is free software; you can redistribute it and/or&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;modify it under the terms of the GNU General Public License&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;as published by the Free Software Foundation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Errorise - не простой музыкальный плеер для операционных систем GNU/Linux и Windows&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Errorise написан на C++ с использованием фреймворка Qt4. Для воспроизведение он использует Phonon&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;т.е. он пользуется декодерами, установленными в вашей системе&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Так же, под Windows, он использует MediaInfo, как сканнер тегов&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Copyright © 2011 Кирилл Дубинкин &amp;lt;kirill.aka.weapon@gmail.com&amp;gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Это свободное программное обеспечение; Вы можете распространять и/или&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;модифицировать его на условиях лицензии GNU GPL v3&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;опубликованной Фондом свободного программного обеспечения&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../SimpleGUI/about.ui" line="117"/>
+        <source>Autor</source>
+        <translation type="obsolete">Автор</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="144"/>
         <source>Translators and Friends</source>
         <translation>Переводчики и друзья проэкта</translation>
     </message>
     <message>
-        <location filename="../SimpleGUI/about.ui" line="122"/>
+        <location filename="../SimpleGUI/about.ui" line="187"/>
+        <source>I would like to say &quot;thanks&quot; to Andrew Osadchuk for helping with the english localisation
+and, also, to Alexander Savchenko for the moral support</source>
+        <translation>Я хотел бы поблагодарить Андрея Осадчука за помощь с английской локализацией
+а так же Александра Савченко, за моральную поддержку и наставления на путь истинный</translation>
+    </message>
+    <message>
+        <location filename="../SimpleGUI/about.ui" line="202"/>
         <source>License</source>
         <translation>Лицензия</translation>
     </message>
@@ -285,22 +329,22 @@ Would you like to specify it right now?</source>
 Хотите указать расположение прямо сейчас?</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="85"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="86"/>
         <source>Select place, where you save music. Please, choose root music-folder</source>
         <translation>Укажите где вы храните музыку. Пожалуйста, выберите корневую папку Вашей музыкальной коллекции</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="289"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="291"/>
         <source>Update files in</source>
         <translation>Обновляются файлы в папке</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="294"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="301"/>
         <source>Scan files in</source>
         <translation>Сканируются файлы в папке</translation>
     </message>
     <message>
-        <location filename="../MediaLibrary/musiclibrary.cpp" line="316"/>
+        <location filename="../MediaLibrary/musiclibrary.cpp" line="326"/>
         <source>Scanning finished! Now, select any branch of the tree and enjoy listening</source>
         <translation>Сканирование завершено! Теперь выберите какую-нибудь ветвь музыкального древа и наслаждайтесь любимой музыкой</translation>
     </message>
